@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import {  makeStyles, useTheme} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -9,10 +9,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Carousel from 'react-material-ui-carousel';
-import { Paper, Button } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
-import Card from '../Card/Card.js';
-
+import Footy from '../Footy/Footy.jsx';
+import Slider from '../CarouselPrincipal';
+import Image from 'material-ui-image';
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -22,11 +23,89 @@ import MenuBookOutlinedIcon from '@material-ui/icons/MenuBookOutlined';
 import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 
 //Imagenes
-import Logo from '../Imagenes/Logo_baku_negro.png';
+import Logo from '../Imagenes/Logo_baku_blanco.png';
 import imagen1 from "../Imagenes/1.jpg";
+import imagen2 from "../Imagenes/2.jpg";
+import imagen3 from "../Imagenes/3.jpg";
+import imagen6 from "../Imagenes/6.jpg";
+import imagen7 from "../Imagenes/7.jpg";
+import imagen8 from "../Imagenes/8.jpg";
 import imagen5 from "../Imagenes/5.jpg";
 import imagen4 from "../Imagenes/4.jpg";
-import Image from 'material-ui-image';
+
+const libros = [
+    {
+        id: 1,
+        image: imagen1,
+        title: '1983'
+    },
+    {
+        id: 2,
+        image: imagen5,
+        title: 'Russian doll'
+    },{
+        id: 3,
+        image: imagen4,
+        title: '1983'
+    },{
+        id: 4,
+        image: imagen2,
+        title: '1983'
+    },
+    {
+        id: 5,
+        image: imagen3,
+        title: 'Russian doll'
+    },{
+        id: 6,
+        image: imagen6,
+        title: '1983'
+    },{
+        id: 7,
+        image: imagen7,
+        title: '1983'
+    },
+    {
+        id: 8,
+        image: imagen8,
+        title: 'Russian doll'
+    },{
+        id: 1,
+        image: imagen1,
+        title: '1983'
+    },
+    {
+        id: 2,
+        image: imagen5,
+        title: 'Russian doll'
+    },{
+        id: 3,
+        image: imagen4,
+        title: '1983'
+    },{
+        id: 4,
+        image: imagen2,
+        title: '1983'
+    },
+    {
+        id: 5,
+        image: imagen3,
+        title: 'Russian doll'
+    },{
+        id: 6,
+        image: imagen6,
+        title: '1983'
+    },{
+        id: 7,
+        image: imagen7,
+        title: '1983'
+    },
+    {
+        id: 8,
+        image: imagen8,
+        title: 'Russian doll'
+    }
+];
 
 
 const drawerWidth = 240;
@@ -56,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
-            
+
         }),
     },
     drawerClose: {
@@ -81,41 +160,45 @@ const useStyles = makeStyles((theme) => ({
     },
     carousel: {
         marginTop: 11,
-        marginHorizon:'100%',
+        marginHorizon: '100%',
         alignItems: 'center',
-        alignSelf:'center',
+        alignSelf: 'center',
         justifyContent: 'center',
         alignContent: 'center',
     },
     content: {
-        display:'flex',
-        flexDirection:'column',
-        flex:1,
-        
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
     },
+    slider:{
+        marginTop:500,
+    },
+    titulo:{
+        marginLeft: 20,
+    }
 }));
 
-function Item(props)
-{
+function Item(props) {
     return (
         <Paper>
-            <Image src={props.item.imagen} style={{ width: 180, height: 250,justifyContent: 'center', alignItems: 'center'}} /> 
+            <Image src={props.item.imagen} style={{ width: 180, height: 100, justifyContent: 'center', alignItems: 'center' }} />
         </Paper>
     )
 }
 export default function MiniDrawer() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const items = [
-        {imagen: imagen1},
-        {imagen: imagen4},
-        {imagen: imagen5},
-    ]
 
     const handleDrawerOpenClose = () => {
         open === true ? setOpen(false) : setOpen(true);
-
     }
+    const items = [
+        { imagen: imagen1 },
+        { imagen: imagen4 },
+        { imagen: imagen5 },
+    ]
+
 
     return (
         <div className={classes.root}>
@@ -133,55 +216,70 @@ export default function MiniDrawer() {
                 }}
             >
                 <div className={classes.toolbar}>
-                <Image src={Logo} aspectRatio={2.4} color={"#4B9C8E"}/>
-                    <IconButton className={classes.icono} onClick={handleDrawerOpenClose} >
+                    <Image src={Logo} aspectRatio={2.4} color={"#4B9C8E"} />
+                    <IconButton className={classes.icono} onClick={handleDrawerOpenClose} style={{ color: "#FFFFFF" }} >
                         {open === false ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
                 </div>
                 <Divider />
                 <List>
-                        <ListItem button className={classes.texto} >
-                            <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF"}} /></ListItemIcon>
-                            <ListItemText primary='Inicio' />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF"}} /></ListItemIcon>
-                            <ListItemText primary='Buscar' className={classes.texto} />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF"}} /></ListItemIcon>
-                            <ListItemText  primary='Mi Biblioteca' />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF"}} /></ListItemIcon>
-                            <ListItemText primary='Subir' />
-                        </ListItem>
+                    <ListItem button className={classes.texto} >
+                        <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                        <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }}/>
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                        <ListItemText primary='Buscar' className={classes.texto} style={{ color: "#FFFFFF" }} />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                        <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }}/>
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                        <ListItemText primary='Subir' style={{ color: "#FFFFFF" }}/>
+                    </ListItem>
                 </List>
                 <Divider />
 
             </Drawer>
-            <hr />
-            <Divider/> 
-                <hr />
-            
+            <Divider />
+
             <main className={classes.content}>
-                <AppBar/>
-                
-            <Carousel className={classes.carousel}  >
-            {
-                items.map( (item, i) => <Item key={i} item={item} /> )
-            }
-            </Carousel>
-            
-            <Card/>
-            <Divider/>
-            
+                <AppBar />
+
+                <Carousel className={classes.carousel}  >
+                    {
+                        items.map((item, i) => <Item key={i} item={item} />)
+                    }
+                </Carousel>
+                    <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
+                <Slider className={classes.slider}>
+                    {libros.map(movie => (
+                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                    ))}
+                </Slider>
+                <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
+                <Slider className={classes.slider}>
+                    {libros.map(movie => (
+                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                    ))}
+                </Slider>
+                <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
+                <Slider className={classes.slider}>
+                    {libros.map(movie => (
+                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                    ))}
+                </Slider>
+                <Typography variant='h4' className={classes.titulo}>Tendencias</Typography>
+                <Slider className={classes.slider}>
+                    {libros.map(movie => (
+                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                    ))}
+                </Slider>
+                <Footy/>
             </main>
-            <hr />
-            <hr />
-            <hr />
-            <hr />
-            <hr />
+            
         </div>
     );
 }

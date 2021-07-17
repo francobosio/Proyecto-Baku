@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Login from './Login/Login.jsx';
+import Inicio from './Inicio/Inicio.js';
 import reportWebVitals from './reportWebVitals';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Login/>
+    <Inicio/>
   </React.StrictMode>,
   document.getElementById('root')
 );
