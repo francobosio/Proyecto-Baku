@@ -85,7 +85,7 @@ function Registro(){
                 <hr/>
                 <Container maxWidth="xs">
                     <FormControl margin="dense" fullWidth="true">
-                        <FormLabel htmlFor="email" classname={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu correo electrónico?</FormLabel>
+                        <FormLabel htmlFor="email" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu correo electrónico?</FormLabel>
                         <input id="email" type="text" placeholder="Introducí tu dirección de correo"></input>
                     </FormControl>
                 </Container>
