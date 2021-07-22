@@ -10,11 +10,16 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup'
+import Radio from '@material-ui/core/Radio'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import Picker from './Picker';
 
 
 const useStyles = makeStyles({
     fondo:{
-        'background': 'linear-gradient(180deg, #076F55 0%, #FFFFFF 100%);',
+        'background': 'linear-gradient(180deg, #076F55 0%, #C2F1E9 100%);',
     },
 
     textoEncabezado:{
@@ -26,7 +31,7 @@ const useStyles = makeStyles({
 
     containerPrincipal:{
         'backgroundColor':'#FFFFFF',
-        'padding-top':'1rem',
+        'height':'100%',
     },
 
     customCard:{
@@ -65,7 +70,7 @@ function Registro(){
     const estilos = useStyles();
     return(
         <div className={estilos.fondo}>
-            <Container height="100%" maxWidth="xs" className={estilos.containerPrincipal} border={1}>
+            <Container maxWidth="xs" className={estilos.containerPrincipal} border={1}>
                 <Container maxWidth="xs">
                     <Card className={estilos.customCard}>
                         <CardMedia 
@@ -87,6 +92,36 @@ function Registro(){
                     <FormControl margin="dense" fullWidth="true">
                         <FormLabel htmlFor="email" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu correo electrónico?</FormLabel>
                         <input id="email" type="text" placeholder="Introducí tu dirección de correo"></input>
+                        <FormLabel htmlFor="password" className={estilos.customLabel + " " + estilos.espaciado}>Crea una contraseña</FormLabel>
+                        <input id="password" type="text" placeholder="Crea una contraseña"></input>
+                        <FormLabel htmlFor="password2" className={estilos.customLabel + " " + estilos.espaciado}>Confirmá tu contraseña</FormLabel>
+                        <input id="password2" type="text" placeholder="Confirmá tu contraseña"></input>
+                        <FormLabel htmlFor="nombre" className={estilos.customLabel + " " + estilos.espaciado}>Ingresá tu nombre de perfil</FormLabel>
+                        <input id="nombre" type="text" placeholder="Introducí un nombre de perfil"></input>
+                        <FormLabel htmlFor="fechaNacimiento" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu fecha de nacimiento?</FormLabel>
+                        <Picker/>
+                        <FormControl component="fieldset">
+                        <FormLabel htmlFor="Genero" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu género?</FormLabel>
+                          <RadioGroup aria-label="genero" name="genero ">
+                              <div>
+                                <FormControlLabel
+                                    value="Hombre"
+                                    control={<Radio/>}
+                                    label="Hombre"
+                                />
+                                <FormControlLabel
+                                    value="Mujer"
+                                    control={<Radio/>}
+                                    label="Mujer"
+                                />
+                                <FormControlLabel
+                                    value="Otro"
+                                    control={<Radio/>}
+                                    label="Otro"
+                                />
+                              </div>
+                          </RadioGroup>
+                        </FormControl>
                     </FormControl>
                 </Container>
             </Container>
