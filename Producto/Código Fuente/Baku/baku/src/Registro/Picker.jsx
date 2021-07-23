@@ -5,18 +5,24 @@ import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+import esLocale from 'date-fns/locale/es';
 
+
+const localeMap = {
+  es: esLocale
+}
 
 export default function Picker() {
   // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+  const [selectedDate, setSelectedDate] = React.useState(Date.now());
+  const [locale] = React.useState("es");
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localeMap[locale]}>
         <KeyboardDatePicker
             margin="normal"
             id="fechaNacimiento"

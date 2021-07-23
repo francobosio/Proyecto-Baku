@@ -15,7 +15,7 @@ import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import Picker from './Picker';
-
+import Selector from './Selector';
 
 const useStyles = makeStyles({
     fondo:{
@@ -54,6 +54,14 @@ const useStyles = makeStyles({
             'background':'#1D2126',
             'color': '#FFFFFF',
         },
+    },
+
+    botonVerde:{
+        'background-color': '#4B9C8E',
+        '&:hover':{
+            'background':'#076F55',
+            'color': '#FFFFFF',
+        }
     },
 
     espaciado:{
@@ -96,32 +104,42 @@ function Registro(){
                         <input id="password" type="text" placeholder="Crea una contraseña"></input>
                         <FormLabel htmlFor="password2" className={estilos.customLabel + " " + estilos.espaciado}>Confirmá tu contraseña</FormLabel>
                         <input id="password2" type="text" placeholder="Confirmá tu contraseña"></input>
+                        <FormLabel htmlFor="email" className={estilos.customLabel + " " + estilos.espaciado}>Nombre</FormLabel>
+                        <input id="email" type="text" placeholder="Introducí tu nombre"></input>
+                        <FormLabel htmlFor="email" className={estilos.customLabel + " " + estilos.espaciado}>Apellido</FormLabel>
+                        <input id="email" type="text" placeholder="Introducí tu apellido"></input>
                         <FormLabel htmlFor="nombre" className={estilos.customLabel + " " + estilos.espaciado}>Ingresá tu nombre de perfil</FormLabel>
                         <input id="nombre" type="text" placeholder="Introducí un nombre de perfil"></input>
                         <FormLabel htmlFor="fechaNacimiento" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu fecha de nacimiento?</FormLabel>
                         <Picker/>
                         <FormControl component="fieldset">
-                        <FormLabel htmlFor="Genero" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu género?</FormLabel>
-                          <RadioGroup aria-label="genero" name="genero ">
-                              <div>
-                                <FormControlLabel
-                                    value="Hombre"
-                                    control={<Radio/>}
-                                    label="Hombre"
-                                />
-                                <FormControlLabel
-                                    value="Mujer"
-                                    control={<Radio/>}
-                                    label="Mujer"
-                                />
-                                <FormControlLabel
-                                    value="Otro"
-                                    control={<Radio/>}
-                                    label="Otro"
-                                />
-                              </div>
-                          </RadioGroup>
+                            <FormLabel htmlFor="Genero" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu género?</FormLabel>
+                            <RadioGroup aria-label="genero" name="genero ">
+                                <div>
+                                    <FormControlLabel
+                                        value="Hombre"
+                                        control={<Radio/>}
+                                        label="Hombre"
+                                    />
+                                    <FormControlLabel
+                                        value="Mujer"
+                                        control={<Radio/>}
+                                        label="Mujer"
+                                    />
+                                    <FormControlLabel
+                                        value="Otro"
+                                        control={<Radio/>}
+                                        label="Otro"
+                                    />
+                                </div>
+                            </RadioGroup>
                         </FormControl>
+                        <FormLabel htmlFor="email" className={estilos.customLabel + " " + estilos.espaciado}>¿Cual es tu nacionalidad? (opcional)</FormLabel>
+                        <Selector/>
+                        <FormLabel className={estilos.espaciado}></FormLabel>
+                        <Button variant="contained" className={estilos.boton + ' ' + estilos.botonVerde}>
+                            Registrate
+                        </Button>
                     </FormControl>
                 </Container>
             </Container>

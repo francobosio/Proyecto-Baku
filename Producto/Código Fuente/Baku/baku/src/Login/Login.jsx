@@ -99,8 +99,8 @@ function Login(){
                 <hr/>
                 <Container maxWidth="xs">
                     <FormControl margin="dense" fullWidth="true">
-                        <FormLabel className={estilos.customLabel + ' ' + estilos.espaciado} htmlFor="email">Dirección de correo electrónico o nombre de usuario:</FormLabel>
-                        <input type="text" id="email" placeholder="Dirección de correo electrónico o nombre de usuario"></input>
+                        <FormLabel className={estilos.customLabel + ' ' + estilos.espaciado} htmlFor="email">Dirección de correo electrónico:</FormLabel>
+                        <input type="text" id="email" placeholder="Dirección de correo electrónico"></input>
                         <FormLabel className={estilos.customLabel + ' ' + estilos.espaciado} htmlFor="password">Contraseña:</FormLabel>
                         <input type="password" id="password" aria-describedby="helper-password" placeholder="Contraseña"></input>
                         <FormHelperText className={estilos.espaciado} id="helper-password">
