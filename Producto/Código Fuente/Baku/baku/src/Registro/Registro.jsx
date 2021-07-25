@@ -13,6 +13,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Link from '@material-ui/core/Link';
 
 import Picker from './Picker';
 import Selector from './Selector';
@@ -72,6 +74,7 @@ const useStyles = makeStyles({
         'fontWeight': 'bold',
         'color': '#000000'
     }
+    
 });
 
 function Registro(){
@@ -136,10 +139,19 @@ function Registro(){
                         </FormControl>
                         <FormLabel htmlFor="email" className={estilos.customLabel + " " + estilos.espaciado}>¿Cual es tu nacionalidad? (opcional)</FormLabel>
                         <Selector/>
-                        <FormLabel className={estilos.espaciado}></FormLabel>
-                        <Button variant="contained" className={estilos.boton + ' ' + estilos.botonVerde}>
+                        <FormHelperText className={estilos.espaciado}>
+                            <Typography variant="caption">
+                                Al registrarte aceptas los <Link>Términos y Condiciones de Uso</Link> de Baku
+                            </Typography>
+                        </FormHelperText>
+                        <Button variant="contained" id="btn-Registro" className={estilos.boton + ' ' + estilos.botonVerde}>
                             Registrate
                         </Button>
+                        <FormHelperText className={estilos.espaciado + ' ' + estilos.textoEncabezado}>
+                            <Typography variant="subtitle1">
+                               ¿Ya estás registrado? <Link>Iniciá Sesión</Link>
+                            </Typography>
+                        </FormHelperText>
                     </FormControl>
                 </Container>
             </Container>
