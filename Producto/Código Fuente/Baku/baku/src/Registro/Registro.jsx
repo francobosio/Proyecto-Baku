@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     },
 
     containerPrincipal:{
-        'backgroundColor':'#FFFFFF',
+        'backgroundColor':'#FFF',
         'height':'100%',
     },
 
@@ -46,7 +46,7 @@ const useStyles = makeStyles({
         'font-weight': 'bold',
         'margin': '0 auto', 
         'display': 'flex',
-        'color':'#FFFFFF',
+        'color':'#FFF',
         'borderRadius': '5rem',
     },
 
@@ -54,7 +54,7 @@ const useStyles = makeStyles({
         'background-color': '#464D57',
         '&:hover':{
             'background':'#1D2126',
-            'color': '#FFFFFF',
+            'color': '#FFF',
         },
     },
 
@@ -62,7 +62,7 @@ const useStyles = makeStyles({
         'background-color': '#4B9C8E',
         '&:hover':{
             'background':'#076F55',
-            'color': '#FFFFFF',
+            'color': '#FFF',
         }
     },
 
@@ -72,9 +72,21 @@ const useStyles = makeStyles({
 
     customLabel:{
         'fontWeight': 'bold',
-        'color': '#000000'
-    }
+        'color': '#000'
+    },
+
+    controlLabel:{
+        '& > .MuiFormLabel-root.Mui-focused':{
+            'color': '#000'
+        },
+        
+    },
     
+    controlRadio:{
+        '& > .MuiRadio-colorSecondary.Mui-checked':{
+            'color':'#4B9C8E',
+        },
+    },
 });
 
 function Registro(){
@@ -115,21 +127,24 @@ function Registro(){
                         <input id="nombre" type="text" placeholder="Introducí un nombre de perfil"></input>
                         <FormLabel htmlFor="fechaNacimiento" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu fecha de nacimiento?</FormLabel>
                         <Picker/>
-                        <FormControl component="fieldset">
-                            <FormLabel htmlFor="Genero" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu género?</FormLabel>
-                            <RadioGroup aria-label="genero" name="genero ">
+                        <FormControl className={estilos.controlLabel} component="fieldset">
+                            <FormLabel  htmlFor="Genero" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu género?</FormLabel>
+                            <RadioGroup aria-label="genero" name="genero" >
                                 <div>
                                     <FormControlLabel
+                                        className={estilos.controlRadio}
                                         value="Hombre"
                                         control={<Radio/>}
                                         label="Hombre"
                                     />
                                     <FormControlLabel
+                                        className={estilos.controlRadio}
                                         value="Mujer"
                                         control={<Radio/>}
                                         label="Mujer"
                                     />
                                     <FormControlLabel
+                                        className={estilos.controlRadio}
                                         value="Otro"
                                         control={<Radio/>}
                                         label="Otro"
