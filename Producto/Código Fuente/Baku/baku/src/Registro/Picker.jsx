@@ -7,7 +7,6 @@ import {
 } from '@material-ui/pickers';
 import esLocale from 'date-fns/locale/es';
 
-
 const localeMap = {
   es: esLocale
 }
@@ -23,18 +22,18 @@ export default function Picker() {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localeMap[locale]}>
-        <KeyboardDatePicker
-            margin="normal"
-            id="fechaNacimiento"
-            label="fecha de nacimiento"
-            format="dd/MM/yyyy"
-            disableFuture={true}
-            value={selectedDate}
-            onChange={handleDateChange}
-            KeyboardButtonProps={{
-                'aria-label': 'change date',
-            }}
-        />
+      <KeyboardDatePicker
+        margin="normal"
+        id="fechaNacimiento"
+        label="fecha de nacimiento"
+        format="dd/MM/yyyy"
+        disableFuture={true}
+        value={selectedDate}
+        onChange={handleDateChange}
+        KeyboardButtonProps={{
+            'aria-label': 'change date',
+        }}
+      />
     </MuiPickersUtilsProvider>
   );
 }

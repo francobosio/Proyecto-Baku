@@ -15,7 +15,6 @@ import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Link from '@material-ui/core/Link';
-
 import Picker from './Picker';
 import Selector from './Selector';
 
@@ -79,7 +78,6 @@ const useStyles = makeStyles({
         '& > .MuiFormLabel-root.Mui-focused':{
             'color': '#000'
         },
-        
     },
     
     controlRadio:{
@@ -173,6 +171,5 @@ function Registro(){
         </div>
     )
 };
-
 
 export default Registro;
