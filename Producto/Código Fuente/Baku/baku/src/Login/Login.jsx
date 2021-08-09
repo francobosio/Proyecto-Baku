@@ -72,6 +72,10 @@ const useStyles = makeStyles({
             'color':'#4B9C8E',
         },
     },
+
+    espaciadoDebajo:{
+        'padding':'0 0 1rem 0'
+    }
 });
 
 function Login(){
@@ -124,7 +128,7 @@ function Login(){
                 </Container>            
                 <hr/>
                 <Container maxWidth="xs">
-                    <FormControl margin="dense" fullWidth="true">
+                    <FormControl className={estilos.espaciadoDebajo} margin="dense" fullWidth="true">
                         <Button variant="contained" fullWidth="true" className={estilos.boton + ' ' + estilos.botonVerde}>
                             Registrate en Baku
                         </Button>

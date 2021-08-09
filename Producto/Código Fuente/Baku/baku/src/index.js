@@ -8,7 +8,7 @@ import Login from './Login/Login.jsx';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Registro/>
+    <Login/>
   </React.StrictMode>,
   document.getElementById('root')
 );
