@@ -25,7 +25,7 @@ export default function Picker() {
       <KeyboardDatePicker
         margin="normal"
         id="fechaNacimiento"
-        label="fecha de nacimiento"
+        label="Fecha de Nacimiento"
         format="dd/MM/yyyy"
         disableFuture={true}
         value={selectedDate}
