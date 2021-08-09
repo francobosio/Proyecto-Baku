@@ -150,7 +150,7 @@ function Registro(){
                                 </div>
                             </RadioGroup>
                         </FormControl>
-                        <FormLabel htmlFor="email" className={estilos.customLabel + " " + estilos.espaciado}>¿Cual es tu nacionalidad? (opcional)</FormLabel>
+                        <FormLabel htmlFor="email" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu nacionalidad? (opcional)</FormLabel>
                         <Selector/>
                         <FormHelperText className={estilos.espaciado}>
                             <Typography variant="caption">
