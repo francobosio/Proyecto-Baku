@@ -17,6 +17,7 @@ import FormControlLabel  from '@material-ui/core/FormControlLabel';
 const useStyles = makeStyles({
     fondo:{
         'background': 'linear-gradient(180deg, #076F55 0%, #C2F1E9 100%);',
+        'height': '100vh',
     },
     
     boton:{
@@ -46,6 +47,7 @@ const useStyles = makeStyles({
     customContainer:{
         'background-color': '#FFFFFF',
         'padding-top':'1rem',
+        'height':'100vh'
     },
 
     customCard:{
