@@ -74,8 +74,7 @@ const libros = [
         id: 1,
         image: imagen1,
         title: '1983'
-    },
-    {
+    },{
         id: 2,
         image: imagen5,
         title: 'Russian doll'
@@ -84,6 +83,15 @@ const libros = [
         image: imagen4,
         title: '1983'
     },{
+        id: 4,
+        image: imagen2,
+        title: '1983'
+    },{
+        id: 4,
+        image: imagen2,
+        title: '1983'
+    },
+    {
         id: 4,
         image: imagen2,
         title: '1983'
@@ -107,7 +115,6 @@ const libros = [
         title: 'Russian doll'
     }
 ];
-
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({

@@ -73,12 +73,12 @@ function Footy() {
           </Grid>
           <Grid item xs>
             <ButtonBase>
-              <Typography>Condiciones de uso</Typography>
+              <Typography>Condiciones de Uso</Typography>
             </ButtonBase>
           </Grid>
           <Grid item xs>
             <ButtonBase>
-              <Typography>Acuerdos de privacidad</Typography>
+              <Typography>Acuerdos de Privacidad</Typography>
             </ButtonBase>
           </Grid>
         </Grid>
