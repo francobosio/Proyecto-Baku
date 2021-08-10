@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import { Search } from '@trejgun/material-ui-icons-google';
 import Container from '@material-ui/core/Container';
@@ -12,69 +11,69 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel  from '@material-ui/core/FormControlLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles({
-    fondo:{
+    fondo: {
         'background': 'linear-gradient(180deg, #076F55 0%, #FFFFFF 100%);',
     },
-    
-    boton:{
+
+    boton: {
         'font-weight': 'bold',
-        'margin': '0 auto', 
+        'margin': '0 auto',
         'display': 'flex',
-        'color':'#FFFFFF',
+        'color': '#FFFFFF',
         'borderRadius': '5em',
     },
 
-    botonGris:{
+    botonGris: {
         'background-color': '#464D57',
-        '&:hover':{
-            background:'#1D2126',
+        '&:hover': {
+            background: '#1D2126',
             color: '#FFFFFF',
         }
     },
 
-    botonVerde:{
+    botonVerde: {
         'background-color': '#4B9C8E',
-        '&:hover':{
-            background:'#076F55',
+        '&:hover': {
+            background: '#076F55',
             color: '#FFFFFF',
         }
     },
 
-    customContainer:{
+    customContainer: {
         'background-color': '#FFFFFF',
     },
-    
-    customCard:{
+
+    customCard: {
         'border': 'none',
         'boxShadow': 'none',
     },
 
-    customLabel:{
+    customLabel: {
         'font-weight': 'bold',
         'color': '#000000',
     },
 
-    espaciado:{
+    espaciado: {
         'padding': '1em 0 1em 0',
     },
 
-    customCheckbox:{
+    customCheckbox: {
         color: '#4B9C8E',
     },
 
-    controlLabel:{
-        '& > .MuiCheckbox-colorSecondary.Mui-checked':{
-            color:'#4B9C8E' 
+    controlLabel: {
+        '& > .MuiCheckbox-colorSecondary.Mui-checked': {
+            color: '#4B9C8E'
         },
     },
 });
 
-function Login(){
+function Login() {
     const estilos = useStyles();
-    return(
+    return (
         <div className={estilos.fondo}>
             <Container className={estilos.customContainer} maxWidth="xs" border={1}>
                 <Card className={estilos.customCard}>
@@ -84,11 +83,11 @@ function Login(){
                         image="imagenes/Logo_baku_negro.png"
                     />
                 </Card>
-                <hr/>
-                <Button variant="contained" className={estilos.boton + ' ' + estilos.botonGris} startIcon={<Search/>}>
+                <hr />
+                <Button variant="contained" className={estilos.boton + ' ' + estilos.botonGris} startIcon={<Search />}>
                     Continuar con Google
                 </Button>
-                <hr/>
+                <hr />
                 <Container maxWidth="xs">
                     <FormControl margin="dense" fullWidth="true">
                         <FormLabel className={estilos.customLabel + ' ' + estilos.espaciado} htmlFor="email">Dirección de correo electrónico o nombre de usuario:</FormLabel>
@@ -104,17 +103,17 @@ function Login(){
                             </Typography>
                         </FormHelperText>
                         <FormControlLabel
-                            className={estilos.controlLabel} 
+                            className={estilos.controlLabel}
                             margin="dense"
-                            control={<Checkbox className={estilos.customCheckbox}/>}
+                            control={<Checkbox className={estilos.customCheckbox} />}
                             label="Recordame"
                         />
                         <Button variant="contained" className={estilos.boton + ' ' + estilos.botonVerde}>
                             Iniciar Sesión
                         </Button>
                     </FormControl>
-                </Container>            
-                <hr/>
+                </Container>
+                <hr />
                 <Button variant="contained" className={estilos.boton + ' ' + estilos.botonVerde}>
                     REGISTRATE EN BAKU
                 </Button>

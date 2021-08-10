@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 
-const PADDINGS = 110;
+  const PADDINGS = 110;
 
-const useSliding = (elementWidth, countElements) => {
+  const useSliding = (elementWidth, countElements) => {
   const containerRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(0);
   const [distance, setDistance] = useState(0);

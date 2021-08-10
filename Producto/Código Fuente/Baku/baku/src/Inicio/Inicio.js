@@ -33,6 +33,7 @@ import imagen8 from "../Imagenes/8.jpg";
 import imagen5 from "../Imagenes/5.jpg";
 import imagen4 from "../Imagenes/4.jpg";
 
+
 const libros = [
     {
         id: 1,
@@ -135,7 +136,6 @@ const useStyles = makeStyles((theme) => ({
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
-
         }),
     },
     drawerClose: {
@@ -198,7 +198,6 @@ export default function MiniDrawer() {
         { imagen: imagen4 },
         { imagen: imagen5 },
     ]
-
 
     return (
         <div className={classes.root}>
@@ -271,7 +270,7 @@ export default function MiniDrawer() {
                         <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
                     ))}
                 </Slider>
-                <Typography variant='h4' className={classes.titulo}>Tendencias</Typography>
+                <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
                         <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>

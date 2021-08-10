@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Inicio from './Inicio/Inicio.js';
+import Home from './Home/Home.jsx'
 import reportWebVitals from './reportWebVitals';
+
 
 
 ReactDOM.render(

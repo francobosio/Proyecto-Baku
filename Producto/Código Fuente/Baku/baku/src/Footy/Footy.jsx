@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
     background: '#4B9C8E',
     height: 210,
     width: '100%',
-    "margin-top": "1rem",
     textAlign: "center",
     borderTop: "2px solid #E7E7E7",
 
@@ -31,10 +30,6 @@ const useStyles = makeStyles((theme) => ({
   },
   imagen: {
     height: 150,
-  },
-  //no se usa
-  cotenedorImagen: {
-    alignItems: "center",
   },
   icono: {
     height: 35,

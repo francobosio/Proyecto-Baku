@@ -13,11 +13,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
-
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -79,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   toolbar: {
-    "background":"#4B9C8E",
+    "background": "#4B9C8E",
   },
 }
 ));
@@ -88,7 +86,6 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -170,8 +167,6 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="static"  >
         <Toolbar className={classes.toolbar}>
-
-
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -224,4 +219,4 @@ export default function PrimarySearchAppBar() {
       {renderMenu}
     </div>
   );
-}
+};
