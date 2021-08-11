@@ -12,6 +12,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -69,6 +70,12 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
+  },
+  btnSuscripcion: {
+    background: "#A69716",
+    color: "white",
+    "margin-right": "30px",
+
   },
   sectionMobile: {
     display: 'flex',
@@ -180,10 +187,14 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+
           <div className={classes.grow} />
+          <div>
+            <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
+          </div>
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={30} color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>

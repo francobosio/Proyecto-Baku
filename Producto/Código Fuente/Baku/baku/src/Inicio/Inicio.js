@@ -65,6 +65,18 @@ const libros = [
         id: 7,
         image: imagen7,
         title: '1983'
+    },{
+        id: 7,
+        image: imagen7,
+        title: '1983'
+    },{
+        id: 7,
+        image: imagen7,
+        title: '1983'
+    },{
+        id: 7,
+        image: imagen7,
+        title: '1983'
     },
     {
         id: 8,
