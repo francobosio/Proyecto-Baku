@@ -2,14 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Inicio from './Inicio/Inicio.js';
-import Home from './Home/Home.jsx'
+import Home from './Home/Home.jsx';
+import Buscar from './Buscar/Buscar.jsx';
+import Biblioteca from './Biblioteca/Biblioteca.jsx';
+import Publicar from './Publicar/Publicar.jsx';
+import Login from './Login/Login.jsx'
 import reportWebVitals from './reportWebVitals';
 
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Inicio/>
+    <Publicar/>
   </React.StrictMode>,
   document.getElementById('root')
 );

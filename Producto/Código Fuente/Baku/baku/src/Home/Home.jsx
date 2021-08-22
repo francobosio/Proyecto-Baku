@@ -5,16 +5,20 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 import Divider from '@material-ui/core/Divider';
+import Card from '@material-ui/core/Card';
+import "@fontsource/roboto";
+import "typeface-kaushan-script";
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Footy from '../Footy/Footy';
-import Inicio from '../Inicio/Inicio'
 
-//Rutas
-import {  BrowserRouter as Router,Switch,Route,Link } from "react-router-dom";
 //Imagenes
-import logoBaku from '../Imagenes/Logo_baku_blanco.png';
-
-import { Grid } from '@material-ui/core';
+import Logo from '../Imagenes/Logo_baku_blanco.png';
+import Image from 'material-ui-image';
+import CardMedia from '@material-ui/core/CardMedia'
+import Container from '@material-ui/core/Container'
+import { Box, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +35,26 @@ const useStyles = makeStyles((theme) => ({
     background: '#4B9C8E',
   },
 
-  typography: {
+  typographyKsTitle: {
+    'font-size': '1rem',
+    fontFamily: [
+      'Kaushan Script',
+    ].join(','),
+    'mix-blend-mode': 'normal',
+    'font-style': 'normal',
+    'font-weight': 'normal',
+    'font-size': '5rem',
+    'line-height': '9.063rem',
+    'display': 'flex',
+    'align-items': 'center',
+    'text-align': 'center',
+    'font-weight': '400',
+    'line-height': '1.2',
+    'letter-spacing': '0.00938em',
+
+    color: '#FFFFFF',
+  },
+  typographyKsText: {
     'font-size': '1rem',
     fontFamily: [
       'Kaushan Script',
@@ -45,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     'align-items': 'center',
     'text-align': 'center',
     'font-weight': '400',
-    'line-height': '1.5',
+    'line-height': '1.9',
     'letter-spacing': '0.00938em',
 
     color: '#FFFFFF',
@@ -55,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     height: "93vh",
     "place-items": "center",
+    "justify-content": "center",
     "flex-direction": "column",
     'background': 'linear-gradient(180deg, #076F55 0%, #FFFFFF 110%);',
   },
@@ -64,7 +88,8 @@ const useStyles = makeStyles((theme) => ({
     'margin': '0 auto', 
     'display': 'flex',
     'borderRadius': '5em',
-    top:40,
+    fontSize: '1.3rem',
+    
   },
   botonVerde:{
     'background-color': '#4B9C8E',
@@ -74,11 +99,6 @@ const useStyles = makeStyles((theme) => ({
         color: '#FFFFFF',
     }
   },
-  imagen: {
-    height: 75,
-    top: -15 ,
-    position: "absolute",
-  },
 }));
 
 export default function ButtonAppBar() {
@@ -86,11 +106,10 @@ export default function ButtonAppBar() {
 
   return (
     <div className={classes.root}>
-      
-     
+
         <AppBar position="static" className={classes.color}>   
             <Toolbar>
-                <img src={logoBaku} alt="" className={classes.imagen} />
+                
                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                     
                 </IconButton>
@@ -101,18 +120,15 @@ export default function ButtonAppBar() {
                 <Button color="inherit">Premium</Button>
                 <Button color="inherit">Descarga</Button>
                 <Divider orientation="vertical" variant="middle" flexItem light/>
-                 
-                  <Button color="inherit" >Registrate</Button>
+                <Button color="inherit">Registrate</Button>
                 <Button color="inherit">Iniciar Sesión</Button>
-               
-               
             </Toolbar>
         </AppBar>
         
         <Grid className={classes.grid}>
-          <Typography className={classes.typography}>Leer es Soñar</Typography>
-          <Typography className={classes.typography}>No dejes para mañana lo que puedes leer hoy.</Typography>
-          <Typography className={classes.typography}>Accede a cientos de libros originales en forma gratuita</Typography>
+          <Typography className={classes.typographyKsTitle}>Leer es Soñar</Typography>
+          <Typography className={classes.typographyKsText}>No dejes para mañana lo que puedes leer hoy.</Typography>
+          <Typography className={classes.typographyKsText}>Accede a cientos de libros originales en forma gratuita</Typography>
           <Button variant="contained" className={classes.boton + ' ' +classes.botonVerde}>Obtener Baku Gratis</Button>
         </Grid> 
         <Footy/>

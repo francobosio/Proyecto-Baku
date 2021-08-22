@@ -17,6 +17,7 @@
     "react-material-ui-carousel": "^2.2.7",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "typeface-kaushan-script": "^1.1.13",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
