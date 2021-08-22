@@ -11,87 +11,101 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControlLabel  from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles({
-    fondo: {
-        'background': 'linear-gradient(180deg, #076F55 0%, #FFFFFF 100%);',
+    fondo:{
+        'background': 'linear-gradient(180deg, #076F55 0%, #C2F1E9 100%);',
+        'height': '100vh',
     },
-
-    boton: {
+    
+    boton:{
         'font-weight': 'bold',
-        'margin': '0 auto',
+        'margin': '0 auto', 
         'display': 'flex',
-        'color': '#FFFFFF',
-        'borderRadius': '5em',
+        'color':'#FFFFFF',
+        'borderRadius': '5rem',
     },
 
-    botonGris: {
+    botonGris:{
         'background-color': '#464D57',
-        '&:hover': {
-            background: '#1D2126',
-            color: '#FFFFFF',
+        '&:hover':{
+            'background':'#1D2126',
+            'color': '#FFFFFF',
         }
     },
 
-    botonVerde: {
+    botonVerde:{
         'background-color': '#4B9C8E',
-        '&:hover': {
-            background: '#076F55',
-            color: '#FFFFFF',
+        '&:hover':{
+            'background':'#076F55',
+            'color': '#FFFFFF',
         }
     },
 
-    customContainer: {
+    customContainer:{
         'background-color': '#FFFFFF',
+        'padding-top':'1rem',
+        'height':'100vh'
     },
 
-    customCard: {
+    customCard:{
         'border': 'none',
         'boxShadow': 'none',
+        'padding': '1rem 0 1rem 0',
     },
 
-    customLabel: {
+    customLabel:{
         'font-weight': 'bold',
         'color': '#000000',
     },
 
-    espaciado: {
-        'padding': '1em 0 1em 0',
+    espaciado:{
+        'padding': '1rem 0 1rem 0',
     },
 
-    customCheckbox: {
-        color: '#4B9C8E',
+    customCheckbox:{
+        'color': '#4B9C8E',
     },
 
-    controlLabel: {
-        '& > .MuiCheckbox-colorSecondary.Mui-checked': {
-            color: '#4B9C8E'
+    controlLabel:{
+        '& > .MuiCheckbox-colorSecondary.Mui-checked':{
+            'color':'#4B9C8E',
         },
     },
+
+    espaciadoDebajo:{
+        'padding':'0 0 1rem 0'
+    }
 });
 
-function Login() {
+function Login(){
     const estilos = useStyles();
-    return (
+    return(
         <div className={estilos.fondo}>
-            <Container className={estilos.customContainer} maxWidth="xs" border={1}>
-                <Card className={estilos.customCard}>
-                    <CardMedia
-                        component="img"
-                        title="Logo de Baku"
-                        image="imagenes/Logo_baku_negro.png"
-                    />
-                </Card>
-                <hr />
-                <Button variant="contained" className={estilos.boton + ' ' + estilos.botonGris} startIcon={<Search />}>
-                    Continuar con Google
-                </Button>
-                <hr />
+            <Container height="100%" className={estilos.customContainer} maxWidth="xs" border={1}>
+                <Container maxWidth="xs">
+                    <Card className={estilos.customCard}>
+                        <CardMedia
+                            component="img"
+                            title="Logo de Baku"
+                            image="imagenes/Logo_baku_negro-min.png"
+                        />
+                    </Card>
+                </Container>
+                <hr/>
                 <Container maxWidth="xs">
                     <FormControl margin="dense" fullWidth="true">
-                        <FormLabel className={estilos.customLabel + ' ' + estilos.espaciado} htmlFor="email">Dirección de correo electrónico o nombre de usuario:</FormLabel>
-                        <input type="text" id="email" placeholder="Dirección de correo electrónico o nombre de usuario"></input>
+                        <Button variant="contained" fullWidth="true" className={estilos.boton + ' ' + estilos.botonGris} startIcon={<Search/>}>
+                            Continuar con Google
+                        </Button>
+                    </FormControl>
+                </Container>
+                <hr/>
+                <Container maxWidth="xs">
+                    <FormControl margin="dense" fullWidth="true">
+                        <FormLabel className={estilos.customLabel + ' ' + estilos.espaciado} htmlFor="email">Dirección de correo electrónico:</FormLabel>
+                        <input type="text" id="email" placeholder="Dirección de correo electrónico"></input>
                         <FormLabel className={estilos.customLabel + ' ' + estilos.espaciado} htmlFor="password">Contraseña:</FormLabel>
                         <input type="password" id="password" aria-describedby="helper-password" placeholder="Contraseña"></input>
                         <FormHelperText className={estilos.espaciado} id="helper-password">
@@ -103,20 +117,24 @@ function Login() {
                             </Typography>
                         </FormHelperText>
                         <FormControlLabel
-                            className={estilos.controlLabel}
+                            className={estilos.controlLabel} 
                             margin="dense"
-                            control={<Checkbox className={estilos.customCheckbox} />}
+                            control={<Checkbox className={estilos.customCheckbox}/>}
                             label="Recordame"
                         />
                         <Button variant="contained" className={estilos.boton + ' ' + estilos.botonVerde}>
                             Iniciar Sesión
                         </Button>
                     </FormControl>
+                </Container>            
+                <hr/>
+                <Container maxWidth="xs">
+                    <FormControl className={estilos.espaciadoDebajo} margin="dense" fullWidth="true">
+                        <Button variant="contained" fullWidth="true" className={estilos.boton + ' ' + estilos.botonVerde}>
+                            Registrate en Baku
+                        </Button>
+                    </FormControl>
                 </Container>
-                <hr />
-                <Button variant="contained" className={estilos.boton + ' ' + estilos.botonVerde}>
-                    REGISTRATE EN BAKU
-                </Button>
             </Container>
         </div>
     )
