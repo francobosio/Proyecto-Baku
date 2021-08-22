@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import { Search } from '@trejgun/material-ui-icons-google';
 import Container from '@material-ui/core/Container';

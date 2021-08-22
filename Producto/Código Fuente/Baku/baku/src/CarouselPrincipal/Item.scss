@@ -1,0 +1,12 @@
+.item {
+  flex: 0 0 10vw;
+  transition: transform 300ms ease 100ms;
+  margin: 0 2px;
+  position: relative;
+
+  img {
+    height: 100%;
+    width: 100%;
+    vertical-align: center;
+  }
+}
