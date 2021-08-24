@@ -13,6 +13,9 @@ import Link from '@material-ui/core/Link';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel  from '@material-ui/core/FormControlLabel';
 
+import { LoginButton } from './LoginMetodo';
+import { LogoutButton } from './Logout';
+
 const useStyles = makeStyles({
     fondo:{
         'background': 'linear-gradient(180deg, #076F55 0%, #C2F1E9 100%);',
@@ -122,9 +125,8 @@ function Login(){
                             control={<Checkbox className={estilos.customCheckbox}/>}
                             label="Recordame"
                         />
-                        <Button variant="contained" className={estilos.boton + ' ' + estilos.botonVerde}>
-                            Iniciar Sesión
-                        </Button>
+                        <LoginButton></LoginButton>
+                        <LogoutButton></LogoutButton>
                     </FormControl>
                 </Container>            
                 <hr/>

@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Auth0Provider} from "@auth0/auth0-react"
+
 import './index.css';
 import Inicio from './Inicio/Inicio.js';
 import Home from './Home/Home.jsx';
@@ -8,14 +10,14 @@ import Biblioteca from './Biblioteca/Biblioteca.jsx';
 import Publicar from './Publicar/Publicar.jsx';
 import Login from './Login/Login.jsx'
 import reportWebVitals from './reportWebVitals';
-import Login from './Login/Login.jsx';
-
 
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Publicar/>
+    <Auth0Provider domain="franco-bosio.us.auth0.com" clientId="WLSIMDGTVvhf8wHFm1AV7GXJLsTDytXF" redirectUri={window.location.origin}>
+      <Login/>
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
