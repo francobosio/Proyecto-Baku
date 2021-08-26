@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Container, Paper, Typography } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Image from 'material-ui-image';
@@ -19,6 +19,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ComboBox from '../Publicar/ComboBox.jsx'
 import TextoMultiple from '../Publicar/TextoMultiple'
 import Button from '@material-ui/core/Button';
+import { Link } from "react-router-dom";
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -141,22 +142,30 @@ export default function MiniDrawer() {
                 </div>
                 <Divider />
                 <List>
+                <Link to="/Inicio">
                     <ListItem button className={classes.texto} >
                         <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                         <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
                     </ListItem>
+                    </Link>
+                    <Link to="/Buscar">
                     <ListItem button>
                         <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Buscar' className={classes.texto} style={{ color: "#FFFFFF" }} />
+                            <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
                     </ListItem>
+                    </Link>
+                    <Link to="/Biblioteca">
                     <ListItem button>
                         <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                         <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
                     </ListItem>
+                    </Link>
+                    <Link to="/Publicar">
                     <ListItem button>
                         <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Subir' style={{ color: "#FFFFFF" }} />
+                        <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
                     </ListItem>
+                    </Link>
                 </List>
                 <Divider />
 
