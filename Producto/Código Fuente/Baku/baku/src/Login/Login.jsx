@@ -9,79 +9,79 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormLabel from '@material-ui/core/FormLabel';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+import { Link } from "react-router-dom";
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel  from '@material-ui/core/FormControlLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles({
-    fondo:{
+    fondo: {
         'background': 'linear-gradient(180deg, #076F55 0%, #C2F1E9 100%);',
         'height': '100vh',
     },
-    
-    boton:{
+
+    boton: {
         'font-weight': 'bold',
-        'margin': '0 auto', 
+        'margin': '0 auto',
         'display': 'flex',
-        'color':'#FFFFFF',
+        'color': '#FFFFFF',
         'borderRadius': '5rem',
     },
 
-    botonGris:{
+    botonGris: {
         'background-color': '#464D57',
-        '&:hover':{
-            'background':'#1D2126',
+        '&:hover': {
+            'background': '#1D2126',
             'color': '#FFFFFF',
         }
     },
 
-    botonVerde:{
+    botonVerde: {
         'background-color': '#4B9C8E',
-        '&:hover':{
-            'background':'#076F55',
+        '&:hover': {
+            'background': '#076F55',
             'color': '#FFFFFF',
         }
     },
 
-    customContainer:{
+    customContainer: {
         'background-color': '#FFFFFF',
-        'padding-top':'1rem',
-        'height':'100vh'
+        'padding-top': '1rem',
+        'height': '100vh'
     },
 
-    customCard:{
+    customCard: {
         'border': 'none',
         'boxShadow': 'none',
         'padding': '1rem 0 1rem 0',
     },
 
-    customLabel:{
+    customLabel: {
         'font-weight': 'bold',
         'color': '#000000',
     },
 
-    espaciado:{
+    espaciado: {
         'padding': '1rem 0 1rem 0',
     },
 
-    customCheckbox:{
+    customCheckbox: {
         'color': '#4B9C8E',
     },
 
-    controlLabel:{
-        '& > .MuiCheckbox-colorSecondary.Mui-checked':{
-            'color':'#4B9C8E',
+    controlLabel: {
+        '& > .MuiCheckbox-colorSecondary.Mui-checked': {
+            'color': '#4B9C8E',
         },
     },
 
-    espaciadoDebajo:{
-        'padding':'0 0 1rem 0'
+    espaciadoDebajo: {
+        'padding': '0 0 1rem 0'
     }
 });
 
-function Login(){
+function Login() {
     const estilos = useStyles();
-    return(
+    return (
         <div className={estilos.fondo}>
             <Container height="100%" className={estilos.customContainer} maxWidth="xs" border={1}>
                 <Container maxWidth="xs">
@@ -93,15 +93,15 @@ function Login(){
                         />
                     </Card>
                 </Container>
-                <hr/>
+                <hr />
                 <Container maxWidth="xs">
                     <FormControl margin="dense" fullWidth="true">
-                        <Button variant="contained" fullWidth="true" className={estilos.boton + ' ' + estilos.botonGris} startIcon={<Search/>}>
+                        <Button variant="contained" fullWidth="true" className={estilos.boton + ' ' + estilos.botonGris} startIcon={<Search />}>
                             Continuar con Google
                         </Button>
                     </FormControl>
                 </Container>
-                <hr/>
+                <hr />
                 <Container maxWidth="xs">
                     <FormControl margin="dense" fullWidth="true">
                         <FormLabel className={estilos.customLabel + ' ' + estilos.espaciado} htmlFor="email">Dirección de correo electrónico:</FormLabel>
@@ -111,29 +111,30 @@ function Login(){
                         <FormHelperText className={estilos.espaciado} id="helper-password">
                             Nunca compartas tu contraseña.
                             <Typography>
-                                <Link href="https://www.google.com/">
-                                    ¿Olvidaste tu contraseña?
-                                </Link>
+
+                                ¿Olvidaste tu contraseña?
+
                             </Typography>
                         </FormHelperText>
                         <FormControlLabel
-                            className={estilos.controlLabel} 
+                            className={estilos.controlLabel}
                             margin="dense"
-                            control={<Checkbox className={estilos.customCheckbox}/>}
+                            control={<Checkbox className={estilos.customCheckbox} />}
                             label="Recordame"
                         />
                         <Button variant="contained" className={estilos.boton + ' ' + estilos.botonVerde}>
-                            Iniciar Sesión
+                            <Link to="/Inicio">Iniciar Sesión</Link>
                         </Button>
                     </FormControl>
-                </Container>            
-                <hr/>
+                </Container>
+                <hr />
                 <Container maxWidth="xs">
                     <FormControl className={estilos.espaciadoDebajo} margin="dense" fullWidth="true">
                         <Button variant="contained" fullWidth="true" className={estilos.boton + ' ' + estilos.botonVerde}>
                             Registrate en Baku
                         </Button>
                     </FormControl>
+                    
                 </Container>
             </Container>
         </div>

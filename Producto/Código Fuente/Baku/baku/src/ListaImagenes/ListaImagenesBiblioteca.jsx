@@ -55,12 +55,12 @@ const categorias = [
     {
         img: imagen1,
         title: 'Chaplin',
-        author: 'tuVieja',
+        author: 'Author',
     },
     {
         img: imagen2,
         title: 'Sherlok Holmes',
-        author: 'tuVieja',
+        author: 'Author',
     },
     {
         img: imagen3,

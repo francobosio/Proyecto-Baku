@@ -8,11 +8,12 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Paper, Typography } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import ListaImagenesBiblioteca from '../ListaImagenes/ListaImagenesBiblioteca.jsx';
 import Image from 'material-ui-image';
+import { Link } from "react-router-dom";
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -23,8 +24,6 @@ import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
-
-
 
 
 const drawerWidth = 240;
@@ -89,10 +88,10 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         flex: 1,
     },
-    slider:{
-        marginTop:500,
+    slider: {
+        marginTop: 500,
     },
-    titulo:{
+    titulo: {
         marginLeft: 20,
     }
 }));
@@ -114,7 +113,7 @@ export default function MiniDrawer() {
 
 
     return (
-        
+
         <div className={classes.root}>
             <Drawer
                 variant="permanent"
@@ -137,22 +136,30 @@ export default function MiniDrawer() {
                 </div>
                 <Divider />
                 <List>
+                <Link to="/Inicio">
                     <ListItem button className={classes.texto} >
                         <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }}/>
+                        <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
                     </ListItem>
+                    </Link>
+                    <Link to="/Buscar">
                     <ListItem button>
                         <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Buscar' className={classes.texto} style={{ color: "#FFFFFF" }} />
+                            <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
                     </ListItem>
+                    </Link>
+                    <Link to="/Biblioteca">
                     <ListItem button>
                         <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }}/>
+                        <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
                     </ListItem>
+                    </Link>
+                    <Link to="/Publicar">
                     <ListItem button>
                         <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Subir' style={{ color: "#FFFFFF" }}/>
+                        <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
                     </ListItem>
+                    </Link>
                 </List>
                 <Divider />
 
@@ -161,10 +168,10 @@ export default function MiniDrawer() {
 
             <main className={classes.content}>
                 <AppBar />
-                <ListaImagenesBiblioteca/>
-                <Footy/>
+                <ListaImagenesBiblioteca />
+                <Footy />
             </main>
-            
+
         </div>
     );
 }
