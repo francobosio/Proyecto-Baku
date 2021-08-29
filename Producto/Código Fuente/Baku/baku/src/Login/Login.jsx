@@ -15,6 +15,7 @@ import FormControlLabel  from '@material-ui/core/FormControlLabel';
 
 import { LoginButton } from './LoginMetodo';
 import { LogoutButton } from './Logout';
+import Profile from './Profile';
 
 const useStyles = makeStyles({
     fondo:{
@@ -127,6 +128,7 @@ function Login(){
                         />
                         <LoginButton></LoginButton>
                         <LogoutButton></LogoutButton>
+                        <Profile></Profile>
                     </FormControl>
                 </Container>            
                 <hr/>

@@ -10,12 +10,16 @@ import Biblioteca from './Biblioteca/Biblioteca.jsx';
 import Publicar from './Publicar/Publicar.jsx';
 import Login from './Login/Login.jsx'
 import reportWebVitals from './reportWebVitals';
+import Lectura from './Lectura/Lectura.js';
 
+
+const domain = process.env.REACT_APP_AUTH0_DOMAIN
+const client_id = process.env.REACT_APP_AUTH0_CLIENT_ID
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Auth0Provider domain="franco-bosio.us.auth0.com" clientId="WLSIMDGTVvhf8wHFm1AV7GXJLsTDytXF" redirectUri={window.location.origin}>
+    <Auth0Provider domain={domain} clientId={client_id} redirectUri={window.location.origin}>
       <Login/>
     </Auth0Provider>
   </React.StrictMode>,

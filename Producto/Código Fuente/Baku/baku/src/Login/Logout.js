@@ -20,8 +20,8 @@ const useStyles = makeStyles({
     }},
 })
 
-export const LoginButton = () => {
-    const {loginWithRedirect} = useAuth0();
+export const LogoutButton = () => {
+    const {logout} = useAuth0();
     const estilos = useStyles();
-    return <Button variant="contained" onClick={() => loginWithRedirect()} className={estilos.boton + ' ' + estilos.botonVerde}> Iniciar Sesión </Button>
+    return <Button variant="contained" onClick={() => logout()} className={estilos.boton + ' ' + estilos.botonVerde}> Cerrar Sesión </Button>
 }
