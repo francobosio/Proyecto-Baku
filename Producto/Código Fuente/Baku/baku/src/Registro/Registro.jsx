@@ -117,12 +117,12 @@ function Registro(){
                         <input id="password" type="text" placeholder="Crea una contraseña"></input>
                         <FormLabel htmlFor="password2" className={estilos.customLabel + " " + estilos.espaciado}>Confirmá tu contraseña</FormLabel>
                         <input id="password2" type="text" placeholder="Confirmá tu contraseña"></input>
-                        <FormLabel htmlFor="email" className={estilos.customLabel + " " + estilos.espaciado}>Nombre</FormLabel>
-                        <input id="email" type="text" placeholder="Introducí tu nombre"></input>
-                        <FormLabel htmlFor="email" className={estilos.customLabel + " " + estilos.espaciado}>Apellido</FormLabel>
-                        <input id="email" type="text" placeholder="Introducí tu apellido"></input>
-                        <FormLabel htmlFor="nombre" className={estilos.customLabel + " " + estilos.espaciado}>Ingresá tu nombre de perfil</FormLabel>
-                        <input id="nombre" type="text" placeholder="Introducí un nombre de perfil"></input>
+                        <FormLabel htmlFor="nombre" className={estilos.customLabel + " " + estilos.espaciado}>Nombre</FormLabel>
+                        <input id="nombre" type="text" placeholder="Introducí tu nombre"></input>
+                        <FormLabel htmlFor="apellido" className={estilos.customLabel + " " + estilos.espaciado}>Apellido</FormLabel>
+                        <input id="apellido" type="text" placeholder="Introducí tu apellido"></input>
+                        <FormLabel htmlFor="nombrePerfil" className={estilos.customLabel + " " + estilos.espaciado}>Ingresá tu nombre de perfil</FormLabel>
+                        <input id="nombrePerfil" type="text" placeholder="Introducí un nombre de perfil"></input>
                         <FormLabel htmlFor="fechaNacimiento" className={estilos.customLabel + " " + estilos.espaciado}>¿Cuál es tu fecha de nacimiento?</FormLabel>
                         <Picker/>
                         <FormControl className={estilos.controlLabel} component="fieldset">
