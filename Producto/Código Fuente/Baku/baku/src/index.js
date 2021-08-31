@@ -3,24 +3,13 @@ import ReactDOM from 'react-dom';
 import {Auth0Provider} from "@auth0/auth0-react"
 
 import './index.css';
-import Inicio from './Inicio/Inicio.js';
-import Home from './Home/Home.jsx';
-import Buscar from './Buscar/Buscar.jsx';
-import Biblioteca from './Biblioteca/Biblioteca.jsx';
-import Publicar from './Publicar/Publicar.jsx';
-import Login from './Login/Login.jsx'
+import Enrutador from './Enrutador/Enrutador.jsx';
 import reportWebVitals from './reportWebVitals';
-import Lectura from './Lectura/Lectura.js';
-
-
-const domain = process.env.REACT_APP_AUTH0_DOMAIN
-const client_id = process.env.REACT_APP_AUTH0_CLIENT_ID
-
 
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider domain={domain} clientId={client_id} redirectUri={window.location.origin}>
-      <Login/>
+      <Enrutador/>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
