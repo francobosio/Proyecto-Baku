@@ -6,9 +6,12 @@ import './index.css';
 import Enrutador from './Enrutador/Enrutador.jsx';
 import reportWebVitals from './reportWebVitals';
 
+const domain = process.env.REACT_APP_AUTH0_DOMAIN
+const client_id = process.env.REACT_APP_AUTH0_CLIENT_ID
+
 ReactDOM.render(
   <React.StrictMode>
-    <Auth0Provider domain={domain} clientId={client_id} redirectUri={window.location.origin}>
+    <Auth0Provider domain={domain} clientId={client_id} redirectUri={"http://localhost:3000/Inicio"}>
       <Enrutador/>
     </Auth0Provider>
   </React.StrictMode>,

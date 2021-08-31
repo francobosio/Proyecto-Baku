@@ -10,6 +10,8 @@ import {Link} from "react-router-dom";
 import "@fontsource/roboto";
 import "typeface-kaushan-script";
 import Footy from '../Footy/Footy';
+import {LoginButton} from "../Login/LoginMetodo"
+import {LogoutButton} from "../Login/Logout"
 
 //Imagenes
 import { Grid } from '@material-ui/core';
@@ -110,12 +112,8 @@ export default function ButtonAppBar() {
               <Link to="/">Premium</Link>
             </Button>
             <Divider orientation="vertical" variant="middle" flexItem light />
-            <Button color="inherit">
-              <Link to="/Registro">Registrate</Link>
-            </Button>
-            <Button color="inherit">
-              <Link to="/Login">Iniciar Sesión</Link>
-            </Button>
+            <LoginButton></LoginButton>
+            <LogoutButton></LogoutButton>
           </Toolbar>
         </AppBar>
         <Grid className={classes.grid}>

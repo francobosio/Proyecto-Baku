@@ -14,7 +14,7 @@ import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Slider from '../CarouselPrincipal';
 import Image from 'material-ui-image';
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";    
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
