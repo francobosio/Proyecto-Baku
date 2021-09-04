@@ -1,18 +1,25 @@
-import React, { useRef, useEffect } from 'react';
-import WebViewer from '@pdftron/webviewer';
+// Core viewer
+import { Viewer } from '@react-pdf-viewer/core';
+
+// Plugins
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import { bookmarkPlugin } from '@react-pdf-viewer/bookmark';
+
+//Worker
+import { Worker } from '@react-pdf-viewer/core';
+
+// Import styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
 import { makeStyles } from '@material-ui/core/styles';
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
+//------------------------------------------------------------------------------------------------------------
+import React, { useRef, useEffect } from 'react';
 
-import "@fontsource/roboto";
+import AppBar from '../AppBar/AppBar.js';
+import Footy from '../Footy/Footy.jsx';
 
-//Imagenes
-import logoBaku from '../Imagenes/Logo_baku_blanco.png';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,61 +38,55 @@ const useStyles = makeStyles((theme) => ({
         background: '#4B9C8E',
     },
 
-    webviewer: {
-        height: '100vh',
-    },
-
     imagen: {
         height: 75,
         top: -15 ,
         position: "absolute",
     },
+
+    viewer: {
+        border: '1px solid rgba(0, 0, 0, 0.3)',
+        height: '100vh',
+    }
 }));
 
 const Lectura = () => {
+    // Create new plugin instance
+    const defaultLayoutPluginInstance = defaultLayoutPlugin();
     const classes = useStyles();
-    const viewer = useRef(null);
 
-    useEffect(() => {
-        WebViewer(
-        {
-            path: 'lib',
-            initialDoc: 'https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf',
-            //initialDoc: 'Me-llaman-Artemio-Furia-Florencia-Bonelli.pdf',
-            fullAPI: true
-        },
-        viewer.current,
-        ).then((instance) => {
-            instance.UI.setLanguage('es'); // set the language to Spanish
-            instance.UI.enableElements(['readerPageTransitionButton']);
+    const handleSwitchTheme = (theme) => {
+        localStorage.setItem('theme', theme);
+    };
+    const theme = localStorage.getItem('theme') || 'light';
 
-        });
-    }, []);
+    //BookMark
+    const bookmarkPluginInstance = bookmarkPlugin();
 
     return (
-        <div className={classes.root}>
-            <AppBar position="static" className={classes.color}>   
-                <Toolbar>
-                    <img src={logoBaku} alt="" className={classes.imagen} />
+      <div className={classes.root}>
+      
+        <AppBar/>
 
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        
-                    </IconButton>
-                    <Typography variant="h1" className={classes.title}>
-                    </Typography>
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+            <div className={classes.viewer}>
+                <Viewer
+                    defaultScale
+                    theme={theme} onSwitchTheme={handleSwitchTheme} 
+                    fileUrl='Me-llaman-Artemio-Furia-Florencia-Bonelli.pdf'
+                    plugins={[
+                        // Register plugins
+                        defaultLayoutPluginInstance,
+                        bookmarkPluginInstance,
+                        ]}
+                />
+            </div>
+        </Worker>
 
-                    
-                    <Button color="inherit">Premium</Button>
-                    <Button color="inherit">Descarga</Button>
-                    <Divider orientation="vertical" variant="middle" flexItem light/>
-                    <Button color="inherit">Registrate</Button>
-                    <Button color="inherit">Iniciar Sesión</Button>
-                </Toolbar>
-            </AppBar>
+        <Footy/>
 
-            <div className={classes.webviewer} ref={viewer}></div>
-        </div>
-    );
+      </div>
+    )
 };
 
 export default Lectura;
