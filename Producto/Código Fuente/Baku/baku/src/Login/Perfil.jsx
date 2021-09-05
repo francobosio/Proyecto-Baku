@@ -74,14 +74,7 @@ const useStyles = makeStyles((theme) => ({
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
     },
-    carousel: {
-        marginTop: 11,
-        marginHorizon: '100%',
-        alignItems: 'center',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        alignContent: 'center',
-    },
+
     content: {
         display: 'flex',
         flexDirection: 'column',
