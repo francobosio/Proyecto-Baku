@@ -8,13 +8,12 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Carousel from 'react-material-ui-carousel';
 import { Paper, Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
-import Slider from '../CarouselPrincipal';
 import Image from 'material-ui-image';
-import { Link } from "react-router-dom";    
+import { Link } from 'react-router-dom';    
+import Profile from  './Profile.jsx'
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -25,110 +24,6 @@ import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
-import los40 from "../Imagenes/los40.svg";
-import imagen1 from "../Imagenes/1.jpg";
-import imagen2 from "../Imagenes/2.jpg";
-import imagen3 from "../Imagenes/3.jpg";
-import imagen6 from "../Imagenes/6.jpg";
-import imagen7 from "../Imagenes/7.jpg";
-import imagen8 from "../Imagenes/8.jpg";
-import imagen5 from "../Imagenes/5.jpg";
-import imagen4 from "../Imagenes/4.jpg";
-
-
-const libros = [
-    {
-        id: 1,
-        image: imagen1,
-        title: '1983'
-    },
-    {
-        id: 2,
-        image: imagen5,
-        title: 'Russian doll'
-    },{
-        id: 3,
-        image: imagen4,
-        title: '1983'
-    },{
-        id: 4,
-        image: imagen2,
-        title: '1983'
-    },
-    {
-        id: 5,
-        image: imagen3,
-        title: 'Russian doll'
-    },{
-        id: 6,
-        image: imagen6,
-        title: '1983'
-    },{
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    },{
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    },{
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    },{
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    },
-    {
-        id: 8,
-        image: imagen8,
-        title: 'Russian doll'
-    },{
-        id: 1,
-        image: imagen1,
-        title: '1983'
-    },{
-        id: 2,
-        image: imagen5,
-        title: 'Russian doll'
-    },{
-        id: 3,
-        image: imagen4,
-        title: '1983'
-    },{
-        id: 4,
-        image: imagen2,
-        title: '1983'
-    },{
-        id: 4,
-        image: imagen2,
-        title: '1983'
-    },
-    {
-        id: 4,
-        image: imagen2,
-        title: '1983'
-    },
-    {
-        id: 5,
-        image: imagen3,
-        title: 'Russian doll'
-    },{
-        id: 6,
-        image: imagen6,
-        title: '1983'
-    },{
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    },
-    {
-        id: 8,
-        image: imagen8,
-        title: 'Russian doll'
-    }
-];
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -179,14 +74,7 @@ const useStyles = makeStyles((theme) => ({
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
     },
-    carousel: {
-        marginTop: 11,
-        marginHorizon: '100%',
-        alignItems: 'center',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        alignContent: 'center',
-    },
+
     content: {
         display: 'flex',
         flexDirection: 'column',
@@ -214,11 +102,6 @@ export default function MiniDrawer() {
     const handleDrawerOpenClose = () => {
         setOpen(!open)
     }
-    const items = [
-        { imagen: imagen1 },
-        { imagen: imagen4 },
-        { imagen: imagen5 },
-    ]
 
     return (
         <div className={classes.root}>
@@ -275,36 +158,7 @@ export default function MiniDrawer() {
 
             <main className={classes.content}>
                 <AppBar />
-
-                <Carousel className={classes.carousel}  >
-                    {
-                        items.map((item, i) => <Item key={i} item={item} />)
-                    }
-                </Carousel>
-                    <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
-                <Slider className={classes.slider}>
-                    {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
-                    ))}
-                </Slider>
-                <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
-                <Slider className={classes.slider}>
-                    {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
-                    ))}
-                </Slider>
-                <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
-                <Slider className={classes.slider}>
-                    {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
-                    ))}
-                </Slider>
-                <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
-                <Slider className={classes.slider}>
-                    {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
-                    ))}
-                </Slider>
+                <Profile/>
                 <Footy/>
             </main>
             

@@ -112,7 +112,7 @@ export default function ButtonAppBar() {
               <Link to="/">Premium</Link>
             </Button>
             <Divider orientation="vertical" variant="middle" flexItem light />
-            <LoginButton></LoginButton>
+            <LoginButton text="Iniciar Sesión"></LoginButton>
             <LogoutButton></LogoutButton>
           </Toolbar>
         </AppBar>
@@ -120,7 +120,7 @@ export default function ButtonAppBar() {
           <Typography className={classes.typographyKsTitle}>Leer es Soñar</Typography>
           <Typography className={classes.typographyKsText}>No dejes para mañana lo que puedes leer hoy.</Typography>
           <Typography className={classes.typographyKsText}>Accede a cientos de libros originales en forma gratuita</Typography>
-          <Button variant="contained" className={classes.boton + ' ' + classes.botonVerde}>Obtener Baku Gratis</Button>
+          <LoginButton text="Ingresa a Baku"></LoginButton>
         </Grid>
         <Footy />
       </div>
