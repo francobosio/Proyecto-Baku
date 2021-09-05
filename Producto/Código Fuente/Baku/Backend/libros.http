@@ -1,0 +1,22 @@
+GET  http://localhost:4000/libros
+
+###
+GET http://localhost:4000/libros/61313608c6518cc88861901b
+### Crear un Video
+POST http://localhost:4000/libros
+Content-Type: application/json
+
+{
+    "titulo": "El asesinato",
+    "descripcion": "Es  de  noche.  La  criadita  Varka,  una  muchacha  de    trece  años, mece en la cuna al nene y le canturrea",
+    "url": "http://bibliotecadigital.ilce.edu.mx/Colecciones/ObrasClasicas/_docs/Asesinato.pdf"   
+}
+###
+DELETE http://localhost:4000/libros/61304367cfc8d28c38d1c49a
+###
+PUT http://localhost:4000/libros/61313608c6518cc88861901b
+Content-Type: application/json
+
+{
+    "titulo": "El asesinato!"
+}
