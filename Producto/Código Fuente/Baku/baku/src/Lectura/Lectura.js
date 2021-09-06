@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
     viewer: {
         border: '1px solid rgba(0, 0, 0, 0.3)',
-        height: '100vh',
+        height: '94vh',
     }
 }));
 

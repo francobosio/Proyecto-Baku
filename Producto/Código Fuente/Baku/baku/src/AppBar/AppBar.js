@@ -217,7 +217,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-            {/* <Avatar alt={user.name} src={user.picture}></Avatar>*/}
+            <Avatar alt={user.name} src={user.picture}></Avatar>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>

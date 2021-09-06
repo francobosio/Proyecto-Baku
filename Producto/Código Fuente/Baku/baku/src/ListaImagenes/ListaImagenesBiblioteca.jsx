@@ -7,7 +7,6 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
 import {Link} from "react-router-dom";
-import Lectura from '../Lectura/Lectura.js';
 
 //Imagenes
 import imagen1 from "../Imagenes/1.jpg";
@@ -58,12 +57,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const categorias = [
-    {
-        pdf: 'Autobiografia_Charles_Chaplin.pdf',
-        img: imagen1,
-        title: 'Chaplin',
-        author: 'Charles Chaplin',
-    },
     {
         pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
         img: imagen2,

@@ -39,12 +39,6 @@ import imagen11 from "../Imagenes/Don_Quijote_de_la_Mancha-Cervantes_Miguel-md.p
 
 const libros = [
     {
-        pdf: 'Autobiografia_Charles_Chaplin.pdf',
-        image: imagen1,
-        title: 'Chaplin',
-
-    },
-    {
         pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
         image: imagen2,
         title: 'El regreso de Sherlok Holmes',
