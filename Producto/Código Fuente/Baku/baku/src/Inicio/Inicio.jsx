@@ -14,7 +14,7 @@ import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Slider from '../CarouselPrincipal';
 import Image from 'material-ui-image';
-import { Link } from "react-router-dom";    
+import { Link } from "react-router-dom";
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -25,7 +25,6 @@ import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
-import los40 from "../Imagenes/los40.svg";
 import imagen1 from "../Imagenes/1.jpg";
 import imagen2 from "../Imagenes/2.jpg";
 import imagen3 from "../Imagenes/3.jpg";
@@ -46,11 +45,11 @@ const libros = [
         id: 2,
         image: imagen5,
         title: 'Russian doll'
-    },{
+    }, {
         id: 3,
         image: imagen4,
         title: '1983'
-    },{
+    }, {
         id: 4,
         image: imagen2,
         title: '1983'
@@ -59,23 +58,23 @@ const libros = [
         id: 5,
         image: imagen3,
         title: 'Russian doll'
-    },{
+    }, {
         id: 6,
         image: imagen6,
         title: '1983'
-    },{
+    }, {
         id: 7,
         image: imagen7,
         title: '1983'
-    },{
+    }, {
         id: 7,
         image: imagen7,
         title: '1983'
-    },{
+    }, {
         id: 7,
         image: imagen7,
         title: '1983'
-    },{
+    }, {
         id: 7,
         image: imagen7,
         title: '1983'
@@ -84,23 +83,23 @@ const libros = [
         id: 8,
         image: imagen8,
         title: 'Russian doll'
-    },{
+    }, {
         id: 1,
         image: imagen1,
         title: '1983'
-    },{
+    }, {
         id: 2,
         image: imagen5,
         title: 'Russian doll'
-    },{
+    }, {
         id: 3,
         image: imagen4,
         title: '1983'
-    },{
+    }, {
         id: 4,
         image: imagen2,
         title: '1983'
-    },{
+    }, {
         id: 4,
         image: imagen2,
         title: '1983'
@@ -114,11 +113,11 @@ const libros = [
         id: 5,
         image: imagen3,
         title: 'Russian doll'
-    },{
+    }, {
         id: 6,
         image: imagen6,
         title: '1983'
-    },{
+    }, {
         id: 7,
         image: imagen7,
         title: '1983'
@@ -192,11 +191,15 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         flex: 1,
     },
-    slider:{
-        marginTop:500,
+    slider: {
+        marginTop: 500,
     },
-    titulo:{
+    titulo: {
         marginLeft: 20,
+    },
+    link: {
+        color: "white",
+        "text-decoration": "none",
     }
 }));
 
@@ -243,29 +246,29 @@ export default function MiniDrawer() {
                 </div>
                 <Divider />
                 <List>
-                <Link to="/Inicio">
-                    <ListItem button className={classes.texto} >
-                        <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
+                    <Link to="/Inicio"  className={classes.link}>
+                        <ListItem button className={classes.texto} >
+                            <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                            <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
+                        </ListItem>
                     </Link>
-                    <Link to="/Buscar">
-                    <ListItem button>
-                        <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                    <Link to="/Buscar" className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
-                    </ListItem>
+                        </ListItem>
                     </Link>
-                    <Link to="/Biblioteca">
-                    <ListItem button>
-                        <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
+                    <Link to="/Biblioteca" className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                            <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
+                        </ListItem>
                     </Link>
-                    <Link to="/Publicar">
-                    <ListItem button>
-                        <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
+                    <Link to="/Publicar" className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                            <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
+                        </ListItem>
                     </Link>
                 </List>
                 <Divider />
@@ -281,7 +284,7 @@ export default function MiniDrawer() {
                         items.map((item, i) => <Item key={i} item={item} />)
                     }
                 </Carousel>
-                    <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
+                <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
                         <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
@@ -305,9 +308,9 @@ export default function MiniDrawer() {
                         <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
                     ))}
                 </Slider>
-                <Footy/>
+                <Footy />
             </main>
-            
+
         </div>
     );
 }

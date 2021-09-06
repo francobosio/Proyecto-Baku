@@ -6,16 +6,19 @@ import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
+import {Link} from "react-router-dom";
+import Lectura from '../Lectura/Lectura.js';
 
 //Imagenes
 import imagen1 from "../Imagenes/1.jpg";
-import imagen2 from "../Imagenes/2.jpg";
+import imagen2 from "../Imagenes/El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur-md.jpg";
 import imagen3 from "../Imagenes/3.jpg";
 import imagen6 from "../Imagenes/6.jpg";
 import imagen7 from "../Imagenes/7.jpg";
 import imagen8 from "../Imagenes/8.jpg";
 import imagen5 from "../Imagenes/5.jpg";
 import imagen4 from "../Imagenes/4.jpg";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,14 +56,16 @@ const useStyles = makeStyles((theme) => ({
 
 const categorias = [
     {
+        pdf: 'Autobiografia_Charles_Chaplin.pdf',
         img: imagen1,
         title: 'Chaplin',
-        author: 'Author',
+        author: 'Charles Chaplin',
     },
     {
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
         img: imagen2,
-        title: 'Sherlok Holmes',
-        author: 'Author',
+        title: 'El regreso de Sherlok Holmes',
+        author: 'Conan Doyle',
     },
     {
         img: imagen3,
@@ -119,7 +124,9 @@ export default function TitlebarImageList() {
                                 position='bottom'
                                 actionIcon={
                                     <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
-                                      <LocalLibraryOutlinedIcon className={classes.icono} />
+                                        <Link to={"/Lectura/" + item.pdf} >
+                                            <LocalLibraryOutlinedIcon className={classes.icono} />
+                                        </Link>
                                     </IconButton>
                                   }
                             /> 
