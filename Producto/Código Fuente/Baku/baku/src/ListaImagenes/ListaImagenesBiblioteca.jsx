@@ -18,6 +18,7 @@ import imagen7 from "../Imagenes/7.jpg";
 import imagen8 from "../Imagenes/8.jpg";
 import imagen5 from "../Imagenes/5.jpg";
 import imagen4 from "../Imagenes/4.jpg";
+import imagen9 from "../Imagenes/Los_120_dias_de_Sodoma-Marques_de_Sade-md.png";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -68,40 +69,47 @@ const categorias = [
         author: 'Conan Doyle',
     },
     {
+        pdf: 'BiografiadeLeonardodaVinci-CVerdejo.pdf',
         img: imagen3,
         title: 'Leonardo',
         author: 'author',
     },
     {
+        pdf: 'El_maravilloso_Mago_de_Oz-L._Frank_Baum.pdf',
         img: imagen4,
         title: 'El maravilloso mago de OZ',
         author: 'author',
     },
     {
+        pdf: 'El-Necronomicon_H.P_Lovecraft.pdf',
         img: imagen5,
         title: 'El necronomicron',
         author: 'author',
 
     },
     {
+        pdf: 'El_mundo_perdido-Conan_Doyle_Arthur.pdf',
         img: imagen6,
         title: 'Image',
         author: 'author',
     },
     {
+        pdf: 'Bodas_de_Sangre-Garcia_Lorca_Federico.pdf',
         img: imagen7,
         title: 'Image',
         author: 'author',
     },
     {
+        pdf: 'Heidi-Johanna_Spyri.pdf',
         img: imagen8,
         title: 'Image',
         author: 'author',
     },
     {
-        img: imagen2,
-        title: 'Image',
-        author: 'author',
+        pdf: 'Los_120_dias_de_Sodoma-Marques_de_Sade.pdf',
+        img: imagen9,
+        title: 'Marqués',
+        author: 'Marqués de Sade',
     },
 
 ];
