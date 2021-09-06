@@ -9,7 +9,6 @@ import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
 import {Link} from "react-router-dom";
 
 //Imagenes
-import imagen1 from "../Imagenes/1.jpg";
 import imagen2 from "../Imagenes/El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur-md.jpg";
 import imagen3 from "../Imagenes/3.jpg";
 import imagen6 from "../Imagenes/6.jpg";
@@ -70,12 +69,6 @@ const categorias = [
         author: 'C. Verdejo',
     },
     {
-        pdf: 'El_maravilloso_Mago_de_Oz-L._Frank_Baum.pdf',
-        img: imagen4,
-        title: 'El maravilloso mago de OZ',
-        author: 'Frank Baum',
-    },
-    {
         pdf: 'El_Necronomicon-H.P_Lovecraft.pdf',
         img: imagen5,
         title: 'El necronomicron',
@@ -92,18 +85,6 @@ const categorias = [
         img: imagen7,
         title: 'Bodas de sangre',
         author: 'Federico Garcia Lorca',
-    },
-    {
-        pdf: 'Heidi-Johanna_Spyri.pdf',
-        img: imagen8,
-        title: 'Heidi',
-        author: 'Johanna Spyri',
-    },
-    {
-        pdf: 'Los_120_dias_de_Sodoma-Marques_de_Sade.pdf',
-        img: imagen9,
-        title: 'Los 120 días de sodoma',
-        author: 'Marqués de Sade',
     },
     {
         pdf: 'La_llamada_de_Cthulhu-H._P._Lovecraft.pdf',
