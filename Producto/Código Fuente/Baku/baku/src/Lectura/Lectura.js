@@ -20,6 +20,7 @@ import React, { useRef, useEffect } from 'react';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 
+import {useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,6 +55,7 @@ const Lectura = () => {
     // Create new plugin instance
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
     const classes = useStyles();
+    const {pdf} = useParams();
 
     const handleSwitchTheme = (theme) => {
         localStorage.setItem('theme', theme);
@@ -73,7 +75,8 @@ const Lectura = () => {
                 <Viewer
                     defaultScale
                     theme={theme} onSwitchTheme={handleSwitchTheme} 
-                    fileUrl='Me-llaman-Artemio-Furia-Florencia-Bonelli.pdf'
+                    
+                    fileUrl={"/"+pdf}
                     plugins={[
                         // Register plugins
                         defaultLayoutPluginInstance,

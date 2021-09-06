@@ -85,6 +85,10 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignContent: 'center',
     },
+    link: {
+        color: "white",
+        "text-decoration": "none",
+    },
     content: {
         display: 'flex',
         flexDirection: 'column',
@@ -138,25 +142,25 @@ export default function MiniDrawer() {
                 </div>
                 <Divider />
                 <List>
-                <Link to="/Inicio">
+                <Link to="/Inicio" className={classes.link}>
                     <ListItem button className={classes.texto} >
                         <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                         <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
                     </ListItem>
                     </Link>
-                    <Link to="/Buscar">
+                    <Link to="/Buscar" className={classes.link}>
                     <ListItem button>
                         <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
                     </ListItem>
                     </Link>
-                    <Link to="/Biblioteca">
+                    <Link to="/Biblioteca" className={classes.link}>
                     <ListItem button>
                         <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                         <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
                     </ListItem>
                     </Link>
-                    <Link to="/Publicar">
+                    <Link to="/Publicar"  className={classes.link}>
                     <ListItem button>
                         <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                         <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />

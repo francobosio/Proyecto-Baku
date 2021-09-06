@@ -11,7 +11,7 @@ const useStyles = makeStyles({
         'color':'#FFFFFF',
         'borderRadius': '5rem',
     },
-    
+
     botonVerde:{
     'background-color': '#4B9C8E',
     '&:hover':{
@@ -23,5 +23,5 @@ const useStyles = makeStyles({
 export const LoginButton = (props) => {
     const {loginWithRedirect} = useAuth0();
     const estilos = useStyles();
-    return <Button variant="contained" onClick={() => loginWithRedirect()} className={estilos.boton + ' ' + estilos.botonVerde}> {props.text} </Button>
+    return <Button size='large' onClick={() => loginWithRedirect()} className={estilos.boton + ' ' + estilos.botonVerde}> {props.text} </Button>
 }
