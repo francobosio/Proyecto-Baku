@@ -186,7 +186,7 @@ export default function MiniDrawer() {
                             </Grid>
                             <Grid>
                                 <Typography variant="h4" gutterBottom >
-                                    Publica tu historia
+                                    Publicá tu historia
                                 </Typography>
                             </Grid>
                             <Grid item xl={12} >
@@ -206,7 +206,7 @@ export default function MiniDrawer() {
 
 
                             <Grid item xl={12}>
-                                <Typography>Descripcíon</Typography>
+                                <Typography>Descripción</Typography>
                                 <TextoMultiple />
                             </Grid>
                             <Grid item xs={12}>
@@ -216,7 +216,7 @@ export default function MiniDrawer() {
                             <Grid item xs={12}>
                                 <FormControlLabel
                                     control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-                                    label="Apto para todo publico "
+                                    label="Apto para todo público "
                                 />
                             </Grid>
                             <Grid item xs={12} >

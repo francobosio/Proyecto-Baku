@@ -26,107 +26,84 @@ import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
 import imagen1 from "../Imagenes/1.jpg";
-import imagen2 from "../Imagenes/2.jpg";
+import imagen2 from "../Imagenes/El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur-md.jpg";
 import imagen3 from "../Imagenes/3.jpg";
 import imagen6 from "../Imagenes/6.jpg";
 import imagen7 from "../Imagenes/7.jpg";
 import imagen8 from "../Imagenes/8.jpg";
 import imagen5 from "../Imagenes/5.jpg";
 import imagen4 from "../Imagenes/4.jpg";
-
+import imagen9 from "../Imagenes/Los_120_dias_de_Sodoma-Marques_de_Sade-md.png";
+import imagen10 from "../Imagenes/La_llamada_de_Cthulhu-H._P._Lovecraft-md.jpg"
+import imagen11 from "../Imagenes/Don_Quijote_de_la_Mancha-Cervantes_Miguel-md.png"
 
 const libros = [
     {
-        id: 1,
+        pdf: 'Autobiografia_Charles_Chaplin.pdf',
         image: imagen1,
-        title: '1983'
+        title: 'Chaplin',
+
     },
     {
-        id: 2,
-        image: imagen5,
-        title: 'Russian doll'
-    }, {
-        id: 3,
-        image: imagen4,
-        title: '1983'
-    }, {
-        id: 4,
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
         image: imagen2,
-        title: '1983'
+        title: 'El regreso de Sherlok Holmes',
+
     },
     {
-        id: 5,
+        pdf: 'Biografia_Leonardo_daVinci-CVerdejo.pdf',
         image: imagen3,
-        title: 'Russian doll'
-    }, {
-        id: 6,
-        image: imagen6,
-        title: '1983'
-    }, {
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    }, {
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    }, {
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    }, {
-        id: 7,
-        image: imagen7,
-        title: '1983'
+        title: 'Leonardo',
+
     },
     {
-        id: 8,
-        image: imagen8,
-        title: 'Russian doll'
-    }, {
-        id: 1,
-        image: imagen1,
-        title: '1983'
-    }, {
-        id: 2,
-        image: imagen5,
-        title: 'Russian doll'
-    }, {
-        id: 3,
+        pdf: 'El_maravilloso_Mago_de_Oz-L._Frank_Baum.pdf',
         image: imagen4,
-        title: '1983'
-    }, {
-        id: 4,
-        image: imagen2,
-        title: '1983'
-    }, {
-        id: 4,
-        image: imagen2,
-        title: '1983'
+        title: 'El maravilloso mago de OZ',
+
     },
     {
-        id: 4,
-        image: imagen2,
-        title: '1983'
+        pdf: 'El_Necronomicon-H.P_Lovecraft.pdf',
+        image: imagen5,
+        title: 'El necronomicron',
+
     },
     {
-        id: 5,
-        image: imagen3,
-        title: 'Russian doll'
-    }, {
-        id: 6,
+        pdf: 'El_mundo_perdido-Conan_Doyle_Arthur.pdf',
         image: imagen6,
-        title: '1983'
-    }, {
-        id: 7,
-        image: imagen7,
-        title: '1983'
+        title: 'El mundo perdido',
+
     },
     {
-        id: 8,
+        pdf: 'Bodas_de_Sangre-Garcia_Lorca_Federico.pdf',
+        image: imagen7,
+        title: 'Bodas de sangre',
+
+    },
+    {
+        pdf: 'Heidi-Johanna_Spyri.pdf',
         image: imagen8,
-        title: 'Russian doll'
-    }
+        title: 'Heidi',
+
+    },
+    {
+        pdf: 'Los_120_dias_de_Sodoma-Marques_de_Sade.pdf',
+        image: imagen9,
+        title: 'Los 120 días de sodoma',
+
+    },
+    {
+        pdf: 'La_llamada_de_Cthulhu-H._P._Lovecraft.pdf',
+        image: imagen10,
+        title: 'La llamada de Cthulhu',
+
+    },
+    {
+        pdf: 'Don_Quijote_de_la_Mancha-Cervantes_Miguel.pdf',
+        image: imagen11,
+        title: 'Don Quijote de la Mancha',
+
+    },
 ];
 
 const drawerWidth = 240;
@@ -287,25 +264,25 @@ export default function MiniDrawer() {
                 <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie.pdf}>item1</Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie.pdf}>item1</Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie.pdf}>item1</Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie.pdf}>item1</Slider.Item>
                     ))}
                 </Slider>
                 <Footy />

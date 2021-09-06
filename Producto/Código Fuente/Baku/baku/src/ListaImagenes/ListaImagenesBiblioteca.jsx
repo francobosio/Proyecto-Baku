@@ -18,6 +18,9 @@ import imagen7 from "../Imagenes/7.jpg";
 import imagen8 from "../Imagenes/8.jpg";
 import imagen5 from "../Imagenes/5.jpg";
 import imagen4 from "../Imagenes/4.jpg";
+import imagen9 from "../Imagenes/Los_120_dias_de_Sodoma-Marques_de_Sade-md.png";
+import imagen10 from "../Imagenes/La_llamada_de_Cthulhu-H._P._Lovecraft-md.jpg"
+import imagen11 from "../Imagenes/Don_Quijote_de_la_Mancha-Cervantes_Miguel-md.png"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -65,45 +68,62 @@ const categorias = [
         pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
         img: imagen2,
         title: 'El regreso de Sherlok Holmes',
-        author: 'Conan Doyle',
+        author: 'Arthur Conan Doyle',
     },
     {
+        pdf: 'Biografia_Leonardo_daVinci-CVerdejo.pdf',
         img: imagen3,
         title: 'Leonardo',
-        author: 'author',
+        author: 'C. Verdejo',
     },
     {
+        pdf: 'El_maravilloso_Mago_de_Oz-L._Frank_Baum.pdf',
         img: imagen4,
         title: 'El maravilloso mago de OZ',
-        author: 'author',
+        author: 'Frank Baum',
     },
     {
+        pdf: 'El_Necronomicon-H.P_Lovecraft.pdf',
         img: imagen5,
         title: 'El necronomicron',
-        author: 'author',
-
+        author: 'H.P Lovecraft',
     },
     {
+        pdf: 'El_mundo_perdido-Conan_Doyle_Arthur.pdf',
         img: imagen6,
-        title: 'Image',
-        author: 'author',
+        title: 'El mundo perdido',
+        author: 'Arthur Conan Doyle',
     },
     {
+        pdf: 'Bodas_de_Sangre-Garcia_Lorca_Federico.pdf',
         img: imagen7,
-        title: 'Image',
-        author: 'author',
+        title: 'Bodas de sangre',
+        author: 'Federico Garcia Lorca',
     },
     {
+        pdf: 'Heidi-Johanna_Spyri.pdf',
         img: imagen8,
-        title: 'Image',
-        author: 'author',
+        title: 'Heidi',
+        author: 'Johanna Spyri',
     },
     {
-        img: imagen2,
-        title: 'Image',
-        author: 'author',
+        pdf: 'Los_120_dias_de_Sodoma-Marques_de_Sade.pdf',
+        img: imagen9,
+        title: 'Los 120 días de sodoma',
+        author: 'Marqués de Sade',
     },
-
+    {
+        pdf: 'La_llamada_de_Cthulhu-H._P._Lovecraft.pdf',
+        img: imagen10,
+        title: 'La llamada de Cthulhu',
+        author: 'H.P. Lovecraft',
+    },
+    {
+        pdf: 'Don_Quijote_de_la_Mancha-Cervantes_Miguel.pdf',
+        img: imagen11,
+        title: 'Don Quijote de la Mancha',
+        author: 'Miguel Cervantes',
+    },
 ];
 
 export default function TitlebarImageList() {
