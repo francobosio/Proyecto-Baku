@@ -15,6 +15,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import {Link} from 'react-router-dom';
 import logo from '../Imagenes/Logo Blanco Sin Letras.png';
 import Avatar from '@material-ui/core/Avatar'
+import UndoOutlinedIcon from '@material-ui/icons/UndoOutlined';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -95,6 +96,25 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     "background": "#4B9C8E",
+  },
+
+  boton: {
+    'font-weight': 'bold',
+    'margin': '0 auto',
+    'display': 'flex',
+    'color': '#FFFFFF',
+    'borderRadius': '5rem',
+  },
+  link: {
+    color: "white",
+    "text-decoration": "none",
+  },
+  botonVerde: {
+    'background-color': '#4B9C8E',
+    '&:hover': {
+      'background': '#076F55',
+      'color': '#FFFFFF',
+    }
   },
 }
 ));
@@ -190,7 +210,9 @@ export default function PrimarySearchAppBar() {
           <div >
           <img src={logo} alt="" className={classes.imagen} />
           </div>
-
+          <Button className={classes.boton + " " + classes.botonVerde} variant="contained">
+            <Link className={classes.link} to="/Biblioteca">Atrás</Link>
+          </Button>
           <div className={classes.grow} />
           <div>
             <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
