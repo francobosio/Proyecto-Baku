@@ -18,12 +18,12 @@ export default function Layout() {
                 <div>
                     <Switch>
                         <Route exact path="/" component={Home} />
-                        <Route exact path="/Inicio" component={isLoading? Loading: Inicio} />
-                        <Route exact path="/Lectura/:pdf" component={isLoading? Loading: Lectura}/>
-                        <Route exact path="/Publicar" component={isLoading? Loading: Publicar} />
-                        <Route exact path="/Buscar" component={isLoading? Loading:  Buscar}/>
-                        <Route exact path="/Biblioteca" component={isLoading? Loading:  Biblioteca}/>
-                        <Route exact path="/Perfil" component={isLoading? Loading:  Perfil}/>
+                        <Route exact path="/Inicio" component={isLoading? Loading: isAuthenticated? Inicio:Home} />
+                        <Route exact path="/Lectura/:pdf" component={isLoading? Loading: isAuthenticated?  Lectura: Home}/>
+                        <Route exact path="/Publicar" component={isLoading? Loading: isAuthenticated? Publicar: Home} />
+                        <Route exact path="/Buscar" component={isLoading? Loading: isAuthenticated? Buscar: Home} />
+                        <Route exact path="/Biblioteca" component={isLoading? Loading: isAuthenticated? Biblioteca :Home} />
+                        <Route exact path="/Perfil" component={isLoading? Loading: isAuthenticated? Perfil: Home} />
                         
                         <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                     </Switch>
