@@ -36,8 +36,18 @@ import imagen4 from "../Imagenes/4.jpg";
 import imagen9 from "../Imagenes/Los_120_dias_de_Sodoma-Marques_de_Sade-md.png";
 import imagen10 from "../Imagenes/La_llamada_de_Cthulhu-H._P._Lovecraft-md.jpg"
 import imagen11 from "../Imagenes/Don_Quijote_de_la_Mancha-Cervantes_Miguel-md.png"
+import imagen12 from "../Imagenes/Alicia_en_el_pais_de_las_maravillas-Carroll_Lewis-md.png"
+import imagen13 from "../Imagenes/El_arte_de_la_guerra-Sun_Tzu-md.png"
+import imagen14 from "../Imagenes/El_traje_nuevo_del_emperador-Hans_Christian_Andersen-md.jpg"
+import imagen15 from "../Imagenes/La_divina_comedia-Dante_Alighieri-md.png"
 
 const libros = [
+    {
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
+        image: imagen12,
+        title: 'El regreso de Sherlok Holmes',
+
+    },
     {
         pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
         image: imagen2,
@@ -51,15 +61,33 @@ const libros = [
 
     },
     {
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
+        image: imagen13,
+        title: 'El regreso de Sherlok Holmes',
+
+    },
+    {
         pdf: 'El_maravilloso_Mago_de_Oz-L._Frank_Baum.pdf',
         image: imagen4,
         title: 'El maravilloso mago de OZ',
 
     },
     {
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
+        image: imagen14,
+        title: 'El regreso de Sherlok Holmes',
+
+    },
+    {
         pdf: 'El_Necronomicon-H.P_Lovecraft.pdf',
         image: imagen5,
         title: 'El necronomicron',
+
+    },
+    {
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
+        image: imagen15,
+        title: 'El regreso de Sherlok Holmes',
 
     },
     {
@@ -177,7 +205,7 @@ const useStyles = makeStyles((theme) => ({
 function Item(props) {
     return (
         <Paper>
-            <Image src={props.item.imagen} style={{ width: 180, height: 100, justifyContent: 'center', alignItems: 'center' }} />
+            <Image src={props.item.imagen} style={{ width: 180, height: 100, 'object-fit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
         </Paper>
     )
 }
