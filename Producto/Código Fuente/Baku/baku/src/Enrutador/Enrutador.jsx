@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch, useParams } from "react-router-dom";
 import Home from "../Home/Home.jsx";
 import Inicio from '../Inicio/Inicio.jsx';
-import Lectura from '../Lectura/Lectura.js';
+import Lectura from '../Lectura/Lectura.tsx';
 import Publicar from '../Publicar/Publicar.jsx';
 import Buscar from '../Buscar/Buscar.jsx';
 import Biblioteca from '../Biblioteca/Biblioteca.jsx';

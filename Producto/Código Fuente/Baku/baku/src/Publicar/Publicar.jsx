@@ -108,8 +108,17 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 20,
     },
     btnPublicar: {
-        background: "#4B9C8E",
+        'background-color': '#4B9C8E',
+        'borderRadius': '5rem',
+        '&:hover': {
+            'background': '#076F55',
+            'color': '#FFFFFF',
+        }
+        
     },
+    container:{
+        'background': 'linear-gradient(180deg, #076F55 0%, #C2F1E9 100%);',
+    }
 }));
 
 
@@ -180,7 +189,6 @@ export default function MiniDrawer() {
                 <AppBar />
                 <React.Fragment>
                     <Container >
-
                         <Grid container spacing={3}>
                             <Grid item xl={12}>
                             </Grid>
@@ -203,8 +211,6 @@ export default function MiniDrawer() {
                                     autoComplete="given-name"
                                 />
                             </Grid>
-
-
                             <Grid item xl={12}>
                                 <Typography>Descripción</Typography>
                                 <TextoMultiple />

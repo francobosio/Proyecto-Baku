@@ -25,7 +25,7 @@ export default function MultilineTextFields() {
         
       <TextField
           id="standard-textarea"
-          label="Descripcíon"
+          label="Descripción"
           rows={3}
           multiline
         />
