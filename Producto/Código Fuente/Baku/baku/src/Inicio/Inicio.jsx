@@ -46,13 +46,13 @@ const libros = [
         pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
         image: imagen12,
         title: 'El regreso de Sherlok Holmes',
-
+        
     },
     {
         pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
         image: imagen2,
         title: 'El regreso de Sherlok Holmes',
-
+        description: 'El regreso de Sherlock Holmes es una colección de 13 historias cortas de Sir Arthur Conan Doyle. Fue publicada por primera vez en The Strand Magazine entre octubre de 1903 y diciembre de 1904 con ilustraciones originales de Sidney Paget. ',
     },
     {
         pdf: 'Biografia_Leonardo_daVinci-CVerdejo.pdf',

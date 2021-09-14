@@ -1,6 +1,6 @@
 .content {
   position: relative;
-  height: 37vw;
+  height: 40vh;
   margin-top: -40px;
 
   &__background,
@@ -18,7 +18,7 @@
 
     &__shadow {
       left: 0;
-      background: #000;
+      background-image: linear-gradient(to right,#4B9C8E,#076F55);
       width: 30%;
       z-index: 2;
 
@@ -26,7 +26,7 @@
         content: '';
         position: absolute;
         z-index: 10;
-        background-image: linear-gradient(to right,#000,transparent);
+        background-image: linear-gradient(to right,#4B9C8E,#076F55);
         top: 0;
         bottom: 0;
         left: 100%;
@@ -49,35 +49,52 @@
     right: 0;
     height: 100%;
     z-index: 3;
+    background-image: linear-gradient(to right,#4B9C8E,#076F55);
 
     &__container {
       padding: 30px 70px;
-      color: wheat;
+      color: rgb(0, 0, 0);
     }
   }
 
   &__title {
     font-size: 45px;
-    color: #fff;
+    color: rgb(255, 255, 255);
     font-weight: 700;
   }
 
   &__description {
-    font-size: 18px;
-    color: #999;
+    font-size: 1.2em;
+    color: rgb(255, 255, 255);
     margin-top: 20px;
-    max-width: 500px;
+    max-width: 70vw;
   }
 
   &__close {
-    color: #fff;
-    width: 40px;
-    height: 40px;
+    color: rgb(255, 255, 255);
+    width: 2.5em;
+    height: 2.5em;
     background: transparent;
     outline: none;
     border: none;
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 2em;
+    right: 2em;
+  }
+
+  &__read{
+    color: rgb(255, 255, 255);
+    width: 4em;
+    height: 4em;
+    background: transparent;
+    outline: none;
+    border: none;
+    position: absolute;
+    top: 8em;
+    right: 2em;
+  }
+
+  &__read-button{
+    color: rgb(255, 255, 255);
   }
 }

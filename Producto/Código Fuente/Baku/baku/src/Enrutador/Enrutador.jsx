@@ -11,11 +11,15 @@ import Perfil from '../Login/Perfil.jsx'
 import {Loading} from  '../Login/Loading.jsx'
 
 export default function Layout() {
+    {/* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
+    isAuthenticated permite saber si el usuario esta autenticado, isLoading permite saber si la aplicación esta cargando datos desde auth0 */}
     const {isAuthenticated, isLoading} = useAuth0();
     return (
         <div>
             <BrowserRouter>
                 <div>
+                    {/* Mediante un switch se configura cada ruta con el componente correspondiente, mediante ternarios verifico si la pagina esta cargando y si el 
+                        usuario esta logueado */}
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/Inicio" component={isLoading? Loading: isAuthenticated? Inicio:Home} />
