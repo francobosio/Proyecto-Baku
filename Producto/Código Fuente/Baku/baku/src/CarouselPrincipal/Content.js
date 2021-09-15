@@ -1,7 +1,6 @@
 import React from 'react';
 import IconCross from '../Icons/IconCross';
 import './Content.scss';
-import IconButton from '@material-ui/core/IconButton';
 import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
 import {Link} from "react-router-dom";
 

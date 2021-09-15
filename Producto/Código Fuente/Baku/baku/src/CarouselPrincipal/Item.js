@@ -4,23 +4,19 @@ import SliderContext from './context'
 import ShowDetailsButton from './ShowDetailsButton'
 import Mark from './Mark'
 import './Item.scss'
-import {Link} from "react-router-dom";
 
 const Item = ({ movie }) => (
   <SliderContext.Consumer>
     {({ onSelectSlide, currentSlide, elementRef }) => {
-      const isActive = currentSlide && currentSlide.id === movie.id;
+      const isActive = false;
       return (
         <div
           ref={elementRef}
           className={cx('item', {
-            'item--open': isActive,
+            'item--open': true,
           })}
         >
-          <img src={movie.image} alt="">
-
-          </img>
-          <ShowDetailsButton onClick={() => onSelectSlide(movie)} />
+          <img src={movie.image} alt="" onClick={() => onSelectSlide(movie)} ></img>
           {isActive && <Mark />}
         </div>
       );
