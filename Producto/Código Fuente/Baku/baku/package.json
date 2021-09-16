@@ -12,6 +12,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@trejgun/material-ui-icons-google": "0.0.3",
+    "axios": "^0.21.4",
     "classnames": "^2.2.6",
     "date-fns": "^2.22.1",
     "material-ui-image": "^3.3.2",
