@@ -15,7 +15,7 @@ import { Grid } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper'
 
 import imagenFondo from '../Imagenes/book_fantasy_5k.jpg';
-import logoBaku from '../Imagenes/Logo Baku Negro.png';
+import logoBaku from '../Imagenes/Logo_Baku_Negro_sin_fondo.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
