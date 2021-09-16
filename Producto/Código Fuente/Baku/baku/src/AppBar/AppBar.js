@@ -13,6 +13,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
+import { useAuth0 } from '@auth0/auth0-react';
+import {Link} from 'react-router-dom';
+import Avatar from '@material-ui/core/Avatar'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -72,10 +75,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   btnSuscripcion: {
-    background: "#A69716",
+    background: "#EABE3F",
     color: "white",
+    'borderRadius': '5rem',
     "margin-right": "30px",
-
+    '&:hover': {
+      'background': '#E5A65E',
+      'color': '#FFFFFF',
+    }
   },
   sectionMobile: {
     display: 'flex',
@@ -90,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
 ));
 
 export default function PrimarySearchAppBar() {
+  const {logout, user} = useAuth0();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -124,8 +132,10 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/Perfil">Perfil</Link>
+      </MenuItem>
+      <MenuItem onClick={logout}>Cerrar Sesión</MenuItem>
     </Menu>
   );
 
@@ -194,12 +204,12 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={30} color="secondary">
+              <Badge color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
+              <Badge color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -211,7 +221,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+            <Avatar alt={user.name} src={user.picture}></Avatar>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>

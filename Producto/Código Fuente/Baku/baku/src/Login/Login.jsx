@@ -13,6 +13,10 @@ import { Link } from "react-router-dom";
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+import { LoginButton } from './LoginMetodo';
+import { LogoutButton } from './Logout';
+import Profile from './Profile';
+
 const useStyles = makeStyles({
     fondo: {
         'background': 'linear-gradient(180deg, #076F55 0%, #C2F1E9 100%);',

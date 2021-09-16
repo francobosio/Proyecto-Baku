@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Carousel from 'react-material-ui-carousel';
 import { Paper, Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
@@ -16,122 +9,112 @@ import Slider from '../CarouselPrincipal';
 import Image from 'material-ui-image';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-//Iconos
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-import MenuBookOutlinedIcon from '@material-ui/icons/MenuBookOutlined';
-import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
+import {MiDrawer} from "../Drawer/Drawer.jsx"
 
 //Imagenes
-import Logo from '../Imagenes/Logo_baku_blanco.png';
-import los40 from "../Imagenes/los40.svg";
 import imagen1 from "../Imagenes/1.jpg";
-import imagen2 from "../Imagenes/2.jpg";
+import imagen2 from "../Imagenes/El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur-md.jpg";
 import imagen3 from "../Imagenes/3.jpg";
 import imagen6 from "../Imagenes/6.jpg";
 import imagen7 from "../Imagenes/7.jpg";
 import imagen8 from "../Imagenes/8.jpg";
 import imagen5 from "../Imagenes/5.jpg";
 import imagen4 from "../Imagenes/4.jpg";
-
+import imagen9 from "../Imagenes/Los_120_dias_de_Sodoma-Marques_de_Sade-md.png";
+import imagen10 from "../Imagenes/La_llamada_de_Cthulhu-H._P._Lovecraft-md.jpg"
+import imagen11 from "../Imagenes/Don_Quijote_de_la_Mancha-Cervantes_Miguel-md.png"
+import imagen12 from "../Imagenes/Alicia_en_el_pais_de_las_maravillas-Carroll_Lewis-md.png"
+import imagen13 from "../Imagenes/El_arte_de_la_guerra-Sun_Tzu-md.png"
+import imagen14 from "../Imagenes/El_traje_nuevo_del_emperador-Hans_Christian_Andersen-md.jpg"
+import imagen15 from "../Imagenes/La_divina_comedia-Dante_Alighieri-md.png"
 
 const libros = [
     {
-        id: 1,
-        image: imagen1,
-        title: '1983'
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
+        image: imagen12,
+        title: 'El regreso de Sherlok Holmes',
+
     },
     {
-        id: 2,
-        image: imagen5,
-        title: 'Russian doll'
-    }, {
-        id: 3,
-        image: imagen4,
-        title: '1983'
-    }, {
-        id: 4,
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
         image: imagen2,
-        title: '1983'
+        title: 'El regreso de Sherlok Holmes',
+
     },
     {
-        id: 5,
+        pdf: 'Biografia_Leonardo_daVinci-CVerdejo.pdf',
         image: imagen3,
-        title: 'Russian doll'
-    }, {
-        id: 6,
-        image: imagen6,
-        title: '1983'
-    }, {
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    }, {
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    }, {
-        id: 7,
-        image: imagen7,
-        title: '1983'
-    }, {
-        id: 7,
-        image: imagen7,
-        title: '1983'
+        title: 'Leonardo',
+
     },
     {
-        id: 8,
-        image: imagen8,
-        title: 'Russian doll'
-    }, {
-        id: 1,
-        image: imagen1,
-        title: '1983'
-    }, {
-        id: 2,
-        image: imagen5,
-        title: 'Russian doll'
-    }, {
-        id: 3,
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
+        image: imagen13,
+        title: 'El regreso de Sherlok Holmes',
+
+    },
+    {
+        pdf: 'El_maravilloso_Mago_de_Oz-L._Frank_Baum.pdf',
         image: imagen4,
-        title: '1983'
-    }, {
-        id: 4,
-        image: imagen2,
-        title: '1983'
-    }, {
-        id: 4,
-        image: imagen2,
-        title: '1983'
+        title: 'El maravilloso mago de OZ',
+
     },
     {
-        id: 4,
-        image: imagen2,
-        title: '1983'
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
+        image: imagen14,
+        title: 'El regreso de Sherlok Holmes',
+
     },
     {
-        id: 5,
-        image: imagen3,
-        title: 'Russian doll'
-    }, {
-        id: 6,
+        pdf: 'El_Necronomicon-H.P_Lovecraft.pdf',
+        image: imagen5,
+        title: 'El necronomicron',
+
+    },
+    {
+        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
+        image: imagen15,
+        title: 'El regreso de Sherlok Holmes',
+
+    },
+    {
+        pdf: 'El_mundo_perdido-Conan_Doyle_Arthur.pdf',
         image: imagen6,
-        title: '1983'
-    }, {
-        id: 7,
-        image: imagen7,
-        title: '1983'
+        title: 'El mundo perdido',
+
     },
     {
-        id: 8,
+        pdf: 'Bodas_de_Sangre-Garcia_Lorca_Federico.pdf',
+        image: imagen7,
+        title: 'Bodas de sangre',
+
+    },
+    {
+        pdf: 'Heidi-Johanna_Spyri.pdf',
         image: imagen8,
-        title: 'Russian doll'
-    }
+        title: 'Heidi',
+
+    },
+    {
+        pdf: 'Los_120_dias_de_Sodoma-Marques_de_Sade.pdf',
+        image: imagen9,
+        title: 'Los 120 días de sodoma',
+
+    },
+    {
+        pdf: 'La_llamada_de_Cthulhu-H._P._Lovecraft.pdf',
+        image: imagen10,
+        title: 'La llamada de Cthulhu',
+
+    },
+    {
+        pdf: 'Don_Quijote_de_la_Mancha-Cervantes_Miguel.pdf',
+        image: imagen11,
+        title: 'Don Quijote de la Mancha',
+
+    },
 ];
 
-const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -144,33 +127,6 @@ const useStyles = makeStyles((theme) => ({
     },
     icono: {
         marginLeft: -3,
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        alingItems: 'center',
-        whiteSpace: 'nowrap',
-        background: '#4B9C8E',
-    },
-    drawerOpen: {
-        width: drawerWidth,
-        background: '#4B9C8E',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerClose: {
-        background: '#4B9C8E',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: 'hidden',
-        width: theme.spacing(7) + 1,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(7) + 1,
-        },
     },
     toolbar: {
         // display: 'flex',
@@ -198,13 +154,17 @@ const useStyles = makeStyles((theme) => ({
     },
     titulo: {
         marginLeft: 20,
+    },
+    link: {
+        color: "white",
+        "text-decoration": "none",
     }
 }));
 
 function Item(props) {
     return (
         <Paper>
-            <Image src={props.item.imagen} style={{ width: 180, height: 100, justifyContent: 'center', alignItems: 'center' }} />
+            <Image src={props.item.imagen} style={{ width: 180, height: 100, 'object-fit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
         </Paper>
     )
 }
@@ -219,11 +179,6 @@ export default function Inicio() {
     }, [])
 
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-
-    const handleDrawerOpenClose = () => {
-        open === true ? setOpen(false) : setOpen(true);
-    }
     const items = [
         { imagen: imagen1 },
         { imagen: imagen4 },
@@ -232,57 +187,7 @@ export default function Inicio() {
 
     return (
         <div className={classes.root}>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    }),
-                }}
-            >
-                <div className={classes.toolbar}>
-                    <Image src={Logo} aspectRatio={2.4} color={"#4B9C8E"} />
-                    <IconButton className={classes.icono} onClick={handleDrawerOpenClose} style={{ color: "#FFFFFF" }} >
-                        {open === false ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
-                <List>
-                    <Link to="/Inicio">
-                        <ListItem button className={classes.texto} >
-                            <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
-                        </ListItem>
-                    </Link>
-                    <Link to="/Buscar">
-                        <ListItem button>
-                            <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
-                        </ListItem>
-                    </Link>
-                    <Link to="/Biblioteca">
-                        <ListItem button>
-                            <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
-                        </ListItem>
-                    </Link>
-                    <Link to="/Publicar">
-                        <ListItem button>
-                            <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
-                        </ListItem>
-                    </Link>
-                </List>
-                <Divider />
-
-            </Drawer>
-            <Divider />
-
+            <MiDrawer />
             <main className={classes.content}>
                 <AppBar />
 
@@ -294,25 +199,25 @@ export default function Inicio() {
                 <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie.pdf}>item1</Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie.pdf}>item1</Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie.pdf}>item1</Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie.id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie.pdf}>item1</Slider.Item>
                     ))}
                 </Slider>
                 <Footy />

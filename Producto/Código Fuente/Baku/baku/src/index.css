@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*
+.rpv-core__text-layer-text {
+  color: white !important;
+  left:0em  !important;
+  word-spacing: 0px !important;
+  font-size: 1em !important;
+}
+*/
