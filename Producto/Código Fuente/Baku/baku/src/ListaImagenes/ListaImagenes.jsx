@@ -1,8 +1,12 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { alpha, makeStyles } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import { Grid } from '@material-ui/core';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
+import Divider from '@material-ui/core/Divider';
 
 //Imagenes
 import arte from "./Categorias/categoria_arte.png";
@@ -20,11 +24,11 @@ import biografias from "./Categorias/categoria_biografias.png";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        'background': '#99cfbf',
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
     },
     imageList: {
         width: 900,
@@ -37,13 +41,56 @@ const useStyles = makeStyles((theme) => ({
         color: "black",
 
     },
+    divider:{
+        padding: '2vh 0 2vh 0',
+        backgroundColor: '#fff',
+    },
     imagen: {
         top: "50%",
         width: "100%",
         "position": "relative",
         transform: "translateY(-50%)",
     },
-
+    grid: {
+        display: "flex",
+        "place-items": "center",
+        "justify-content": "center",
+        "flex-direction": "column",
+    },
+    search: {
+        'display': 'flex',
+        'align-items': 'center',
+        'text-align': 'center',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: '#076F55',
+        width: '35em',
+        height: '3em'
+    },
+    searchIcon: {
+        padding: theme.spacing(0, 2),
+        height: '80%',
+        color: '#fff',
+        pointerEvents: 'none',
+        'display': 'flex',
+        'align-items': 'center',
+        'text-align': 'center',
+    },
+    inputInput: {
+        color: '#fff',
+        opacity: 0.5,
+        'display': 'flex',
+        'align-items': 'center',
+        'text-align': 'center',
+        'font-size':'1.5em',
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '100%',
+        },
+    },
 }));
 
 
@@ -91,16 +138,32 @@ export default function TitlebarImageList() {
 
     return (
         <div className={classes.root}>
-            <ImageList rowHeight={320} className={classes.imageList} cols={3} gap={20}>
-                <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
-                    <ListSubheader component="div" className={classes.titulo}>Explorar todo:</ListSubheader>
-                </ImageListItem>
-                {categorias.map((item) => (
-                    <ImageListItem key={item.img}>
-                        <img src={item.img} alt={item.title} />
+            <Grid className={classes.grid}>
+                <Divider className={classes.divider}/>
+                <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                        <SearchIcon />
+                    </div>
+                    <InputBase
+                        placeholder="Buscar:"
+                        classes={{
+                            input: classes.inputInput,
+                        }}
+                        inputProps={{ 'aria-label': 'search' }}
+                    />
+                </div>
+                <Divider className={classes.divider}/>
+                <ImageList rowHeight={320} className={classes.imageList} cols={3} gap={20}>
+                    <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
+                        <ListSubheader component="div" className={classes.titulo}>Explorar todo:</ListSubheader>
                     </ImageListItem>
-                ))}
-            </ImageList>
+                    {categorias.map((item) => (
+                        <ImageListItem key={item.img}>
+                            <img src={item.img} alt={item.title} />
+                        </ImageListItem>
+                    ))}
+                </ImageList>
+            </Grid>
         </div>
     );
 }

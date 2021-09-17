@@ -115,6 +115,7 @@ const libros = [
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        'background': '#99cfbf',
     },
     menuButton: {
         marginRight: 36,
@@ -151,6 +152,8 @@ const useStyles = makeStyles((theme) => ({
     },
     titulo: {
         marginLeft: 20,
+        'font-weight': 'bold',
+        'color': '#000',
     },
     link: {
         color: "white",

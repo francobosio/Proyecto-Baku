@@ -14,6 +14,7 @@ import {MiDrawer} from "../Drawer/Drawer.jsx"
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        'background': '#99cfbf',
         display: 'flex',
     },
     menuButton: {
