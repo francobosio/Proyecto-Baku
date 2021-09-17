@@ -2,22 +2,21 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import ButtonBase from '@material-ui/core/ButtonBase';
 
 //Imagenes
-import imagen1 from "../Imagenes/1.jpg";
-import imagen2 from "../Imagenes/2.jpg";
-import imagen3 from "../Imagenes/3.jpg";
-import imagen6 from "../Imagenes/6.jpg";
-import imagen7 from "../Imagenes/7.jpg";
-import imagen8 from "../Imagenes/8.jpg";
-import imagen5 from "../Imagenes/5.jpg";
-import imagen4 from "../Imagenes/4.jpg";
-import { Button } from '@material-ui/core';
+import arte from "./Categorias/categoria_arte.png";
+import ciencia_ficcion from "./Categorias/categoria_ciencia_ficcion.png";
+import fantasia from "./Categorias/categoria_fantasia.png";
+import infantil from "./Categorias/categoria_infantil.png";
+import terror from "./Categorias/categoria_terror.png";
+import aventura from "./Categorias/categoria_aventura.png";
+import viajes from "./Categorias/categoria_viajes.png";
+import romantico from "./Categorias/categoria_romantico.png";
+import policial from "./Categorias/categoria_policial.png";
+import poesia from "./Categorias/categoria_poesia.png";
+import teatro from "./Categorias/categoria_teatro.png";
+import biografias from "./Categorias/categoria_biografias.png";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,50 +49,41 @@ const useStyles = makeStyles((theme) => ({
 
 const categorias = [
     {
-        img: imagen1,
-        title: 'Arte',
+        img: arte,
     },
     {
-        img: imagen2,
-        title: 'Ciencia Ficcion',
-
+        img: ciencia_ficcion,
     },
     {
-        img: imagen3,
-        title: 'Aventura',
-
+        img: fantasia,
     },
     {
-        img: imagen4,
-        title: 'Policial',
-
+        img: infantil,
     },
     {
-        img: imagen5,
-        title: 'Fantastico',
-
+        img: terror,
     },
     {
-        img: imagen6,
-        title: 'Romantico',
-        author: 'Romantico',
+        img: aventura,
     },
     {
-        img: imagen7,
-        title: 'Infantil',
-        author: 'Infantil',
+        img: viajes,
     },
     {
-        img: imagen8,
-        title: 'Teatro',
-        author: 'Teatro',
+        img: romantico,
     },
     {
-        img: imagen2,
-        title: 'Bibliografico',
-        author: 'Bibliografico',
+        img: policial,
     },
-
+    {
+        img: poesia,
+    },
+    {
+        img: teatro,
+    },
+    {
+        img: biografias,
+    },
 ];
 
 export default function TitlebarImageList() {
@@ -108,10 +98,6 @@ export default function TitlebarImageList() {
                 {categorias.map((item) => (
                     <ImageListItem key={item.img}>
                         <img src={item.img} alt={item.title} />
-                        <ImageListItemBar
-                            title={item.title}
-                            position='top'
-                        />
                     </ImageListItem>
                 ))}
             </ImageList>
