@@ -13,10 +13,10 @@ const Content = ({ movie, onClose }) => (
           {movie.description}
         </div>
       </div>
-      <button className="content__close" onClick={onClose}>
+      <button className="content__close" onClick={onClose} title={"Cerrar"}>
         <IconCross />
       </button>
-      <button className="content__read" onClick={onClose}>
+      <button className="content__read" onClick={onClose} title={"Leer este libro"}>
         <Link to={"/Lectura/" + movie.pdf} >
           <LocalLibraryOutlinedIcon style={{fontSize:"4em"}} className="content__read-button"/>
         </Link>

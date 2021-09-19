@@ -1,7 +1,7 @@
 .content {
   position: relative;
-  height: 40vh;
-  margin-top: -40px;
+  height: 17em;
+  margin-top: -2.5em;
 
   &__background,
   &__background__shadow,
@@ -66,8 +66,8 @@
   &__description {
     font-size: 1.2em;
     color: rgb(255, 255, 255);
-    margin-top: 20px;
-    max-width: 70vw;
+    margin-top: 1em;
+    max-width: 80em;
   }
 
   &__close {

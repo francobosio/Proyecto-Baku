@@ -114,7 +114,7 @@ export default function TitlebarImageList() {
                                 subtitle={<span>por: {item.author}</span>}
                                 position='bottom'
                                 actionIcon={
-                                    <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
+                                    <IconButton aria-label={`info about ${item.title}`} className={classes.icon} title={"Leer este libro"}>
                                         <Link to={"/Lectura/" + item.pdf} >
                                             <LocalLibraryOutlinedIcon className={classes.icono} />
                                         </Link>
