@@ -9,7 +9,6 @@ import Image from 'material-ui-image';
 import {MiDrawer} from "../Drawer/Drawer.jsx"
 
 //Imagenes
-import imagen1 from "../Imagenes/1.jpg";
 import imagen2 from "../Imagenes/El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur-md.jpg";
 import imagen3 from "../Imagenes/3.jpg";
 import imagen6 from "../Imagenes/6.jpg";
@@ -171,7 +170,7 @@ function Item(props) {
 export default function MiniDrawer() {
     const classes = useStyles();
     const items = [
-        { imagen: imagen1 },
+        { imagen: imagen11 },
         { imagen: imagen4 },
         { imagen: imagen5 },
     ]
