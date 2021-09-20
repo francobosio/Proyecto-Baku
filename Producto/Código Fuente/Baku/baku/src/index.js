@@ -6,11 +6,15 @@ import './index.css';
 import Enrutador from './Enrutador/Enrutador.jsx';
 import reportWebVitals from './reportWebVitals';
 
+// busco las variables de dominio y id de cliente para la autenticacion con auth0 estos datos quedaran en el servidor para aumentar la seguridad, 
+// estas varialbes estan guardadas en el archivo .env
 const domain = process.env.REACT_APP_AUTH0_DOMAIN
 const client_id = process.env.REACT_APP_AUTH0_CLIENT_ID
 
 ReactDOM.render(
   <React.StrictMode>
+    {/*Auth0 Provider es la api que provee auth0 para realizar el logueo, requiere de un dominio y un id de cliente para realizar el logueo,
+    y una url que será adonde redireccionará luego del logueo*/}
     <Auth0Provider domain={domain} clientId={client_id} redirectUri={"http://localhost:3000/Inicio"}>
       <Enrutador/>
     </Auth0Provider>

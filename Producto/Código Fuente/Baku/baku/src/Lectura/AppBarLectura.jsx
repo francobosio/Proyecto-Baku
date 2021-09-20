@@ -15,7 +15,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import {Link} from 'react-router-dom';
 import logo from '../Imagenes/Logo Blanco Sin Letras.png';
 import Avatar from '@material-ui/core/Avatar'
-import UndoOutlinedIcon from '@material-ui/icons/UndoOutlined';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -120,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
 ));
 
 export default function PrimarySearchAppBar() {
+  let history = useHistory()
   const {logout, user} = useAuth0();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -211,7 +212,7 @@ export default function PrimarySearchAppBar() {
           <img src={logo} alt="" className={classes.imagen} />
           </div>
           <Button className={classes.boton + " " + classes.botonVerde} variant="contained">
-            <Link className={classes.link} to="/Biblioteca">Atrás</Link>
+            <Button className={classes.link} onClick={history.goBack}>Atrás</Button>
           </Button>
           <div className={classes.grow} />
           <div>
