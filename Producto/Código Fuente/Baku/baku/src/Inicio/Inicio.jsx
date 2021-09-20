@@ -57,7 +57,7 @@ const libros = [
     {
         pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
         image: imagen14,
-        title: 'El regreso de Sherlok Holmes',
+        title: 'El traje nuevo del emperador',
         description: '"Hace muchos años había un Emperador tan aficionado a los trajes nuevos, que gastaba todas sus rentas en vestir con la máxima elegancia. No se interesaba por sus soldados ni por el teatro, ni le gustaba salir de paseo por el campo, a menos que fuera para lucir sus trajes nuevos. Tenía un vestido distinto para cada hora del día, y de la misma manera que se dice de un rey: "Está en el Consejo", de nuestro hombre se decía: "El Emperador está en el vestuario"',
     },
     {
