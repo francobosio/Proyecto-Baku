@@ -6,9 +6,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(0),
-      width: '60ch',
+      width: '35rem',
+      'backgroundColor': '#fff',
+      'borderRadius': '0.2rem',
     },
+    '& .MuiInputBase-input':{
+      'color': '#000',
+    }
   },
+  
 }));
 
 export default function MultilineTextFields() {
@@ -25,7 +31,6 @@ export default function MultilineTextFields() {
         
       <TextField
           id="standard-textarea"
-          label="Descripción"
           rows={3}
           multiline
         />
