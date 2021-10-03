@@ -1,167 +1,94 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { Paper, Typography } from '@material-ui/core';
-import AppBar from '../AppBar/AppBar.js';
-import Footy from '../Footy/Footy.jsx';
-import Image from 'material-ui-image';
-import { Link } from 'react-router-dom';    
-import Profile from  './Profile.jsx'
-//Iconos
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-import MenuBookOutlinedIcon from '@material-ui/icons/MenuBookOutlined';
-import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "../AppBar/AppBar.js";
+import Footy from "../Footy/Footy.jsx";
+import { MiDrawer } from "../Drawer/Drawer.jsx";
+import { useAuth0 } from "@auth0/auth0-react";
+import Grid from "@material-ui/core/Grid";
+import { Typography } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 
-//Imagenes
-import Logo from '../Imagenes/Logo_baku_blanco.png';
-
-const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
-    menuButton: {
-        marginRight: 36,
-    },
-    hide: {
-        display: 'none',
-    },
-    icono: {
-        marginLeft: -3,
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        alingItems: 'center',
-        whiteSpace: 'nowrap',
-        background: '#4B9C8E',
-    },
-    drawerOpen: {
-        width: drawerWidth,
-        background: '#4B9C8E',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerClose: {
-        background: '#4B9C8E',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: 'hidden',
-        width: theme.spacing(7) + 1,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(7) + 1,
-        },
-    },
-    toolbar: {
-        // display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-    },
-
-    content: {
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1,
-    },
-    slider:{
-        marginTop:500,
-    },
-    titulo:{
-        marginLeft: 20,
-    }
+  root: {
+    background: "#99cfbf",
+    display: "flex",
+  },
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+  },
+  img: {
+    margin: "auto",
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "100%",
+    paddingLeft: "1rem",
+  },
+  fondo: {
+    width: "60rem",
+    backgroundColor: "#7ec2ae",
+    minHeight: "60vh",
+  },
+  grid: {
+    padding: "1.5rem",
+  },
+  titulo: {
+    fontWeight: "bold",
+    fontSize: "2rem",
+    padding: "1rem 0 0 1rem",
+  },
+  texto:{
+      fontWeight: "bold",
+      fontSize: "1.1rem",
+  },
 }));
 
-function Item(props) {
-    return (
-        <Paper>
-            <Image src={props.item.imagen} style={{ width: 180, height: 100, justifyContent: 'center', alignItems: 'center' }} />
-        </Paper>
-    )
-}
-export default function MiniDrawer() {
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+export default function Perfil() {
+  const { user, isAuthenticated } = useAuth0();
+  const classes = useStyles();
 
-    const handleDrawerOpenClose = () => {
-        setOpen(!open)
-    }
-
-    return (
-        <div className={classes.root}>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    }),
-                }}
-            >
-                <div className={classes.toolbar}>
-                    <Image src={Logo} aspectRatio={2.4} color={"#4B9C8E"} />
-                    <IconButton className={classes.icono} onClick={handleDrawerOpenClose} style={{ color: "#FFFFFF" }} >
-                        {open === false ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
-                <List>
-                <Link to="/Inicio">
-                    <ListItem button className={classes.texto} >
-                        <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
-                    </Link>
-                    <Link to="/Buscar">
-                    <ListItem button>
-                        <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
-                    </ListItem>
-                    </Link>
-                    <Link to="/Biblioteca">
-                    <ListItem button>
-                        <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
-                    </Link>
-                    <Link to="/Publicar">
-                    <ListItem button>
-                        <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
-                    </Link>
-                </List>
-                <Divider />
-
-            </Drawer>
-            <Divider />
-
-            <main className={classes.content}>
-                <AppBar />
-                <Profile/>
-                <Footy/>
-            </main>
-            
+  return (
+    isAuthenticated && (
+      <div className={classes.root}>
+        <MiDrawer />
+        <div className={classes.content}>
+          <AppBar />
+          <React.Fragment>
+            <Container className={classes.fondo}>
+              <Typography className={classes.titulo}>Tu Perfil</Typography>
+              <Grid container spacing={2} justifyContent="flex-start" alignItems="flex-start" className={classes.grid}>
+                <Grid item xs={10}>
+                  <img
+                    alt="complex"
+                    src={user.picture}
+                    className={classes.img}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography className={classes.texto}>Nombre y apellido:</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography>{user.name}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography className={classes.texto}>Email:</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography>{user.email}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography className={classes.texto}>Nombre de usuario:</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography>{user.nickname}</Typography>
+                </Grid>
+              </Grid>
+            </Container>
+          </React.Fragment>
+          <Footy />
         </div>
-    );
+      </div>
+    )
+  );
 }
