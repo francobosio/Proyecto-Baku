@@ -24,7 +24,7 @@ import { makeStyles } from '@material-ui/core/styles';
 //------------------------------------------------------------------------------------------------------------
 import React, { useRef, useEffect } from 'react';
 
-import AppBar from '../Lectura/AppBarLectura';
+import AppBar from './AppBarLectura';
 import Footy from '../Footy/Footy.jsx';
 
 import {useParams } from "react-router-dom";
@@ -91,9 +91,30 @@ const Lectura = () => {
     const { SwitchThemeButton } = themePluginInstance;
     
     const handleSwitchTheme = (theme: string) => {
-        localStorage.setItem('theme', theme);
+        localStorage.setItem('theme', theme)
+        setCurrentTheme(theme);
     };
     const theme = localStorage.getItem('theme') || 'light';
+
+    function firstElement(theme: string) {
+        var css2 = null;
+        if (theme!='light')
+        {
+            css2 = `
+            .rpv-core__text-layer {
+            background-color: #161616 !important;
+            opacity: 1 !important;
+            }
+    
+            .rpv-core__text-layer-text {
+                color: white !important;
+              }
+            `
+            return  css2;
+
+        }
+        return css2;
+      }
 
     //BookMark
     const bookmarkPluginInstance = bookmarkPlugin();
@@ -217,7 +238,9 @@ const Lectura = () => {
 
     return (
       <div className={classes.root}>
-      
+        <style>
+            {firstElement(currentTheme)}
+        </style>
         <AppBar/>
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
             <div className={classes.viewer}>
@@ -234,7 +257,7 @@ const Lectura = () => {
                         defaultLayoutPluginInstance,
                         readingIndicatorPluginInstance
                         ]}
-                />
+                >{currentTheme}</Viewer>
             </div>
         </Worker>
 

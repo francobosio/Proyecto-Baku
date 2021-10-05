@@ -71,12 +71,13 @@ const useStyles = makeStyles((theme) => ({
 
 export const MiDrawer = () => {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(localStorage.getItem('open')||false);
 
     const handleDrawerOpenClose = () => {
         open === true ? setOpen(false) : setOpen(true);
+        localStorage.setItem('open', open)
     }
-
+ 
     return (
         <div className={classes.root}>
             <Drawer

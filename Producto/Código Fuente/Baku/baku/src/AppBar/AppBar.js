@@ -67,6 +67,10 @@ const useStyles = makeStyles((theme) => ({
       width: '20ch',
     },
   },
+  link: {
+    color: "#000",
+    "text-decoration": "none",
+  },
   sectionDesktop: {
 
     display: 'none',
@@ -133,7 +137,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        <Link to="/Perfil">Perfil</Link>
+        <Link className={classes.link} to="/Perfil">Perfil</Link>
       </MenuItem>
       <MenuItem onClick={logout}>Cerrar Sesión</MenuItem>
     </Menu>

@@ -9,9 +9,8 @@ import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 400,
+    minWidth: '20rem',
+    maxWidth: '35rem',
   },
   chips: {
     display: 'flex',
@@ -70,8 +69,6 @@ export default function MultipleSelect() {
  
   return (
     <div>
-      
-      
       <FormControl className={classes.formControl}>
         <InputLabel id="demo-mutiple-chip-label"></InputLabel>
         <Select

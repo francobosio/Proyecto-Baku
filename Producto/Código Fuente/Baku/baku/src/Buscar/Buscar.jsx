@@ -10,6 +10,7 @@ import {MiDrawer} from "../Drawer/Drawer.jsx"
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        'background': '#99cfbf',
     },
     menuButton: {
         marginRight: 36,
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
         "text-decoration": "none",
     },
     content: {
+        'background': '#99cfbf',
         display: 'flex',
         flexDirection: 'column',
         flex: 1,

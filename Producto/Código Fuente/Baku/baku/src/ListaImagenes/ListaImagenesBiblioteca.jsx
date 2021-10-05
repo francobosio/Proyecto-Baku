@@ -13,10 +13,7 @@ import imagen2 from "../Imagenes/El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthu
 import imagen3 from "../Imagenes/3.jpg";
 import imagen6 from "../Imagenes/6.jpg";
 import imagen7 from "../Imagenes/7.jpg";
-import imagen8 from "../Imagenes/8.jpg";
 import imagen5 from "../Imagenes/5.jpg";
-import imagen4 from "../Imagenes/4.jpg";
-import imagen9 from "../Imagenes/Los_120_dias_de_Sodoma-Marques_de_Sade-md.png";
 import imagen10 from "../Imagenes/La_llamada_de_Cthulhu-H._P._Lovecraft-md.jpg"
 import imagen11 from "../Imagenes/Don_Quijote_de_la_Mancha-Cervantes_Miguel-md.png"
 
@@ -27,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
+        'background': '#99cfbf',
     },
     imageList: {
         width: "100%",
@@ -118,7 +115,7 @@ export default function TitlebarImageList() {
                                 subtitle={<span>por: {item.author}</span>}
                                 position='bottom'
                                 actionIcon={
-                                    <IconButton aria-label={`info about ${item.title}`} className={classes.icon}>
+                                    <IconButton aria-label={`info about ${item.title}`} className={classes.icon} title={"Leer este libro"}>
                                         <Link to={"/Lectura/" + item.pdf} >
                                             <LocalLibraryOutlinedIcon className={classes.icono} />
                                         </Link>
