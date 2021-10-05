@@ -12,15 +12,16 @@
     "@pdftron/webviewer": "^8.0.1",
     "@react-pdf-viewer/bookmark": "^2.8.0",
     "@react-pdf-viewer/core": "^2.8.0",
-    "@react-pdf-viewer/default-layout": "^2.8.0",
-    "@react-pdf-viewer/theme": "^2.8.0",
-    "@react-pdf-viewer/toolbar": "^2.8.0",
+    "@react-pdf-viewer/default-layout": "^2.9.0",
+    "@react-pdf-viewer/theme": "^2.9.0",
+    "@react-pdf-viewer/toolbar": "^2.9.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@trejgun/material-ui-icons-google": "0.0.3",
+    "@types/react": "^17.0.24",
+    "@types/react-router-dom": "^5.1.9",
     "axios": "^0.21.4",
-    "@types/react-router-dom": "^5.1.8",
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
     "date-fns": "^2.22.1",
@@ -37,6 +38,7 @@
     "react-material-ui-carousel": "^2.3.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
+    "react-test-renderer": "^17.0.2",
     "typeface-kaushan-script": "^1.1.13",
     "web-vitals": "^1.1.2"
   },
@@ -71,6 +73,6 @@
     "@types/morgan": "^1.9.3",
     "@types/node": "^16.7.10",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.3"
   }
 }

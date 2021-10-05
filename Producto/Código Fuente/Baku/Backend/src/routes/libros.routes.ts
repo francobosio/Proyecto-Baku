@@ -1,13 +1,17 @@
-import {Router} from 'express'
-const router = Router();
+import { Router } from 'express'
 
+
+import multer from '../libs/multer'
 import * as libroCtrl from './libros.controller'
+
+const router = Router();
+const camposArchivo = multer.fields([{ name: 'imagenPath', maxCount: 1 }, { name: 'archivoTexto', maxCount: 1 }]);
 
 router.get('/libros', libroCtrl.getLibros);
 
 router.get('/libros/:id', libroCtrl.getLibro)
 
-router.post('/libros', libroCtrl.createLibro)
+router.post('/libros', camposArchivo, libroCtrl.createLibro)
 
 router.delete('/libros/:id', libroCtrl.deleteLibro)
 

@@ -4,7 +4,6 @@ import SliderContext from './context'
 import ShowDetailsButton from './ShowDetailsButton'
 import Mark from './Mark'
 import './Item.scss'
-import {Link} from "react-router-dom";
 
 const Item = ({ movie }) => (
   <SliderContext.Consumer>
@@ -17,9 +16,9 @@ const Item = ({ movie }) => (
             'item--open': isActive,
           })}
         >
-          <img src={movie.image} alt="">
-
+          <img src={movie.imagenPath} alt="">
           </img>
+          
           <ShowDetailsButton onClick={() => onSelectSlide(movie)} />
           {isActive && <Mark />}
         </div>
