@@ -29,7 +29,7 @@ export const createLibro: RequestHandler = async (req, res) => {
     console.log(libro)
     await libro.save();
     fs.unlink(files.imagenPath[0].path);
-    fs.unlink(files.archivoTexto[0].path)
+    fs.unlink(files.archivoTexto[0].path);
     return res.json({
         message: "Libro cargado con éxito !!!"
     })
@@ -62,10 +62,11 @@ export const deleteLibro: RequestHandler = async (req, res) => {
     const libroFound = await Libro.findByIdAndDelete(req.params.id);
     if (!libroFound) return res.status(204).json();
     if (libroFound) {
-        await fs.unlink(path.resolve(libroFound.imagenPath))
+        await cloudinary.v2.uploader.destroy(libroFound.public_id_imagen);
+        await cloudinary.v2.uploader.destroy(libroFound.public_id_pdf);
     }
     return res.json({
-        message: "Libro eliminado con exito !!",
+        message: "Libro eliminado con éxito !!",
         libroFound
     })
 }

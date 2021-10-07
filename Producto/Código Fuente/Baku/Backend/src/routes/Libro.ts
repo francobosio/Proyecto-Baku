@@ -33,8 +33,10 @@ const libroSchema = new Schema({
 
 interface ILibro extends Document {
     imagenPath: string;
+    public_id_imagen: string;
     titulo: string;
     descripcion: string;
     archivoTexto: string;
+    public_id_pdf: string;
 }
 export default model<ILibro>('Libro', libroSchema);

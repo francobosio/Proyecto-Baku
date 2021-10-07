@@ -16,7 +16,7 @@ const Item = ({ movie }) => (
             'item--open': true,
           })}
         >
-          <img src={movie.image} alt="" onClick={() => onSelectSlide(movie)} ></img>
+          <img src={movie.imagenPath} alt="" onClick={() => onSelectSlide(movie)} ></img>
           {isActive && <Mark />}
         </div>
       );

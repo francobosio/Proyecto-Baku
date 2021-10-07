@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 'react-material-ui-carousel';
@@ -6,9 +6,8 @@ import { Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Slider from '../CarouselPrincipal';
-import axios from 'axios';
 import { MiDrawer } from "../Drawer/Drawer.jsx";
-
+import * as libroService from '../Libros/LibroService'
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -60,34 +59,28 @@ const useStyles = makeStyles((theme) => ({
 
 function Item(props) {
     return (
-        <img src={props.item} alt="" style={{ width: 200, height: 200, 'object-fit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
+        <img src={props.item} alt="" style={{ width: 250, height: 350, 'object-fit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
     )
 }
 export default function Inicio() {
-
     const [libros, setlibros] = useState([])
-
     const loadLibros = async () => {
-        const res = await axios.get('http://localhost:4000/libros')
+        const res = await libroService.getLibros();
         setlibros(res.data);
-        console.log(res.data);
-        console.log(libros)
     }
+
     useEffect(() => {
         loadLibros()
     }, [])
+
     const classes = useStyles();
     return (
         <div className={classes.root}>
             <MiDrawer />
             <main className={classes.content}>
                 <AppBar />
-                <div>
-
-                </div>
                 <Carousel className={classes.carousel}  >
                     {
-
                         libros.map((item, i) => { return <Item key={i._id} item={item.imagenPath} /> })
                     }
                 </Carousel>
@@ -98,24 +91,24 @@ export default function Inicio() {
                         <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
                     ))}
                 </Slider>
-                {/* <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
+                 <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie.imagenPath} key={movie.pdf}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie.imagenPath} key={movie.pdf}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie.imagenPath} key={movie.pdf}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
                     ))}
-                </Slider> */}
+                </Slider> 
                 <Footy />
             </main>
         </div>

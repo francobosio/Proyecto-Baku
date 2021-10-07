@@ -12,6 +12,8 @@ import TextoMultiple from '../Publicar/TextoMultiple'
 import Button from '@material-ui/core/Button';
 import { MiDrawer } from "../Drawer/Drawer.jsx"
 import UploadIcon from '@material-ui/icons/Publish';
+import FormControl from '@material-ui/core/FormControl'
+import * as libroServices from '../Libros/LibroService.ts'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     btnPublicar: {
         'background-color': '#4B9C8E',
         'borderRadius': '5rem',
-        width:'15rem',
+        width: '15rem',
         '&:hover': {
             'background': '#076F55',
             'color': '#FFFFFF',
@@ -84,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
             'background': '#076F55',
             'color': '#FFFFFF',
         },
-        
+
     },
     btnPdf: {
         'background-color': '#4B9C8E',
@@ -102,42 +104,42 @@ const useStyles = makeStyles((theme) => ({
             'color': '#076F55',
         },
     },
-    controlTitulo:{
+    controlTitulo: {
         '& .MuiTextField-root': {
             'backgroundColor': '#FFF',
             'borderRadius': '0.2rem',
         },
-        '& .MuiInputBase-input':{
+        '& .MuiInputBase-input': {
             width: '20rem',
             'color': '#000',
             'fontWeight': 'bold',
         },
     },
-    controlCombo:{
+    controlCombo: {
         '& .MuiInputBase-input': {
             'backgroundColor': '#fff',
             'borderRadius': '0.2rem',
         },
-        '& .MuiChip-root':{
+        '& .MuiChip-root': {
             'color': '#000',
             'backgroundColor': '#4B9C8E',
             'fontSize': '1rem'
         },
     },
-    texto:{
+    texto: {
         fontWeight: 'bold',
         fontSize: '1rem'
     },
-    centrar:{
+    centrar: {
         display: 'flex',
         justifyContent: 'center',
         margin: '0 auto',
     },
-    imagen:{
+    imagen: {
         paddingBottom: '1rem'
     },
-    fondo:{
-        width:'60rem',
+    fondo: {
+        width: '60rem',
         backgroundColor: '#7ec2ae'
     },
 }));
@@ -145,7 +147,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MiniDrawer() {
     const [image, setImage] = useState({ preview: "", raw: "" });
-    const [pdf, setPdf] = useState({ preview: ""});
+    const [pdf, setPdf] = useState("");
+    const [libro, setLibro] = useState();
 
     const handleImageChange = e => {
         if (e.target.files.length) {
@@ -155,29 +158,25 @@ export default function MiniDrawer() {
             });
         }
     };
-
     const handlePdfChange = e => {
         if (e.target.files.length) {
-            setPdf({
-                preview: 'El archivo se cargó correctamente'
-            });
+            setPdf(e.target.files[0])
         }
     };
-
-    /*const handleUpload = async e => {
+    const handleInputChange = e => {
+        setLibro({ [e.target.name]: e.target.value })
+    } 
+    const handleSubmit = async e => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("image", image.raw);
-
-        await fetch("YOUR_URL", {
-            method: "POST",
-            headers: {
-                "Content-Type": "multipart/form-data"
-            },
-            body: formData
-        });
-    };*/
-
+        const formData = new FormData();    //formdata object
+        formData.append("imagenPath",image.raw);
+        formData.append("titulo",libro.titulo);   
+        formData.append("descripcion",libro.descripcion);
+        formData.append("archivoTexto",pdf)
+        const res = await libroServices.createLibro(formData);
+       console.log(res)
+    }
+    
     const classes = useStyles();
     return (
         <div className={classes.root}>
@@ -186,96 +185,107 @@ export default function MiniDrawer() {
                 <AppBar />
                 <React.Fragment>
                     <Container className={classes.fondo}>
-                        <Grid container spacing={2} className={classes.centrar}>
-                            <Grid item xs={12}>
-                            </Grid>
-                            <Grid item xs={12} className={classes.centrar}>
-                                <Typography className={classes.titulo} variant="h4" gutterBottom >
-                                    Publicá tu historia
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography className={classes.textoDestacado}>Portada</Typography>
-                                <label htmlFor="upload-button" className={classes.centrar}>
-                                    {image.preview ? (
-                                        <img src={image.preview} alt="dummy" width="300" height="300" className={classes.imagen} />
-                                    ) : (
-                                        <>
-                                            <span className="fa-stack fa-2x mt-3 mb-2">
-                                                <i className="fas fa-circle fa-stack-2x" />
-                                                <i className="fas fa-store fa-stack-1x fa-inverse" />
-                                            </span>
-                                        </>
-                                    )}
-                                </label>
+                        <FormControl onSubmit={handleSubmit} >
+                            <Grid container spacing={2} className={classes.centrar}>
+                                <Grid item xs={12}>
+                                </Grid>
+                                <Grid item xs={12} className={classes.centrar}>
+                                    <Typography className={classes.titulo} variant="h4" gutterBottom >
+                                        Publicá tu historia
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography className={classes.textoDestacado}>Portada</Typography>
+                                    <label htmlFor="upload-button" className={classes.centrar}>
+                                        {image.preview ? (
+                                            <img src={image.preview} alt="dummy" width="230" height="300" className={classes.imagen} />
+                                        ) : (
+                                            <>
+                                                <span className="fa-stack fa-2x mt-3 mb-2">
+                                                    <i className="fas fa-circle fa-stack-2x" />
+                                                    <i className="fas fa-store fa-stack-1x fa-inverse" />
+                                                </span>
+                                            </>
+                                        )}
+                                    </label>
+                                    <Grid item xs={12} >
+                                    </Grid>
+                                    <Button component="label" startIcon={<UploadIcon />} className={classes.btnArchivo + " " + classes.centrar}> Subí tu Portada
+                                        <input
+                                            type="file"
+                                            name="imagenPath"
+                                            onChange={handleImageChange}
+                                            hidden
+                                            accept=".png,.jpg,.raw,.jpeg"
+                                        />
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12} className={classes.controlTitulo}>
+                                    <Typography className={classes.textoDestacado}>Título</Typography>
+                                    <TextField
+                                        required
+                                        name="titulo"
+                                        autoFocus
+                                        onChange={handleInputChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography className={classes.textoDestacado}>Descripción</Typography>
+                                    {/* <TextoMultiple onChange={handleInputChange} /> */}
+                                    <TextField
+                                        name="descripcion"
+                                        rows={8}
+                                        multiline
+                                        onChange={handleInputChange}
+                                    />
+
+                                </Grid>
+                                <Grid item xs={12} className={classes.controlCombo} >
+                                    <Typography className={classes.textoDestacado}>Género</Typography>
+                                    <ComboBox />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControlLabel
+                                        className={classes.controlLabel}
+                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="saveAddress" value="yes" />}
+                                        label="Apto para todo público "
+                                    />
+                                </Grid >
+                                <Grid item xs={12} >
+                                    <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}> Cargar contenido del libro
+                                        <input
+                                            type="file"
+                                            name="archivoTexto"
+                                            onChange={handlePdfChange}
+                                            hidden
+                                            accept=".pdf"
+                                        />
+                                    </Button>
+                                    <label htmlFor="archivoTexto">
+                                        {pdf.preview ? (
+                                            <Typography className={classes.centrar + " " + classes.texto}>{pdf.preview}</Typography>
+                                        ) : (
+                                            <>
+                                                <span className="fa-stack fa-2x mt-3 mb-2">
+                                                    <i className="fas fa-circle fa-stack-2x" />
+                                                    <i className="fas fa-store fa-stack-1x fa-inverse" />
+                                                </span>
+                                            </>
+                                        )}
+                                    </label>
+                                </Grid>
+                                <Grid item xs={12} >
+                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained">Publicar</Button>
+                                </Grid>
                                 <Grid item xs={12} >
                                 </Grid>
-                                <Button component="label" startIcon={<UploadIcon />} className={classes.btnArchivo + " " + classes.centrar}> Subí tu Portada
-                                    <input
-                                        type="file"
-                                        id="upload-button"
-                                        onChange={handleImageChange}
-                                        hidden
-                                        accept=".png,.jpg,.raw,.jpeg"
-                                    />
-                                </Button>
                             </Grid>
-                            <Grid item xs={12} className={classes.controlTitulo}>
-                                <Typography className={classes.textoDestacado}>Título</Typography>
-                                <TextField
-                                    required
-                                    id="titulo"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography className={classes.textoDestacado}>Descripción</Typography>
-                                <TextoMultiple />
-                            </Grid>
-                            <Grid item xs={12} className={classes.controlCombo} >
-                                <Typography className={classes.textoDestacado}>Género</Typography>
-                                <ComboBox />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    className={classes.controlLabel}
-                                    control={<Checkbox className={classes.customCheckbox} color="secondary" name="saveAddress" value="yes" />}
-                                    label="Apto para todo público "
-                                />
-                            </Grid >
-                            <Grid item xs={12} >
-                                <Button component="label" startIcon={<UploadIcon/>} className={classes.btnPdf + " " + classes.centrar}> Cargar contenido del libro
-                                    <input
-                                        type="file"
-                                        id="pdf-button"
-                                        onChange={handlePdfChange}
-                                        hidden
-                                        accept=".pdf"
-                                    />
-                                </Button>
-                                <label htmlFor="pdf-button">
-                                    {pdf.preview ? (
-                                        <Typography className={classes.centrar + " " + classes.texto}>{pdf.preview}</Typography>
-                                    ) : (
-                                        <>
-                                            <span className="fa-stack fa-2x mt-3 mb-2">
-                                                <i className="fas fa-circle fa-stack-2x" />
-                                                <i className="fas fa-store fa-stack-1x fa-inverse" />
-                                            </span>
-                                        </>
-                                    )}
-                                </label>
-                            </Grid>
-                            <Grid item xs={12} >
-                                <Button className={classes.btnPublicar + " " + classes.centrar} variant="contained">Publicar</Button>
-                            </Grid>
-                            <Grid item xs={12} >
-                            </Grid>
-                        </Grid>
+                        </FormControl>
                     </Container>
                 </React.Fragment>
                 <Footy />
             </main>
 
-        </div>
+        </div >
     );
 }
