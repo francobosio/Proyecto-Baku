@@ -31,6 +31,7 @@ export default function MultilineTextFields() {
         
       <TextField
           id="standard-textarea"
+          name="descripcion"
           rows={3}
           multiline
         />

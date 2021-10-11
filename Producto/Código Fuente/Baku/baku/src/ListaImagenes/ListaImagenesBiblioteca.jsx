@@ -98,6 +98,7 @@ const categorias = [
 ];
 
 export default function TitlebarImageList() {
+    
     const classes = useStyles();
 
     return (
