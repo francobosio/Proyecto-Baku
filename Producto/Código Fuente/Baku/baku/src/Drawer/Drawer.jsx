@@ -22,7 +22,7 @@ import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 import Logo from '../Imagenes/Logo_baku_blanco.png';
 
 
-const drawerWidth = 240;
+const drawerWidth = "15rem";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
