@@ -202,7 +202,7 @@ export default function MiniDrawer() {
     const [categoriaLibro, setCategoriaLibro] = React.useState([]);
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
-    const [libro, setLibro] = useState();
+    const [libro, setLibro] = useState({ titulo: "", descripcion: "" });
 
     // Estas variables son para el control de los errores en el form
     const [errorTitulo, setErrorTitulo] = useState(null);
@@ -238,20 +238,19 @@ export default function MiniDrawer() {
     };
 
     const handleInputChange = e => {
-        setLibro({ [e.target.name]: e.target.value })
-    }
+         setLibro({...libro , [e.target.name]: e.target.value })
+    } 
 
     const handleSubmit = async e => {
-        //si validate resulta true, entonces cargo el libro a la BD si no no hace nada
-        if (validate()) {
+        if (validate()){
             e.preventDefault();
             const formData = new FormData();    //formdata object
-            formData.append("imagenPath", image.raw);
-            formData.append("titulo", libro.titulo.trim());
-            formData.append("descripcion", libro.descripcion);
-            formData.append("archivoTexto", pdf)
+            formData.append("imagenPath",image.raw);
+            formData.append("titulo",libro.titulo);
+            formData.append("descripcion",libro.descripcion);
+            formData.append("archivoTexto",pdf)
             const res = await libroServices.createLibro(formData);
-            console.log(res)
+           console.log(res)
         }
     }
 
