@@ -217,11 +217,6 @@ export default function MiniDrawer() {
         setCategoriaLibro(event.target.value);
     };
 
-    let conflictos = {}
-    const deshabilitarCategorias = (categoriasSeleccionadas) => {
-        return true
-    }
-
     const handleImageChange = e => {
         if (e.target.files.length) {
             setImage({

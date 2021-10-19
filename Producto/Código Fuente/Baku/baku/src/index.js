@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Auth0Provider } from "@auth0/auth0-react"
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
-import AlertTemplate from 'react-alert-template-basic'
+import AlertTemplate from 'react-alert-template-oldschool-dark'
 
 import './index.css';
 import Enrutador from './Enrutador/Enrutador.jsx';
@@ -20,11 +20,7 @@ const options = {
   offset: '20px',
   transition: transitions.FADE,
   type: 'error',
-  containerStyle:{
-    color: '#fff',
-  }
 }
-
 
 ReactDOM.render(
   <React.StrictMode>
