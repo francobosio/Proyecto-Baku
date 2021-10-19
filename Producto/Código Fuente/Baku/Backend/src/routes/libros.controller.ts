@@ -15,7 +15,7 @@ cloudinary.config({
 export const createLibro: RequestHandler = async (req, res) => {
     const { titulo, descripcion } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-    const respuestaImg = await cloudinary.v2.uploader.upload(files.imagenPath[0].path);
+     const respuestaImg = await cloudinary.v2.uploader.upload(files.imagenPath[0].path);
     const respuestaPdf = await cloudinary.v2.uploader.upload(files.archivoTexto[0].path);
      const newLibro = {
         imagenPath: respuestaImg.url,
@@ -27,7 +27,7 @@ export const createLibro: RequestHandler = async (req, res) => {
     };
     const libro = new Libro(newLibro); 
     console.log(libro)
-    await libro.save();
+    await libro.save(); 
     fs.unlink(files.imagenPath[0].path);
     fs.unlink(files.archivoTexto[0].path);
     return res.json({

@@ -148,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MiniDrawer() {
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
-    const [libro, setLibro] = useState();
+    const [libro, setLibro] = useState({ titulo: "", descripcion: "" });
 
     const handleImageChange = e => {
         if (e.target.files.length) {
@@ -164,13 +164,13 @@ export default function MiniDrawer() {
         }
     };
     const handleInputChange = e => {
-        setLibro({ [e.target.name]: e.target.value })
+         setLibro({...libro , [e.target.name]: e.target.value })
     } 
     const handleSubmit = async e => {
         e.preventDefault();
         const formData = new FormData();    //formdata object
         formData.append("imagenPath",image.raw);
-        formData.append("titulo",libro.titulo);   
+        formData.append("titulo",libro.titulo);
         formData.append("descripcion",libro.descripcion);
         formData.append("archivoTexto",pdf)
         const res = await libroServices.createLibro(formData);
