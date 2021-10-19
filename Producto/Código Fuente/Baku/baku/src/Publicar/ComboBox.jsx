@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -57,7 +57,10 @@ function getStyles(name, personName, theme) {
   };
 }
 
+
+
 export default function MultipleSelect() {
+  const select = useRef()
   const classes = useStyles();
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
