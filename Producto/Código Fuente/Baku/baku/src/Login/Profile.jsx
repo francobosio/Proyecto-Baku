@@ -11,9 +11,7 @@ function Profile() {
         isAuthenticated && <div>
             <Container size="100%">
 
-                <img src={user.picture} alt={user.name}></img>
-                <h2>{user.name}</h2>
-                <p>{user.email}</p>
+                
                 <pre>
                     {JSON.stringify(user)}
                 </pre>

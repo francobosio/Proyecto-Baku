@@ -22,13 +22,13 @@ const useStyles = makeStyles((theme) => ({
 export const Loading = () => {
     const classes = useStyles();
     return (<div>
-                <Container justifyContent="center" maxWidth="xl" className={classes.root}>
+                <Container justifycontent="center" maxWidth="xl" className={classes.root}>
                     <Grid
                         container
                         spacing={0}
                         direction="column"
                         alignItems="center"
-                        justify="center"
+                        justifyContent="center"
                         style={{ minHeight: '100vh' }}
                         >
 

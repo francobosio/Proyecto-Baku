@@ -16,7 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import {useAlert} from 'react-alert'
+import { useAlert } from 'react-alert'
 
 import * as libroServices from '../Libros/LibroService.ts'
 
@@ -183,8 +183,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const categorias = [
-    { nombre: 'Aventura', conflictos: ["Arte", "Biografia"], disabled: false },
+let categorias = [
+    { nombre: 'Aventura', disabled: false },
     { nombre: 'Ciencia Ficción', disabled: false },
     { nombre: 'Policial', disabled: false },
     { nombre: 'Fantasía', disabled: false },
@@ -195,6 +195,19 @@ const categorias = [
     { nombre: 'Teatro', disabled: false },
     { nombre: 'Infantil', disabled: false },
 ];
+
+const conflictos = {
+    'Aventura':['Arte', 'Biografía'],
+    'Ciencia Ficción':['Arte', 'Biografía'],
+    'Policial':['Arte', 'Biografía','Infantil'],
+    'Fantasía':['Arte', 'Biografía'],
+    'Romántico':['Arte', 'Biografía','Infantil'],
+    'Arte':['Aventura', 'Ciencia Ficción','Policial','Romántico','Fantasía','Poesía','Teatro'],
+    'Biografía':['Aventura', 'Ciencia Ficción','Policial','Romántico','Fantasía','Poesía','Infantil'],
+    'Poesía':['Arte','Biografía'],
+    'Teatro':['Arte'],
+    'Infantil':['Biografía','Policial','Romántico'],
+}
 
 
 export default function MiniDrawer() {
@@ -214,6 +227,23 @@ export default function MiniDrawer() {
     const alert = useAlert();
 
     const handleSelectChange = (event) => {
+        categorias.map((value) => (
+            value.disabled = false
+        ))
+        if (event.target.value.length > 0) {
+            for (let i = 0; i < event.target.value.length; i++){
+                const nombre = event.target.value[i].nombre;
+                for (let j = 0; j < conflictos[nombre].length; j++){
+                    let con = conflictos[nombre][j];
+                    for (let k = 0; k < categorias.length; k++){
+                        if (categorias[k].nombre == con){
+                            categorias[k].disabled = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         setCategoriaLibro(event.target.value);
     };
 
@@ -225,7 +255,7 @@ export default function MiniDrawer() {
             });
         }
     };
-    
+
     const handlePdfChange = e => {
         if (e.target.files.length) {
             setPdf(e.target.files[0])
@@ -233,19 +263,19 @@ export default function MiniDrawer() {
     };
 
     const handleInputChange = e => {
-         setLibro({...libro , [e.target.name]: e.target.value })
-    } 
+        setLibro({ ...libro, [e.target.name]: e.target.value })
+    }
 
     const handleSubmit = async e => {
-        if (validate()){
+        if (validate()) {
             e.preventDefault();
             const formData = new FormData();    //formdata object
-            formData.append("imagenPath",image.raw);
-            formData.append("titulo",libro.titulo);
-            formData.append("descripcion",libro.descripcion);
-            formData.append("archivoTexto",pdf)
+            formData.append("imagenPath", image.raw);
+            formData.append("titulo", libro.titulo);
+            formData.append("descripcion", libro.descripcion);
+            formData.append("archivoTexto", pdf)
             const res = await libroServices.createLibro(formData);
-           console.log(res)
+            console.log(res)
         }
     }
 
@@ -260,7 +290,7 @@ export default function MiniDrawer() {
         // verifico si existen errores y seteo la variable de correspondiente a true para marcar los campos en rojo
         inputTitulo.current.value.trim() != "" ? setErrorTitulo(false) : setErrorTitulo(true)
         inputCombo.current.value.length != 0 ? setErrorSelect(false) : setErrorSelect(true)
-        
+
         // genero alertas si la portada o el titulo no son correctos
         temp.img != "" && alert.show("Se debe cargar una portada para continuar")
         temp.pdf != "" && alert.show("Se debe cargar un libro para continuar")
@@ -309,7 +339,6 @@ export default function MiniDrawer() {
                                             onChange={handleImageChange}
                                             hidden
                                             accept=".png,.jpg,.raw,.jpeg"
-                                            error
                                         />
                                     </Button>
                                 </Grid>
