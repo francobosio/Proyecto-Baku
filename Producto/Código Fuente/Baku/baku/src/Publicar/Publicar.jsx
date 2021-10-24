@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Container, FormHelperText, Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
@@ -62,9 +62,6 @@ const useStyles = makeStyles((theme) => ({
     slider: {
         marginTop: 500,
     },
-    titulo: {
-        marginLeft: 20,
-    },
     btnPublicar: {
         'background-color': '#4B9C8E',
         'borderRadius': '5rem',
@@ -77,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
     titulo: {
         'fontSize': '2.5em',
         'fontWeight': 'bold',
+        marginLeft: 20,
     },
     textoDestacado: {
         'fontSize': '1.5rem',
@@ -181,6 +179,16 @@ const useStyles = makeStyles((theme) => ({
     noLabel: {
         marginTop: theme.spacing(3),
     },
+    controlEditorial: {
+        '& .MuiTextField-root': {
+            'backgroundColor': '#FFF',
+            'borderRadius': '0.2rem',
+        },
+        '& .MuiInputBase-input': {
+            width: '20rem',
+            'color': '#000',
+        },
+    },
 }));
 
 let categorias = [
@@ -211,11 +219,11 @@ const conflictos = {
 
 
 export default function MiniDrawer() {
-    const theme = useTheme();
     const [categoriaLibro, setCategoriaLibro] = React.useState([]);
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
     const [libro, setLibro] = useState({ titulo: "", descripcion: "" });
+    const [aceptaTerminos, setAceptaTerminos] = useState(null)
 
     // Estas variables son para el control de los errores en el form
     const [errorTitulo, setErrorTitulo] = useState(null);
@@ -236,7 +244,7 @@ export default function MiniDrawer() {
                 for (let j = 0; j < conflictos[nombre].length; j++){
                     let con = conflictos[nombre][j];
                     for (let k = 0; k < categorias.length; k++){
-                        if (categorias[k].nombre == con){
+                        if (categorias[k].nombre === con){
                             categorias[k].disabled = true;
                             break;
                         }
@@ -266,6 +274,11 @@ export default function MiniDrawer() {
         setLibro({ ...libro, [e.target.name]: e.target.value })
     }
 
+    const handleCheckboxChange = e => {
+        console.log(e.target.checked)
+        setAceptaTerminos(e.target.checked)
+    }
+
     const handleSubmit = async e => {
         if (validate()) {
             e.preventDefault();
@@ -282,21 +295,22 @@ export default function MiniDrawer() {
     const validate = () => {
         // creo una variable temporal temp y guardo en ella cadenas vacias si los campos son correctos u otra cadena cualquiera si no lo son
         let temp = {}
-        temp.img = image.raw != "" ? "" : "Imagen"
-        temp.titulo = inputTitulo.current.value.trim() != "" ? "" : "titulo"
-        temp.pdf = pdf != "" ? "" : "pdf"
-        temp.select = inputCombo.current.value.length != 0 ? "" : "select"
+        temp.img = image.raw !== "" ? "" : "Imagen"
+        temp.titulo = inputTitulo.current.value.trim() !== "" ? "" : "titulo"
+        temp.pdf = pdf !== "" ? "" : "pdf"
+        temp.select = inputCombo.current.value.length !== 0 ? "" : "select"
+        temp.terminos = aceptaTerminos ? "" : "Terminos"
 
         // verifico si existen errores y seteo la variable de correspondiente a true para marcar los campos en rojo
-        inputTitulo.current.value.trim() != "" ? setErrorTitulo(false) : setErrorTitulo(true)
-        inputCombo.current.value.length != 0 ? setErrorSelect(false) : setErrorSelect(true)
+        inputTitulo.current.value.trim() !== "" ? setErrorTitulo(false) : setErrorTitulo(true)
+        inputCombo.current.value.length !== 0 ? setErrorSelect(false) : setErrorSelect(true)
 
         // genero alertas si la portada o el titulo no son correctos
-        temp.img != "" && alert.show("Se debe cargar una portada para continuar")
-        temp.pdf != "" && alert.show("Se debe cargar un libro para continuar")
+        temp.img !== "" && alert.show("Se debe cargar una portada para continuar!")
+        temp.pdf !== "" && alert.show("Se debe cargar un libro para continuar!")
 
         // verifico si en temp existen cadenas no vacias, en ese caso reorna false y no continua, si todas las cadenas son vacias retorna true y continua
-        return Object.values(temp).every(x => x == "")
+        return Object.values(temp).every(x => x === "")
     }
 
     const classes = useStyles();
@@ -308,7 +322,7 @@ export default function MiniDrawer() {
                 <React.Fragment>
                     <Container className={classes.fondo}>
                         <FormControl onSubmit={handleSubmit} >
-                            <Grid container spacing={2} className={classes.centrar}>
+                            <Grid container spacing={1} className={classes.centrar}>
                                 <Grid item xs={12}>
                                 </Grid>
                                 <Grid item xs={12} className={classes.centrar}>
@@ -364,6 +378,13 @@ export default function MiniDrawer() {
                                         onChange={handleInputChange}
                                     />
                                 </Grid>
+                                <Grid item xs={12} className={classes.controlEditorial}>
+                                    <Typography className={classes.textoDestacado}>Editorial</Typography>
+                                    <TextField
+                                        name="editorial"
+                                        autoFocus
+                                    />
+                                </Grid>
                                 <Grid item xs={12}>
                                     <Typography className={classes.textoDestacado}>Género</Typography>
                                     <FormControl className={classes.controlCombo} error={errorSelect}>
@@ -396,12 +417,19 @@ export default function MiniDrawer() {
                                 <Grid item xs={12}>
                                     <FormControlLabel
                                         className={classes.controlLabel}
-                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="saveAddress" value="yes" />}
+                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="aptoTodoPúblico"  />}
                                         label="Apto para todo público "
                                     />
                                 </Grid >
+                                <Grid item xs={12}>
+                                    <FormControlLabel
+                                        className={classes.controlLabel}
+                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="AceptaTerminosCondiciones" checked={aceptaTerminos} onChange={handleCheckboxChange} />}
+                                        label={"Al subir mi libro acepto los términos y condiciones de Baku"}
+                                    />
+                                </Grid >
                                 <Grid item xs={12} >
-                                    <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}> Cargar contenido del libro
+                                    <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}> Subí el contenido de tu libro
                                         <input
                                             type="file"
                                             name="archivoTexto"
@@ -410,21 +438,9 @@ export default function MiniDrawer() {
                                             accept=".pdf"
                                         />
                                     </Button>
-                                    <label htmlFor="archivoTexto">
-                                        {pdf.preview ? (
-                                            <Typography className={classes.centrar + " " + classes.texto}>{pdf.preview}</Typography>
-                                        ) : (
-                                            <>
-                                                <span className="fa-stack fa-2x mt-3 mb-2">
-                                                    <i className="fas fa-circle fa-stack-2x" />
-                                                    <i className="fas fa-store fa-stack-1x fa-inverse" />
-                                                </span>
-                                            </>
-                                        )}
-                                    </label>
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained">Publicar</Button>
+                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained" disabled={!aceptaTerminos}>Publicar</Button>
                                 </Grid>
                                 <Grid item xs={12} >
                                 </Grid>

@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 //Iconos redes social
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
-import TwitterIcon from '@material-ui/icons/Twitter';
+import YouTubeIcon from '@material-ui/icons/YouTube';
 
 const useStyles = makeStyles((theme) => ({
   contenedor: {
@@ -88,18 +88,18 @@ function Footy() {
           <Grid item xs={12} sm container>
             <Grid item xs container direction="row" >
               <Grid item xs>
-                <IconButton size='small'>
+                <IconButton size='small' aria-label="Facebook.com/BakuLibros" onClick={() => window.open('https://www.facebook.com/LibrosBaku/')}>
                   <FacebookIcon className={classes.icono} />
                 </IconButton>
               </Grid>
               <Grid item xs>
-                <IconButton size='small'>
+                <IconButton size='small' aria-label="Instagram.com/bakulibros" onClick={() => window.open('https://www.instagram.com/bakulibros/')}>
                   <InstagramIcon className={classes.icono} />
                 </IconButton>
               </Grid>
               <Grid item xs>
-                <IconButton size='small'>
-                  <TwitterIcon className={classes.icono} />
+                <IconButton size='small' aria-label="Youtube.com/BakuLibros" onClick={() => window.open('https://www.youtube.com/channel/UCc0lXcP4y3lFm_358348THw')}>
+                  <YouTubeIcon className={classes.icono} />
                 </IconButton>
               </Grid>
             </Grid>
