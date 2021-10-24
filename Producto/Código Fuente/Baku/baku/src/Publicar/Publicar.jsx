@@ -327,7 +327,7 @@ export default function MiniDrawer() {
                                 </Grid>
                                 <Grid item xs={12} className={classes.centrar}>
                                     <Typography className={classes.titulo} variant="h4" gutterBottom >
-                                        Publicá tu historia
+                                        Publicá tu libro
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
