@@ -81,32 +81,32 @@ export default function Inicio() {
                 <AppBar />
                 <Carousel className={classes.carousel}  >
                     {
-                        libros.map((item, i) => { return <Item key={i._id} item={item.imagenPath} /> })
+                        libros.map((item, i) => { return <Item key={item._id} item={item.imagenPath} /> })
                     }
                 </Carousel>
 
                 <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
                 <Slider >
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                     ))}
                 </Slider>
-                 <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
+                <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                     ))}
                 </Slider> 
                 <Footy />

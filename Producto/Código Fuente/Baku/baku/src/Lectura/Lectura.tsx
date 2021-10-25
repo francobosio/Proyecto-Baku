@@ -68,15 +68,18 @@ const useStyles = makeStyles((theme) => ({
 const Lectura = () => {
 
     type QuizParams = {
+        v: string;
         pdf: string;
-      }
+    }
 
     const [currentTheme, setCurrentTheme] = React.useState(localStorage.getItem('theme') || 'light');
     const themeContext = { currentTheme, setCurrentTheme };
 
     // Create new plugin instance
     const classes = useStyles();
-    const {pdf} = useParams<QuizParams>();
+    let {pdf} = useParams<QuizParams>();
+    let {v} = useParams<QuizParams>();
+
     
     //Toolbar
     const toolbarPluginInstance = toolbarPlugin();
@@ -245,8 +248,7 @@ const Lectura = () => {
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
             <div className={classes.viewer}>
                 <Viewer
-                    fileUrl={"/"+pdf}
-
+                    fileUrl={"https://res.cloudinary.com/bakulibros/image/upload/" + v + "/" + pdf}
                     renderPage={renderPage}
                     defaultScale={SpecialZoomLevel.PageFit}
                     theme={currentTheme} onSwitchTheme={handleSwitchTheme} 
