@@ -19,7 +19,6 @@ const options = {
   timeout: 5000,
   offset: '20px',
   transition: transitions.FADE,
-  type: 'error',
 }
 
 ReactDOM.render(

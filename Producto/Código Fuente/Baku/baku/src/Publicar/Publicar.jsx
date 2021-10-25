@@ -16,9 +16,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert';
+import {types} from 'react-alert';
 
-import * as libroServices from '../Libros/LibroService.ts'
+import * as libroServices from '../Libros/LibroService.ts';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -218,6 +219,7 @@ const conflictos = {
 }
 
 
+
 export default function MiniDrawer() {
     const [categoriaLibro, setCategoriaLibro] = React.useState([]);
     const [image, setImage] = useState({ preview: "", raw: "" });
@@ -288,7 +290,8 @@ export default function MiniDrawer() {
             formData.append("descripcion", libro.descripcion);
             formData.append("archivoTexto", pdf)
             const res = await libroServices.createLibro(formData);
-            console.log(res)
+            console.log(res);
+            alert.show("El libro se cargó correctamente!", {type: 'success'});
         }
     }
 
@@ -306,8 +309,8 @@ export default function MiniDrawer() {
         inputCombo.current.value.length !== 0 ? setErrorSelect(false) : setErrorSelect(true)
 
         // genero alertas si la portada o el titulo no son correctos
-        temp.img !== "" && alert.show("Se debe cargar una portada para continuar!")
-        temp.pdf !== "" && alert.show("Se debe cargar un libro para continuar!")
+        temp.img !== "" && alert.show("Se debe cargar una portada para continuar!", {type: 'error'})
+        temp.pdf !== "" && alert.show("Se debe cargar un libro para continuar!", {type: 'error'})
 
         // verifico si en temp existen cadenas no vacias, en ese caso reorna false y no continua, si todas las cadenas son vacias retorna true y continua
         return Object.values(temp).every(x => x === "")
