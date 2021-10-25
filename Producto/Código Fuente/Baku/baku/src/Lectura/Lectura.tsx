@@ -263,7 +263,6 @@ const Lectura = () => {
             </div>
         </Worker>
 
-        <Footy/>
 
       </div>
     )
