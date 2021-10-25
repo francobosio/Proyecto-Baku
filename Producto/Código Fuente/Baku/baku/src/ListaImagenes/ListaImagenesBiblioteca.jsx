@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import * as libroService from '../Libros/LibroService'
 import { makeStyles } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
@@ -6,16 +7,9 @@ import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Container } from '@material-ui/core';
 
-//Imagenes
-import imagen2 from "../Imagenes/El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur-md.jpg";
-import imagen3 from "../Imagenes/3.jpg";
-import imagen6 from "../Imagenes/6.jpg";
-import imagen7 from "../Imagenes/7.jpg";
-import imagen5 from "../Imagenes/5.jpg";
-import imagen10 from "../Imagenes/La_llamada_de_Cthulhu-H._P._Lovecraft-md.jpg"
-import imagen11 from "../Imagenes/Don_Quijote_de_la_Mancha-Cervantes_Miguel-md.png"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -51,80 +45,49 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-
-const categorias = [
-    {
-        pdf: 'El_regreso_de_Sherlock_Holmes-Conan_Doyle_Arthur.pdf',
-        img: imagen2,
-        title: 'El regreso de Sherlok Holmes',
-        author: 'Arthur Conan Doyle',
-    },
-    {
-        pdf: 'Biografia_Leonardo_daVinci-CVerdejo.pdf',
-        img: imagen3,
-        title: 'Leonardo',
-        author: 'C. Verdejo',
-    },
-    {
-        pdf: 'El_Necronomicon-H.P_Lovecraft.pdf',
-        img: imagen5,
-        title: 'El necronomicron',
-        author: 'H.P Lovecraft',
-    },
-    {
-        pdf: 'El_mundo_perdido-Conan_Doyle_Arthur.pdf',
-        img: imagen6,
-        title: 'El mundo perdido',
-        author: 'Arthur Conan Doyle',
-    },
-    {
-        pdf: 'Bodas_de_Sangre-Garcia_Lorca_Federico.pdf',
-        img: imagen7,
-        title: 'Bodas de sangre',
-        author: 'Federico Garcia Lorca',
-    },
-    {
-        pdf: 'La_llamada_de_Cthulhu-H._P._Lovecraft.pdf',
-        img: imagen10,
-        title: 'La llamada de Cthulhu',
-        author: 'H.P. Lovecraft',
-    },
-    {
-        pdf: 'Don_Quijote_de_la_Mancha-Cervantes_Miguel.pdf',
-        img: imagen11,
-        title: 'Don Quijote de la Mancha',
-        author: 'Miguel Cervantes',
-    },
-];
-
 export default function TitlebarImageList() {
-    
-    const classes = useStyles();
 
+    const classes = useStyles();
+    const [libros, setlibros] = useState([])
+    const loadLibros = async () => {
+        const res = await libroService.getLibros();
+        setlibros(res.data);
+    }
+
+    useEffect(() => {
+        loadLibros()
+    }, [])
+    let array = [];
+    
     return (
-        <div className={classes.root}>
-            <ImageList rowHeight={400} className={classes.imageList} cols={6} gap={20}>
-                <ImageListItem key="Subheader" cols={6} style={{ height: 'auto' }}>
-                    <ListSubheader component="div" className={classes.titulo}>Mi Biblioteca :</ListSubheader>
-                </ImageListItem>
-                {categorias.map((item) => (
-                        <ImageListItem key={item.img}>
-                            <img src={item.img} alt={item.title} />
+        <Container className={classes.root} maxWidth="xl">
+            
+            <div className={classes.root}>
+                <ImageList rowHeight={350} className={classes.imageList} cols={4} gap={20}>
+                    <ImageListItem key="Subheader" cols={4} style={{ height: 'auto' }}>
+                        <ListSubheader component="div" className={classes.titulo}>Mi Biblioteca :</ListSubheader>
+                    </ImageListItem>
+                    {libros.map((item) => (
+                        
+                        <ImageListItem key={item.id} >
+                            {array=item.archivoTexto.split("/")}
+                            <img src={item.imagenPath} alt={item.titulo} />
                             <ImageListItemBar
-                                title={item.title}
-                                subtitle={<span>por: {item.author}</span>}
+                                title={item.titulo}
+                                //subtitle={<span>por: {item.autor}</span>}
                                 position='bottom'
                                 actionIcon={
-                                    <IconButton aria-label={`info about ${item.title}`} className={classes.icon} title={"Leer este libro"}>
-                                        <Link to={"/Lectura/" + item.pdf} >
-                                            <LocalLibraryOutlinedIcon className={classes.icono} />
+                                    <IconButton aria-label={`info about ${item.titulo}`} className={classes.icon} title={"Leer este libro"}>
+                                        <Link to={"/Lectura/" + array[array.length - 2] + "/" + array[array.length - 1]} >
+                                            <LocalLibraryOutlinedIcon  className={classes.icono}/>
                                         </Link>
                                     </IconButton>
-                                  }
-                            /> 
+                                }
+                            />
                         </ImageListItem>
-                ))}
-            </ImageList>
-        </div>
+                    ))}
+                </ImageList>
+            </div>
+        </Container>
     );
 }
