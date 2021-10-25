@@ -58,16 +58,20 @@
   }
 
   &__title {
-    font-size: 45px;
+    font-size: 3em;
     color: rgb(255, 255, 255);
     font-weight: 700;
   }
 
   &__description {
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: rgb(255, 255, 255);
     margin-top: 1em;
-    max-width: 80em;
+    width: 72em;
+
+    & .MuiInputBase-input.Mui-disabled{
+      color: rgb(255, 255, 255);
+    }
   }
 
   &__close {

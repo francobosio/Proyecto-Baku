@@ -2,7 +2,9 @@ import React from 'react';
 import IconCross from '../Icons/IconCross';
 import './Content.scss';
 import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
+import TextField from '@material-ui/core/TextField'
+import Grid from '@material-ui/core/Grid'
 
 let array = [];
 
@@ -12,9 +14,10 @@ const Content = ({ movie, onClose }) => (
     <div className="content__area">
       <div className="content__area__container">
         <div className="content__title">{movie.titulo}</div>
-        <div className="content__description">
-          {movie.descripcion}
-        </div>
+        {movie.descripcion !== "" && 
+        (<Grid item xs={12}>
+          <TextField className="content__description" multiline value={movie.descripcion} rows={7} disabled hide></TextField>
+        </Grid>)}
       </div>
       <button className="content__close" onClick={onClose} title={"Cerrar"}>
         <IconCross />
