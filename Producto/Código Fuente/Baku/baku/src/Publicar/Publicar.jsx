@@ -17,7 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import { useAlert } from 'react-alert';
-import {types} from 'react-alert';
+import { positions } from 'react-alert';
 
 import * as libroServices from '../Libros/LibroService.ts';
 
@@ -232,6 +232,8 @@ export default function MiniDrawer() {
     const [errorSelect, setErrorSelect] = useState(null);
     const inputTitulo = useRef("");
     const inputCombo = useRef();
+    const inputDescripcion = useRef("")
+    const inputEditorial = useRef("")
 
     // Esta variable es para los mensajes de alerta
     const alert = useAlert();
@@ -291,8 +293,23 @@ export default function MiniDrawer() {
             formData.append("archivoTexto", pdf)
             const res = await libroServices.createLibro(formData);
             console.log(res);
-            alert.show("El libro se cargó correctamente!", {type: 'success'});
+            alert.show("El libro se cargó correctamente!", {type: 'success', position: 'top center'});
+            resetForm();
         }
+    }
+
+    const resetForm = () => {
+        setAceptaTerminos(null);
+        setLibro({});
+        setPdf("");
+        setImage({preview: "", raw: ""});
+        setCategoriaLibro([]);
+        setErrorSelect(null);
+        setErrorTitulo(null);
+        inputTitulo.current.value = "";
+        inputCombo.current.value = [];
+        inputDescripcion.current.value = "";
+        inputEditorial.current.value = "";
     }
 
     const validate = () => {
@@ -309,8 +326,8 @@ export default function MiniDrawer() {
         inputCombo.current.value.length !== 0 ? setErrorSelect(false) : setErrorSelect(true)
 
         // genero alertas si la portada o el titulo no son correctos
-        temp.img !== "" && alert.show("Se debe cargar una portada para continuar!", {type: 'error'})
-        temp.pdf !== "" && alert.show("Se debe cargar un libro para continuar!", {type: 'error'})
+        temp.img !== "" && alert.show("Se debe cargar una portada para continuar!", {type: 'error', position: 'top right'})
+        temp.pdf !== "" && alert.show("Se debe cargar un libro para continuar!", {type: 'error', position: 'top right'})
 
         // verifico si en temp existen cadenas no vacias, en ese caso reorna false y no continua, si todas las cadenas son vacias retorna true y continua
         return Object.values(temp).every(x => x === "")
@@ -376,6 +393,7 @@ export default function MiniDrawer() {
                                     <TextField
                                         className={classes.textoMultiple}
                                         name="descripcion"
+                                        inputRef = {inputDescripcion}
                                         rows={8}
                                         multiline
                                         onChange={handleInputChange}
@@ -385,6 +403,7 @@ export default function MiniDrawer() {
                                     <Typography className={classes.textoDestacado}>Editorial</Typography>
                                     <TextField
                                         name="editorial"
+                                        inputRef = {inputEditorial}
                                         autoFocus
                                     />
                                 </Grid>

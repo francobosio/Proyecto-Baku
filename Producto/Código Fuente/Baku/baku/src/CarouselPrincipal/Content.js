@@ -16,7 +16,7 @@ const Content = ({ movie, onClose }) => (
         <div className="content__title">{movie.titulo}</div>
         {movie.descripcion !== "" && 
         (<Grid item xs={12}>
-          <TextField className="content__description" multiline value={movie.descripcion} rows={7} disabled hide></TextField>
+          <TextField className="content__description" multiline value={movie.descripcion} rows={17} disabled></TextField>
         </Grid>)}
       </div>
       <button className="content__close" onClick={onClose} title={"Cerrar"}>
