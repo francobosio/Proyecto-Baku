@@ -98,7 +98,8 @@ export default function Inicio() {
                 <Slider >
                     {libros.map(movie => (
                         <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                    ))}
+                        //ordenar aleatoriamente
+                    )).sort(() => Math.random() - 0.5)}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
                 <Slider className={classes.slider}>
@@ -117,7 +118,7 @@ export default function Inicio() {
                     {libros.map(movie => (
                         <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                     ))}
-                </Slider> 
+                </Slider>
                 <Footy />
             </main>
         </div>

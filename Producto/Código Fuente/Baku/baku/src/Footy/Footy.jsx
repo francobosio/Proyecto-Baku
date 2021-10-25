@@ -17,8 +17,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#4B9C8E',
     height: 210,
     width: '100%',
-    textAlign: "center",
-    borderTop: "2px solid #E7E7E7",
+    textAlign: "center"
 
   },
   contenedorGrilla: {
