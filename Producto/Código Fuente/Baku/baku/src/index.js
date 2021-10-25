@@ -15,11 +15,9 @@ const client_id = process.env.REACT_APP_AUTH0_CLIENT_ID
 
 // estas opciones son para el mensaje de alerta
 const options = {
-  position: positions.MIDDLE_RIGHT,
   timeout: 5000,
   offset: '20px',
   transition: transitions.FADE,
-  type: 'error',
 }
 
 ReactDOM.render(
