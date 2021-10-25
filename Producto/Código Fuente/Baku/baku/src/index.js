@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Auth0Provider} from "@auth0/auth0-react"
+import { Auth0Provider } from "@auth0/auth0-react"
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-oldschool-dark'
 
 import './index.css';
 import Enrutador from './Enrutador/Enrutador.jsx';
@@ -11,12 +13,24 @@ import reportWebVitals from './reportWebVitals';
 const domain = process.env.REACT_APP_AUTH0_DOMAIN
 const client_id = process.env.REACT_APP_AUTH0_CLIENT_ID
 
+// estas opciones son para el mensaje de alerta
+const options = {
+  position: positions.MIDDLE_RIGHT,
+  timeout: 5000,
+  offset: '20px',
+  transition: transitions.FADE,
+  type: 'error',
+}
+
 ReactDOM.render(
   <React.StrictMode>
     {/*Auth0 Provider es la api que provee auth0 para realizar el logueo, requiere de un dominio y un id de cliente para realizar el logueo,
     y una url que será adonde redireccionará luego del logueo*/}
     <Auth0Provider domain={domain} clientId={client_id} redirectUri={"http://localhost:3000/Inicio"}>
-      <Enrutador/>
+      {/* Alert Provider me permite mostrar alertas flotantes sobre la pantalla */}
+      <AlertProvider template={AlertTemplate} {...options}>
+        <Enrutador />
+      </AlertProvider>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
