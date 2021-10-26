@@ -105,19 +105,19 @@ export default function Inicio() {
                         <Slider className={classes.slider}>
                             {libros.map(movie => (
                                 <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                            ))}
+                            )).sort(() => Math.random() - 0.5)}
                         </Slider>
                         <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
                         <Slider className={classes.slider}>
                             {libros.map(movie => (
                                 <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                            ))}
+                            )).sort(() => Math.random() - 0.5)}
                         </Slider>
                         <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                         <Slider className={classes.slider}>
                             {libros.map(movie => (
                                 <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                            ))}
+                            )).sort(() => Math.random() - 0.5)}
                         </Slider>
                     </div>)}
                 <Footy />

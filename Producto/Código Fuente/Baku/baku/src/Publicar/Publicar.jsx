@@ -203,10 +203,12 @@ let categorias = [
     { nombre: 'Poesía', disabled: false },
     { nombre: 'Teatro', disabled: false },
     { nombre: 'Infantil', disabled: false },
+    { nombre: 'Terror', disabled: false},
 ];
 
 const conflictos = {
     'Aventura':['Arte', 'Biografía'],
+    'Terror':['Biografía','Arte','Romántico'],
     'Ciencia Ficción':['Arte', 'Biografía'],
     'Policial':['Arte', 'Biografía','Infantil'],
     'Fantasía':['Arte', 'Biografía'],
@@ -310,6 +312,9 @@ export default function MiniDrawer() {
         inputCombo.current.value = [];
         inputDescripcion.current.value = "";
         inputEditorial.current.value = "";
+        categorias.map((value) => (
+            value.disabled = false
+        ))
     }
 
     const validate = () => {
