@@ -53,7 +53,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "cross-env BROWSER=chrome react-scripts start",
+    "start": "cross-env react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
