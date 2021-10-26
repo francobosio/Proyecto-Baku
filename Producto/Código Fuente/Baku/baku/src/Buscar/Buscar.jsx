@@ -12,31 +12,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         'background': '#99cfbf',
     },
-    menuButton: {
-        marginRight: 36,
-    },
-    hide: {
-        display: 'none',
-    },
-    icono: {
-        marginLeft: -3,
-    },
-    toolbar: {
-        // display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-    },
-    carousel: {
-        marginTop: 11,
-        marginHorizon: '100%',
-        alignItems: 'center',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        alignContent: 'center',
-    },
     link: {
         color: "white",
         "text-decoration": "none",
@@ -46,22 +21,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
-    },
-    slider:{
-        marginTop:500,
-    },
-    titulo:{
-        marginLeft: 20,
     }
 }));
 
-function Item(props) {
-    return (
-        <Paper>
-            <Image src={props.item.imagen} style={{ width: 180, height: 100, justifyContent: 'center', alignItems: 'center' }} />
-        </Paper>
-    )
-}
 export default function MiniDrawer() {
     const classes = useStyles();
 

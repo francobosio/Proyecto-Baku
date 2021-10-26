@@ -32,10 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
     },
     imagen: {
-        top: "50%",
-        width: "100%",
-        "position": "relative",
-        transform: "translateY(-50%)",
     },
     icono: {
         width: "1.5em",
@@ -63,13 +59,13 @@ export default function TitlebarImageList() {
         <Container className={classes.root} maxWidth="xl">
             
             <div className={classes.root}>
-                <ImageList rowHeight={350} className={classes.imageList} cols={4} gap={20}>
-                    <ImageListItem key="Subheader" cols={4} style={{ height: 'auto' }}>
+                <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={20}>
+                    <ImageListItem key="Subheader" cols={5} style={{ height: 'auto' }}>
                         <ListSubheader component="div" className={classes.titulo}>Mi Biblioteca :</ListSubheader>
                     </ImageListItem>
                     {libros.map((item) => (
                         
-                        <ImageListItem key={item.id} >
+                        <ImageListItem key={item.id} style={{ width: "16.8rem", height: "23.5rem"}} >
                             {array=item.archivoTexto.split("/")}
                             <img src={item.imagenPath} alt={item.titulo} />
                             <ImageListItemBar
@@ -77,7 +73,7 @@ export default function TitlebarImageList() {
                                 //subtitle={<span>por: {item.autor}</span>}
                                 position='bottom'
                                 actionIcon={
-                                    <IconButton aria-label={`info about ${item.titulo}`} className={classes.icon} title={"Leer este libro"}>
+                                    <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
                                         <Link to={"/Lectura/" + array[array.length - 2] + "/" + array[array.length - 1]} >
                                             <LocalLibraryOutlinedIcon  className={classes.icono}/>
                                         </Link>

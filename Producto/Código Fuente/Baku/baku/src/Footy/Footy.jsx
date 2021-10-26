@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
   contenedorGrilla: {
     textAlign: "left",
     alignContent: "center",
-    marginTop: 5,
     marginBottom: 15,
     color: "#FFFFFF"
   },
