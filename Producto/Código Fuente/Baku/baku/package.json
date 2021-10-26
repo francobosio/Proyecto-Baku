@@ -17,6 +17,7 @@
     "@react-pdf-viewer/bookmark": "^2.10.1",
     "@react-pdf-viewer/core": "^2.8.0",
     "@react-pdf-viewer/default-layout": "^2.8.0",
+    "@react-pdf-viewer/locales": "^1.0.0",
     "@react-pdf-viewer/theme": "^2.10.1",
     "@react-pdf-viewer/toolbar": "^2.8.0",
     "@testing-library/jest-dom": "^5.14.1",
