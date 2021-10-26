@@ -461,10 +461,12 @@ export default function MiniDrawer() {
                                         />
                                     </Button>
                                 </Grid>
-                                <Grid item xs={12} >
+                                
+                                <Grid item xs={12} style={{ marginTop: "1rem" }}>
                                     <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained" disabled={!aceptaTerminos}>Publicar</Button>
                                 </Grid>
                                 <Grid item xs={12} >
+                                    <br />
                                 </Grid>
                             </Grid>
                         </FormControl>
