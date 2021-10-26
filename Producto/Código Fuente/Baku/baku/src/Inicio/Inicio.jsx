@@ -61,14 +61,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const imagenesCarrusel=[
-    {id:1, img: imgCarrusel1},
-    {id:2, img: imgCarrusel2}
+const imagenesCarrusel = [
+    { id: 1, img: imgCarrusel1 },
+    { id: 2, img: imgCarrusel2 }
 ]
 
 function Item(props) {
     return (
-        <img src={props.item} alt="" style={{'object-fit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
+        <img src={props.item} alt="" style={{ 'object-fit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
     )
 }
 export default function Inicio() {
@@ -90,35 +90,36 @@ export default function Inicio() {
                 <AppBar />
                 <Carousel className={classes.carousel}  >
                     {
-                        imagenesCarrusel.map((item) => {return <Item key={item.id} item={item.img}/>})
+                        imagenesCarrusel.map((item) => { return <Item key={item.id} item={item.img} /> })
                     }
                 </Carousel>
-
-                <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
-                <Slider >
-                    {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                        //ordenar aleatoriamente
-                    )).sort(() => Math.random() - 0.5)}
-                </Slider>
-                <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
-                <Slider className={classes.slider}>
-                    {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                    ))}
-                </Slider>
-                <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
-                <Slider className={classes.slider}>
-                    {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                    ))}
-                </Slider>
-                <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
-                <Slider className={classes.slider}>
-                    {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                    ))}
-                </Slider>
+                {libros.length > 0 &&
+                    (<div>
+                        <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
+                        <Slider >
+                            {libros.map(movie => (
+                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                            ))}
+                        </Slider>
+                        <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
+                        <Slider className={classes.slider}>
+                            {libros.map(movie => (
+                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                            ))}
+                        </Slider>
+                        <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
+                        <Slider className={classes.slider}>
+                            {libros.map(movie => (
+                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                            ))}
+                        </Slider>
+                        <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
+                        <Slider className={classes.slider}>
+                            {libros.map(movie => (
+                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                            ))}
+                        </Slider>
+                    </div>)}
                 <Footy />
             </main>
         </div>
