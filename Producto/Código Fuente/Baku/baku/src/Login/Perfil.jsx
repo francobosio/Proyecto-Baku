@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Paper, Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Image from 'material-ui-image';
@@ -88,13 +87,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Item(props) {
-    return (
-        <Paper>
-            <Image src={props.item.imagen} style={{ width: 180, height: 100, justifyContent: 'center', alignItems: 'center' }} />
-        </Paper>
-    )
-}
 export default function MiniDrawer() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);

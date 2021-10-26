@@ -54,13 +54,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Item(props) {
-    return (
-        <Paper>
-            <Image src={props.item.imagen} style={{ width: 180, height: 100, justifyContent: 'center', alignItems: 'center' }} />
-        </Paper>
-    )
-}
 export default function MiniDrawer() {
     const classes = useStyles();
 

@@ -8,6 +8,9 @@ import Footy from '../Footy/Footy.jsx';
 import Slider from '../CarouselPrincipal';
 import { MiDrawer } from "../Drawer/Drawer.jsx";
 import * as libroService from '../Libros/LibroService'
+import imgCarrusel1 from '../Imagenes/CarruselBaku1.png'
+import imgCarrusel2 from '../Imagenes/CarruselBaku2.png'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -31,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
         ...theme.mixins.toolbar,
     },
     carousel: {
+        paddingTop: "1.5em",
         marginTop: 11,
         marginHorizon: '100%',
         alignItems: 'center',
@@ -57,9 +61,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const imagenesCarrusel=[
+    {id:1, img: imgCarrusel1},
+    {id:2, img: imgCarrusel2}
+]
+
 function Item(props) {
     return (
-        <img src={props.item} alt="" style={{ width: 250, height: 350, 'object-fit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
+        <img src={props.item} alt="" style={{'object-fit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
     )
 }
 export default function Inicio() {
@@ -81,34 +90,35 @@ export default function Inicio() {
                 <AppBar />
                 <Carousel className={classes.carousel}  >
                     {
-                        libros.map((item, i) => { return <Item key={i._id} item={item.imagenPath} /> })
+                        imagenesCarrusel.map((item) => {return <Item key={item.id} item={item.img}/>})
                     }
                 </Carousel>
 
                 <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
                 <Slider >
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
-                    ))}
+                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                        //ordenar aleatoriamente
+                    )).sort(() => Math.random() - 0.5)}
                 </Slider>
-                 <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
+                <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                     ))}
                 </Slider>
                 <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                 <Slider className={classes.slider}>
                     {libros.map(movie => (
-                        <Slider.Item movie={movie} key={movie._id}>item1</Slider.Item>
+                        <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                     ))}
-                </Slider> 
+                </Slider>
                 <Footy />
             </main>
         </div>

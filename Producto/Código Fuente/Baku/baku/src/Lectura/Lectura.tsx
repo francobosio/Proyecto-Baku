@@ -105,12 +105,14 @@ const useStyles = makeStyles((theme) => ({
 const Lectura = () => {
 
     type QuizParams = {
+        v: string;
         pdf: string;
-      }
-    
-    //CREATE NEW PULGIN INSTANCE
+    }
+
+    // Create new plugin instance
     const classes = useStyles();
-    const {pdf} = useParams<QuizParams>();
+    let {pdf} = useParams<QuizParams>();
+    let {v} = useParams<QuizParams>();
 
     //TIPO DE LETRA
     const [tipoLetra, setTipoLetra] = React.useState('sans-serif');
@@ -373,7 +375,7 @@ const Lectura = () => {
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
             <div className={classes.viewer}>
                 <Viewer
-                    fileUrl={"/"+pdf}
+                    fileUrl={"https://res.cloudinary.com/bakulibros/image/upload/" + v + "/" + pdf}
                     defaultScale={SpecialZoomLevel.PageFit}
                     theme={currentTheme} onSwitchTheme={handleSwitchTheme} 
                     initialPage={initialPage} onPageChange={handlePageChange}
@@ -389,7 +391,6 @@ const Lectura = () => {
             </div>
         </Worker>
 
-        <Footy/>
 
       </div>
     )

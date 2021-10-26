@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Typography } from '@material-ui/core';
+import { Container, FormHelperText, Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import ComboBox from '../Publicar/ComboBox.jsx'
-import TextoMultiple from '../Publicar/TextoMultiple'
 import Button from '@material-ui/core/Button';
 import { MiDrawer } from "../Drawer/Drawer.jsx"
 import UploadIcon from '@material-ui/icons/Publish';
 import FormControl from '@material-ui/core/FormControl'
-import * as libroServices from '../Libros/LibroService.ts'
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Chip from '@material-ui/core/Chip';
+import { useAlert } from 'react-alert';
+import { positions } from 'react-alert';
+
+import * as libroServices from '../Libros/LibroService.ts';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,9 +63,6 @@ const useStyles = makeStyles((theme) => ({
     slider: {
         marginTop: 500,
     },
-    titulo: {
-        marginLeft: 20,
-    },
     btnPublicar: {
         'background-color': '#4B9C8E',
         'borderRadius': '5rem',
@@ -69,12 +72,10 @@ const useStyles = makeStyles((theme) => ({
             'color': '#FFFFFF',
         }
     },
-    container: {
-        'background': 'linear-gradient(180deg, #076F55 0%, #C2F1E9 100%);',
-    },
     titulo: {
         'fontSize': '2.5em',
         'fontWeight': 'bold',
+        marginLeft: 20,
     },
     textoDestacado: {
         'fontSize': '1.5rem',
@@ -114,17 +115,29 @@ const useStyles = makeStyles((theme) => ({
             'color': '#000',
             'fontWeight': 'bold',
         },
+        '& .MuiFormHelperText-root.Mui-error': {
+            fontSize: '1.2rem',
+            background: '#7ec2ae',
+            color: '#f00'
+        }
     },
     controlCombo: {
         '& .MuiInputBase-input': {
             'backgroundColor': '#fff',
             'borderRadius': '0.2rem',
+            minWidth: '20rem',
+            maxWidth: '35rem',
         },
         '& .MuiChip-root': {
             'color': '#000',
             'backgroundColor': '#4B9C8E',
             'fontSize': '1rem'
         },
+        '& .MuiFormHelperText-root.Mui-error': {
+            fontSize: '1.2rem',
+            background: '#7ec2ae',
+            color: '#f00'
+        }
     },
     texto: {
         fontWeight: 'bold',
@@ -142,13 +155,109 @@ const useStyles = makeStyles((theme) => ({
         width: '60rem',
         backgroundColor: '#7ec2ae'
     },
+    textoMultiple: {
+        '& .MuiTextField-root': {
+            margin: theme.spacing(0),
+            width: '35rem',
+            'backgroundColor': '#fff',
+            'borderRadius': '0.2rem',
+        },
+        '& .MuiInputBase-input': {
+            'color': '#000',
+            'backgroundColor': '#fff',
+            'borderRadius': '0.2rem',
+            margin: theme.spacing(0),
+            width: '35rem',
+        }
+    },
+    chips: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    chip: {
+        margin: 2,
+    },
+    noLabel: {
+        marginTop: theme.spacing(3),
+    },
+    controlEditorial: {
+        '& .MuiTextField-root': {
+            'backgroundColor': '#FFF',
+            'borderRadius': '0.2rem',
+        },
+        '& .MuiInputBase-input': {
+            width: '20rem',
+            'color': '#000',
+        },
+    },
 }));
+
+let categorias = [
+    { nombre: 'Aventura', disabled: false },
+    { nombre: 'Ciencia Ficción', disabled: false },
+    { nombre: 'Policial', disabled: false },
+    { nombre: 'Fantasía', disabled: false },
+    { nombre: 'Romántico', disabled: false },
+    { nombre: 'Arte', disabled: false },
+    { nombre: 'Biografía', disabled: false },
+    { nombre: 'Poesía', disabled: false },
+    { nombre: 'Teatro', disabled: false },
+    { nombre: 'Infantil', disabled: false },
+];
+
+const conflictos = {
+    'Aventura':['Arte', 'Biografía'],
+    'Ciencia Ficción':['Arte', 'Biografía'],
+    'Policial':['Arte', 'Biografía','Infantil'],
+    'Fantasía':['Arte', 'Biografía'],
+    'Romántico':['Arte', 'Biografía','Infantil'],
+    'Arte':['Aventura', 'Ciencia Ficción','Policial','Romántico','Fantasía','Poesía','Teatro'],
+    'Biografía':['Aventura', 'Ciencia Ficción','Policial','Romántico','Fantasía','Poesía','Infantil'],
+    'Poesía':['Arte','Biografía'],
+    'Teatro':['Arte'],
+    'Infantil':['Biografía','Policial','Romántico'],
+}
+
 
 
 export default function MiniDrawer() {
+    const [categoriaLibro, setCategoriaLibro] = React.useState([]);
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
     const [libro, setLibro] = useState({ titulo: "", descripcion: "" });
+    const [aceptaTerminos, setAceptaTerminos] = useState(null)
+
+    // Estas variables son para el control de los errores en el form
+    const [errorTitulo, setErrorTitulo] = useState(null);
+    const [errorSelect, setErrorSelect] = useState(null);
+    const inputTitulo = useRef("");
+    const inputCombo = useRef();
+    const inputDescripcion = useRef("")
+    const inputEditorial = useRef("")
+
+    // Esta variable es para los mensajes de alerta
+    const alert = useAlert();
+
+    const handleSelectChange = (event) => {
+        categorias.map((value) => (
+            value.disabled = false
+        ))
+        if (event.target.value.length > 0) {
+            for (let i = 0; i < event.target.value.length; i++){
+                const nombre = event.target.value[i].nombre;
+                for (let j = 0; j < conflictos[nombre].length; j++){
+                    let con = conflictos[nombre][j];
+                    for (let k = 0; k < categorias.length; k++){
+                        if (categorias[k].nombre === con){
+                            categorias[k].disabled = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        setCategoriaLibro(event.target.value);
+    };
 
     const handleImageChange = e => {
         if (e.target.files.length) {
@@ -158,25 +267,72 @@ export default function MiniDrawer() {
             });
         }
     };
+
     const handlePdfChange = e => {
         if (e.target.files.length) {
             setPdf(e.target.files[0])
         }
     };
+
     const handleInputChange = e => {
-         setLibro({...libro , [e.target.name]: e.target.value })
-    } 
-    const handleSubmit = async e => {
-        e.preventDefault();
-        const formData = new FormData();    //formdata object
-        formData.append("imagenPath",image.raw);
-        formData.append("titulo",libro.titulo);
-        formData.append("descripcion",libro.descripcion);
-        formData.append("archivoTexto",pdf)
-        const res = await libroServices.createLibro(formData);
-       console.log(res)
+        setLibro({ ...libro, [e.target.name]: e.target.value })
     }
-    
+
+    const handleCheckboxChange = e => {
+        console.log(e.target.checked)
+        setAceptaTerminos(e.target.checked)
+    }
+
+    const handleSubmit = async e => {
+        if (validate()) {
+            e.preventDefault();
+            const formData = new FormData();    //formdata object
+            formData.append("imagenPath", image.raw);
+            formData.append("titulo", libro.titulo);
+            formData.append("descripcion", libro.descripcion);
+            formData.append("archivoTexto", pdf)
+            const res = await libroServices.createLibro(formData);
+            console.log(res);
+            alert.show("El libro se cargó correctamente!", {type: 'success', position: 'top center'});
+            resetForm();
+        }
+    }
+
+    const resetForm = () => {
+        setAceptaTerminos(null);
+        setLibro({});
+        setPdf("");
+        setImage({preview: "", raw: ""});
+        setCategoriaLibro([]);
+        setErrorSelect(null);
+        setErrorTitulo(null);
+        inputTitulo.current.value = "";
+        inputCombo.current.value = [];
+        inputDescripcion.current.value = "";
+        inputEditorial.current.value = "";
+    }
+
+    const validate = () => {
+        // creo una variable temporal temp y guardo en ella cadenas vacias si los campos son correctos u otra cadena cualquiera si no lo son
+        let temp = {}
+        temp.img = image.raw !== "" ? "" : "Imagen"
+        temp.titulo = inputTitulo.current.value.trim() !== "" ? "" : "titulo"
+        temp.pdf = pdf !== "" ? "" : "pdf"
+        temp.select = inputCombo.current.value.length !== 0 ? "" : "select"
+        temp.terminos = aceptaTerminos ? "" : "Terminos"
+
+        // verifico si existen errores y seteo la variable de correspondiente a true para marcar los campos en rojo
+        inputTitulo.current.value.trim() !== "" ? setErrorTitulo(false) : setErrorTitulo(true)
+        inputCombo.current.value.length !== 0 ? setErrorSelect(false) : setErrorSelect(true)
+
+        // genero alertas si la portada o el titulo no son correctos
+        temp.img !== "" && alert.show("Se debe cargar una portada para continuar!", {type: 'error', position: 'top right'})
+        temp.pdf !== "" && alert.show("Se debe cargar un libro para continuar!", {type: 'error', position: 'top right'})
+
+        // verifico si en temp existen cadenas no vacias, en ese caso reorna false y no continua, si todas las cadenas son vacias retorna true y continua
+        return Object.values(temp).every(x => x === "")
+    }
+
     const classes = useStyles();
     return (
         <div className={classes.root}>
@@ -186,12 +342,12 @@ export default function MiniDrawer() {
                 <React.Fragment>
                     <Container className={classes.fondo}>
                         <FormControl onSubmit={handleSubmit} >
-                            <Grid container spacing={2} className={classes.centrar}>
+                            <Grid container spacing={1} className={classes.centrar}>
                                 <Grid item xs={12}>
                                 </Grid>
                                 <Grid item xs={12} className={classes.centrar}>
                                     <Typography className={classes.titulo} variant="h4" gutterBottom >
-                                        Publicá tu historia
+                                        Publicá tu libro
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -225,34 +381,77 @@ export default function MiniDrawer() {
                                     <TextField
                                         required
                                         name="titulo"
+                                        inputRef={inputTitulo}
                                         autoFocus
                                         onChange={handleInputChange}
+                                        error={errorTitulo}
+                                        helperText={errorTitulo && "El libro debe tener un titulo"}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Typography className={classes.textoDestacado}>Descripción</Typography>
-                                    {/* <TextoMultiple onChange={handleInputChange} /> */}
                                     <TextField
+                                        className={classes.textoMultiple}
                                         name="descripcion"
+                                        inputRef = {inputDescripcion}
                                         rows={8}
                                         multiline
                                         onChange={handleInputChange}
                                     />
-
                                 </Grid>
-                                <Grid item xs={12} className={classes.controlCombo} >
+                                <Grid item xs={12} className={classes.controlEditorial}>
+                                    <Typography className={classes.textoDestacado}>Editorial</Typography>
+                                    <TextField
+                                        name="editorial"
+                                        inputRef = {inputEditorial}
+                                        autoFocus
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
                                     <Typography className={classes.textoDestacado}>Género</Typography>
-                                    <ComboBox />
+                                    <FormControl className={classes.controlCombo} error={errorSelect}>
+                                        <Select
+                                            labelId="demo-mutiple-chip-label"
+                                            id="demo-mutiple-chip"
+                                            multiple
+                                            inputRef={inputCombo}
+                                            value={categoriaLibro}
+                                            onChange={handleSelectChange}
+                                            input={<Input id="select-multiple-chip" />}
+                                            renderValue={(selected) => (
+                                                <div className={classes.chips}>
+                                                    {selected.map((value) => (
+                                                        <Chip key={value.nombre} label={value.nombre} className={classes.chip} />
+                                                    ))}
+                                                </div>
+                                            )}
+                                        >
+                                            {categorias.map((categoria) => (
+                                                <MenuItem key={categoria.nombre} value={categoria} disabled={categoria.disabled}>
+                                                    {categoria.nombre}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                        {errorSelect && <FormHelperText>{"Se debe seleccionar al menos una categoria"}</FormHelperText>}
+                                    </FormControl>
+                                    <InputLabel id="demo-mutiple-chip-label"></InputLabel>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControlLabel
                                         className={classes.controlLabel}
-                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="saveAddress" value="yes" />}
+                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="aptoTodoPúblico"  />}
                                         label="Apto para todo público "
                                     />
                                 </Grid >
+                                <Grid item xs={12}>
+                                    <FormControlLabel
+                                        className={classes.controlLabel}
+                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="AceptaTerminosCondiciones" checked={aceptaTerminos} onChange={handleCheckboxChange} />}
+                                        label={"Al subir mi libro acepto los términos y condiciones de Baku"}
+                                    />
+                                </Grid >
                                 <Grid item xs={12} >
-                                    <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}> Cargar contenido del libro
+                                    <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}> Subí el contenido de tu libro
                                         <input
                                             type="file"
                                             name="archivoTexto"
@@ -261,21 +460,9 @@ export default function MiniDrawer() {
                                             accept=".pdf"
                                         />
                                     </Button>
-                                    <label htmlFor="archivoTexto">
-                                        {pdf.preview ? (
-                                            <Typography className={classes.centrar + " " + classes.texto}>{pdf.preview}</Typography>
-                                        ) : (
-                                            <>
-                                                <span className="fa-stack fa-2x mt-3 mb-2">
-                                                    <i className="fas fa-circle fa-stack-2x" />
-                                                    <i className="fas fa-store fa-stack-1x fa-inverse" />
-                                                </span>
-                                            </>
-                                        )}
-                                    </label>
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained">Publicar</Button>
+                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained" disabled={!aceptaTerminos}>Publicar</Button>
                                 </Grid>
                                 <Grid item xs={12} >
                                 </Grid>
