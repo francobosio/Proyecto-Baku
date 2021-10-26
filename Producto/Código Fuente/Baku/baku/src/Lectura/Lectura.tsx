@@ -66,6 +66,10 @@ import { LocalizationMap } from '@react-pdf-viewer/core';
     // Import the localization file
 import es_ES from '@react-pdf-viewer/locales/lib/es_ES.json';
 
+//COMBOBOX
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -115,11 +119,11 @@ const Lectura = () => {
     let {v} = useParams<QuizParams>();
 
     //TIPO DE LETRA
-    const [tipoLetra, setTipoLetra] = React.useState('sans-serif');
-    const handleChangeTipoLetra = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTipoLetra((event.target as HTMLInputElement).value);
-    };
+    const cbTipoLetra = ['','sans-serif','italic','calibri']
 
+    const [tipoLetra2, setTipoLetra2] = React.useState<string | null>(cbTipoLetra[0]);
+    const [inputValue, setInputValue] = React.useState('');
+    
     //TEMA
     const [currentTheme, setCurrentTheme] = React.useState(localStorage.getItem('theme') || 'light');
     const themeContext = { currentTheme, setCurrentTheme };
@@ -319,8 +323,11 @@ const Lectura = () => {
         <style>
             {
             `
+            .rpv-core__text-layer{
+            }
             .rpv-core__text-layer-text {
-                font-family: ${tipoLetra} !important;
+                font-family: ${tipoLetra2} !important;
+                white-space: pre !important;
               }
             `
             }
@@ -358,14 +365,21 @@ const Lectura = () => {
                     <Brillo/>
                 </Grid>
                 <Grid item xs={6}>
-                    <FormControl component="fieldset">
-                        <FormLabel component="legend" style={{ fontWeight: 'bold'}}>Tipo de Letra</FormLabel>
-                        <RadioGroup row aria-label="gender" name="gender1" value={tipoLetra} onChange={handleChangeTipoLetra}>
-                            <FormControlLabel value="sans-serif" control={<Radio />} label="Sans Serif" />
-                            <FormControlLabel value="italic" control={<Radio />} label="Italic" />
-                            <FormControlLabel value="calibri" control={<Radio />} label="Otro" />
-                        </RadioGroup>
-                    </FormControl>
+                    <Autocomplete
+                        size="small"
+                        value={tipoLetra2}
+                        onChange={(event: any, newValue: string | null) => {
+                        setTipoLetra2(newValue);
+                        }}
+                        inputValue={inputValue}
+                        onInputChange={(event, newInputValue) => {
+                        setInputValue(newInputValue);
+                        }}
+                        id="controllable-states-demo"
+                        options={cbTipoLetra}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Tipo de Letra" />}
+                    />
                 </Grid>
             </Grid>
         </Box>
@@ -387,7 +401,7 @@ const Lectura = () => {
                         jumpToPagePluginInstance,
                         readingIndicatorPluginInstance
                         ]}
-                >{currentTheme}{tipoLetra}</Viewer>
+                >{currentTheme}{tipoLetra2}</Viewer>
             </div>
         </Worker>
 

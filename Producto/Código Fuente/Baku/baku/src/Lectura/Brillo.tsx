@@ -15,11 +15,17 @@ import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
 import Brightness6Icon from '@mui/icons-material/Brightness6';
 
+//COMBOBOX
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+
 const Brillo = () => {
-    const [tipoColor, setTipoColor] = React.useState('nb');
-    const handleChangeTipoColor = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTipoColor((event.target as HTMLInputElement).value);
-    };
+    //TIPO DE LETRA
+    const cbTipoColor = ['Ninguno','Negro/Blanco','Sepia']
+    const [important, setImportant] = React.useState('');
+
+    const [tipoColor2, setTipoColor2] = React.useState<string | null>(cbTipoColor[0]);
+    const [inputValue, setInputValue] = React.useState('');
 
     const [value, setValue] = React.useState<number>(0);
     const [brillo, setBrillo] = React.useState<number>(value*0.01*255);
@@ -34,15 +40,20 @@ const Brillo = () => {
         const a = [11,17,23,29,35,41,68,97,127,157];
             //setRojo(value*0.01*255);
         if (value < 100){
-            if (tipoColor == "sepia"){
+            if (tipoColor2 == "Sepia"){
                 setRojo(r[Math.trunc(value*0.1)]);
                 setVerde(v[Math.trunc(value*0.1)]);
                 setAzul(a[Math.trunc(value*0.1)]);
+                setImportant("important");
             }
-            if (tipoColor == "nb"){
+            if (tipoColor2 == "Negro/Blanco"){
                 setRojo(value*0.01*255);
                 setVerde(value*0.01*255);
                 setAzul(value*0.01*255);
+                setImportant("important");
+            }
+            if (tipoColor2 == "Ninguno"){
+                setImportant("");
             }
             
             
@@ -64,11 +75,11 @@ const Brillo = () => {
             <style >
                 {
                 `.rpv-core__text-layer {
-                background-color: rgb(${rojo},${verde},${azul}) !important;
+                background-color: rgb(${rojo},${verde},${azul}) !${important};
                 opacity: 1 !important;
                 }
                 .rpv-core__text-layer-text {
-                    color: rgb(${brilloTexto()},${brilloTexto()},${brilloTexto()}) !important;
+                    color: rgb(${brilloTexto()},${brilloTexto()},${brilloTexto()}) !${important};
                 }
                 
                 .rpv-core__text-layer-text::selection{
@@ -78,13 +89,21 @@ const Brillo = () => {
             </style>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
                 <Grid item xs={4} >
-                    <FormControl component="fieldset">
-                        <FormLabel component="legend" style={{ fontWeight: 'bold'}}>Tipo de Color</FormLabel>
-                        <RadioGroup row aria-label="gender" name="gender1" value={tipoColor} onChange={handleChangeTipoColor}>
-                            <FormControlLabel value="nb" control={<Radio />} label="Negro/Blanco" />
-                            <FormControlLabel value="sepia" control={<Radio />} label="Sepia" />
-                        </RadioGroup>
-                    </FormControl>
+                    <Autocomplete
+                        size="small"
+                        value={tipoColor2}
+                        onChange={(event: any, newValue: string | null) => {
+                        setTipoColor2(newValue);
+                        }}
+                        inputValue={inputValue}
+                        onInputChange={(event, newInputValue) => {
+                        setInputValue(newInputValue);
+                        }}
+                        id="controllable-states-demo"
+                        options={cbTipoColor}
+                        sx={{ width: 200 }}
+                        renderInput={(params) => <TextField {...params} label="Tipo de Color" />}
+                    />
                 </Grid>
                 <Grid item xs={4} >
                     <Box sx={{ width: 200 }}>
