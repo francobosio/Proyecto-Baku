@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
 ));
 
 export default function PrimarySearchAppBar() {
-  const {logout, user} = useAuth0();
+  const {logout} = useAuth0();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -225,7 +225,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-            <Avatar alt={user.name} src={user.picture}></Avatar>
+            <Avatar ></Avatar>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
