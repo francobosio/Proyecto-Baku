@@ -13,7 +13,7 @@ import { useState, useRef, useEffect } from 'react'
     const containerWidth = containerRef.current.clientWidth - PADDINGS;
 
     setContainerWidth(containerWidth);
-    setTotalInViewport(Math.floor(containerWidth / elementWidth));
+    setTotalInViewport(Math.floor(containerWidth / elementWidth));// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [containerRef.current]);
 
   const handlePrev = () => {
