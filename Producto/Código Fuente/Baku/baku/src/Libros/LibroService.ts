@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {Libro} from './Libro'
+import {Libro} from './Libro';
+
 
 export const getLibros = async () => {
     return await axios.get('http://localhost:4000/libros')
@@ -10,4 +11,9 @@ const config = {
 }
 export const createLibro = async (formData: FormData) =>{
     return await axios.post('http://localhost:4000/libros',formData, config)
+}
+
+//serch by string a book,title, author, description 
+export const buscarLibro = async (search: string) =>{
+    return await axios.get(`http://localhost:4000/libros/search/${search}`)
 }

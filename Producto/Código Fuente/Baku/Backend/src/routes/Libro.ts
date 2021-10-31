@@ -12,11 +12,11 @@ const libroSchema = new Schema({
     titulo:{
         type: String,
         required: true,
-        trim: true
+        trim: true,
     },
     descripcion:{
         type: String,
-        trim: true
+        trim: true,
     },
     archivoTexto:{
         type: String,
@@ -28,7 +28,8 @@ const libroSchema = new Schema({
     }
 },{
     versionKey: false,
-    timestamps: true
+    timestamps: true,
+    autoIndex: false,
 })
 
 interface ILibro extends Document {

@@ -1,5 +1,5 @@
-import React from 'react';
-import { alpha, makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -7,7 +7,7 @@ import { Grid } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
-
+import * as libroServices from '../Libros/LibroService.ts';
 //Imagenes
 import arte from "./Categorias/categoria_arte.png";
 import ciencia_ficcion from "./Categorias/categoria_ciencia_ficcion.png";
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
         color: "black",
 
     },
-    divider:{
+    divider: {
         padding: '2vh 0 2vh 0',
         backgroundColor: '#fff',
     },
@@ -80,12 +80,12 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
         opacity: 0.5,
         'display': 'flex',
-        'align-items': 'center',
-        'text-align': 'center',
-        'font-size':'1.5em',
+        'align-items': 'left',
+        'text-align': 'left',
+        'font-size': '1.5em',
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        paddingLeft: `calc(0.2em + ${theme.spacing(1)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
@@ -135,25 +135,44 @@ const categorias = [
 ];
 
 export default function TitlebarImageList() {
+
+    const [buscador, setBuscador] = useState('')
+    const [error, setError] = useState('')
     const classes = useStyles();
+    
+    const  handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!buscador) {
+            return setError('Por favor ingrese un texto valido');
+        }
+            const res = await libroServices.buscarLibros();
+            const data = await res.json();
+            console.log(data);
+            /* if  (!data)
+            return setError('No se encontraron resultados'); */
+    }
 
     return (
         <div className={classes.root}>
             <Grid className={classes.grid}>
-                <Divider className={classes.divider}/>
+                <Divider className={classes.divider} />
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
                         <SearchIcon />
                     </div>
-                    <InputBase
-                        placeholder="Buscar:"
-                        classes={{
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
+                    <form onSubmit={(e) => handleSubmit(e)}>
+                        <InputBase
+                            placeholder="Buscar"
+                            classes={{ input: classes.inputInput, }}
+                            inputProps={{ 'aria-label': 'search' }}
+                            onChange={(e) => setBuscador(e.target.value)}
+                            autoFocus
+                        />
+                    </form>
                 </div>
-                <Divider className={classes.divider}/>
+                <p >{error ? error : ''}</p>
+
+                <Divider className={classes.divider} />
                 <ImageList rowHeight={320} className={classes.imageList} cols={3} gap={20}>
                     <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
                         <ListSubheader component="div" className={classes.titulo}>Explorar todo:</ListSubheader>

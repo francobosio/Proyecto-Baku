@@ -15,4 +15,6 @@ router.get('/libros/delete/:id', libroCtrl.deleteLibro)
 
 router.put('/libros/:id', libroCtrl.updateLibro)
 
+router.get('/libros/buscar/:buscar', libroCtrl.buscarLibro)
+
 export default router
