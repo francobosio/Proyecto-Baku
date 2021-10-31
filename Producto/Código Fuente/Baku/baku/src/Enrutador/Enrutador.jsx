@@ -26,6 +26,7 @@ export default function Layout() {
                         <Route exact path="/Lectura/:v/:pdf" component={isLoading? Loading: isAuthenticated?  Lectura: Home}/>
                         <Route exact path="/Publicar" component={isLoading? Loading: isAuthenticated? Publicar: Home} />
                         <Route exact path="/Buscar" component={isLoading? Loading: isAuthenticated? Buscar: Home} />
+                        <Route exact path="/Buscar/:buscar" component={isLoading? Loading: isAuthenticated? Buscar: Home} />
                         <Route exact path="/Biblioteca" component={isLoading? Loading: isAuthenticated? Biblioteca :Home} />
                         <Route exact path="/Perfil" component={isLoading? Loading: isAuthenticated? Perfil: Home} />
                         

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import * as libroService from '../Libros/LibroService'
 import { makeStyles } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
@@ -7,7 +8,7 @@ import { Grid } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
-import * as libroServices from '../Libros/LibroService.ts';
+import { useHistory } from "react-router-dom";
 //Imagenes
 import arte from "./Categorias/categoria_arte.png";
 import ciencia_ficcion from "./Categorias/categoria_ciencia_ficcion.png";
@@ -135,24 +136,29 @@ const categorias = [
 ];
 
 export default function TitlebarImageList() {
+    
 
     const [buscador, setBuscador] = useState('')
     const [error, setError] = useState('')
-    const classes = useStyles();
-    
-    const  handleSubmit = async (e) => {
+    const classes = useStyles();  
+    let history = useHistory();
+
+    const handleSubmit = async (e) => {
+
         e.preventDefault();
+        history.push("/Buscar/"+ buscador);
         if (!buscador) {
             return setError('Por favor ingrese un texto valido');
         }
-            const res = await libroServices.buscarLibros();
-            const data = await res.json();
-            console.log(data);
-            /* if  (!data)
-            return setError('No se encontraron resultados'); */
+        const res = await libroService.buscarLibro();
+        const data = await res.json();
+        console.log(data);
+        
+        /* if  (!data)
+        return setError('No se encontraron resultados'); */
     }
-
     return (
+
         <div className={classes.root}>
             <Grid className={classes.grid}>
                 <Divider className={classes.divider} />
@@ -160,20 +166,24 @@ export default function TitlebarImageList() {
                     <div className={classes.searchIcon}>
                         <SearchIcon />
                     </div>
-                    <form onSubmit={(e) => handleSubmit(e)}>
-                        <InputBase
-                            placeholder="Buscar"
-                            classes={{ input: classes.inputInput, }}
-                            inputProps={{ 'aria-label': 'search' }}
-                            onChange={(e) => setBuscador(e.target.value)}
-                            autoFocus
-                        />
-                    </form>
+                    <InputBase
+                        placeholder="Buscar"
+                        classes={{ input: classes.inputInput, }}
+                        inputProps={{ 'aria-label': 'search' }}
+                        onChange={(e) => setBuscador(e.target.value)}
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                alert('Enter clicked!!!');  
+                                handleSubmit(e);
+                            }
+                        }}
+                        autoFocus
+                    />
                 </div>
                 <p >{error ? error : ''}</p>
 
                 <Divider className={classes.divider} />
-                <ImageList rowHeight={320} className={classes.imageList} cols={3} gap={20}>
+                <ImageList rowHeight={320} className={classes.imageList} cols={3} gap={20} >
                     <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
                         <ListSubheader component="div" className={classes.titulo}>Explorar todo:</ListSubheader>
                     </ImageListItem>
@@ -186,4 +196,5 @@ export default function TitlebarImageList() {
             </Grid>
         </div>
     );
+    
 }
