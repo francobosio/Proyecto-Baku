@@ -10,11 +10,8 @@ import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
 import { Link } from "react-router-dom";
 import { Container } from '@material-ui/core';
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> main
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -59,29 +56,17 @@ export default function TitlebarImageList() {
     let array = [];
     
     return (
-<<<<<<< HEAD
-        <div className={classes.root}>
-            <ImageList rowHeight={400} className={classes.imageList} cols={6} gap={20}>
-                <ImageListItem key="Subheader" cols={6} style={{ height: 'auto' }}>
-                    <ListSubheader component="div" className={classes.titulo}>Mi Biblioteca</ListSubheader>
-                </ImageListItem>
-                {categorias.map((item) => (
-                        <ImageListItem key={item.img}>
-                            <img src={item.img} alt={item.title} />
-=======
         <Container className={classes.root} maxWidth="xl">
-            
             <div className={classes.root}>
                 <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={20}>
                     <ImageListItem key="Subheader" cols={5} style={{ height: 'auto' }}>
-                        <ListSubheader component="div" className={classes.titulo}>Mi Biblioteca :</ListSubheader>
+                        <ListSubheader component="div" className={classes.titulo}>Mi Biblioteca</ListSubheader>
                     </ImageListItem>
                     {libros.map((item) => (
                         
                         <ImageListItem key={item.id} style={{ width: "16.8rem", height: "23.5rem"}} >
                             {array=item.archivoTexto.split("/")}
                             <img src={item.imagenPath} alt={item.titulo} />
->>>>>>> main
                             <ImageListItemBar
                                 title={item.titulo}
                                 //subtitle={<span>por: {item.autor}</span>}

@@ -14,7 +14,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import { useAuth0 } from '@auth0/auth0-react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar'
 
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
 ));
 
 export default function PrimarySearchAppBar() {
-  const {logout} = useAuth0();
+  const { logout, user } = useAuth0();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -225,7 +225,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-            <Avatar ></Avatar>
+              <Avatar alt={user.name} src={user.picture}></Avatar>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>

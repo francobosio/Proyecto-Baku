@@ -31,7 +31,7 @@ export const createLibro: RequestHandler = async (req, res) => {
     fs.unlink(files.imagenPath[0].path);
     fs.unlink(files.archivoTexto[0].path);
     return res.json({
-        message: "Libro cargado con éxito !!!"
+        libro
     })
 
     //Para verificar que no haya otro libro con el mismo titulo sujeto a revision

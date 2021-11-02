@@ -1,14 +1,15 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, useParams } from "react-router-dom";
+import {useAuth0} from '@auth0/auth0-react'
+
 import Home from "../Home/Home.jsx";
 import Inicio from '../Inicio/Inicio.jsx';
 import Lectura from '../Lectura/Lectura.tsx';
 import Publicar from '../Publicar/Publicar.jsx';
 import Buscar from '../Buscar/Buscar.jsx';
 import Biblioteca from '../Biblioteca/Biblioteca.jsx';
-import {useAuth0} from '@auth0/auth0-react'
-import Perfil from '../Login/Perfil.jsx'
-import {Loading} from  '../Login/Loading.jsx'
+import Perfil from '../Sesión/Perfil.jsx'
+import {Loading} from  '../Sesión/Loading.jsx'
 
 export default function Layout() {
     {/* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links

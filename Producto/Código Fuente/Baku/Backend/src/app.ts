@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 import config from './config'
 import libroRoutes from './routes/libros.routes'
+import usuarioRoutes from './routes/usuarios.routes'
 import path from 'path'
 const app = express()
 
@@ -19,6 +20,7 @@ app.use('/uploads' , express.static(path.resolve('upload')))
 
 //rutas
 app.use(libroRoutes)
+app.use(usuarioRoutes)
 
 
 export default app;
