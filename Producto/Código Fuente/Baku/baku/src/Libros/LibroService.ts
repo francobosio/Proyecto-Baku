@@ -10,6 +10,6 @@ const config = {
 export const createLibro = async (formData: FormData) =>{
     return await axios.post('http://localhost:4000/libros',formData, config)
 }
-export const buscarLibro = async (search: string) =>{
-    return await axios.get(`http://localhost:4000/libros/search/${search}`)
+export const buscarLibro = async (buscar: string) =>{
+    return await axios.get(`http://localhost:4000/libros/buscar/${buscar}`)
 }

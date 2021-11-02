@@ -11,8 +11,8 @@ import Perfil from '../Login/Perfil.jsx'
 import {Loading} from  '../Login/Loading.jsx'
 
 export default function Layout() {
-    {/* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
-    isAuthenticated permite saber si el usuario esta autenticado, isLoading permite saber si la aplicación esta cargando datos desde auth0 */}
+    /* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
+    isAuthenticated permite saber si el usuario esta autenticado, isLoading permite saber si la aplicación esta cargando datos desde auth0 */
     const {isAuthenticated, isLoading} = useAuth0();
     return (
         <div>
@@ -26,7 +26,6 @@ export default function Layout() {
                         <Route exact path="/Lectura/:v/:pdf" component={isLoading? Loading: isAuthenticated?  Lectura: Home}/>
                         <Route exact path="/Publicar" component={isLoading? Loading: isAuthenticated? Publicar: Home} />
                         <Route exact path="/Buscar" component={isLoading? Loading: isAuthenticated? Buscar: Home} />
-                        <Route exact path="/Buscar/:buscar" component={isLoading? Loading: isAuthenticated? Buscar: Home} />
                         <Route exact path="/Biblioteca" component={isLoading? Loading: isAuthenticated? Biblioteca :Home} />
                         <Route exact path="/Perfil" component={isLoading? Loading: isAuthenticated? Perfil: Home} />
                         

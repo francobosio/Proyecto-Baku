@@ -78,6 +78,7 @@ export const updateLibro: RequestHandler = async (req, res) => {
 }
 
 export const buscarLibro: RequestHandler = async (req, res) => {
+    console.log(req.params)
     const busqueda = req.params.buscar;
     const valor ="\""+ `${busqueda}` + "\"";
     console.log(valor);
