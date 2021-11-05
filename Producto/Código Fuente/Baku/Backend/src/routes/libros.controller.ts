@@ -23,7 +23,11 @@ export const createLibro: RequestHandler = async (req, res) => {
         titulo,
         descripcion,
         archivoTexto: respuestaPdf.url,
-        public_id_pdf: respuestaPdf.public_id
+        public_id_pdf: respuestaPdf.public_id,
+        genero: req.body.genero,
+        autor: req.body.autor,
+        aptoTodoPublico: req.body.aptoTodoPublico,
+        aceptaTerminos: req.body.aceptaTerminos,
     };
     const libro = new Libro(newLibro);
     console.log(libro)

@@ -64,7 +64,6 @@ export default function TitlebarImageList() {
                         <ListSubheader component="div" className={classes.titulo}>Mi Biblioteca :</ListSubheader>
                     </ImageListItem>
                     {libros.map((item) => (
-                        
                         <ImageListItem key={item.id} style={{ width: "16.8rem", height: "23.5rem"}} >
                             {array=item.archivoTexto.split("/")}
                             <img src={item.imagenPath} alt={item.titulo} />
