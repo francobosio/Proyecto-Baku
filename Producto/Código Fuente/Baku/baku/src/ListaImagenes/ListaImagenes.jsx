@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import { Grid } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
@@ -13,6 +13,10 @@ import IconButton from '@material-ui/core/IconButton';
 import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import { CardActionArea } from '@mui/material';
 //Imagenes
 import arte from "./Categorias/categoria_arte.png";
 import ciencia_ficcion from "./Categorias/categoria_ciencia_ficcion.png";
@@ -32,9 +36,11 @@ const useStyles = makeStyles((theme) => ({
         'background': '#99cfbf',
         display: 'flex',
         flexWrap: 'wrap',
+        flexDirection: 'row',
         justifyContent: 'space-around',
         overflow: 'hidden',
-        "margin-bottom": "2rem"
+        "margin-bottom": "2rem",
+        "align-items":"center",
     },
     imageList: {
         width: 900,
@@ -99,6 +105,14 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         color: '#932121'
+    },
+    contenedor: {
+        display: 'flex',
+        width: "100%",
+        'flex-direction': 'row',
+        'align-items': 'center',
+        'justify-content': 'space-around',
+        'flex-wrap': 'wrap'
     },
 }));
 
@@ -177,6 +191,11 @@ export default function TitlebarImageList() {
             }
         }, 1000);
     }
+
+    const handleClick = () => {
+        console.log("CLICK");
+    }
+
     let array = [];
     return (
         <div className={classes.root}>
@@ -230,19 +249,41 @@ export default function TitlebarImageList() {
                             </ImageListItem>
                         ))}
                     </ImageList>
-
                     :
-                    <ImageList rowHeight={320} className={classes.imageList} cols={3} gap={20} >
+                    //ORIGINAL
+                    /* <ImageList rowHeight={320} className={classes.imageList} cols={3} >
                         <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
                             <ListSubheader component="div" className={classes.titulo}>Explorar todo:</ListSubheader>
+                        </ImageListItem> */
+                    /* {categorias.map((item) => (
+                        //evento click
+                        <ImageListItem key={item.img} onClick={handleClick}>
+                            <img src={item.img} alt={item.title} />
                         </ImageListItem>
-                        {categorias.map((item) => (
-                            <ImageListItem key={item.img}>
-                                <img src={item.img} alt={item.title} />
-                            </ImageListItem>
-                        ))}
-                    </ImageList>
+                    ))} */
+                    <Container>
+                        <Container>
+                             <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
+                        </Container>
+                        <Container className={classes.contenedor}>
 
+                            {categorias.map((item) =>
+                            (
+                                <Card style={{ maxWidth: 345 , width:"18rem",background:"#99cfbf","margin-top": "10px"}}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            component="img"
+                                            height="auto"
+                                            image={item.img}
+                                            alt="green iguana"
+                                            style={{ "margin-top": "-2px"}}
+                                        />
+                                    </CardActionArea>
+                                </Card>
+                            ))}
+                        </Container>
+                    </Container>
+                    /* </ImageList> */
                 }
             </Grid>
         </div >

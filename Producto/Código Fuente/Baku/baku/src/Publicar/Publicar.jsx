@@ -227,6 +227,7 @@ export default function MiniDrawer() {
     const [libro, setLibro] = useState({ titulo: "", descripcion: "" });
     const [aceptaTerminos, setAceptaTerminos] = useState(null)
     const [aptoTodoPublico, setAptoTodoPublicos] = useState(null)
+    const [estado, setEstado] = useState("Registrado")
 
     // Estas variables son para el control de los errores en el form
     const [errorTitulo, setErrorTitulo] = useState(null);
@@ -296,12 +297,13 @@ export default function MiniDrawer() {
             formData.append("titulo", libro.titulo);
             formData.append("descripcion", libro.descripcion);
             formData.append("archivoTexto", pdf)
-            // eslint-disable-next-line array-callback-return
             categoriaLibro.map((value) => {
-                formData.append('genero', value.nombre);
+                return formData.append('genero', value.nombre);
             })
             formData.append("aptoTodoPublico", aptoTodoPublico);
             formData.append("aceptaTerminos", aceptaTerminos);
+            formData.append("estado", estado)
+            console.log(estado)
             const res = await libroServices.createLibro(formData);
             console.log(res);
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });

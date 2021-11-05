@@ -30,7 +30,6 @@ const libroSchema = new Schema({
         type: String,
         trim: true,
     },
-    //array de generos
     genero:{
         type: [String],
         trim: true,
@@ -41,6 +40,9 @@ const libroSchema = new Schema({
     aceptaTerminos:{
         type: Boolean,
         required: true,
+    },
+    estado:{
+        type: String,
     },
 },{
     versionKey: false,
@@ -59,5 +61,6 @@ interface ILibro extends Document {
     genero: string;
     aptoTodoPublico: boolean;
     aceptaTerminos: boolean;
+    estado: string;
 }
 export default model<ILibro>('Libro', libroSchema);
