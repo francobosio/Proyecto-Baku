@@ -8,6 +8,10 @@ router.post('/usuarios', usuarioCtrl.createUsuario)
 
 router.get('/usuarios/:auth0id', usuarioCtrl.getUsuario)
 
+router.get('/usuario/ultimaPagina/:auth0id/:idLibro', usuarioCtrl.getUltimaPagina)
+
 router.put('/usuarios/libroSubido', usuarioCtrl.putLibroPublicado)
+
+router.put('/usuarios/libroLeido/', usuarioCtrl.putLibroLeido)
 
 export default router;

@@ -15,3 +15,11 @@ export const createUsuario = async (usuarioData: {}) => {
 export const usuarioLibroCargado = async (usuarioLibroData: {}) => {
     return await axios.put('http://localhost:4000/usuarios/libroSubido/', usuarioLibroData)
 }
+
+export const  usuarioLibroLeido = async (usuarioLibroLeidoData: {}) => {
+    return await axios.put('http://localhost:4000/usuarios/libroLeido/', usuarioLibroLeidoData)
+}
+
+export const usuarioUltimaPagina = async (auth0id:String, idLibro:String) => {
+    return await axios.get("http://localhost:4000/usuario/ultimaPagina/" + auth0id + "/" + idLibro)
+}

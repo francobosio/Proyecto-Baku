@@ -24,7 +24,7 @@ export default function Layout() {
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/Inicio" component={isLoading? Loading: isAuthenticated? Inicio:Home} />
-                        <Route exact path="/Lectura/:v/:pdf" component={isLoading? Loading: isAuthenticated?  Lectura: Home}/>
+                        <Route exact path="/Lectura/:id" component={isLoading? Loading: isAuthenticated?  Lectura: Home}/>
                         <Route exact path="/Publicar" component={isLoading? Loading: isAuthenticated? Publicar: Home} />
                         <Route exact path="/Buscar" component={isLoading? Loading: isAuthenticated? Buscar: Home} />
                         <Route exact path="/Biblioteca" component={isLoading? Loading: isAuthenticated? Biblioteca :Home} />

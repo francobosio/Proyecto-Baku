@@ -6,6 +6,7 @@ import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Slider from '../CarouselPrincipal';
 import { useAuth0 } from '@auth0/auth0-react'
+import Skeleton from '@mui/material/Skeleton';
 
 import { MiDrawer } from "../Drawer/Drawer.jsx";
 import * as libroService from '../Libros/LibroService'
@@ -84,28 +85,27 @@ export default function Inicio() {
         loadLibros()
     }, [])
 
-    let usuario;
+
     const loadUsuario = async () => {
         const res = await usuarioService.getUsuario(user.sub);
-        usuario = res.data;
-        if (usuario == null){
+        let usuario = res.data;
+        if (usuario == null) {
             const usuarioData = {
                 'auth0_id': user.sub,
-                'apellido': user.family_name? user.family_name: user.nickname,
-                'nombre': user.given_name? user.given_name: user.nickname,
+                'apellido': user.family_name ? user.family_name : user.nickname,
+                'nombre': user.given_name ? user.given_name : user.nickname,
                 'correo_electronico': user.email
             }
             console.log(usuarioData);
             const res = await usuarioService.createUsuario(usuarioData)
             usuario = res.data.usuario
             console.log('usuario creado: ', usuario)
-        } 
+        }
         localStorage.setItem("usuario_activo", usuario.auth0_id)
     }
-
     useEffect(() => {
         loadUsuario()
-    }, []) 
+    }, [])
 
     const { user } = useAuth0();
     const classes = useStyles();
@@ -120,33 +120,44 @@ export default function Inicio() {
                         imagenesCarrusel.map((item) => { return <Item key={item.id} item={item.img} /> })
                     }
                 </Carousel>
-                {libros.length > 0 &&
-                    (<div>
-                        <Typography variant='h4' className={classes.titulo} >Leídos recientemente</Typography>
+                <div>
+                    <Typography variant='h4' className={classes.titulo} >Subidos recientemente</Typography>
+                    {libros.length > 0 ? (
                         <Slider >
-                            {libros.map(movie => (
+                            {[...libros].reverse().map(movie => (
                                 <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                             ))}
-                        </Slider>
-                        <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
+                        </Slider>) : (
+                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'30vh'} />)
+                    }
+                    <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
+                    {libros.length > 0 ? (
                         <Slider className={classes.slider}>
                             {libros.map(movie => (
                                 <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                             )).sort(() => Math.random() - 0.5)}
-                        </Slider>
-                        <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
+                        </Slider>) : (
+                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'30vh'} />)
+                    }
+                    <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
+                    {libros.length > 0 ? (
                         <Slider className={classes.slider}>
                             {libros.map(movie => (
                                 <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                             )).sort(() => Math.random() - 0.5)}
-                        </Slider>
-                        <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
-                        <Slider className={classes.slider}>
-                            {libros.map(movie => (
-                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                            )).sort(() => Math.random() - 0.5)}
-                        </Slider>
-                    </div>)}
+                        </Slider>) : (
+                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'30vh'} />)
+                    }
+                    <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
+                    {libros.length > 0 ? (
+                    <Slider className={classes.slider}>
+                        {libros.map(movie => (
+                            <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                        )).sort(() => Math.random() - 0.5)}
+                    </Slider>) : (
+                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'30vh'} />)
+                    }
+                </div>
                 <Footy />
             </main>
         </div>

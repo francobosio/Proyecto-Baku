@@ -21,16 +21,10 @@ const usuarioSchema = new Schema({
         type: Date,
     },
     libros_publicados:[
-        {
-            id_libro: String,
-            ultima_pagina: Number,
-        }
+
     ],
     libros_leidos:[
-        {
-            id_libro: String,
-            fecha_publicacion: Date,
-        }
+
     ],
 },{
     versionKey: false,
