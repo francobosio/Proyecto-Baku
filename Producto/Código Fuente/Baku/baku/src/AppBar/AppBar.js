@@ -125,6 +125,20 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  /* const handleSubmit = async (e) => {
+    setEstado(true);
+    if (!buscador) {
+        setEstado(false);
+        return setError('Por favor ingrese un texto valido');
+    }
+    const res = await libroService.buscarLibro(busquedaVariable);
+    setLibroBuscado(res.data, setError(''));
+    console.log(res);
+    if (!res.data.length) {
+        return setError('No se encontraron resultados');
+    }
+} */
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -194,11 +208,12 @@ export default function PrimarySearchAppBar() {
             </div>
             <InputBase
               placeholder="Autor, Título o Editorial"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
+              classes={{ root: classes.inputRoot, input: classes.inputInput, }}
               inputProps={{ 'aria-label': 'search' }}
+             /*  onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  console.log('Enter clicked!!!');
+                  handleSubmit(e);}}} */
             />
           </div>
 
@@ -207,11 +222,6 @@ export default function PrimarySearchAppBar() {
             <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
           </div>
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge color="secondary">
                 <NotificationsIcon />

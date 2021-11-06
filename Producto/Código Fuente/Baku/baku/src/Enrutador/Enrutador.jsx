@@ -12,8 +12,8 @@ import Perfil from '../Sesión/Perfil.jsx'
 import {Loading} from  '../Sesión/Loading.jsx'
 
 export default function Layout() {
-    {/* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
-    isAuthenticated permite saber si el usuario esta autenticado, isLoading permite saber si la aplicación esta cargando datos desde auth0 */}
+    /* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
+    isAuthenticated permite saber si el usuario esta autenticado, isLoading permite saber si la aplicación esta cargando datos desde auth0 */
     const {isAuthenticated, isLoading} = useAuth0();
     return (
         <div>
