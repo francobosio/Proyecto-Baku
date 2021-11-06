@@ -128,7 +128,7 @@ export default function Inicio() {
                                 <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                             ))}
                         </Slider>) : (
-                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'30vh'} />)
+                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
                     }
                     <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
                     {libros.length > 0 ? (
@@ -137,7 +137,7 @@ export default function Inicio() {
                                 <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                             )).sort(() => Math.random() - 0.5)}
                         </Slider>) : (
-                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'30vh'} />)
+                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
                     }
                     <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
                     {libros.length > 0 ? (
@@ -146,7 +146,7 @@ export default function Inicio() {
                                 <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                             )).sort(() => Math.random() - 0.5)}
                         </Slider>) : (
-                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'30vh'} />)
+                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
                     }
                     <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                     {libros.length > 0 ? (
@@ -155,7 +155,7 @@ export default function Inicio() {
                             <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                         )).sort(() => Math.random() - 0.5)}
                     </Slider>) : (
-                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'30vh'} />)
+                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
                     }
                 </div>
                 <Footy />
