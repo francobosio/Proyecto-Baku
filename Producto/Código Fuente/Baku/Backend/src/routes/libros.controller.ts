@@ -4,6 +4,8 @@ import Libro from './Libro'
 import multer from "multer"
 import config from '../config'
 import fs from 'fs-extra'
+import redis from 'redis'
+import { promisify } from 'util'
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -11,6 +13,10 @@ cloudinary.config({
     api_key: config.API_KEY,
     api_secret: config.API_SECRET,
 });
+
+const client = redis.createClient();
+const GET_ASYNC = promisify(client.get).bind(client);
+const SET_ASYNC = promisify(client.set).bind(client);
 
 export const createLibro: RequestHandler = async (req, res) => {
     const { titulo, descripcion } = req.body;
@@ -49,14 +55,26 @@ export const createLibro: RequestHandler = async (req, res) => {
     //res.json(savedLibro);
 }
 
+//use redis to cache the data
 export const getLibros: RequestHandler = async (req, res) => {
     try {
-        const libros = await Libro.find()
-        return res.json(libros);
+        let reply:any = await GET_ASYNC('libros')
+        if (reply) {
+            return res.json(JSON.parse(reply))
+        }
+        else {
+
+            const libros = await Libro.find()
+
+            reply = await SET_ASYNC('libros', JSON.stringify(libros))
+
+            res.json(libros);
+        }
     } catch (error) {
-        res.json(error)
+        res.json({ message: error })
     }
 }
+
 
 export const getLibro: RequestHandler = async (req, res) => {
     const libroFound = await Libro.findById(req.params.id);
