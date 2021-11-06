@@ -7,7 +7,7 @@ const camposArchivo = multer.fields([{ name:'imagenPath', maxCount: 1 }, { name:
 
 router.get('/libros', libroCtrl.getLibros);
 
-router.get('/libros/:id', libroCtrl.getLibro)
+router.get('/libro/:id', libroCtrl.getLibro)
 
 router.post('/libros', camposArchivo, libroCtrl.createLibro)
 
