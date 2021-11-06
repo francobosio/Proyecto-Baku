@@ -12,7 +12,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import { useAuth0 } from '@auth0/auth0-react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../Imagenes/Logo Blanco Sin Letras.png';
 import Avatar from '@material-ui/core/Avatar'
 import { useHistory } from "react-router-dom";
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       'background': '#E5A65E',
       'color': '#FFFFFF',
-  }
+    }
 
   },
   imagen: {
@@ -120,8 +120,7 @@ const useStyles = makeStyles((theme) => ({
 ));
 
 export default function PrimarySearchAppBar() {
-  let history = useHistory()
-  const {logout, user} = useAuth0();
+  const { logout, user } = useAuth0();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -209,23 +208,20 @@ export default function PrimarySearchAppBar() {
       <AppBar position="static"  >
         <Toolbar className={classes.toolbar}>
           <div >
-          <img src={logo} alt="" className={classes.imagen} />
+            <img src={logo} alt="" className={classes.imagen} />
           </div>
-          <Button className={classes.boton + " " + classes.botonVerde} variant="contained">
-            <Button className={classes.link} onClick={history.goBack}>Atrás</Button>
-          </Button>
           <div className={classes.grow} />
           <div>
             <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
           </div>
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge  color="secondary">
+              <Badge color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge  color="secondary">
+              <Badge color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -237,7 +233,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-            <Avatar alt={user.name} src={user.picture}></Avatar>
+              <Avatar alt={user.name} src={user.picture}></Avatar>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>

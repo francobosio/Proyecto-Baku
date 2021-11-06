@@ -17,9 +17,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import { useAlert } from 'react-alert';
-import { positions } from 'react-alert';
+import { useAuth0 } from '@auth0/auth0-react'
 
 import * as libroServices from '../Libros/LibroService.ts';
+import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -292,6 +293,7 @@ export default function MiniDrawer() {
     const handleSubmit = async e => {
         if (validate()) {
             e.preventDefault();
+            const usuario_auth0Id = localStorage.getItem("usuario_activo")
             const formData = new FormData();    //formdata object
             formData.append("imagenPath", image.raw);
             formData.append("titulo", libro.titulo);
@@ -305,8 +307,14 @@ export default function MiniDrawer() {
             formData.append("estado", estado)
             console.log(estado)
             const res = await libroServices.createLibro(formData);
-            console.log(res);
-            alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
+            console.log(res.data.libro._id);
+            const idData = {
+                'auth0id': usuario_auth0Id,
+                'idLibro': res.data.libro._id
+            };
+            const res2 = await usuarioService.usuarioLibroCargado(idData);
+            console.log(res2);
+            alert.show("El libro se cargó correctamente!", {type: 'success', position: 'top center'});
             resetForm();
         }
     }
