@@ -14,7 +14,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import { useAuth0 } from '@auth0/auth0-react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar'
 
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
 ));
 
 export default function PrimarySearchAppBar() {
-  const {logout, user} = useAuth0();
+  const { logout, user } = useAuth0();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -124,6 +124,20 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  /* const handleSubmit = async (e) => {
+    setEstado(true);
+    if (!buscador) {
+        setEstado(false);
+        return setError('Por favor ingrese un texto valido');
+    }
+    const res = await libroService.buscarLibro(busquedaVariable);
+    setLibroBuscado(res.data, setError(''));
+    console.log(res);
+    if (!res.data.length) {
+        return setError('No se encontraron resultados');
+    }
+} */
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -194,11 +208,12 @@ export default function PrimarySearchAppBar() {
             </div>
             <InputBase
               placeholder="Autor, Título o Editorial"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
+              classes={{ root: classes.inputRoot, input: classes.inputInput, }}
               inputProps={{ 'aria-label': 'search' }}
+             /*  onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  console.log('Enter clicked!!!');
+                  handleSubmit(e);}}} */
             />
           </div>
 
@@ -207,11 +222,6 @@ export default function PrimarySearchAppBar() {
             <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
           </div>
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge color="secondary">
                 <NotificationsIcon />
@@ -225,7 +235,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-            <Avatar alt={user.name} src={user.picture}></Avatar>
+              <Avatar alt={user.name} src={user.picture}></Avatar>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>

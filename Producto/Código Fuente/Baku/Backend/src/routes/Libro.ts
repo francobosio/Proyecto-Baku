@@ -12,11 +12,11 @@ const libroSchema = new Schema({
     titulo:{
         type: String,
         required: true,
-        trim: true
+        trim: true,
     },
     descripcion:{
         type: String,
-        trim: true
+        trim: true,
     },
     archivoTexto:{
         type: String,
@@ -25,10 +25,29 @@ const libroSchema = new Schema({
     public_id_pdf:{
         type: String,
         required:true
-    }
+    },
+    autor:{
+        type: String,
+        trim: true,
+    },
+    genero:{
+        type: [String],
+        trim: true,
+    },
+    aptoTodoPublico:{
+        type: Boolean,
+    },
+    aceptaTerminos:{
+        type: Boolean,
+        required: true,
+    },
+    estado:{
+        type: String,
+    },
 },{
     versionKey: false,
-    timestamps: true
+    timestamps: true,
+    autoIndex: false,
 })
 
 interface ILibro extends Document {
@@ -38,5 +57,10 @@ interface ILibro extends Document {
     descripcion: string;
     archivoTexto: string;
     public_id_pdf: string;
+    autor: string;
+    genero: string;
+    aptoTodoPublico: boolean;
+    aceptaTerminos: boolean;
+    estado: string;
 }
 export default model<ILibro>('Libro', libroSchema);

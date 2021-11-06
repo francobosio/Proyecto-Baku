@@ -203,31 +203,31 @@ let categorias = [
     { nombre: 'Poesía', disabled: false },
     { nombre: 'Teatro', disabled: false },
     { nombre: 'Infantil', disabled: false },
-    { nombre: 'Terror', disabled: false},
+    { nombre: 'Terror', disabled: false },
 ];
 
 const conflictos = {
-    'Aventura':['Arte', 'Biografía'],
-    'Terror':['Biografía','Arte','Romántico'],
-    'Ciencia Ficción':['Arte', 'Biografía'],
-    'Policial':['Arte', 'Biografía','Infantil'],
-    'Fantasía':['Arte', 'Biografía'],
-    'Romántico':['Arte', 'Biografía','Infantil'],
-    'Arte':['Aventura', 'Ciencia Ficción','Policial','Romántico','Fantasía','Poesía','Teatro'],
-    'Biografía':['Aventura', 'Ciencia Ficción','Policial','Romántico','Fantasía','Poesía','Infantil'],
-    'Poesía':['Arte','Biografía'],
-    'Teatro':['Arte'],
-    'Infantil':['Biografía','Policial','Romántico'],
+    'Aventura': ['Arte', 'Biografía'],
+    'Terror': ['Biografía', 'Arte', 'Romántico'],
+    'Ciencia Ficción': ['Arte', 'Biografía'],
+    'Policial': ['Arte', 'Biografía', 'Infantil'],
+    'Fantasía': ['Arte', 'Biografía'],
+    'Romántico': ['Arte', 'Biografía', 'Infantil'],
+    'Arte': ['Aventura', 'Ciencia Ficción', 'Policial', 'Romántico', 'Fantasía', 'Poesía', 'Teatro'],
+    'Biografía': ['Aventura', 'Ciencia Ficción', 'Policial', 'Romántico', 'Fantasía', 'Poesía', 'Infantil'],
+    'Poesía': ['Arte', 'Biografía'],
+    'Teatro': ['Arte'],
+    'Infantil': ['Biografía', 'Policial', 'Romántico'],
 }
 
-
-
 export default function MiniDrawer() {
-    const [categoriaLibro, setCategoriaLibro] = React.useState([]);
+    const [categoriaLibro, setCategoriaLibro] = useState([]);
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
     const [libro, setLibro] = useState({ titulo: "", descripcion: "" });
     const [aceptaTerminos, setAceptaTerminos] = useState(null)
+    const [aptoTodoPublico, setAptoTodoPublicos] = useState(null)
+    const [estado, setEstado] = useState("Registrado")
 
     // Estas variables son para el control de los errores en el form
     const [errorTitulo, setErrorTitulo] = useState(null);
@@ -245,12 +245,13 @@ export default function MiniDrawer() {
             value.disabled = false
         ))
         if (event.target.value.length > 0) {
-            for (let i = 0; i < event.target.value.length; i++){
+            console.log(event.target.value)
+            for (let i = 0; i < event.target.value.length; i++) {
                 const nombre = event.target.value[i].nombre;
-                for (let j = 0; j < conflictos[nombre].length; j++){
+                for (let j = 0; j < conflictos[nombre].length; j++) {
                     let con = conflictos[nombre][j];
-                    for (let k = 0; k < categorias.length; k++){
-                        if (categorias[k].nombre === con){
+                    for (let k = 0; k < categorias.length; k++) {
+                        if (categorias[k].nombre === con) {
                             categorias[k].disabled = true;
                             break;
                         }
@@ -280,9 +281,12 @@ export default function MiniDrawer() {
         setLibro({ ...libro, [e.target.name]: e.target.value })
     }
 
-    const handleCheckboxChange = e => {
-        console.log(e.target.checked)
+    const handleAceptaTerminoChange = e => {
         setAceptaTerminos(e.target.checked)
+    }
+
+    const handleParaTodoPublicoChange = e => {
+        setAptoTodoPublicos(e.target.checked)
     }
 
     const handleSubmit = async e => {
@@ -293,9 +297,16 @@ export default function MiniDrawer() {
             formData.append("titulo", libro.titulo);
             formData.append("descripcion", libro.descripcion);
             formData.append("archivoTexto", pdf)
+            categoriaLibro.map((value) => {
+                return formData.append('genero', value.nombre);
+            })
+            formData.append("aptoTodoPublico", aptoTodoPublico);
+            formData.append("aceptaTerminos", aceptaTerminos);
+            formData.append("estado", estado)
+            console.log(estado)
             const res = await libroServices.createLibro(formData);
             console.log(res);
-            alert.show("El libro se cargó correctamente!", {type: 'success', position: 'top center'});
+            alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
         }
     }
@@ -304,7 +315,7 @@ export default function MiniDrawer() {
         setAceptaTerminos(null);
         setLibro({});
         setPdf("");
-        setImage({preview: "", raw: ""});
+        setImage({ preview: "", raw: "" });
         setCategoriaLibro([]);
         setErrorSelect(null);
         setErrorTitulo(null);
@@ -331,8 +342,8 @@ export default function MiniDrawer() {
         inputCombo.current.value.length !== 0 ? setErrorSelect(false) : setErrorSelect(true)
 
         // genero alertas si la portada o el titulo no son correctos
-        temp.img !== "" && alert.show("Se debe cargar una portada para continuar!", {type: 'error', position: 'top right'})
-        temp.pdf !== "" && alert.show("Se debe cargar un libro para continuar!", {type: 'error', position: 'top right'})
+        temp.img !== "" && alert.show("Se debe cargar una portada para continuar!", { type: 'error', position: 'top right' })
+        temp.pdf !== "" && alert.show("Se debe cargar un libro para continuar!", { type: 'error', position: 'top right' })
 
         // verifico si en temp existen cadenas no vacias, en ese caso reorna false y no continua, si todas las cadenas son vacias retorna true y continua
         return Object.values(temp).every(x => x === "")
@@ -398,7 +409,7 @@ export default function MiniDrawer() {
                                     <TextField
                                         className={classes.textoMultiple}
                                         name="descripcion"
-                                        inputRef = {inputDescripcion}
+                                        inputRef={inputDescripcion}
                                         rows={8}
                                         multiline
                                         onChange={handleInputChange}
@@ -408,7 +419,7 @@ export default function MiniDrawer() {
                                     <Typography className={classes.textoDestacado}>Editorial</Typography>
                                     <TextField
                                         name="editorial"
-                                        inputRef = {inputEditorial}
+                                        inputRef={inputEditorial}
                                         autoFocus
                                     />
                                 </Grid>
@@ -418,6 +429,7 @@ export default function MiniDrawer() {
                                         <Select
                                             labelId="demo-mutiple-chip-label"
                                             id="demo-mutiple-chip"
+                                            name="genero"
                                             multiple
                                             inputRef={inputCombo}
                                             value={categoriaLibro}
@@ -444,14 +456,14 @@ export default function MiniDrawer() {
                                 <Grid item xs={12}>
                                     <FormControlLabel
                                         className={classes.controlLabel}
-                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="aptoTodoPúblico"  />}
+                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="aptoTodoPublico" onChange={handleParaTodoPublicoChange} />}
                                         label="Apto para todo público "
                                     />
                                 </Grid >
                                 <Grid item xs={12}>
                                     <FormControlLabel
                                         className={classes.controlLabel}
-                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="AceptaTerminosCondiciones" checked={aceptaTerminos} onChange={handleCheckboxChange} />}
+                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="AceptaTerminosCondiciones" checked={aceptaTerminos} onChange={handleAceptaTerminoChange} />}
                                         label={"Al subir mi libro acepto los términos y condiciones de Baku"}
                                     />
                                 </Grid >
@@ -466,7 +478,7 @@ export default function MiniDrawer() {
                                         />
                                     </Button>
                                 </Grid>
-                                
+
                                 <Grid item xs={12} style={{ marginTop: "1rem" }}>
                                     <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained" disabled={!aceptaTerminos}>Publicar</Button>
                                 </Grid>
