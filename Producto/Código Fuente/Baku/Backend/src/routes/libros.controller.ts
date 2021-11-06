@@ -95,10 +95,10 @@ export const buscarLibro: RequestHandler = async (req, res) => {
 
 export const buscarLibroGenero : RequestHandler = async (req, res) => {
     console.log(req.params)
-    const genero = req.params.buscar;
+    const genero = req.params.genero;
     const valor ="\""+ `${genero}` + "\"";
     console.log(valor);
-    const libroFound = await Libro.find({"genero": valor});
+    const libroFound = await Libro.find({"genero": genero});
     if (!libroFound) return res.status(204).json();
     res.json(libroFound);
 }

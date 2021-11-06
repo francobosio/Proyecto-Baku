@@ -40,10 +40,11 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         "margin-bottom": "2rem",
-        "align-items":"center",
+        "align-content":"flex-start",
+        minHeight: '100vh',
     },
     imageList: {
-        width: 900,
+        width: "70rem",
         "margin-bottom": "0px",
     },
     titulo: {
@@ -58,11 +59,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#fff',
     },
     imagen: {
-        top: "50%",
+      
         width: "100%",
         "position": "relative",
-        transform: "translateY(-50%)",
-    },
+      },
     grid: {
         display: "flex",
         "place-items": "center",
@@ -111,17 +111,19 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         'flex-direction': 'row',
         'align-items': 'center',
-        'justify-content': 'space-around',
+        'justify-content': 'space-between',
         'flex-wrap': 'wrap'
     },
 }));
 
 
 const categorias = [
-    {
+    {   
+        id:"Arte",
         img: arte,
     },
     {
+        id:"Ciencia Ficción",
         img: ciencia_ficcion,
     },
     {
@@ -167,6 +169,7 @@ export default function TitlebarImageList() {
     const handleSubmit = async (e) => {
         setEstado(true);
         if (!buscador) {
+            setEstado(false);
             return setError('Por favor ingrese un texto valido');
         }
         const res = await libroService.buscarLibro(busquedaVariable);
@@ -192,8 +195,12 @@ export default function TitlebarImageList() {
         }, 1000);
     }
 
-    const handleClick = () => {
-        console.log("CLICK");
+    const handleClick = async (nombre) => {
+        console.log(nombre);
+        setEstado(true);
+        const res = await libroService.buscarLibroGenero(nombre);
+        setLibroBuscado(res.data, setError(''));
+        console.log(res);
     }
 
     let array = [];
@@ -226,8 +233,9 @@ export default function TitlebarImageList() {
 
                 {(estado && libroBuscado.length > 0) ?
 
-                    <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={20}>
-                        <ImageListItem key="Subheader" cols={5} style={{ height: 'auto' }}>
+                    <ImageList rowHeight={500} className={classes.imageList} cols={3} gap={20}>
+                        <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
+                        <ListSubheader component="div" className={classes.titulo}>Resultado</ListSubheader>
                             <br />
                         </ImageListItem>
                         {libroBuscado.map((item) => (
@@ -261,21 +269,21 @@ export default function TitlebarImageList() {
                             <img src={item.img} alt={item.title} />
                         </ImageListItem>
                     ))} */
-                    <Container>
+                    <Container className={classes.contenedor}>
                         <Container>
                              <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
+                             <br />
                         </Container>
                         <Container className={classes.contenedor}>
 
                             {categorias.map((item) =>
                             (
                                 <Card style={{ maxWidth: 345 , width:"18rem",background:"#99cfbf","margin-top": "10px"}}>
-                                    <CardActionArea>
+                                    <CardActionArea onClick={() => handleClick(item.id)}  >
                                         <CardMedia
                                             component="img"
                                             height="auto"
                                             image={item.img}
-                                            alt="green iguana"
                                             style={{ "margin-top": "-2px"}}
                                         />
                                     </CardActionArea>
