@@ -29,7 +29,13 @@ export const createLibro: RequestHandler = async (req, res) => {
         titulo,
         descripcion,
         archivoTexto: respuestaPdf.url,
-        public_id_pdf: respuestaPdf.public_id
+        public_id_pdf: respuestaPdf.public_id,
+        genero: req.body.genero,
+        autor: req.body.autor,
+        aptoTodoPublico: req.body.aptoTodoPublico,
+        aceptaTerminos: req.body.aceptaTerminos,
+        estado: req.body.estado,
+        
     };
     const libro = new Libro(newLibro);
     console.log(libro)
@@ -94,3 +100,22 @@ export const updateLibro: RequestHandler = async (req, res) => {
     if (!libroUpdated) return res.status(204).json();
     res.json(libroUpdated);
 }
+
+export const buscarLibro: RequestHandler = async (req, res) => {
+    console.log(req.params)
+    const busqueda = req.params.buscar;
+    const valor ="\""+ `${busqueda}` + "\"";
+    console.log(valor);
+    const libroFound = await Libro.find({$text:{$search: valor, $caseSensitive: false, $diacriticSensitive: false}});
+    if (!libroFound) return res.status(204).json();
+    res.json(libroFound);
+}
+
+export const buscarLibroGenero : RequestHandler = async (req, res) => {
+    console.log(req.params)
+    const genero = req.params.genero;
+    const libroFound = await Libro.find({"genero": genero});
+    if (!libroFound) return res.status(204).json();
+    res.json(libroFound);
+}
+
