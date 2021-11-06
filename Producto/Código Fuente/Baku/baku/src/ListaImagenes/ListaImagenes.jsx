@@ -31,6 +31,8 @@ import poesia from "./Categorias/categoria_poesia.png";
 import teatro from "./Categorias/categoria_teatro.png";
 import biografias from "./Categorias/categoria_biografias.png";
 
+import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         'background': '#99cfbf',
@@ -113,6 +115,11 @@ const useStyles = makeStyles((theme) => ({
         'align-items': 'center',
         'justify-content': 'space-between',
         'flex-wrap': 'wrap'
+    },
+    icono: {
+        width: "1.5em",
+        height: "1.5em",
+        color: "white",
     },
 }));
 
@@ -203,7 +210,17 @@ export default function TitlebarImageList() {
         console.log(res);
     }
 
-    let array = [];
+    const LibroLeido = async (libroId) => {
+        const usuario_id = localStorage.getItem("usuario_activo")
+        const libroData = {
+            'auth0id': usuario_id,
+            'idLibro': libroId,
+            'finLectura': false,
+        }
+        const res = await usuarioService.usuarioLibroLeido(libroData);
+        console.log(res);
+    }
+
     return (
         <div className={classes.root}>
             <Grid className={classes.grid}>
@@ -240,7 +257,6 @@ export default function TitlebarImageList() {
                         </ImageListItem>
                         {libroBuscado.map((item) => (
                             <ImageListItem key={item.id} style={{ width: "16.8rem", height: "23.5rem" }} >
-                                {array = item.archivoTexto.split("/")}
                                 <img src={item.imagenPath} alt={item.titulo} />
                                 <ImageListItemBar
                                     title={item.titulo}
@@ -248,7 +264,7 @@ export default function TitlebarImageList() {
                                     position='bottom'
                                     actionIcon={
                                         <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
-                                            <Link to={"/Lectura/" + array[array.length - 2] + "/" + array[array.length - 1]} >
+                                            <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
                                                 <LocalLibraryOutlinedIcon className={classes.icono} />
                                             </Link>
                                         </IconButton>
