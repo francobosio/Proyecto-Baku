@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     flex: 1,
+    'min-height': '100vh'
   },
   img: {
     margin: "auto",
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   fondo: {
     width: "60rem",
     backgroundColor: "#7ec2ae",
-    minHeight: "60vh",
+    minHeight: "75vh",
   },
   grid: {
     padding: "1.5rem",
@@ -38,9 +39,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "2rem",
     padding: "1rem 0 0 1rem",
   },
-  texto:{
-      fontWeight: "bold",
-      fontSize: "1.1rem",
+  texto: {
+    fontWeight: "bold",
+    fontSize: "1.1rem",
   },
 }));
 
@@ -54,38 +55,36 @@ export default function Perfil() {
         <MiDrawer />
         <div className={classes.content}>
           <AppBar />
-          <React.Fragment>
-            <Container className={classes.fondo}>
-              <Typography className={classes.titulo}>Tu Perfil</Typography>
-              <Grid container spacing={2} justifyContent="flex-start" alignItems="flex-start" className={classes.grid}>
-                <Grid item xs={10}>
-                  <img
-                    alt="complex"
-                    src={user.picture}
-                    className={classes.img}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <Typography className={classes.texto}>Nombre y apellido:</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography>{user.name}</Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <Typography className={classes.texto}>Email:</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography>{user.email}</Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <Typography className={classes.texto}>Nombre de usuario:</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography>{user.nickname}</Typography>
-                </Grid>
+          <Typography className={classes.titulo}>Tu Perfil</Typography>
+          <Container className={classes.fondo}>
+            <Grid container spacing={2} justifyContent="flex-start" alignItems="flex-start" className={classes.grid}>
+              <Grid item xs={10}>
+                <img
+                  alt="complex"
+                  src={user.picture}
+                  className={classes.img}
+                />
               </Grid>
-            </Container>
-          </React.Fragment>
+              <Grid item xs={4}>
+                <Typography className={classes.texto}>Nombre y apellido:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>{user.name}</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography className={classes.texto}>Email:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>{user.email}</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography className={classes.texto}>Nombre de usuario:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>{user.nickname}</Typography>
+              </Grid>
+            </Grid>
+          </Container>
           <Footy />
         </div>
       </div>

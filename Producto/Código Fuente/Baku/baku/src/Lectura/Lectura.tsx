@@ -1,7 +1,6 @@
 // Core viewer
 import { PageChangeEvent, Viewer, SpecialZoomLevel, RenderPageProps } from '@react-pdf-viewer/core';
 import { themePlugin } from '@react-pdf-viewer/theme';
-import { ThemeContext } from '@react-pdf-viewer/core';
 
 // Plugins
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
@@ -173,9 +172,6 @@ const Lectura = () => {
         localStorage.setItem('current-page', `${e.currentPage}`);
     };
 
-    
-
-
     /*const [pagActual, setPagActual] = React.useState();
     const [prueba, setPrueba] = React.useState("");
 
@@ -207,8 +203,9 @@ const Lectura = () => {
     }
 
     const [libro, setLibro] = useState({archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf"});
-    const [initialPage, setInitialPage] = useState(0);
+    const [initialPage, setInitialPage] = useState(1);
     const comienzaLectura = async () => {
+        setInitialPage(1);
         const usuario_id = localStorage.getItem("usuario_activo");
         if (usuario_id != null){
             const resPagina = await usuarioService.usuarioUltimaPagina(usuario_id, id);
@@ -437,8 +434,6 @@ const Lectura = () => {
                     </Grid>
                 </Grid>
             </Box>
-
-
 
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
                 <div className={classes.viewer}>

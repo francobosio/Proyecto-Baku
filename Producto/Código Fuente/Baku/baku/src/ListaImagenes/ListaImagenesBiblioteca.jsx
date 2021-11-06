@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
-import { Container, Button, ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton, makeStyles, Typography, Grid } from '@material-ui/core';
+import { Container, Button, ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Typography, Grid } from '@material-ui/core';
 
 import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
@@ -27,8 +27,6 @@ const useStyles = makeStyles((theme) => ({
         "padding-left": "0",
         color: "black",
     },
-    imagen: {
-    },
     icono: {
         width: "1.5em",
         height: "1.5em",
@@ -41,10 +39,11 @@ const useStyles = makeStyles((theme) => ({
         'color': '#FFFFFF',
         'fontSize': '1rem',
         'background-color': '#3a7a6f',
+        'width':'15.5rem',
         '&:hover': {
             'background': '#076F55',
             'color': '#FFFFFF',
-        }
+        },
     },
     fondo: {
         'background': '#76bfa9',
@@ -77,11 +76,9 @@ export default function TitlebarImageList() {
         setlibros(res.data);
         console.log(libros)
     }
-
     useEffect(() => {
         loadLibros()
     }, [])
-    let array = [];
 
     const LibroLeido = async (libroId) => {
         const usuario_id = localStorage.getItem("usuario_activo")
@@ -102,10 +99,10 @@ export default function TitlebarImageList() {
                         <Typography className={classes.titulo}> Mi Biblioteca </Typography>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button className={classes.boton} onClick={() => setFlagBiblioteca(true)}> Cargar Mis libros leidos </Button>
+                        <Button className={classes.boton} onClick={() => setFlagBiblioteca(true)}> Mis libros leidos </Button>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button className={classes.boton} onClick={() => setFlagBiblioteca(false)}> Cargar Mis libros Subidos </Button>
+                        <Button className={classes.boton} onClick={() => setFlagBiblioteca(false)}> Mis libros Subidos </Button>
                     </Grid>
                     <Grid className={classes.fondo} item xs={12}>
                         {libros.length > 0 ? (
@@ -116,7 +113,6 @@ export default function TitlebarImageList() {
                                             <img src={item.imagenPath} alt={item.titulo} />
                                             <ImageListItemBar
                                                 title={item.titulo}
-                                                //subtitle={<span>por: {item.autor}</span>}
                                                 position='bottom'
                                                 actionIcon={
                                                     <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
@@ -134,7 +130,6 @@ export default function TitlebarImageList() {
                                             <img src={item.imagenPath} alt={item.titulo} />
                                             <ImageListItemBar
                                                 title={item.titulo}
-                                                //subtitle={<span>por: {item.autor}</span>}
                                                 position='bottom'
                                                 actionIcon={
                                                     <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>

@@ -83,11 +83,12 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
         if (finLectura){
             libros_leidos.splice(index, 1);
         } else {
-            if (index > -1) {
+            if (index > -1) 
+            {
                 ultimaPaginaLeida = usuario.libros_leidos[index].ultima_pagina;
                 libros_leidos.splice(index, 1);
             } else {
-                ultimaPaginaLeida = 1;
+                ultimaPaginaLeida = 0;
             }
         }
         
