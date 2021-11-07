@@ -86,6 +86,7 @@ import { Trigger } from '@react-pdf-viewer/highlight';
 
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { useHistory } from "react-router-dom";
 
 interface Note {
     // The generated unique identifier
@@ -121,7 +122,7 @@ const areas=[
         top: 16.6616,
     },
 ];
-import { useHistory } from "react-router-dom";
+
 
 
 const useStyles = makeStyles((theme) => ({
