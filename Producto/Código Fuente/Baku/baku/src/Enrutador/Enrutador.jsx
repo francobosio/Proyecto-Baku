@@ -6,6 +6,7 @@ import Home from "../Home/Home.jsx";
 import Inicio from '../Inicio/Inicio.jsx';
 import Lectura from '../Lectura/Lectura.tsx';
 import Publicar from '../Publicar/Publicar.jsx';
+import Estadistica from '../Estadistica/Estadistica.jsx';
 import Buscar from '../Buscar/Buscar.jsx';
 import Biblioteca from '../Biblioteca/Biblioteca.jsx';
 import Perfil from '../Sesión/Perfil.jsx'
@@ -29,6 +30,7 @@ export default function Layout() {
                         <Route exact path="/Buscar" component={isLoading? Loading: isAuthenticated? Buscar: Home} />
                         <Route exact path="/Biblioteca" component={isLoading? Loading: isAuthenticated? Biblioteca :Home} />
                         <Route exact path="/Perfil" component={isLoading? Loading: isAuthenticated? Perfil: Home} />
+                        <Route exact path="/Estadistica" component={isLoading? Loading: isAuthenticated? Estadistica :Home} />
                         
                         <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                     </Switch>

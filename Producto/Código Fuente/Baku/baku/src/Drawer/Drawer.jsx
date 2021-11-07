@@ -19,6 +19,7 @@ import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import MenuBookOutlinedIcon from '@material-ui/icons/MenuBookOutlined';
 import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
+import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
@@ -141,6 +142,12 @@ export const MiDrawer = () => {
                             <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
                         </ListItem>
+                    </Link>
+                    <Link to="/Estadistica" className={classes.link} >
+                    <ListItem button>
+                        <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                        <ListItemText primary='Estadísticas' style={{ color: "#FFFFFF" }} />
+                    </ListItem>
                     </Link>
                 </List>
                 <Divider />
