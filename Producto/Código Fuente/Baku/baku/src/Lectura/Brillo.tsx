@@ -76,14 +76,14 @@ const Brillo = () => {
                 {
                 `.rpv-core__text-layer {
                 background-color: rgb(${rojo},${verde},${azul}) !${important};
-                opacity: 1 !important;
+                opacity: 1 !${important};
                 }
                 .rpv-core__text-layer-text {
                     color: rgb(${brilloTexto()},${brilloTexto()},${brilloTexto()}) !${important};
                 }
                 
                 .rpv-core__text-layer-text::selection{
-                    color: green;
+                    color: green !${important};
                 }
                 `}
             </style>
@@ -109,7 +109,7 @@ const Brillo = () => {
                     <Box sx={{ width: 200 }}>
                         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                             <Brightness6Icon />
-                            <Slider aria-label="Volume" value={value} onChange={handleChange} />
+                            <Slider disabled={tipoColor2 == "Ninguno"?true:false} aria-label="Volume" value={value} onChange={handleChange} />
                         </Stack>
                     </Box>
                 </Grid>
