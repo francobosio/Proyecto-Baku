@@ -1,13 +1,22 @@
-import React from 'react';
-import { alpha, makeStyles } from '@material-ui/core/styles';
+import { useState } from 'react';
+import * as libroService from '../Libros/LibroService'
+import { makeStyles } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import { Grid } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
-
+import { Link } from "react-router-dom";
+import IconButton from '@material-ui/core/IconButton';
+import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
+import ImageListItemBar from '@material-ui/core/ImageListItemBar';
+import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import { CardActionArea } from '@mui/material';
 //Imagenes
 import arte from "./Categorias/categoria_arte.png";
 import ciencia_ficcion from "./Categorias/categoria_ciencia_ficcion.png";
@@ -22,17 +31,22 @@ import poesia from "./Categorias/categoria_poesia.png";
 import teatro from "./Categorias/categoria_teatro.png";
 import biografias from "./Categorias/categoria_biografias.png";
 
+import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         'background': '#99cfbf',
         display: 'flex',
         flexWrap: 'wrap',
+        flexDirection: 'row',
         justifyContent: 'space-around',
         overflow: 'hidden',
-        "margin-bottom": "2rem"
+        "margin-bottom": "2rem",
+        "align-content":"flex-start",
+        minHeight: '100vh',
     },
     imageList: {
-        width: 900,
+        width: "70rem",
         "margin-bottom": "0px",
     },
     titulo: {
@@ -42,16 +56,15 @@ const useStyles = makeStyles((theme) => ({
         color: "black",
 
     },
-    divider:{
+    divider: {
         padding: '2vh 0 2vh 0',
         backgroundColor: '#fff',
     },
     imagen: {
-        top: "50%",
+      
         width: "100%",
         "position": "relative",
-        transform: "translateY(-50%)",
-    },
+      },
     grid: {
         display: "flex",
         "place-items": "center",
@@ -80,26 +93,44 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
         opacity: 0.5,
         'display': 'flex',
-        'align-items': 'center',
-        'text-align': 'center',
-        'font-size':'1.5em',
+        'align-items': 'left',
+        'text-align': 'left',
+        'font-size': '1.5em',
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        paddingLeft: `calc(0.2em + ${theme.spacing(1)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
             width: '100%',
         },
     },
+    title: {
+        color: '#932121'
+    },
+    contenedor: {
+        display: 'flex',
+        width: "100%",
+        'flex-direction': 'row',
+        'align-items': 'center',
+        'justify-content': 'space-between',
+        'flex-wrap': 'wrap'
+    },
+    icono: {
+        width: "1.5em",
+        height: "1.5em",
+        color: "white",
+    },
 }));
 
 
 const categorias = [
-    {
+    {   
+        id:"Arte",
         img: arte,
     },
     {
+        id:"Ciencia Ficción",
         img: ciencia_ficcion,
     },
     {
@@ -133,38 +164,153 @@ const categorias = [
         img: biografias,
     },
 ];
-
+let setTimeOutId;
+let busquedaVariable = "";
 export default function TitlebarImageList() {
+    const [buscador, setBuscador] = useState()
+    const [error, setError] = useState('')
+    const [estado, setEstado] = useState(false)
+    const [libroBuscado, setLibroBuscado] = useState(0)
     const classes = useStyles();
+
+    const handleSubmit = async (e) => {
+        setEstado(true);
+        if (!buscador) {
+            setEstado(false);
+            return setError('Por favor ingrese un texto valido');
+        }
+        const res = await libroService.buscarLibro(busquedaVariable);
+        setLibroBuscado(res.data, setError(''));
+        console.log(res);
+
+        if (!res.data.length) {
+            return setError('No se encontraron resultados');
+        }
+    }
+
+    const handleChange = (e) => {
+        console.log(e.target.value);
+        busquedaVariable = e.target.value;
+        setBuscador(e.target.value);
+        console.log(busquedaVariable)
+        clearTimeout(setTimeOutId) //para que no se ejecute el setTimeOutId
+        setTimeOutId = setTimeout(() => {
+            if (busquedaVariable.length > 0) {
+                console.log('Se esta buscando');
+                handleSubmit(busquedaVariable);
+            }
+        }, 1000);
+    }
+
+    const handleClick = async (nombre) => {
+        console.log(nombre);
+        setEstado(true);
+        const res = await libroService.buscarLibroGenero(nombre);
+        setLibroBuscado(res.data, setError(''));
+        console.log(res);
+    }
+
+    const LibroLeido = async (libroId) => {
+        const usuario_id = localStorage.getItem("usuario_activo")
+        const libroData = {
+            'auth0id': usuario_id,
+            'idLibro': libroId,
+            'finLectura': false,
+        }
+        const res = await usuarioService.usuarioLibroLeido(libroData);
+        console.log(res);
+    }
 
     return (
         <div className={classes.root}>
             <Grid className={classes.grid}>
-                <Divider className={classes.divider}/>
+                <Divider className={classes.divider} />
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
                         <SearchIcon />
                     </div>
                     <InputBase
-                        placeholder="Buscar:"
-                        classes={{
-                            input: classes.inputInput,
-                        }}
+                        placeholder="Buscar"
+                        classes={{ input: classes.inputInput, }}
                         inputProps={{ 'aria-label': 'search' }}
+                        onChange={(e) => handleChange(e)}
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                console.log('Enter clicked!!!');
+                                handleSubmit(e);
+                            }
+                        }}
+
+                        autoFocus
                     />
                 </div>
-                <Divider className={classes.divider}/>
-                <ImageList rowHeight={320} className={classes.imageList} cols={3} gap={20}>
-                    <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
-                        <ListSubheader component="div" className={classes.titulo}>Explorar todo:</ListSubheader>
-                    </ImageListItem>
-                    {categorias.map((item) => (
-                        <ImageListItem key={item.img}>
+                <Typography variant="h5" className={classes.title}>
+                    {error ? error : ''}
+                </Typography>
+
+                {(estado && libroBuscado.length > 0) ?
+
+                    <ImageList rowHeight={500} className={classes.imageList} cols={3} gap={20}>
+                        <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
+                        <ListSubheader component="div" className={classes.titulo}>Resultado</ListSubheader>
+                            <br />
+                        </ImageListItem>
+                        {libroBuscado.map((item) => (
+                            <ImageListItem key={item.id} style={{ width: "16.8rem", height: "23.5rem" }} >
+                                <img src={item.imagenPath} alt={item.titulo} />
+                                <ImageListItemBar
+                                    title={item.titulo}
+                                    //subtitle={<span>por: {item.autor}</span>}
+                                    position='bottom'
+                                    actionIcon={
+                                        <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
+                                            <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
+                                                <LocalLibraryOutlinedIcon className={classes.icono} />
+                                            </Link>
+                                        </IconButton>
+                                    }
+                                />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
+                    :
+                    //ORIGINAL
+                    /* <ImageList rowHeight={320} className={classes.imageList} cols={3} >
+                        <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
+                            <ListSubheader component="div" className={classes.titulo}>Explorar todo:</ListSubheader>
+                        </ImageListItem> */
+                    /* {categorias.map((item) => (
+                        //evento click
+                        <ImageListItem key={item.img} onClick={handleClick}>
                             <img src={item.img} alt={item.title} />
                         </ImageListItem>
-                    ))}
-                </ImageList>
+                    ))} */
+                    <Container className={classes.contenedor}>
+                        <Container>
+                             <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
+                             <br />
+                        </Container>
+                        <Container className={classes.contenedor}>
+
+                            {categorias.map((item) =>
+                            (
+                                <Card style={{ maxWidth: 345 , width:"18rem",background:"#99cfbf","margin-top": "10px"}}>
+                                    <CardActionArea onClick={() => handleClick(item.id)}  >
+                                        <CardMedia
+                                            component="img"
+                                            height="auto"
+                                            image={item.img}
+                                            style={{ "margin-top": "-2px"}}
+                                        />
+                                    </CardActionArea>
+                                </Card>
+                            ))}
+                        </Container>
+                    </Container>
+                    /* </ImageList> */
+                }
             </Grid>
-        </div>
+        </div >
     );
+
 }

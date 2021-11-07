@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -10,6 +10,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Image from 'material-ui-image';
 import { Link } from "react-router-dom";
+import { useLocation } from 'react-router';
+
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -21,9 +23,9 @@ import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
+import { opendir } from 'fs';
 
-
-const drawerWidth = 240;
+const drawerWidth = "15rem";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -71,14 +73,29 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const MiDrawer = () => {
+    const location = useLocation();
     const classes = useStyles();
-    const [open, setOpen] = React.useState(localStorage.getItem('open')||false);
+    const [open, setOpen] = React.useState(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false);
 
     const handleDrawerOpenClose = () => {
-        open === true ? setOpen(false) : setOpen(true);
-        localStorage.setItem('open', open)
+        setOpen((data) => {
+            localStorage.setItem('drawer_open', !data)
+            return !data
+        })
     }
- 
+
+    const handleLink = () => {
+        setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
+        console.log(localStorage.getItem('drawer_open'))
+        console.log("entro a useEffect")
+    }
+
+    useEffect(() => {
+        setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
+        console.log(localStorage.getItem('drawer_open'))
+        console.log("entro a useEffect")
+    }, [location.pathname])
+
     return (
         <div className={classes.root}>
             <Drawer
@@ -102,29 +119,29 @@ export const MiDrawer = () => {
                 </div>
                 <Divider />
                 <List>
-                <Link to="/Inicio" className={classes.link} >
-                    <ListItem button className={classes.texto} >
-                        <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
+                    <Link onClick={handleLink} to="/Inicio" className={classes.link} >
+                        <ListItem button className={classes.texto} >
+                            <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                            <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
+                        </ListItem>
                     </Link>
-                    <Link to="/Buscar" className={classes.link}>
-                    <ListItem button>
-                        <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                    <Link onClick={handleLink} to="/Buscar" className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
-                    </ListItem>
+                        </ListItem>
                     </Link>
                     <Link to="/Biblioteca" className={classes.link} >
-                    <ListItem button>
-                        <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                            <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
+                        </ListItem>
                     </Link>
                     <Link to="/Publicar" className={classes.link} >
-                    <ListItem button>
-                        <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                            <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
+                        </ListItem>
                     </Link>
                     <Link to="/Estadistica" className={classes.link} >
                     <ListItem button>

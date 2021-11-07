@@ -4,6 +4,8 @@ import Libro from './Libro'
 import multer from "multer"
 import config from '../config'
 import fs from 'fs-extra'
+import redis from 'redis'
+import { promisify } from 'util'
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -12,26 +14,36 @@ cloudinary.config({
     api_secret: config.API_SECRET,
 });
 
+const client = redis.createClient();
+const GET_ASYNC = promisify(client.get).bind(client);
+const SET_ASYNC = promisify(client.set).bind(client);
+
 export const createLibro: RequestHandler = async (req, res) => {
     const { titulo, descripcion } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-     const respuestaImg = await cloudinary.v2.uploader.upload(files.imagenPath[0].path);
+    const respuestaImg = await cloudinary.v2.uploader.upload(files.imagenPath[0].path);
     const respuestaPdf = await cloudinary.v2.uploader.upload(files.archivoTexto[0].path);
-     const newLibro = {
+    const newLibro = {
         imagenPath: respuestaImg.url,
         public_id_imagen: respuestaImg.public_id,
         titulo,
         descripcion,
         archivoTexto: respuestaPdf.url,
-        public_id_pdf: respuestaPdf.public_id
+        public_id_pdf: respuestaPdf.public_id,
+        genero: req.body.genero,
+        autor: req.body.autor,
+        aptoTodoPublico: req.body.aptoTodoPublico,
+        aceptaTerminos: req.body.aceptaTerminos,
+        estado: req.body.estado,
+        
     };
-    const libro = new Libro(newLibro); 
+    const libro = new Libro(newLibro);
     console.log(libro)
-    await libro.save(); 
+    await libro.save();
     fs.unlink(files.imagenPath[0].path);
     fs.unlink(files.archivoTexto[0].path);
     return res.json({
-        message: "Libro cargado con éxito !!!"
+        libro
     })
 
     //Para verificar que no haya otro libro con el mismo titulo sujeto a revision
@@ -43,14 +55,26 @@ export const createLibro: RequestHandler = async (req, res) => {
     //res.json(savedLibro);
 }
 
+//use redis to cache the data
 export const getLibros: RequestHandler = async (req, res) => {
     try {
-        const libros = await Libro.find()
-        return res.json(libros);
+        let reply:any = await GET_ASYNC('libros')
+        if (reply) {
+            return res.json(JSON.parse(reply))
+        }
+        else {
+
+            const libros = await Libro.find()
+
+            reply = await SET_ASYNC('libros', JSON.stringify(libros))
+
+            res.json(libros);
+        }
     } catch (error) {
-        res.json(error)
+        res.json({ message: error })
     }
 }
+
 
 export const getLibro: RequestHandler = async (req, res) => {
     const libroFound = await Libro.findById(req.params.id);
@@ -76,3 +100,22 @@ export const updateLibro: RequestHandler = async (req, res) => {
     if (!libroUpdated) return res.status(204).json();
     res.json(libroUpdated);
 }
+
+export const buscarLibro: RequestHandler = async (req, res) => {
+    console.log(req.params)
+    const busqueda = req.params.buscar;
+    const valor ="\""+ `${busqueda}` + "\"";
+    console.log(valor);
+    const libroFound = await Libro.find({$text:{$search: valor, $caseSensitive: false, $diacriticSensitive: false}});
+    if (!libroFound) return res.status(204).json();
+    res.json(libroFound);
+}
+
+export const buscarLibroGenero : RequestHandler = async (req, res) => {
+    console.log(req.params)
+    const genero = req.params.genero;
+    const libroFound = await Libro.find({"genero": genero});
+    if (!libroFound) return res.status(204).json();
+    res.json(libroFound);
+}
+

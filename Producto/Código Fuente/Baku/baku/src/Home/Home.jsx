@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import "@fontsource/roboto";
 import "typeface-kaushan-script";
 import Footy from '../Footy/Footy';
-import { LoginButton } from "../Login/LoginMetodo"
+import { LoginButton } from "../Sesión/LoginMetodo"
 import { Grid } from '@material-ui/core';
 
 import imagenFondo from '../Imagenes/book_fantasy_5k.jpg';

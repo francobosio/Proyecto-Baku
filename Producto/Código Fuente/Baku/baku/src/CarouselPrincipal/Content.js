@@ -5,8 +5,21 @@ import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
 import {Link} from 'react-router-dom';
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
+import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 
 let array = [];
+
+const LibroLeido = async (libroId) => {
+  const usuario_id = localStorage.getItem("usuario_activo")
+  const libroData = {
+      'auth0id': usuario_id,
+      'idLibro': libroId,
+      'ultimaPaginaLeida': 0,
+      'finLectura': false,
+  }
+  const res = await usuarioService.usuarioLibroLeido(libroData);
+  console.log(res);
+}
 
 const Content = ({ movie, onClose }) => (
   <div className="content">
@@ -23,7 +36,7 @@ const Content = ({ movie, onClose }) => (
         <IconCross />
       </button>
       <button className="content__read" onClick={onClose} title={"Leer este libro"}>
-        <Link to={"/Lectura/" + array[array.length-2] + "/" + array[array.length-1]} >
+        <Link onClick={() => {LibroLeido(movie._id)}} to={ "/Lectura/" + movie._id } >
           <LocalLibraryOutlinedIcon style={{fontSize:"4em"}} className="content__read-button"/>
         </Link>
       </button>
