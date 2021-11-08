@@ -17,15 +17,21 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import { useAlert } from 'react-alert';
-import { useAuth0 } from '@auth0/auth0-react'
-
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import * as libroServices from '../Libros/LibroService.ts';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
-
+import Termino from './Termino'
 const useStyles = makeStyles((theme) => ({
     root: {
+
         'background': '#99cfbf',
         display: 'flex',
+
     },
     menuButton: {
         marginRight: 36,
@@ -154,7 +160,9 @@ const useStyles = makeStyles((theme) => ({
     },
     fondo: {
         width: '60rem',
-        backgroundColor: '#7ec2ae'
+        backgroundColor: '#7ec2ae',
+        "margin-bottom": "40px",
+        "margin-top": "20px",
     },
     textoMultiple: {
         '& .MuiTextField-root': {
@@ -206,7 +214,7 @@ let categorias = [
     { nombre: 'Infantil', disabled: false },
     { nombre: 'Terror', disabled: false },
 ];
-
+let termino = false;
 const conflictos = {
     'Aventura': ['Arte', 'Biografía'],
     'Terror': ['Biografía', 'Arte', 'Romántico'],
@@ -229,6 +237,12 @@ export default function MiniDrawer() {
     const [aceptaTerminos, setAceptaTerminos] = useState(null)
     const [aptoTodoPublico, setAptoTodoPublicos] = useState(null)
     const [estado, setEstado] = useState("Registrado")
+    const [scroll, setScroll] = useState(true)
+    const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+
 
     // Estas variables son para el control de los errores en el form
     const [errorTitulo, setErrorTitulo] = useState(null);
@@ -314,7 +328,7 @@ export default function MiniDrawer() {
             };
             const res2 = await usuarioService.usuarioLibroCargado(idData);
             console.log(res2);
-            alert.show("El libro se cargó correctamente!", {type: 'success', position: 'top center'});
+            alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
         }
     }
@@ -355,6 +369,22 @@ export default function MiniDrawer() {
 
         // verifico si en temp existen cadenas no vacias, en ese caso reorna false y no continua, si todas las cadenas son vacias retorna true y continua
         return Object.values(temp).every(x => x === "")
+    }
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const esElFinal = () => {
+        let element = document.getElementById("contenido");
+
+        if (element.offsetHeight + element.scrollTop >= element.scrollHeight) {
+            setScroll(false)
+        }
     }
 
     const classes = useStyles();
@@ -472,8 +502,29 @@ export default function MiniDrawer() {
                                     <FormControlLabel
                                         className={classes.controlLabel}
                                         control={<Checkbox className={classes.customCheckbox} color="secondary" name="AceptaTerminosCondiciones" checked={aceptaTerminos} onChange={handleAceptaTerminoChange} />}
-                                        label={"Al subir mi libro acepto los términos y condiciones de Baku"}
+                                        label={`Al subir mi libro acepto los términos y condiciones de Baku`}
                                     />
+                                    <Button size="small" onClick={handleClickOpen}>Ver términos y condiciones</Button>
+                                    <div>
+                                        <Dialog
+                                            fullScreen={fullScreen}
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby="responsive-dialog-title"
+                                        >
+                                            <DialogTitle id="responsive-dialog-title">
+                                                {"Términos y condiciones de Baku"}
+                                            </DialogTitle>
+                                            <DialogContent id="contenido" onScroll={esElFinal}>
+                                                <Termino />
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button autoFocus onClick={handleClose} disabled={scroll} >
+                                                    Cerrar
+                                                </Button>
+                                            </DialogActions>
+                                        </Dialog>
+                                    </div>
                                 </Grid >
                                 <Grid item xs={12} >
                                     <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}> Subí el contenido de tu libro
@@ -494,6 +545,7 @@ export default function MiniDrawer() {
                                     <br />
                                 </Grid>
                             </Grid>
+
                         </FormControl>
                     </Container>
                 </React.Fragment>

@@ -109,6 +109,8 @@ export default function PrimarySearchAppBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let history = useHistory();
+
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -125,19 +127,6 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-/*   const handleSubmit = async (e) => {
-    if (!buscador) {
-        setEstado(false);
-        return setError('Por favor ingrese un texto valido');
-    }
-    const res = await libroService.buscarLibro(busquedaVariable);
-    setLibroBuscado(res.data, setError(''));
-    console.log(res);
-    if (!res.data.length) {
-        return setError('No se encontraron resultados');
-    }
-} */
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -215,7 +204,7 @@ export default function PrimarySearchAppBar() {
                   console.log('diste enter');
                  const  valor=e.target.value;
                   //redirecionar al componente buscar con parametros
-                 history.push(`/buscar/:${valor}`);
+                 history.push(`/Buscar/${valor}`);
                   }}}
             />
           </div>

@@ -1,8 +1,7 @@
-
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import ListaImagenes from '../ListaImagenes/ListaImagenes.jsx';
+import AppBarLectura from '../AppBar/AppBarLectura.jsx'
 import {MiDrawer} from "../Drawer/Drawer.jsx"
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +30,7 @@ export default function MiniDrawer() {
         <div className={classes.root}>
             <MiDrawer/>
             <main className={classes.content}>
-                <AppBar />
+                <AppBarLectura />
                 <ListaImagenes/>
                 <Footy/>
             </main>

@@ -23,7 +23,7 @@ import { makeStyles } from '@material-ui/core/styles';
 //------------------------------------------------------------------------------------------------------------
 import React, { useRef, useEffect, useState } from 'react';
 
-import AppBar from './AppBarLectura';
+import AppBar from '../AppBar/AppBarLectura.jsx';
 import Footy from '../Footy/Footy.jsx';
 
 import { useParams } from "react-router-dom";
