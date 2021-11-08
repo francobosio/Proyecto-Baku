@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar'
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -107,7 +108,7 @@ export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  let history = useHistory();
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -125,8 +126,7 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  /* const handleSubmit = async (e) => {
-    setEstado(true);
+/*   const handleSubmit = async (e) => {
     if (!buscador) {
         setEstado(false);
         return setError('Por favor ingrese un texto valido');
@@ -210,10 +210,13 @@ export default function PrimarySearchAppBar() {
               placeholder="Autor, Título o Editorial"
               classes={{ root: classes.inputRoot, input: classes.inputInput, }}
               inputProps={{ 'aria-label': 'search' }}
-             /*  onKeyPress={(e) => {
+              onKeyPress={(e) => {
                 if (e.key === 'Enter') {
-                  console.log('Enter clicked!!!');
-                  handleSubmit(e);}}} */
+                  console.log('diste enter');
+                 const  valor=e.target.value;
+                  //redirecionar al componente buscar con parametros
+                 history.push(`/buscar/:${valor}`);
+                  }}}
             />
           </div>
 
