@@ -214,7 +214,6 @@ let categorias = [
     { nombre: 'Infantil', disabled: false },
     { nombre: 'Terror', disabled: false },
 ];
-let termino = false;
 const conflictos = {
     'Aventura': ['Arte', 'Biografía'],
     'Terror': ['Biografía', 'Arte', 'Romántico'],
@@ -455,6 +454,14 @@ export default function MiniDrawer() {
                                 </Grid>
                                 <Grid item xs={12} className={classes.controlEditorial}>
                                     <Typography className={classes.textoDestacado}>Editorial</Typography>
+                                    <TextField
+                                        name="editorial"
+                                        inputRef={inputEditorial}
+                                        autoFocus
+                                    />
+                                </Grid>
+                                <Grid item xs={12} className={classes.controlEditorial}>
+                                    <Typography className={classes.textoDestacado}>Autor</Typography>
                                     <TextField
                                         name="editorial"
                                         inputRef={inputEditorial}

@@ -135,33 +135,43 @@ const categorias = [
         img: ciencia_ficcion,
     },
     {
+        id:"Fantasía",
         img: fantasia,
     },
-    {
+    {   
+        id:"Infantil",
         img: infantil,
     },
     {
+        id:"Terror",
         img: terror,
     },
     {
+        id:"Aventura",
         img: aventura,
     },
     {
+        id:"Viajes",
         img: viajes,
     },
     {
+        id:"Romántico",
         img: romantico,
     },
     {
+        id:"Policial",
         img: policial,
     },
     {
+        id:"Poesía",
         img: poesia,
     },
     {
+        id:"Teatro",
         img: teatro,
     },
     {
+        id:"Biografía",
         img: biografias,
     },
 ];
@@ -290,7 +300,7 @@ export default function TitlebarImageList() {
                         ))}
                     </ImageList>
                     :
-                    <Container className={classes.contenedor}>
+                    <Container className={classes.contenedor} onR  >
                         <Container>
                              <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
                              <br />
