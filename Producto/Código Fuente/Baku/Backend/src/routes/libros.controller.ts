@@ -19,6 +19,11 @@ const GET_ASYNC = promisify(client.get).bind(client);
 const SET_ASYNC = promisify(client.set).bind(client);
 
 export const createLibro: RequestHandler = async (req, res) => {
+    client.flushdb((err, succeeded) => {
+        if (err) {
+         console.log("error occured on redisClient.flushdb");
+        } else console.log("purge caches store in redis");
+       });
     const { titulo, descripcion } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const respuestaImg = await cloudinary.v2.uploader.upload(files.imagenPath[0].path);

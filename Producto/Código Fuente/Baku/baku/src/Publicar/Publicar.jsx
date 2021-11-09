@@ -233,7 +233,7 @@ export default function MiniDrawer() {
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
     const [libro, setLibro] = useState({ titulo: "", descripcion: "" });
-    const [aceptaTerminos, setAceptaTerminos] = useState(null)
+    const [aceptaTerminos, setAceptaTerminos] = useState(false)
     const [aptoTodoPublico, setAptoTodoPublicos] = useState(false)
     const [estado, setEstado] = useState("Registrado")
     const [scroll, setScroll] = useState(true)
@@ -333,6 +333,7 @@ export default function MiniDrawer() {
 
     const resetForm = () => {
         setAceptaTerminos(null);
+        setAptoTodoPublicos(null);
         setLibro({});
         setPdf("");
         setImage({ preview: "", raw: "" });
