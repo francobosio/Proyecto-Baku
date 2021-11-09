@@ -32,6 +32,7 @@ const Brillo = () => {
     const [rojo, setRojo] = React.useState<number>(0);
     const [verde, setVerde] = React.useState<number>(0);
     const [azul, setAzul] = React.useState<number>(0);
+    const [opacidad, setOpacidad] = React.useState<number>(0);
 
     const handleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number);
@@ -45,15 +46,18 @@ const Brillo = () => {
                 setVerde(v[Math.trunc(value*0.1)]);
                 setAzul(a[Math.trunc(value*0.1)]);
                 setImportant("important");
+                setOpacidad(1);
             }
             if (tipoColor2 == "Negro/Blanco"){
                 setRojo(value*0.01*255);
                 setVerde(value*0.01*255);
                 setAzul(value*0.01*255);
                 setImportant("important");
+                setOpacidad(1);
             }
             if (tipoColor2 == "Ninguno"){
-                setImportant("");
+                setOpacidad(0);
+                setImportant("important");
             }
             
             
@@ -69,17 +73,17 @@ const Brillo = () => {
         return 0;
       }
     
-    
     return (
         <div style={{ marginLeft: '10px'}}>
             <style >
                 {
                 `.rpv-core__text-layer {
-                background-color: rgb(${rojo},${verde},${azul}) !${important};
-                opacity: 1 !${important};
+                    background-color: rgb(${rojo},${verde},${azul}) !${important};
+                    opacity: ${tipoColor2 == "Ninguno"?0:1} !${important};
                 }
                 .rpv-core__text-layer-text {
                     color: rgb(${brilloTexto()},${brilloTexto()},${brilloTexto()}) !${important};
+                    opacity: ${tipoColor2 == "Ninguno"?0:1} !${important};
                 }
                 
                 .rpv-core__text-layer-text::selection{

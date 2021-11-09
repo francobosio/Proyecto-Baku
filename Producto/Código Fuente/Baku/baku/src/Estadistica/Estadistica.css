@@ -12,6 +12,7 @@
   }
   .charts {
     text-align: center;
+    margin-bottom: 5rem;
   }
   .chart {
     border: solid #589636 1px;

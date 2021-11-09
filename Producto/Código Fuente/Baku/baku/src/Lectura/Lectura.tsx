@@ -191,7 +191,7 @@ const Lectura = () => {
     let { id } = useParams<QuizParams>();
 
     //TIPO DE LETRA
-    const cbTipoLetra = ['', 'sans-serif', 'italic', 'calibri']
+    const cbTipoLetra = ['', 'sans-serif', 'calibri', 'Comic Sans MS']
 
     const [tipoLetra2, setTipoLetra2] = React.useState<string | null>(cbTipoLetra[0]);
     const [inputValue, setInputValue] = React.useState('');
@@ -609,18 +609,17 @@ const Lectura = () => {
         renderToolbar
     });
     const { activateTab } = defaultLayoutPluginInstance;
-
+    //font-family: "Comic Sans MS", "Comic Sans", cursive;
     return (
         <div className={classes.root}>
             <style>
                 {
                     `
             .rpv-core__text-layer{
+                padding: 0px 20px;
             }
             .rpv-core__text-layer-text {
-                font-family: ${tipoLetra2} !important;
-                white-space: pre !important;
-                width: 5px;
+                font-family: "${tipoLetra2}" !important;
               }
             `
                 }

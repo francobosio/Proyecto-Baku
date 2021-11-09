@@ -234,7 +234,7 @@ export default function MiniDrawer() {
     const [pdf, setPdf] = useState("");
     const [libro, setLibro] = useState({ titulo: "", descripcion: "" });
     const [aceptaTerminos, setAceptaTerminos] = useState(null)
-    const [aptoTodoPublico, setAptoTodoPublicos] = useState(null)
+    const [aptoTodoPublico, setAptoTodoPublicos] = useState(false)
     const [estado, setEstado] = useState("Registrado")
     const [scroll, setScroll] = useState(true)
     const [open, setOpen] = React.useState(false);
