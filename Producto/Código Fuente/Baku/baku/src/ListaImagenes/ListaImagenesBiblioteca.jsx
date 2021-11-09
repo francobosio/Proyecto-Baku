@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     fondo: {
-        'background': '#76bfa9',
         'minHeight': '100vh',
         'minWidth': ' 95vh'
     }
@@ -102,7 +101,7 @@ export default function TitlebarImageList() {
                         <Button className={classes.boton} onClick={() => setFlagBiblioteca(true)}> Mis libros leidos </Button>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button className={classes.boton} onClick={() => setFlagBiblioteca(false)}> Mis libros Subidos </Button>
+                        <Button className={classes.boton} onClick={() => setFlagBiblioteca(false)}> Mis libros Publicados </Button>
                     </Grid>
                     <Grid className={classes.fondo} item xs={12}>
                         {libros.length > 0 ? (

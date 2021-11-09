@@ -33,6 +33,7 @@ export default function Estadistica() {
                     <Chart height={'500px'} width={'700px'} chartId={'7f88d714-8d67-4b17-97fb-af2405d694b6'}/>
                     <Chart height={'500px'} width={'700px'} chartId={'4473e271-b243-4256-9548-bfbcbce206cd'}/>
                     <Chart height={'500px'} width={'700px'} chartId={'2503f8b3-848b-4feb-b6fc-13af0b5f1456'}/>
+                    <Chart height={'500px'} width={'700px'} chartId={'a46e717b-25f0-4165-82aa-f9004721c957'}/>
                 </div>
                 <br></br>
                 <Footy/>
