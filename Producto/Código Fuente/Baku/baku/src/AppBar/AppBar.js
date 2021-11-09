@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar'
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -107,6 +108,8 @@ export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  let history = useHistory();
+
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -124,20 +127,6 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-  /* const handleSubmit = async (e) => {
-    setEstado(true);
-    if (!buscador) {
-        setEstado(false);
-        return setError('Por favor ingrese un texto valido');
-    }
-    const res = await libroService.buscarLibro(busquedaVariable);
-    setLibroBuscado(res.data, setError(''));
-    console.log(res);
-    if (!res.data.length) {
-        return setError('No se encontraron resultados');
-    }
-} */
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -210,10 +199,13 @@ export default function PrimarySearchAppBar() {
               placeholder="Autor, Título o Editorial"
               classes={{ root: classes.inputRoot, input: classes.inputInput, }}
               inputProps={{ 'aria-label': 'search' }}
-             /*  onKeyPress={(e) => {
+              onKeyPress={(e) => {
                 if (e.key === 'Enter') {
-                  console.log('Enter clicked!!!');
-                  handleSubmit(e);}}} */
+                  console.log('diste enter');
+                 const  valor=e.target.value;
+                  //redirecionar al componente buscar con parametros
+                 history.push(`/Buscar/${valor}`);
+                  }}}
             />
           </div>
 

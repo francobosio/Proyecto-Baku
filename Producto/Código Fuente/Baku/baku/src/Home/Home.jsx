@@ -121,7 +121,7 @@ export default function ButtonAppBar() {
         </AppBar>
         <div className={classes.divImagen}>
           <Grid className={classes.grid}>
-            <img className={classes.paper} src={logoBaku}/>
+            <img className={classes.paper} alt='' src={logoBaku}/>
             <Typography className={classes.typographyKsText}>No dejes para mañana lo que puedes leer hoy.</Typography>
             <Typography className={classes.typographyKsText}>Accedé a cientos de libros originales en forma gratuita</Typography>
             <LoginButton text="Ingresa a Baku"></LoginButton>

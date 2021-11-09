@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Switch} from "react-router-dom";
 import {useAuth0} from '@auth0/auth0-react'
 
 import Home from "../Home/Home.jsx";
@@ -28,6 +28,7 @@ export default function Layout() {
                         <Route exact path="/Lectura/:id" component={isLoading? Loading: isAuthenticated?  Lectura: Home}/>
                         <Route exact path="/Publicar" component={isLoading? Loading: isAuthenticated? Publicar: Home} />
                         <Route exact path="/Buscar" component={isLoading? Loading: isAuthenticated? Buscar: Home} />
+                        <Route exact path="/Buscar/:busqueda" component={isLoading? Loading: isAuthenticated? Buscar: Home} />
                         <Route exact path="/Biblioteca" component={isLoading? Loading: isAuthenticated? Biblioteca :Home} />
                         <Route exact path="/Perfil" component={isLoading? Loading: isAuthenticated? Perfil: Home} />
                         <Route exact path="/Estadistica" component={isLoading? Loading: isAuthenticated? Estadistica :Home} />

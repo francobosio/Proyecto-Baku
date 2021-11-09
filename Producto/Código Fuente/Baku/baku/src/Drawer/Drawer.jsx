@@ -23,8 +23,6 @@ import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
-import { opendir } from 'fs';
-
 const drawerWidth = "15rem";
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -87,13 +85,11 @@ export const MiDrawer = () => {
     const handleLink = () => {
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
         console.log(localStorage.getItem('drawer_open'))
-        console.log("entro a useEffect")
     }
 
     useEffect(() => {
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
         console.log(localStorage.getItem('drawer_open'))
-        console.log("entro a useEffect")
     }, [location.pathname])
 
     return (

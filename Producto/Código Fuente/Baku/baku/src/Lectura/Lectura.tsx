@@ -23,7 +23,7 @@ import { makeStyles } from '@material-ui/core/styles';
 //------------------------------------------------------------------------------------------------------------
 import React, { useRef, useEffect, useState } from 'react';
 
-import AppBar from './AppBarLectura';
+import AppBar from '../AppBar/AppBarLectura.jsx';
 import Footy from '../Footy/Footy.jsx';
 
 import { useParams } from "react-router-dom";
@@ -616,7 +616,6 @@ const Lectura = () => {
                 {
                     `
             .rpv-core__text-layer{
-                padding: 0px 20px;
             }
             .rpv-core__text-layer-text {
                 font-family: "${tipoLetra2}" !important;

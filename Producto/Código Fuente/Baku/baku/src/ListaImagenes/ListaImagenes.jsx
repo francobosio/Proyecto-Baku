@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as libroService from '../Libros/LibroService'
 import { makeStyles } from '@material-ui/core/styles';
 import ImageList from '@material-ui/core/ImageList';
@@ -8,13 +8,12 @@ import { Container, Grid } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
-import { Link } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
 import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 //Imagenes
@@ -50,10 +49,12 @@ const useStyles = makeStyles((theme) => ({
         "margin-bottom": "0px",
     },
     titulo: {
-        "font": "200% sans-serif",
+        "font": "210% sans-serif",
         "margin-top": "10px",
         "padding-left": "0px",
         color: "black",
+        "marginBottom": "1rem",
+        'font-weight': 'bold',
 
     },
     divider: {
@@ -134,33 +135,43 @@ const categorias = [
         img: ciencia_ficcion,
     },
     {
+        id:"Fantasía",
         img: fantasia,
     },
-    {
+    {   
+        id:"Infantil",
         img: infantil,
     },
     {
+        id:"Terror",
         img: terror,
     },
     {
+        id:"Aventura",
         img: aventura,
     },
     {
+        id:"Viajes",
         img: viajes,
     },
     {
+        id:"Romántico",
         img: romantico,
     },
     {
+        id:"Policial",
         img: policial,
     },
     {
+        id:"Poesía",
         img: poesia,
     },
     {
+        id:"Teatro",
         img: teatro,
     },
     {
+        id:"Biografía",
         img: biografias,
     },
 ];
@@ -172,6 +183,7 @@ export default function TitlebarImageList() {
     const [estado, setEstado] = useState(false)
     const [libroBuscado, setLibroBuscado] = useState(0)
     const classes = useStyles();
+    const { busqueda } = useParams();
 
     const handleSubmit = async (e) => {
         setEstado(true);
@@ -189,6 +201,7 @@ export default function TitlebarImageList() {
     }
 
     const handleChange = (e) => {
+        setError('');
         console.log(e.target.value);
         busquedaVariable = e.target.value;
         setBuscador(e.target.value);
@@ -203,12 +216,25 @@ export default function TitlebarImageList() {
     }
 
     const handleClick = async (nombre) => {
-        console.log(nombre);
         setEstado(true);
         const res = await libroService.buscarLibroGenero(nombre);
         setLibroBuscado(res.data, setError(''));
         console.log(res);
     }
+    const cargaIncial = async () => {
+        if (busqueda) {
+            setEstado(true);
+            const res = await libroService.buscarLibro(busqueda);
+            setLibroBuscado(res.data, setError(''));
+            console.log(res);
+            if (!res.data.length) {
+                return setError('No se encontraron resultados');
+            }
+        }
+    }
+    useEffect(() => {
+        cargaIncial();
+    }, [])
 
     const LibroLeido = async (libroId) => {
         const usuario_id = localStorage.getItem("usuario_activo")
@@ -220,7 +246,8 @@ export default function TitlebarImageList() {
         const res = await usuarioService.usuarioLibroLeido(libroData);
         console.log(res);
     }
-
+    
+    
     return (
         <div className={classes.root}>
             <Grid className={classes.grid}>
@@ -252,8 +279,7 @@ export default function TitlebarImageList() {
 
                     <ImageList rowHeight={500} className={classes.imageList} cols={3} gap={20}>
                         <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
-                        <ListSubheader component="div" className={classes.titulo}>Resultado</ListSubheader>
-                            <br />
+                        <ListSubheader component="div"  className={classes.titulo}>Resultado</ListSubheader>
                         </ImageListItem>
                         {libroBuscado.map((item) => (
                             <ImageListItem key={item.id} style={{ width: "16.8rem", height: "23.5rem" }} >
@@ -274,18 +300,7 @@ export default function TitlebarImageList() {
                         ))}
                     </ImageList>
                     :
-                    //ORIGINAL
-                    /* <ImageList rowHeight={320} className={classes.imageList} cols={3} >
-                        <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
-                            <ListSubheader component="div" className={classes.titulo}>Explorar todo:</ListSubheader>
-                        </ImageListItem> */
-                    /* {categorias.map((item) => (
-                        //evento click
-                        <ImageListItem key={item.img} onClick={handleClick}>
-                            <img src={item.img} alt={item.title} />
-                        </ImageListItem>
-                    ))} */
-                    <Container className={classes.contenedor}>
+                    <Container className={classes.contenedor} onR  >
                         <Container>
                              <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
                              <br />
@@ -307,7 +322,6 @@ export default function TitlebarImageList() {
                             ))}
                         </Container>
                     </Container>
-                    /* </ImageList> */
                 }
             </Grid>
         </div >
