@@ -28,10 +28,13 @@ const libroSchema = new Schema({
     },
     autor:{
         type: String,
-        trim: true,
     },
     genero:{
         type: [String],
+        trim: true,
+    },
+    editorial:{
+        type: String,
         trim: true,
     },
     aptoTodoPublico:{
@@ -57,6 +60,7 @@ interface ILibro extends Document {
     descripcion: string;
     archivoTexto: string;
     public_id_pdf: string;
+    editorial: string;
     autor: string;
     genero: string;
     aptoTodoPublico: boolean;

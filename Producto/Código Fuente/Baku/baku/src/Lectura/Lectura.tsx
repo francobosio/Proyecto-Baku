@@ -616,7 +616,6 @@ const Lectura = () => {
                 {
                     `
             .rpv-core__text-layer{
-                padding: 0px 20px;
             }
             .rpv-core__text-layer-text {
                 font-family: "${tipoLetra2}" !important;

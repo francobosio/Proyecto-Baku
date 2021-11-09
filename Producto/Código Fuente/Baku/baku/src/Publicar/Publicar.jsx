@@ -318,15 +318,14 @@ export default function MiniDrawer() {
             formData.append("aptoTodoPublico", aptoTodoPublico);
             formData.append("aceptaTerminos", aceptaTerminos);
             formData.append("estado", estado)
-            console.log(estado)
+            formData.append("editorial",libro.editorial)
+            formData.append("autor",libro.autor)
             const res = await libroServices.createLibro(formData);
-            console.log(res.data.libro._id);
             const idData = {
                 'auth0id': usuario_auth0Id,
                 'idLibro': res.data.libro._id
             };
             const res2 = await usuarioService.usuarioLibroCargado(idData);
-            console.log(res2);
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
         }
@@ -458,14 +457,16 @@ export default function MiniDrawer() {
                                         name="editorial"
                                         inputRef={inputEditorial}
                                         autoFocus
+                                        onChange={handleInputChange}
                                     />
                                 </Grid>
                                 <Grid item xs={12} className={classes.controlEditorial}>
                                     <Typography className={classes.textoDestacado}>Autor</Typography>
                                     <TextField
-                                        name="editorial"
+                                        name="autor"
                                         inputRef={inputEditorial}
                                         autoFocus
+                                        onChange={handleInputChange}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>

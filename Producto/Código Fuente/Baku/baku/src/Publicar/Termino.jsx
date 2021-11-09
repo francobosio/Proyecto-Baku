@@ -1,6 +1,5 @@
-
-
 import DialogContentText from '@mui/material/DialogContentText';
+
 export default function Termino() {
   return (<DialogContentText>
     {`Bienvenido a la aplicación web Baku. Al usar Baku, crear su cuenta y usar el sitio para publicar contenido en la comunidad de Baku, incluídos los libros que publica, o para acceder y ver el contenido de Baku o otro contenido de usuario, acepta estos Términos de servicio. Si no está de acuerdo con alguno de estos términos, no puede utilizar los servicios de Baku.
