@@ -254,6 +254,7 @@ export default function MiniDrawer() {
     // Esta variable es para los mensajes de alerta
     const alert = useAlert();
 
+    /* metodo para deshabilitar los géneros que tengan conflictos entre si */
     const handleSelectChange = (event) => {
         categorias.map((value) => (
             value.disabled = false
@@ -303,6 +304,8 @@ export default function MiniDrawer() {
         setAptoTodoPublicos(e.target.checked)
     }
 
+    /* Método para realizar la carga de un nuevo libro a la base de datos. Primero valida los campos, luego sin son válidos crea un archivo que contiene todos los campos del
+    libro y los manda a la BD. luego recibe por parámetro el id del libro y se le asigna ese id a los libros publicados del usuario */
     const handleSubmit = async e => {
         if (validate()) {
             e.preventDefault();
@@ -318,8 +321,8 @@ export default function MiniDrawer() {
             formData.append("aptoTodoPublico", aptoTodoPublico);
             formData.append("aceptaTerminos", aceptaTerminos);
             formData.append("estado", estado)
-            formData.append("editorial",libro.editorial)
-            formData.append("autor",libro.autor)
+            formData.append("editorial", libro.editorial)
+            formData.append("autor", libro.autor)
             const res = await libroServices.createLibro(formData);
             const idData = {
                 'auth0id': usuario_auth0Id,
@@ -331,6 +334,7 @@ export default function MiniDrawer() {
         }
     }
 
+    /* Método para resetear todos los campos del formulario. Se ejecuta al cargar un nuevo libro */
     const resetForm = () => {
         setAceptaTerminos(null);
         setAptoTodoPublicos(null);
@@ -349,6 +353,7 @@ export default function MiniDrawer() {
         ))
     }
 
+    /* Método para validar todos los campos del formulario. Se ejecuta al intentar cargar un nuevo libro */
     const validate = () => {
         // creo una variable temporal temp y guardo en ella cadenas vacias si los campos son correctos u otra cadena cualquiera si no lo son
         let temp = {}

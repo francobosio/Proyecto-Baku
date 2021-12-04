@@ -3,6 +3,7 @@ import config from '../config'
 import fs from 'fs-extra'
 import Usuario from "./Usuario";
 
+/* Método para la creación de un nuevo usuario. Recibe un Json en el campo req y devuelve el usaurio creado en el campo res */
 export const createUsuario: RequestHandler = async (req, res) => {
     const { auth0_id, apellido, nombre, correo_electronico } = req.body;
 
@@ -21,6 +22,7 @@ export const createUsuario: RequestHandler = async (req, res) => {
     });
 }
 
+/* Método para la búsqueda de un usuario, recibe el id de auth0 en el campo req y devuelve el usaurio encontrado en el campo res  */
 export const getUsuario: RequestHandler = async (req, res) => {
     const auth0id = req.params.auth0id
     const queryUsuario = { auth0_id: auth0id }
@@ -31,6 +33,8 @@ export const getUsuario: RequestHandler = async (req, res) => {
     return res.json(usuarioFound);
 }
 
+/* Obtiene la última página de un libro leido por un usuario o la página 0 si es la primera vez que lo lee. Recibe el id de auth0 del usaurio y el id del libro en el campo req 
+y devuelve la ultima página encontrada o 0 en el campo res */
 export const getUltimaPagina: RequestHandler = async (req, res) => {
     const auth0id = req.params.auth0id;
     const idLibro = req.params.idLibro;
@@ -38,6 +42,8 @@ export const getUltimaPagina: RequestHandler = async (req, res) => {
     const usuario = await Usuario.findOne(queryUsuario).exec();
     if (usuario != undefined) {
         const libros_leidos = usuario.libros_leidos;
+
+        // Busca en la lista el libro cuyo que coincida con el id pasado por parametro. Si no encuentra nada devuelve -1.
         const index = libros_leidos.findIndex(x => x.id_libro === idLibro);
     
         let ultimaPagina = 0;
@@ -51,11 +57,12 @@ export const getUltimaPagina: RequestHandler = async (req, res) => {
     } else {
         console.log(usuario)
         return res.json({
-            message: "Usuario no existe"
+            message: "El usuario no existe"
         });
     }
 }
 
+/* Carga en la lista de libros publicados del usuario un nuevo libro. Recibe por parametro el id de autho del usuario y el id del libro */
 export const putLibroPublicado: RequestHandler = async (req, res) => {
     const { auth0id, idLibro } = req.body;
     const queryUsuario = { auth0_id: auth0id }
@@ -70,6 +77,8 @@ export const putLibroPublicado: RequestHandler = async (req, res) => {
     });
 }
 
+/* agrega un libro leido a la lista del usuario, ademas guarda la ultima pagina leida de dicho libro
+recibe por parametro en req el id de auth0 del usuario, el id del libro y la ultima pagina leida. Luego los agrega a la lista del usuario */
 export const putLibroLeido: RequestHandler = async (req, res) => {
     let { auth0id, idLibro, ultimaPaginaLeida, finLectura } = req.body;
     const queryUsuario = { auth0_id: auth0id };
@@ -78,20 +87,25 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
 
     if (usuario != undefined) {
         const libros_leidos = usuario.libros_leidos;
+        // Busca en la lista el libro cuyo que coincida con el id pasado por parametro. Si no encuentra nada devuelve -1.
         const index = libros_leidos.findIndex(x => x.id_libro === idLibro);
 
+        // Si es el fin de la lectura elimina el libro para actualizar la lista
         if (finLectura){
             libros_leidos.splice(index, 1);
         } else {
             if (index > -1) 
             {
+                // Si encuentra el libro ya existe y no es el fin de lectura saca la ultima pagina leida y borra el item de la lista
                 ultimaPaginaLeida = usuario.libros_leidos[index].ultima_pagina;
                 libros_leidos.splice(index, 1);
             } else {
+                // si el libro no existe aun setea la ultima pagina en 0
                 ultimaPaginaLeida = 0;
             }
         }
         
+        // Creo un item que contiene id del libro y la ultima pagina leida y lo agrego al final de la lista
         const libroLeido = {
             id_libro: idLibro,
             ultima_pagina: ultimaPaginaLeida

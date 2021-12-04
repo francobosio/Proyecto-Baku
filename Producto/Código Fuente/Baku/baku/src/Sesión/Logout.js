@@ -20,6 +20,7 @@ const useStyles = makeStyles({
     }},
 })
 
+/* metodo de auth0 para realizar el logout del usaurio */
 export const LogoutButton = () => {
     const {logout} = useAuth0();
     const estilos = useStyles();
