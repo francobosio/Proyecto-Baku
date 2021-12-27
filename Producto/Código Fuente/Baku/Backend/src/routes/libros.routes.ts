@@ -9,6 +9,8 @@ router.get('/libros', libroCtrl.getLibros);
 
 router.get('/libro/:id', libroCtrl.getLibro)
 
+router.get('/libro/revision/:id', libroCtrl.getLibroRevision)
+
 router.post('/libros', camposArchivo, libroCtrl.createLibro)
 
 router.get('/libros/delete/:id', libroCtrl.deleteLibro)

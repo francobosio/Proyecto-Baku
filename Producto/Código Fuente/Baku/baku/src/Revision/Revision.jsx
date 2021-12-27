@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
-import ListaImagenesBiblioteca from '../ListaImagenes/ListaImagenesBiblioteca.jsx';
+import ListaLibrosRevisar from './ListaLibrosRevisar.jsx';
 import {MiDrawer} from "../Drawer/Drawer.jsx"
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +59,7 @@ export default function MiniDrawer() {
             <MiDrawer/>
             <main className={classes.content}>
                 <AppBar />
-                <ListaImagenesBiblioteca />
+                <ListaLibrosRevisar />
                 <Footy />
             </main>
         </div>

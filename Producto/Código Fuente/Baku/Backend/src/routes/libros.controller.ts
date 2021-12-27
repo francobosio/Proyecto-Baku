@@ -6,6 +6,7 @@ import config from '../config'
 import fs from 'fs-extra'
 import redis from 'redis'
 import { promisify } from 'util'
+import PdfParse from "pdf-parse";
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -46,8 +47,8 @@ export const createLibro: RequestHandler = async (req, res) => {
     const libro = new Libro(newLibro);
     console.log(libro)
     await libro.save();
-    fs.unlink(files.imagenPath[0].path);
-    fs.unlink(files.archivoTexto[0].path);
+    /* fs.unlink(files.imagenPath[0].path);
+    fs.unlink(files.archivoTexto[0].path); */
     return res.json({
         libro
     })
@@ -124,4 +125,36 @@ export const buscarLibroGenero : RequestHandler = async (req, res) => {
     if (!libroFound) return res.status(204).json();
     res.json(libroFound);
 }
-
+const malasPalabras= ["mapa","casa"]
+export const getLibroRevision: RequestHandler = async (req, res) => {
+    const pdfFile = await fs.readFile("uploads/DOS AÑOS DE VACACIONES_JULIO VERNE.pdf");
+    PdfParse(pdfFile).then(function (data) {
+        
+       /* crear array de data  */
+       let arrayData = data.text.split(/\t|\n/);
+        
+        //limpiar palabras de arrayData incluidas las tildes
+        let arrayDataLimpio = arrayData.map(palabra => palabra.toLowerCase() 
+            .replace(/á/g, "a")
+            .replace(/é/g, "e")
+            .replace(/í/g, "i")
+            .replace(/ó/g, "o")
+            .replace(/ú/g, "u")
+            .replace(/[^\w]/gi, "")
+        );
+        //quitar elementos vacios
+        arrayDataLimpio = arrayDataLimpio.filter(palabra => palabra !== "");
+        console.log(arrayDataLimpio);
+        //match palabras con array de malas palabras y mostrar en consola
+        let arrayDataMatch = arrayDataLimpio.filter(function(palabra){
+            return malasPalabras.includes(palabra);
+        });
+        console.log(arrayDataMatch);
+        console.log(arrayDataMatch.length);
+        //console.log(arrayDataMatch);
+        
+        res.json({
+            message: "Libro revisado con éxito !!",
+        })
+    });
+}

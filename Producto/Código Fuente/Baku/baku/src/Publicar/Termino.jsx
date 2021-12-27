@@ -2,7 +2,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 
 export default function Termino() {
   return (<DialogContentText>
-    {`Bienvenido a la aplicación web Baku. Al usar Baku, crear su cuenta y usar el sitio para publicar contenido en la comunidad de Baku, incluídos los libros que publica, o para acceder y ver el contenido de Baku o otro contenido de usuario, acepta estos Términos de servicio. Si no está de acuerdo con alguno de estos términos, no puede utilizar los servicios de Baku.
+    <p>Bienvenido a la aplicación web Baku.
+      Al usar Baku, crear su cuenta y usar el sitio para publicar contenido en la comunidad de Baku, incluídos los libros que publica, o para acceder y ver el contenido de Baku o otro contenido de usuario, acepta estos Términos de servicio. Si no está de acuerdo con alguno de estos términos, no puede utilizar los servicios de Baku.
 Baku puede cambiar los términos de este Acuerdo en cualquier momento a su entera discreción con una notificación de treinta (30) días al Autor. Los cambios entrarán en vigencia al final del período de notificación, y el uso continuo de la plataforma por parte del Autor después de la finalización del período de notificación, constituye la aceptación por parte del Autor de dichos cambios. Si el Autor no está de acuerdo con los cambios, el Autor debe suspender todo uso de la Plataforma y eliminar todo su Contenido del Autor antes de que finalice el Período de Notificación.
 
 Baku anima a todos los autores independientes a expresar su creatividad e imaginación a través de historias originales. No permitimos ninguna infracción de derechos de autor o material pirateado en la plataforma y eliminaremos cualquier trabajo que descubramos que se ha publicado ilegalmente. Si bien es posible que algunos usuarios no estén al tanto de la ley de propiedad intelectual y el concepto de derechos de autor, hacemos todo lo posible para educar e informar a nuestra comunidad mientras construimos una audiencia atractiva para todos los autores.
@@ -58,7 +59,7 @@ Baku es un espacio para encontrar tu comunidad y los libros que te importan. Ten
 
 Las decisiones de Baku son definitivas. Nos reservamos el derecho de eliminar cualquier contenido o cuentas que violen las políticas de Baku. No transferimos ni restauramos contenido / cuentas que se han eliminado por violar las pautas de Baku.
 
-¡Gracias por elegir Baku y ayudarnos a crear una comunidad de lectura más segura!`}
+¡Gracias por elegir Baku y ayudarnos a crear una comunidad de lectura más segura!</p>
 
   </DialogContentText>
   );

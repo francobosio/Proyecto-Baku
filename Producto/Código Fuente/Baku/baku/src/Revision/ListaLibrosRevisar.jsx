@@ -1,0 +1,274 @@
+import { useEffect, useState } from 'react';
+import * as libroService from '../Libros/LibroService'
+import { makeStyles } from '@material-ui/core/styles';
+import ImageList from '@material-ui/core/ImageList';
+import ImageListItem from '@material-ui/core/ImageListItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import { Container, Grid } from '@material-ui/core';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
+import Divider from '@material-ui/core/Divider';
+import { Link,useParams } from "react-router-dom";
+import IconButton from '@material-ui/core/IconButton';
+import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
+import ImageListItemBar from '@material-ui/core/ImageListItemBar';
+import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import { CardActionArea } from '@mui/material';
+
+
+import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        'background': '#99cfbf',
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
+        "margin-bottom": "2rem",
+        "align-content":"flex-start",
+        minHeight: '100vh',
+    },
+    imageList: {
+        width: "70rem",
+        "margin-bottom": "0px",
+    },
+    titulo: {
+        "font": "210% sans-serif",
+        "margin-top": "10px",
+        "padding-left": "0px",
+        color: "black",
+        "marginBottom": "1rem",
+        'font-weight': 'bold',
+
+    },
+    divider: {
+        padding: '2vh 0 2vh 0',
+        backgroundColor: '#fff',
+    },
+    imagen: {
+      
+        width: "100%",
+        "position": "relative",
+      },
+    grid: {
+        display: "flex",
+        "place-items": "center",
+        "justify-content": "center",
+        "flex-direction": "column",
+    },
+    search: {
+        'display': 'flex',
+        'align-items': 'center',
+        'text-align': 'center',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: '#076F55',
+        width: '35em',
+        height: '3em'
+    },
+    searchIcon: {
+        padding: theme.spacing(0, 2),
+        height: '80%',
+        color: '#fff',
+        pointerEvents: 'none',
+        'display': 'flex',
+        'align-items': 'center',
+        'text-align': 'center',
+    },
+    inputInput: {
+        color: '#fff',
+        opacity: 0.5,
+        'display': 'flex',
+        'align-items': 'left',
+        'text-align': 'left',
+        'font-size': '1.5em',
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(0.2em + ${theme.spacing(1)}px)`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '100%',
+        },
+    },
+    title: {
+        color: '#932121'
+    },
+    contenedor: {
+        display: 'flex',
+        width: "100%",
+        'flex-direction': 'row',
+        'align-items': 'center',
+        'justify-content': 'space-between',
+        'flex-wrap': 'wrap'
+    },
+    icono: {
+        width: "1.5em",
+        height: "1.5em",
+        color: "white",
+    },
+}));
+
+
+const categorias = [
+    {   
+        id:"Arte",
+        
+    },
+   
+    {
+        id:"Romántico",
+       
+    },
+    {
+        id:"Policial",
+      
+    },
+    {
+        id:"Poesía",
+    
+    },
+    {
+        id:"Teatro",
+ 
+    },
+
+];
+let setTimeOutId;
+let busquedaVariable = "";
+export default function TitlebarImageList() {
+    const [buscador, setBuscador] = useState()
+    const [error, setError] = useState('')
+    const [estado, setEstado] = useState(false)
+    const [libroBuscado, setLibroBuscado] = useState(0)
+    const classes = useStyles();
+    const { busqueda } = useParams();
+
+    const handleSubmit = async (e) => {
+        setEstado(true);
+        if (!buscador) {
+            setEstado(false);
+            return setError('Por favor ingrese un texto valido');
+        }
+        const res = await libroService.buscarLibro(busquedaVariable);
+        setLibroBuscado(res.data, setError(''));
+        console.log(res);
+
+        if (!res.data.length) {
+            return setError('No se encontraron resultados');
+        }
+    }
+
+    const handleChange = (e) => {
+        setError('');
+        console.log(e.target.value);
+        busquedaVariable = e.target.value;
+        setBuscador(e.target.value);
+        console.log(busquedaVariable)
+        clearTimeout(setTimeOutId) //para que no se ejecute el setTimeOutId
+        setTimeOutId = setTimeout(() => {
+            if (busquedaVariable.length > 0) {
+                console.log('Se esta buscando');
+                handleSubmit(busquedaVariable);
+            }
+        }, 1000);
+    }
+
+    const handleClick = async (nombre) => {
+        setEstado(true);
+        const res = await libroService.buscarLibroGenero(nombre);
+        setLibroBuscado(res.data, setError(''));
+        console.log(res);
+    }
+    const cargaIncial = async () => {
+        if (busqueda) {
+            setEstado(true);
+            const res = await libroService.buscarLibro(busqueda);
+            setLibroBuscado(res.data, setError(''));
+            console.log(res);
+            if (!res.data.length) {
+                return setError('No se encontraron resultados');
+            }
+        }
+    }
+    useEffect(() => {
+        cargaIncial();
+    }, [])
+
+    const LibroLeido = async (libroId) => {
+        const usuario_id = localStorage.getItem("usuario_activo")
+        const libroData = {
+            'auth0id': usuario_id,
+            'idLibro': libroId,
+            'finLectura': false,
+        }
+        const res = await usuarioService.usuarioLibroLeido(libroData);
+        console.log(res);
+    }
+    
+    
+    return (
+        <div className={classes.root}>
+            <Grid className={classes.grid}>
+                <Divider className={classes.divider} />
+                
+                <Typography variant="h5" className={classes.title}>
+                    {error ? error : ''}
+                </Typography>
+
+                {(estado && libroBuscado.length > 0) ?
+
+                    <ImageList rowHeight={500} className={classes.imageList} cols={3} gap={20}>
+                        <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
+                        <ListSubheader component="div"  className={classes.titulo}>Resultado</ListSubheader>
+                        </ImageListItem>
+                        {libroBuscado.map((item) => (
+                            <ImageListItem key={item.id} style={{ width: "16.8rem", height: "23.5rem" }} >
+                                <img src={item.imagenPath} alt={item.titulo} />
+                                <ImageListItemBar
+                                    title={item.titulo}
+                                    //subtitle={<span>por: {item.autor}</span>}
+                                    position='bottom'
+                                    actionIcon={
+                                        <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
+                                            <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
+                                                <LocalLibraryOutlinedIcon className={classes.icono} />
+                                            </Link>
+                                        </IconButton>
+                                    }
+                                />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
+                    :
+                    <Container className={classes.contenedor} onR  >
+                        <Container>
+                             <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
+                             <br />
+                        </Container>
+                        <Container className={classes.contenedor}>
+
+                            {categorias.map((item) =>
+                            (
+                                <Card style={{ maxWidth: 345 , width:"18rem",background:"#99cfbf","margin-top": "10px"}}>
+                                    <CardActionArea onClick={() => handleClick(item.id)}  >
+                                        <CardMedia
+                                            component="img"
+                                            height="auto"
+                                            image={item.img}
+                                            style={{ "margin-top": "-2px"}}
+                                        />
+                                    </CardActionArea>
+                                </Card>
+                            ))}
+                        </Container>
+                    </Container>
+                }
+            </Grid>
+        </div >
+    );
+
+}
