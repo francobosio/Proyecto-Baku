@@ -11,6 +11,7 @@ import Revision from '../Revision/Revision.jsx';
 import Buscar from '../Buscar/Buscar.jsx';
 import Biblioteca from '../Biblioteca/Biblioteca.jsx';
 import Perfil from '../Sesión/Perfil.jsx'
+import Resultado from '../Revision/Resultado.jsx'
 import {Loading} from  '../Sesión/Loading.jsx'
 
 export default function Layout() {
@@ -34,7 +35,7 @@ export default function Layout() {
                         <Route exact path="/Perfil" component={isLoading? Loading: isAuthenticated? Perfil: Home} />
                         <Route exact path="/Estadistica" component={isLoading? Loading: isAuthenticated? Estadistica :Home} />
                         <Route exact path="/Revision" component={isLoading? Loading: isAuthenticated? Revision :Home} />
-                        
+                        <Route exact path="/Revision/:id" component={isLoading? Loading: isAuthenticated? Resultado :Home} />
                         <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                     </Switch>
                 </div>

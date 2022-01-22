@@ -3,6 +3,7 @@ import axios from 'axios';
 export const getLibros = async () => {
     return await axios.get('http://localhost:4000/libros');
 }
+
 const config = {     
     headers: { "content-type": "multipart/form-data" }
 }
@@ -21,4 +22,8 @@ export const buscarLibro = async (buscar: string) =>{
 
 export const buscarLibroGenero = async (buscar: string) =>{
     return await axios.get(`http://localhost:4000/libros/buscar/genero/${buscar}`)
+}
+
+export const getLibroRegistrado = async () => {
+    return await axios.get("http://localhost:4000/librosRegistrados" )
 }

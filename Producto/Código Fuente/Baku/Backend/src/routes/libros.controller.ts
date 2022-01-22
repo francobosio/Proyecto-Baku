@@ -81,6 +81,31 @@ export const getLibros: RequestHandler = async (req, res) => {
         res.json({ message: error })
     }
 }
+export const getLibrosRegistrados: RequestHandler = async (req, res) => {
+    try {
+        //Para limpiar la cache
+        client.flushdb((err, succeeded) => {
+            if (err) {
+             console.log("error occured on redisClient.flushdb");
+            } else console.log("purge caches store in redis");
+           });
+
+        let reply:any = await GET_ASYNC('libros')
+        if (reply) {
+            return res.json(JSON.parse(reply))
+        }
+        else {
+
+            const libros = await Libro.find({ estado: 'Registrado' })
+
+            reply = await SET_ASYNC('libros', JSON.stringify(libros))
+
+            res.json(libros);
+        }
+    } catch (error) {
+        res.json({ message: error })
+    }
+}
 
 
 export const getLibro: RequestHandler = async (req, res) => {
@@ -149,8 +174,18 @@ export const getLibroRevision: RequestHandler = async (req, res) => {
         let arrayDataMatch = arrayDataLimpio.filter(function(palabra){
             return malasPalabras.includes(palabra);
         });
+        //identificar palabra y cantidad de veces que se repite typeScript
+        let arrayDataMatchCount = arrayDataMatch.reduce(function(obj:any, palabra){
+            obj[palabra] = (obj[palabra]||0) + 1;
+            return obj;
+        }, {});
+
+                
+       
+        
         console.log(arrayDataMatch);
         console.log(arrayDataMatch.length);
+        console.log(arrayDataMatchCount);
         //console.log(arrayDataMatch);
         
         res.json({

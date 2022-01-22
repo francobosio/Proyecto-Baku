@@ -1,7 +1,7 @@
 import React from 'react';
 import IconCross from '../Icons/IconCross';
 import './Content.scss';
-import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import {Link} from 'react-router-dom';
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
@@ -37,7 +37,7 @@ const Content = ({ movie, onClose }) => (
       </button>
       <button className="content__read" onClick={onClose} title={"Leer este libro"}>
         <Link onClick={() => {LibroLeido(movie._id)}} to={ "/Lectura/" + movie._id } >
-          <LocalLibraryOutlinedIcon style={{fontSize:"4em"}} className="content__read-button"/>
+          <AutoStoriesOutlinedIcon style={{fontSize:"4em"}} className="content__read-button"/>
         </Link>
       </button>
     </div>
