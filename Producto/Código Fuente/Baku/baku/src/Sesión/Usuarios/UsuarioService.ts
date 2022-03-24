@@ -16,10 +16,18 @@ export const usuarioLibroCargado = async (usuarioLibroData: {}) => {
     return await axios.put('http://localhost:4000/usuarios/libroSubido/', usuarioLibroData)
 }
 
-export const  usuarioLibroLeido = async (usuarioLibroLeidoData: {}) => {
+export const usuarioLibroLeido = async (usuarioLibroLeidoData: {}) => {
     return await axios.put('http://localhost:4000/usuarios/libroLeido/', usuarioLibroLeidoData)
 }
 
-export const usuarioUltimaPagina = async (auth0id:String, idLibro:String) => {
+export const usuarioUltimaPagina = async (auth0id: String, idLibro: String) => {
     return await axios.get("http://localhost:4000/usuario/ultimaPagina/" + auth0id + "/" + idLibro)
+}
+
+export const obtenerTodosUsuarios = async () => {
+    return await axios.get('http://localhost:4000/usuarios')
+}
+//modificar el tipo de usuario de un usuario
+export const asignarTipoUsuario = async (id: String, tipoUsuario: String) => {
+    return await axios.put('http://localhost:4000/usuarios/modificarTipo', { id, tipoUsuario })
 }

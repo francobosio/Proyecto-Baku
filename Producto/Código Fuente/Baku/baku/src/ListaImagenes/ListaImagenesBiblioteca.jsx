@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
 import { Container, Button, ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Typography, Grid } from '@material-ui/core';
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
         color: "black",
     },
     icono: {
-        width: "1.5em",
-        height: "1.5em",
+        width: "1.7em",
+        height: "1.7em",
         color: "white",
     },
     boton: {
@@ -76,6 +76,7 @@ export default function TitlebarImageList() {
         console.log(libros)
     }
     useEffect(() => {
+        window.scrollTo(0, 0)
         loadLibros()
     }, [])
 
@@ -116,7 +117,7 @@ export default function TitlebarImageList() {
                                                 actionIcon={
                                                     <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
                                                         <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
-                                                            <LocalLibraryOutlinedIcon className={classes.icono} />
+                                                            <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
                                                         </Link>
                                                     </IconButton>
                                                 }
@@ -133,7 +134,7 @@ export default function TitlebarImageList() {
                                                 actionIcon={
                                                     <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
                                                         <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
-                                                            <LocalLibraryOutlinedIcon className={classes.icono} />
+                                                            <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
                                                         </Link>
                                                     </IconButton>
                                                 }

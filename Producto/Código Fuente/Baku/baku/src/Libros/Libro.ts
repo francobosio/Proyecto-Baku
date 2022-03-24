@@ -6,3 +6,4 @@ export interface Libro {
     archivoTexto: string;
     public_id_pdf: string;
 }
+

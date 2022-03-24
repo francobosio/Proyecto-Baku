@@ -13,6 +13,9 @@ const usuarioSchema = new Schema({
         type: String,
         required: true,
     },
+    tipoUsuario:{
+        type: String,
+    },
     correo_electronico:{
         type: String,
         required: true,
@@ -35,6 +38,7 @@ interface IUsuario extends Document {
     auth0_id: string;
     apellido: string;
     nombre: string;
+    tipoUsuario: string;
     correo_electronico: string;
     fecha_nacimiento: Date;
     libros_publicados: any [];
