@@ -20,8 +20,10 @@ const useStyles = makeStyles({
     }},
 })
 
-/* metodo de auth0 para realizar el logout del usaurio */
-export const LogoutButton = () => {
+export const LogoutButton = () => { 
+    localStorage.removeItem("usuario_id")
+    localStorage.removeItem("tipoUsuario")
+
     const {logout} = useAuth0();
     const estilos = useStyles();
     return <Button variant="contained" onClick={() => logout()} className={estilos.boton + ' ' + estilos.botonVerde}> Cerrar Sesión </Button>

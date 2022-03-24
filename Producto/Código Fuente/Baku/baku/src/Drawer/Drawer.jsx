@@ -89,7 +89,6 @@ export const MiDrawer = () => {
 
     const handleLink = () => {
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
-        console.log(localStorage.getItem('drawer_open'))
     }
 
     useEffect(() => {

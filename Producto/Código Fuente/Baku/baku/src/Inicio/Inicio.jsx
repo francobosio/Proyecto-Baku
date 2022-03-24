@@ -97,8 +97,7 @@ export default function Inicio() {
                 'auth0_id': user.sub,
                 'apellido': user.family_name ? user.family_name : user.nickname,
                 'nombre': user.given_name ? user.given_name : user.nickname,
-                'id':usuario._id,
-                'tipo': usuario.tipo,
+                'tipo':'1',
                 'correo_electronico': user.email
             }
             console.log(usuarioData);
