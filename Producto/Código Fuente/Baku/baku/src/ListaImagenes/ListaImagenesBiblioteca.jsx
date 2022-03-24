@@ -76,6 +76,7 @@ export default function TitlebarImageList() {
         console.log(libros)
     }
     useEffect(() => {
+        window.scrollTo(0, 0)
         loadLibros()
     }, [])
 

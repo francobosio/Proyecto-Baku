@@ -1,5 +1,4 @@
 import { Router } from "express";
-import multer from "../libs/multer";
 import * as usuarioCtrl from './usuarios.controller'
 
 const router = Router();
@@ -13,5 +12,9 @@ router.get('/usuario/ultimaPagina/:auth0id/:idLibro', usuarioCtrl.getUltimaPagin
 router.put('/usuarios/libroSubido', usuarioCtrl.putLibroPublicado)
 
 router.put('/usuarios/libroLeido/', usuarioCtrl.putLibroLeido)
+
+router.get('/usuarios', usuarioCtrl.getUsuarios)
+
+router.put('/usuarios/modificarTipo', usuarioCtrl.putTipoUsuario)
 
 export default router;

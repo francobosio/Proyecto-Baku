@@ -21,6 +21,8 @@ import MenuBookOutlinedIcon from '@material-ui/icons/MenuBookOutlined';
 import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
@@ -76,6 +78,8 @@ export const MiDrawer = () => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false);
 
+    const revisar = localStorage.getItem('tipoUsuario') === '3' ? true : false;
+    console.log(revisar)
     const handleDrawerOpenClose = () => {
         setOpen((data) => {
             localStorage.setItem('drawer_open', !data)
@@ -90,8 +94,11 @@ export const MiDrawer = () => {
 
     useEffect(() => {
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
-        console.log(localStorage.getItem('drawer_open'))
+        
     }, [location.pathname])
+
+    //si el tipo de usuario es 1, se muestra el boton Revisar
+    
 
     return (
         <div className={classes.root}>
@@ -140,18 +147,28 @@ export const MiDrawer = () => {
                             <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
                         </ListItem>
                     </Link>
-                    <Link to="/Estadistica" className={classes.link} >
-                    <ListItem button>
-                        <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Estadísticas' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
-                    </Link>
-                    <Link to="/Revision" className={classes.link} >
-                    <ListItem button>
-                        <ListItemIcon><RateReviewOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                        <ListItemText primary='Revisión' style={{ color: "#FFFFFF" }} />
-                    </ListItem>
-                    </Link>
+                    {(revisar === true) ?
+                        <List>
+                            <Link to="/Estadistica" className={classes.link} >
+                                <ListItem button>
+                                    <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                    <ListItemText primary='Estadísticas' style={{ color: "#FFFFFF" }} />
+                                </ListItem>
+                            </Link>
+                            <Link to="/Revision" className={classes.link} >
+                                <ListItem button>
+                                    <ListItemIcon><RateReviewOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                    <ListItemText primary='Revisión' style={{ color: "#FFFFFF" }} />
+                                </ListItem>
+                            </Link>
+                            <Link to="/Parametros" className={classes.link} >
+                                <ListItem button>
+                                    <ListItemIcon><MiscellaneousServicesIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                    <ListItemText primary={`Parámetros`} style={{ color: "#FFFFFF" }} />
+                                </ListItem>
+                            </Link>
+                        </List> :
+                        null};
                 </List>
                 <Divider />
             </Drawer>

@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Estadistica() {
+    window.scrollTo(0, 0)
     const classes = useStyles();
     return (
         <div className={classes.root}>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SpellcheckOutlinedIcon from '@mui/icons-material/SpellcheckOutlined';
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
+
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
 import { Container, Button, ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Typography, Grid } from '@material-ui/core';
@@ -31,7 +33,18 @@ const useStyles = makeStyles((theme) => ({
         width: "1.5em",
         height: "1.5em",
         color: "white",
+        '&:hover': {
+            //hacer que el transform scale se ejecute mas lento y cambie de color color 0.8s linear 0.2s
+            transition: 'transform 0.3s ease-in-out , color linear 0.4s',
+            transform: 'scale(1.3)',
+            color: '#99cfbf',
+            
+        },
     },
+    barra: {
+        //si se activa el hover del hijo oscurecer el fondo
+        
+        },
     boton: {
         'font-weight': 'bold',
         'margin': '0',
@@ -49,6 +62,14 @@ const useStyles = makeStyles((theme) => ({
         'minHeight': '100vh',
         'minWidth': ' 95vh'
     }
+    ,
+    botonAnimado: {
+        //mover a la izquierda el icono 
+
+        'margin-right': '40px'
+        
+    },
+
 }));
 
 export default function TitlebarImageList() {
@@ -62,24 +83,19 @@ export default function TitlebarImageList() {
     const loadLibros = async () => {
         const res = await libroService.getLibroRegistrado();
         setlibros(res.data);
-        console.log(libros)
     }
     useEffect(() => {
+        window.scrollTo(0, 0)
         loadLibros()
     }, [])
+
 
     return (
         <Container className={classes.root} maxWidth="xl">
             <div className={classes.root}>
                 <Grid container spacing={1}>
                     <Grid item xs={12}>
-                        <Typography className={classes.titulo}> Mi Biblioteca </Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Button className={classes.boton} onClick={() => setFlagBiblioteca(true)}> Libros a revisar </Button>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Button className={classes.boton} onClick={() => setFlagBiblioteca(false)}> Libros revisados </Button>
+                        <Typography className={classes.titulo}> Revisión de libros</Typography>
                     </Grid>
 
                     {/* Aca englobo la lista de libros a revisar */}
@@ -90,16 +106,19 @@ export default function TitlebarImageList() {
                                     {libros.map((item) => (
                                         <ImageListItem key={item._id} style={{ width: "16.8rem", height: "23.5rem" }} >
                                             <img src={item.imagenPath} alt={item.titulo} />
+
                                             <ImageListItemBar
-                                                title={"REVISAR"}
+                                                title="Revisar libro"
                                                 position='bottom'
+                                                /* Iconos */
                                                 actionIcon={
-                                                    <IconButton aria-label={`info about ${item.titulo}`} title={"Revisar este libro"}>
-                                                        {/* <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
-                                                        </Link> */}
-                                                        <SpellcheckOutlinedIcon fontSize='large' className={classes.icono} onClick={() => { setLibroSeleccionado(item) }} />
+                                                    <IconButton className='botonAnimado' aria-label={`info about ${item.titulo}`} title={"Revisar este libro"}>
+                                                        <Link to={"/Revision/" + item._id} >
+                                                            <SpellcheckOutlinedIcon fontSize='large' className={classes.icono} />
+                                                        </Link>
                                                     </IconButton>
                                                 }
+                                                className={classes.barra}
                                             />
                                         </ImageListItem>
                                     ))}

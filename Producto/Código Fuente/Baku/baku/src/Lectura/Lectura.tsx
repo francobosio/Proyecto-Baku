@@ -371,12 +371,15 @@ const Lectura = () => {
     }); */
 
     //GRID
-    const Item = styled(Paper)(({ theme }) => ({
+
+    //SE COMENTO PORQUE ROMPIA TODO 
+
+    /*     const Item = styled(Paper)(({ theme }) => ({
         ...theme.typography.body2,
         padding: theme.spacing(1),
         textAlign: 'center',
         color: theme.palette.text.secondary,
-    }));
+    })); */
 
     //MIS MARCADORES
     //Saltar a una página

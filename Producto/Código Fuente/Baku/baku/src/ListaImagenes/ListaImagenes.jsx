@@ -234,6 +234,7 @@ export default function TitlebarImageList() {
         }
     }
     useEffect(() => {
+        window.scrollTo(0, 0)
         cargaIncial();
     }, [])
 
