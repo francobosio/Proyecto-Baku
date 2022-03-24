@@ -29,6 +29,10 @@ const usuarioSchema = new Schema({
     libros_leidos:[
 
     ],
+    estado:{
+        type: String,
+        required: true,
+    },
 },{
     versionKey: false,
     timestamps: true
@@ -43,6 +47,7 @@ interface IUsuario extends Document {
     fecha_nacimiento: Date;
     libros_publicados: any [];
     libros_leidos:any [];
+    estado: string;
 }
 
 export default model<IUsuario>('Usuario', usuarioSchema);
