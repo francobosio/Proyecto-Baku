@@ -102,10 +102,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar() {
   const classes = useStyles();
-  //metodo que limpie el localStorage 
   
-
-
   return (
     <div className={classes.root}>
       <div>

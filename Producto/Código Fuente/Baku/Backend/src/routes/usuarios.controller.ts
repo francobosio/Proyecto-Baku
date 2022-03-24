@@ -10,6 +10,7 @@ export const createUsuario: RequestHandler = async (req, res) => {
         nombre,
         correo_electronico,
         tipoUsuario: "1",
+        estado:"Activo",
     };
 
     const usuario = new Usuario(newUsuario);
