@@ -6,6 +6,7 @@ import libroRoutes from './routes/libros.routes'
 import usuarioRoutes from './routes/usuarios.routes'
 import path from 'path'
 import responseTime from 'response-time'
+import tipoUsuarioRoutes from './routes/tipoUsuario.routes'
 
 const app = express()
 app.set('port', config.PORT);
@@ -22,6 +23,7 @@ app.use('/uploads' , express.static(path.resolve('upload')))
 //rutas
 app.use(libroRoutes)
 app.use(usuarioRoutes)
+app.use(tipoUsuarioRoutes)
 
 
 export default app;

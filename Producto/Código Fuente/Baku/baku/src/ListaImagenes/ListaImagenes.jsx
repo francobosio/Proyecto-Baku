@@ -10,7 +10,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
 import { Link,useParams } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
-import LocalLibraryOutlinedIcon from '@material-ui/icons/LocalLibraryOutlined';
+
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@mui/material/Card';
@@ -233,6 +234,7 @@ export default function TitlebarImageList() {
         }
     }
     useEffect(() => {
+        window.scrollTo(0, 0)
         cargaIncial();
     }, [])
 
@@ -291,7 +293,7 @@ export default function TitlebarImageList() {
                                     actionIcon={
                                         <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
                                             <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
-                                                <LocalLibraryOutlinedIcon className={classes.icono} />
+                                                <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
                                             </Link>
                                         </IconButton>
                                     }

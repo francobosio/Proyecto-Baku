@@ -231,6 +231,7 @@ const conflictos = {
 }
 
 export default function MiniDrawer() {
+    window.scrollTo(0, 0)
     const [categoriaLibro, setCategoriaLibro] = useState([]);
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
@@ -257,6 +258,7 @@ export default function MiniDrawer() {
     const alert = useAlert();
 
     /* metodo para deshabilitar los géneros que tengan conflictos entre si */
+   
     const handleSelectChange = (event) => {
         categorias.map((value) => (
             value.disabled = false
@@ -283,6 +285,7 @@ export default function MiniDrawer() {
         if (e.target.files.length) {
             setImage({
                 preview: URL.createObjectURL(e.target.files[0]),
+                
                 raw: e.target.files[0]
             });
         }

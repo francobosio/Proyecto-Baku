@@ -83,9 +83,12 @@ export default function Inicio() {
     }
     useEffect(() => {
         loadLibros()
+        window.scrollTo(0, 0)
+        
     }, [])
 
     /* Intenta cargar el usuario que se logueó, si no lo encuentra crea un nuevo usuario. En cualquiera de los casos guarda su id de auth0 en la variable local "usuario_activo" */
+    //ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR TIPO Y ID NO LOS TRAE
     const loadUsuario = async () => {
         const res = await usuarioService.getUsuario(user.sub);
         let usuario = res.data;
@@ -94,6 +97,8 @@ export default function Inicio() {
                 'auth0_id': user.sub,
                 'apellido': user.family_name ? user.family_name : user.nickname,
                 'nombre': user.given_name ? user.given_name : user.nickname,
+                'id':usuario._id,
+                'tipo': usuario.tipo,
                 'correo_electronico': user.email
             }
             console.log(usuarioData);
@@ -102,9 +107,13 @@ export default function Inicio() {
             console.log('usuario creado: ', usuario)
         }
         localStorage.setItem("usuario_activo", usuario.auth0_id)
+        localStorage.setItem("usuario_id", usuario._id)
+        localStorage.setItem("tipoUsuario", usuario.tipoUsuario)
     }
     useEffect(() => {
         loadUsuario()
+        console.log(localStorage.getItem('tipoUsuario'))  
+        console.log(localStorage.getItem('usuario_id'))
     }, [])
 
     const { user } = useAuth0();
