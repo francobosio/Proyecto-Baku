@@ -23,6 +23,7 @@ const useStyles = makeStyles({
 export const LogoutButton = () => { 
     localStorage.removeItem("usuario_id")
     localStorage.removeItem("tipoUsuario")
+    localStorage.removeItem("usuario_estado")
 
     const {logout} = useAuth0();
     const estilos = useStyles();

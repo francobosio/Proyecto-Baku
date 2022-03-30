@@ -75,10 +75,10 @@ const useStyles = makeStyles((theme) => ({
 
 export const MiDrawer = () => {
     const location = useLocation();
+    const [revisar, setrevisar] = React.useState(localStorage.getItem('tipoUsuario') === '3' ? true : false);
     const classes = useStyles();
     const [open, setOpen] = React.useState(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false);
 
-    const revisar = localStorage.getItem('tipoUsuario') === '3' ? true : false;
     console.log(revisar)
     const handleDrawerOpenClose = () => {
         setOpen((data) => {
@@ -92,8 +92,9 @@ export const MiDrawer = () => {
     }
 
     useEffect(() => {
+        console.log(localStorage.getItem('tipoUsuario'))
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
-        
+        setrevisar(localStorage.getItem('tipoUsuario') === '3' ? true : false)
     }, [location.pathname])
 
     //si el tipo de usuario es 1, se muestra el boton Revisar

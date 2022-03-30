@@ -15,6 +15,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import logo from '../Imagenes/Logo Blanco Sin Letras.png';
 import Avatar from '@material-ui/core/Avatar'
+import NotificationsPopover from './Notificacion.js';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -183,7 +184,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
+          <NotificationsPopover />
           </Badge>
         </IconButton>
         <p>Notificaciones</p>

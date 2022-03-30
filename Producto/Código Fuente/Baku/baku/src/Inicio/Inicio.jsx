@@ -84,18 +84,23 @@ export default function Inicio() {
     useEffect(() => {
         loadLibros()
         window.scrollTo(0, 0)
-        
     }, [])
 
     const loadUsuario = async () => {
         const res = await usuarioService.getUsuario(user.sub);
         let usuario = res.data;
+        if (usuario.estado === 'Inactivo') {
+            //no mostrar el componente de inicio 
+
+            window.alert("Su cuenta se encuentra inactiva, consulte con el administrador")
+            window.location.href = "/";
+        }
         if (usuario == null) {
             const usuarioData = {
                 'auth0_id': user.sub,
                 'apellido': user.family_name ? user.family_name : user.nickname,
                 'nombre': user.given_name ? user.given_name : user.nickname,
-                'tipo':'1',
+                'tipo': '1',
                 'correo_electronico': user.email
             }
             console.log(usuarioData);
@@ -103,14 +108,15 @@ export default function Inicio() {
             usuario = res.data.usuario
             console.log('usuario creado: ', usuario)
         }
+        localStorage.setItem('usuario_estado', usuario.estado)
         localStorage.setItem("usuario_activo", usuario.auth0_id)
         localStorage.setItem("usuario_id", usuario._id)
         localStorage.setItem("tipoUsuario", usuario.tipoUsuario)
     }
+
+
     useEffect(() => {
         loadUsuario()
-        console.log(localStorage.getItem('tipoUsuario'))  
-        console.log(localStorage.getItem('usuario_id'))
     }, [])
 
     const { user } = useAuth0();
@@ -156,11 +162,11 @@ export default function Inicio() {
                     }
                     <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                     {libros.length > 0 ? (
-                    <Slider className={classes.slider}>
-                        {libros.map(movie => (
-                            <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                        )).sort(() => Math.random() - 0.5)}
-                    </Slider>) : (
+                        <Slider className={classes.slider}>
+                            {libros.map(movie => (
+                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                            )).sort(() => Math.random() - 0.5)}
+                        </Slider>) : (
                         <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
                     }
                 </div>

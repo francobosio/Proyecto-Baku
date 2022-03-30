@@ -4,7 +4,7 @@ import { Usuario } from "./Usuario";
 export const getUsuario = async (id: String) => {
     const usuario = await axios.get('http://localhost:4000/usuarios/' + id)
 
-    console.log(usuario)
+    console.log(usuario.data.estado)
     return usuario
 }
 
