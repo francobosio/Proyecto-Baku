@@ -45,6 +45,19 @@ const useStyles = makeStyles((theme) => ({
             'color': '#FFFFFF',
         },
     },
+    botonClicked: {
+        'font-weight': 'bold',
+        'margin': '0',
+        'display': 'flex',
+        'color': '#FFFFFF',
+        'fontSize': '1rem',
+        'background-color': '#055743',
+        'width':'15.5rem',
+        '&:hover': {
+            'background': '#32695f',
+            'color': '#FFFFFF',
+        },
+    },
     fondo: {
         'minHeight': '100vh',
         'minWidth': ' 95vh'
@@ -99,10 +112,10 @@ export default function TitlebarImageList() {
                         <Typography className={classes.titulo}> Mi Biblioteca </Typography>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button className={classes.boton} onClick={() => setFlagBiblioteca(true)}> Mis libros leidos </Button>
+                        <Button className={flagBiblioteca ? classes.botonClicked : classes.boton} onClick={() => setFlagBiblioteca(true)}> Mis libros leidos </Button>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button className={classes.boton} onClick={() => setFlagBiblioteca(false)}> Mis libros Publicados </Button>
+                        <Button className={!flagBiblioteca ? classes.botonClicked : classes.boton} onClick={() => setFlagBiblioteca(false)}> Mis libros Publicados </Button>
                     </Grid>
                     <Grid className={classes.fondo} item xs={12}>
                         {libros.length > 0 ? (
