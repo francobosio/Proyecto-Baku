@@ -66,12 +66,18 @@ const useStyles = makeStyles((theme) => ({
       'color': '#FFFFFF',
     }
   },
+  textFieldEnabled: {
+    "& input.Mui-disabled": {
+      color: "#000"
+    }
+  }
 }));
 
 export default function Perfil() {
   const [selectedDate, setSelectedDate] = React.useState(Date.now());
   const [locale] = React.useState("es");
-
+  const [flagNombreEnabled, setFlagNombreEnabled] = React.useState(false);
+  const [flagApellidoEnabled, setFlagApellidoEnabled] = React.useState(false);
 
   const { user } = useAuth0();
   const [userDB, setUserDB] = useState(null);
@@ -109,10 +115,12 @@ export default function Perfil() {
 
   const handleApellidoEnable = () => {
     inputApellido.current.disabled = false;
+    setFlagApellidoEnabled(true)
   }
 
   const handleNombreEnable = () => {
     inputNombre.current.disabled = false;
+    setFlagNombreEnabled(true)
   }
 
   const saveChanges = () => {
@@ -154,6 +162,7 @@ export default function Perfil() {
               </Grid>
               <Grid item xs={4}>
                 <TextField
+                  className={flagNombreEnabled ? classes.textFieldEnabled : ''}
                   name="nombre"
                   disabled
                   inputRef={inputNombre}
@@ -170,6 +179,7 @@ export default function Perfil() {
               </Grid>
               <Grid item xs={4}>
                 <TextField
+                  className={flagApellidoEnabled ?  classes.textFieldEnabled : ''}
                   name="apellido"
                   disabled
                   inputRef={inputApellido}
