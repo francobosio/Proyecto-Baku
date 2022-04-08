@@ -171,7 +171,23 @@ export const putTipoUsuario: RequestHandler = async (req, res) => {
         message: "Usuario modificado con éxito !!!",
         usuario
     });
+}
 
+export const putUsuario: RequestHandler = async (req, res) => {
+    let { id, apellido, nombre, fecha_nacimiento } = req.body;
+    fecha_nacimiento = fecha_nacimiento != undefined ? fecha_nacimiento : null;
+    console.log({ id, apellido, nombre, fecha_nacimiento })
+    const usuario = await Usuario.findByIdAndUpdate(id, {apellido, nombre, fecha_nacimiento}, {new: true})
+
+    if (!usuario) {
+        return res.json({
+            message: "Usuario no existe"
+        });
+    }
+    return res.json({
+        message: "Usuario modificado con éxito !!!",
+        usuario
+    });
 }
 
 
