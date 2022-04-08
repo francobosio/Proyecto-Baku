@@ -1,10 +1,5 @@
 import * as React from 'react';
-//RADIO
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import Typography from '@mui/material/Typography';
 
 //GRID
 import Grid from '@mui/material/Grid';
@@ -19,9 +14,12 @@ import Brightness6Icon from '@mui/icons-material/Brightness6';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
+//TOOLTIP
+import Tooltip from '@mui/material/Tooltip';
+
 const Brillo = () => {
     //TIPO DE LETRA
-    const cbTipoColor = ['Ninguno','Negro/Blanco','Sepia']
+    const cbTipoColor = ['Ninguno','Negro/Blanco','Sepia','Violeta']
     const [important, setImportant] = React.useState('');
 
     const [tipoColor2, setTipoColor2] = React.useState<string | null>(cbTipoColor[0]);
@@ -34,34 +32,42 @@ const Brillo = () => {
     const [azul, setAzul] = React.useState<number>(0);
     const [opacidad, setOpacidad] = React.useState<number>(0);
 
-    const handleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number);
+    function colores(nuevoValor: string | null) {
         const r = [59,89,118,148,178,207,217,223,229,235];
         const v = [37,55,74,92,111,129,146,164,181,198];
         const a = [11,17,23,29,35,41,68,97,127,157];
-            //setRojo(value*0.01*255);
-        if (value < 100){
-            if (tipoColor2 == "Sepia"){
+        //if (value < 100){
+            if (nuevoValor == "Sepia"){
                 setRojo(r[Math.trunc(value*0.1)]);
                 setVerde(v[Math.trunc(value*0.1)]);
                 setAzul(a[Math.trunc(value*0.1)]);
                 setImportant("important");
                 setOpacidad(1);
             }
-            if (tipoColor2 == "Negro/Blanco"){
+            if (nuevoValor == "Negro/Blanco"){
                 setRojo(value*0.01*255);
                 setVerde(value*0.01*255);
                 setAzul(value*0.01*255);
                 setImportant("important");
                 setOpacidad(1);
             }
-            if (tipoColor2 == "Ninguno"){
+            if (nuevoValor == "Violeta"){
+                setRojo(value*0.01*202);
+                setVerde(value*0.01*103);
+                setAzul(value*0.01*456);
+                setImportant("important");
+                setOpacidad(1);
+            }
+            if (nuevoValor == "Ninguno"){
                 setOpacidad(0);
                 setImportant("important");
             }
-            
-            
-        }
+        //}
+    }
+
+    const handleChange = (event: Event, newValue: number | number[]) => {
+        setValue(newValue as number);
+        colores(tipoColor2)
     };
 
     function brilloTexto() {
@@ -87,7 +93,7 @@ const Brillo = () => {
                 }
                 
                 .rpv-core__text-layer-text::selection{
-                    color: green !${important};
+                    color: green;
                 }
                 `}
             </style>
@@ -98,10 +104,7 @@ const Brillo = () => {
                         value={tipoColor2}
                         onChange={(event: any, newValue: string | null) => {
                         setTipoColor2(newValue);
-                        }}
-                        inputValue={inputValue}
-                        onInputChange={(event, newInputValue) => {
-                        setInputValue(newInputValue);
+                        colores(newValue) //llamarlo en otro lado
                         }}
                         id="controllable-states-demo"
                         options={cbTipoColor}
@@ -110,10 +113,15 @@ const Brillo = () => {
                     />
                 </Grid>
                 <Grid item xs={4} >
-                    <Box sx={{ width: 200 }}>
+                    <Box sx={{ width: 200 }} >
+                        <Typography gutterBottom>
+                            Brillo
+                        </Typography>
                         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+                        <Tooltip title="Brillo">
                             <Brightness6Icon />
-                            <Slider disabled={tipoColor2 == "Ninguno"?true:false} aria-label="Volume" value={value} onChange={handleChange} />
+                        </Tooltip>
+                        <Slider disabled={tipoColor2 == "Ninguno"?true:false} aria-label="Volume" value={value} max={99} onChange={handleChange} />
                         </Stack>
                     </Box>
                 </Grid>
