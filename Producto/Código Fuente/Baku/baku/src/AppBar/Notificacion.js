@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { set, sub, formatDistanceToNow } from 'date-fns';
 // material
@@ -21,12 +21,10 @@ import {
   ListItemAvatar,
   ListItemButton
 } from '@mui/material';
-// utils
-import { mockImgAvatar } from '../../utils/mockImages';
 // components
-import Iconify from '../../components/Iconify';
-import Scrollbar from '../../components/Scrollbar';
-import MenuPopover from '../../components/MenuPopover';
+import Iconify from './Iconify';
+import Scrollbar from './Scrollbar';
+import MenuPopover from './MenuPopover';
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +34,7 @@ const NOTIFICATIONS = [
     title: 'Your order is placed',
     description: 'waiting for shipping',
     avatar: null,
-    type: 'order_placed',
+    type: 'mail',
     createdAt: set(new Date(), { hours: 10, minutes: 30 }),
     isUnRead: true
   },
@@ -44,8 +42,8 @@ const NOTIFICATIONS = [
     id: faker.datatype.uuid(),
     title: faker.name.findName(),
     description: 'answered to your comment on the Minimal',
-    avatar: mockImgAvatar(2),
-    type: 'friend_interactive',
+    avatar: null,
+    type: 'mail',
     createdAt: sub(new Date(), { hours: 3, minutes: 30 }),
     isUnRead: true
   },
@@ -87,22 +85,10 @@ function renderContent(notification) {
       </Typography>
     </Typography>
   );
-
-  if (notification.type === 'order_placed') {
-    return {
-      avatar: <img alt={notification.title} src="/static/icons/ic_notification_package.svg" />,
-      title
-    };
-  }
-  if (notification.type === 'order_shipped') {
-    return {
-      avatar: <img alt={notification.title} src="/static/icons/ic_notification_shipping.svg" />,
-      title
-    };
-  }
+  console.log(notification.avatar);
   if (notification.type === 'mail') {
     return {
-      avatar: <img alt={notification.title} src="/static/icons/ic_notification_mail.svg" />,
+      avatar: <img alt={notification.titleo} src={notification.avatar} width='40px' />,
       title
     };
   }
@@ -116,12 +102,14 @@ function renderContent(notification) {
     avatar: <img alt={notification.title} src={notification.avatar} />,
     title
   };
+
 }
 
 NotificationItem.propTypes = {
   notification: PropTypes.object.isRequired
 };
 
+//Permite modificar los iconos de las notificaciones
 function NotificationItem({ notification }) {
   const { avatar, title } = renderContent(notification);
 
@@ -140,7 +128,7 @@ function NotificationItem({ notification }) {
       }}
     >
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }}>{avatar}</Avatar>
+        <Avatar sx={{ bgcolor: 'background.neutral'}}> {avatar}</Avatar>
       </ListItemAvatar>
       <ListItemText
         primary={title}
@@ -163,11 +151,21 @@ function NotificationItem({ notification }) {
   );
 }
 
-export default function NotificationsPopover() {
+export default function NotificationsPopover(avatarProps) {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
   const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  // PROVISORIOOOOO!!! eliminar cuando se traiga de BD
+  useEffect(() => {
+    setNotifications(NOTIFICATIONS.map((item) => {
+      return {
+        ...item,
+        avatar: avatarProps.avatar
+      };
+    }));
+  }, [avatarProps]);
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -184,6 +182,8 @@ export default function NotificationsPopover() {
         isUnRead: false
       }))
     );
+    console.log(notifications + "esto es el notifications");
+
   };
 
   return (
@@ -200,7 +200,7 @@ export default function NotificationsPopover() {
         }}
       >
         <Badge badgeContent={totalUnRead} color="error">
-          <Iconify icon="eva:bell-fill" width={20} height={20} />
+          <Iconify icon="line-md:bell-twotone" width={30} height={30} />
         </Badge>
       </IconButton>
 
@@ -212,14 +212,14 @@ export default function NotificationsPopover() {
       >
         <Box sx={{ display: 'flex', alignItems: 'center', py: 2, px: 2.5 }}>
           <Box sx={{ flexGrow: 1 }}>
-            <Typography variant="subtitle1">Notifications</Typography>
+            <Typography variant="subtitle1">Notificaciones</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              You have {totalUnRead} unread messages
+              Tienes {totalUnRead} mensajes sin leer
             </Typography>
           </Box>
 
           {totalUnRead > 0 && (
-            <Tooltip title=" Mark all as read">
+            <Tooltip title=" Marcas todas como leidas">
               <IconButton color="primary" onClick={handleMarkAllAsRead}>
                 <Iconify icon="eva:done-all-fill" width={20} height={20} />
               </IconButton>
@@ -234,7 +234,7 @@ export default function NotificationsPopover() {
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                New
+                NUEVAS
               </ListSubheader>
             }
           >
@@ -247,7 +247,7 @@ export default function NotificationsPopover() {
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Before that
+                ANTERIORES
               </ListSubheader>
             }
           >
@@ -261,7 +261,7 @@ export default function NotificationsPopover() {
 
         <Box sx={{ p: 1 }}>
           <Button fullWidth disableRipple component={RouterLink} to="#">
-            View All
+            Ver Todas
           </Button>
         </Box>
       </MenuPopover>

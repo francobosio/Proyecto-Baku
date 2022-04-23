@@ -79,7 +79,6 @@ export const MiDrawer = () => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false);
 
-    console.log(revisar)
     const handleDrawerOpenClose = () => {
         setOpen((data) => {
             localStorage.setItem('drawer_open', !data)
@@ -92,7 +91,6 @@ export const MiDrawer = () => {
     }
 
     useEffect(() => {
-        console.log(localStorage.getItem('tipoUsuario'))
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
         setrevisar(localStorage.getItem('tipoUsuario') === '3' ? true : false)
     }, [location.pathname])

@@ -10,13 +10,14 @@ import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import Notifications from './Notificacion.js';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar'
 import { useHistory } from "react-router-dom";
+import { Box } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -110,7 +111,6 @@ export default function PrimarySearchAppBar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let history = useHistory();
 
-
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -157,20 +157,9 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Mensajes</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
+        <Notifications avatar={user.picture} />
         <p>Notificaciones</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
@@ -214,12 +203,10 @@ export default function PrimarySearchAppBar() {
             <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
           </div>
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
+             <Notifications avatar={user.picture}/>
+          </div>
+          <div className={classes.sectionDesktop}>
+          <IconButton
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -229,7 +216,7 @@ export default function PrimarySearchAppBar() {
             >
               <Avatar alt={user.name} src={user.picture}></Avatar>
             </IconButton>
-          </div>
+            </div>
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"

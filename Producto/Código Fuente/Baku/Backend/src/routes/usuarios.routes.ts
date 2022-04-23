@@ -17,4 +17,10 @@ router.get('/usuarios', usuarioCtrl.getUsuarios)
 
 router.put('/usuarios/modificarTipo', usuarioCtrl.putTipoUsuario)
 
+router.put('/usuarios/suscribir', usuarioCtrl.putSuscribir)
+
+router.put('/usuarios/desuscribir', usuarioCtrl.putDesuscribir)
+
+router.get('/usuarios/buscarNombreSuscripcion/:usuario_id/:autor', usuarioCtrl.buscarNombreSuscripcion)
+
 export default router;

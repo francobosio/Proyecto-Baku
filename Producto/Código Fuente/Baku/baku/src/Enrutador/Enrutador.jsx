@@ -13,7 +13,9 @@ import Buscar from '../Buscar/Buscar.jsx';
 import Biblioteca from '../Biblioteca/Biblioteca.jsx';
 import Parametros from '../Parametros/Parametros.jsx';
 import Resultado from '../Revision/Resultado.jsx'
+import Autor from '../Autor/Autor.jsx'
 import { Loading } from '../Sesión/Loading.jsx'
+
 
 export default function Layout() {
     /* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
@@ -46,6 +48,7 @@ export default function Layout() {
                             <Route exact path="/Revision" component={isLoading ? Loading : !isAuthenticated ? Home :((localStorage.getItem('tipoUsuario') === '3') && localStorage.getItem('usuario_estado')==='Activo')? Revision : Home } />
                             <Route exact path="/Revision/:id" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Resultado :  Home} />
                             <Route exact path="/Parametros" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Parametros :  Home} />
+                            <Route exact path="/Autor/:libroId" component={isLoading ? Loading : isAuthenticated ? Autor : Home} />
                             <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                         </Switch>
                     </div>

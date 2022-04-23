@@ -31,3 +31,16 @@ export const obtenerTodosUsuarios = async () => {
 export const asignarTipoUsuario = async (id: String, tipoUsuario: String) => {
     return await axios.put('http://localhost:4000/usuarios/modificarTipo', { id, tipoUsuario })
 }
+
+export const suscribirUsuario = async (usuario_id: String, autor2: String) => {
+    return await axios.put('http://localhost:4000/usuarios/suscribir', { usuario_id, autor2 })
+}
+
+export const desuscribirUsuario = async (usuario_id: String, autor: String) => {
+    return await axios.put('http://localhost:4000/usuarios/desuscribir', { usuario_id, autor })
+}
+
+export const buscarNombreSuscripcion = async (usuario_id: String, autor: String) => {
+    return await axios.get('http://localhost:4000/usuarios/buscarNombreSuscripcion/' + usuario_id + '/' + autor)
+}
+

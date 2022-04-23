@@ -10,7 +10,7 @@ export const createUsuario: RequestHandler = async (req, res) => {
         nombre,
         correo_electronico,
         tipoUsuario: "1",
-        estado:"Activo",
+        estado: "Activo",
     };
 
     const usuario = new Usuario(newUsuario);
@@ -158,4 +158,46 @@ export const putTipoUsuario: RequestHandler = async (req, res) => {
 
 }
 
+export const putSuscribir: RequestHandler = async (req, res) => {
+    console.log("hola")
+    const { usuario_id, autor2 } = req.body;
+    console.log("ACAAAAAAA" + autor2)
+    const usuario = await Usuario.findById(autor2).exec();
+    if (usuario != undefined) {
+        usuario.suscriptores.push({usuario_id: usuario_id});
+        await usuario.save();
+        console.log("Suscripto con éxito");
+        console.log(usuario)
+        return res.json({
+            message: "Usuario suscripto con éxito !!!"
+        });
+    }
+    res.json({message: "Fallo al suscribir"});
+}
 
+export const putDesuscribir: RequestHandler = async (req, res) => {
+    const { usuario_id, autor } = req.body;
+    const usuario = await Usuario.findById(autor).exec();
+    if (usuario != undefined) {
+        const index = usuario.suscriptores.findIndex(x => x === usuario_id);
+        usuario.suscriptores.splice(index, 1);
+        await usuario.save();
+        console.log("Desuscrito con éxito");
+        return res.json({
+            message: "Usuario desuscrito con éxito !!!"
+        });
+    }
+}
+
+export const buscarNombreSuscripcion: RequestHandler = async (req, res) => {
+    const usuario_id= req.params.usuario_id;
+    const autor = req.params.autor;
+    const usuario = await Usuario.findById(autor).exec();
+    if (usuario != undefined) {
+        const estaSuscripto = usuario.suscriptores.map(x => x.usuario_id).includes(usuario_id);
+        console.log(estaSuscripto)
+        return res.json({
+            estaSuscripto
+        });
+    }
+}

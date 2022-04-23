@@ -62,6 +62,15 @@
     color: rgb(255, 255, 255);
     font-weight: 700;
   }
+  &__subtitle {
+    font-size: 2em;
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+  }
+  &__link {
+    text-decoration: none;
+  }
+  
 
   &__description {
 
@@ -128,5 +137,10 @@
 //efecto de cerrar el modal con un icono de cruz en el carousel principal de la pagina principal de la aplicacion
 .content__close:hover{
   transform: scale(1.5);
+  cursor: pointer;
+}
+
+.content__subtitle:hover{
+  color:#24ecba;
   cursor: pointer;
 }

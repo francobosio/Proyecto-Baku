@@ -7,6 +7,7 @@ import fs from 'fs-extra'
 import redis from 'redis'
 import { promisify } from 'util'
 import PdfParse from "pdf-parse";
+import Usuario from "./Usuario"
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -232,4 +233,29 @@ export const updateLibroEstado: RequestHandler = async (req, res) => {
     res.json(libroUpdated);
 }
 
+export const getBuscarAutor: RequestHandler = async (req, res) => {
+    const libroId = req.params.libroId;
+    //buscar que usuario tiene el libro en la coleccion libro_publicados y solo mostrar el campo autor con projeccion
+    const separoLibros = await Usuario.aggregate([{ $unwind: "$libros_publicados" }])
+    const autorNombre = await Usuario.find({ "libros_publicados.id_libro": libroId }, { nombre: 1,apellido:1, _id: 1 });
+    const respuesta= autorNombre[0];
+    //si autorNombre no existe retornar un status 204 y un mensaje
+    if (!respuesta) return res.status(204).json("No existe el nombre del autor");
+    //retornar autorNombre
+    res.json({
+        respuesta
+    });
+}
 
+//buscar todos los libros de un autor
+export const getLibrosAutor: RequestHandler = async (req, res) => {
+    const autorId = req.params.id;
+    //solo mostrar libros_publicados
+    const autorLibros= await Usuario.findById(autorId).select("libros_publicados");
+    if (!autorLibros) return res.status(204).json("No existen libros para este autor");
+    //convertir el array de libros_publicados una array de id libros
+    const librosId= autorLibros.libros_publicados.map((libro: any) => libro.id_libro);
+    //convertir librosId en un vector de string 
+    const libros = await Libro.find({ _id: { $in:librosId}});
+    res.json(libros);
+}

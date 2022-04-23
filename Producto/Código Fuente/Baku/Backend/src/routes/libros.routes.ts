@@ -27,4 +27,8 @@ router.get('/libros/buscar/genero/:genero', libroCtrl.buscarLibroGenero)
 //los parametros se paran por el body de la peticion
 router.put('/libro/cambiarEstado', libroCtrl.updateLibroEstado)
 
+router.get('/autor/:libroId', libroCtrl.getBuscarAutor)
+
+router.get('/autor/libros/:id', libroCtrl.getLibrosAutor)
+
 export default router
