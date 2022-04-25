@@ -5,7 +5,7 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 //Scroll Mode
-import { ScrollMode } from '@react-pdf-viewer/scroll-mode';
+import { ScrollMode } from '@react-pdf-viewer/core';
 
 const renderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
 
@@ -38,6 +38,7 @@ const renderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
                         style={{
                             alignItems: 'center',
                             display: 'flex',
+                            width: '100%',
                         }}
                     >
                             <div style={{ padding: '0px 2px' }}>
