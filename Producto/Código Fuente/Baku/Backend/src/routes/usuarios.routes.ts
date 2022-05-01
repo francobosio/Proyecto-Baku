@@ -17,4 +17,6 @@ router.get('/usuarios', usuarioCtrl.getUsuarios)
 
 router.put('/usuarios/modificarTipo', usuarioCtrl.putTipoUsuario)
 
+router.put('/usuarios/modificarUsuario', usuarioCtrl.putUsuario)
+
 export default router;

@@ -72,6 +72,7 @@ export default function TitlebarImageList() {
     const [librosPublicados, setLibrosPublicados] = useState([])
     const [flagBiblioteca, setFlagBiblioteca] = useState(true)
 
+    /* Carga los libros leidos y publicados del usuario y luego los guarda en 2 vectores para poder mostrarlos */
     const loadLibros = async () => {
         const auth0id = localStorage.getItem('usuario_activo');
         if (!librosLeidos.length > 0 && !librosPublicados.length > 0) {

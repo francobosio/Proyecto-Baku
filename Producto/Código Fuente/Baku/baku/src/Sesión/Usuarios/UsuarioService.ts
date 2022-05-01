@@ -1,3 +1,4 @@
+import { AttachEmailTwoTone } from "@mui/icons-material";
 import axios from "axios";
 import { Usuario } from "./Usuario";
 
@@ -30,4 +31,8 @@ export const obtenerTodosUsuarios = async () => {
 //modificar el tipo de usuario de un usuario
 export const asignarTipoUsuario = async (id: String, tipoUsuario: String) => {
     return await axios.put('http://localhost:4000/usuarios/modificarTipo', { id, tipoUsuario })
+}
+
+export const modificarUsuario = async (usuarioData: {}) => {
+    return await axios.put('http://localhost:4000/usuarios/modificarUsuario', usuarioData)
 }
