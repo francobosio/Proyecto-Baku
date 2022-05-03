@@ -1,5 +1,5 @@
 // Core viewer
-import { PageChangeEvent, Viewer, SpecialZoomLevel} from '@react-pdf-viewer/core';
+import { RenderPage, RenderPageProps, PageChangeEvent, Viewer, SpecialZoomLevel} from '@react-pdf-viewer/core';
 
 // Plugins
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
@@ -114,8 +114,8 @@ const Lectura = () => {
     };
 
     //PORCENTAJE DE LECTURA (No funciona con lo de MARCADORES)
-    const readingIndicatorPluginInstance = ReadingIndicatorPluginP();
-    const { ReadingIndicator } = readingIndicatorPluginInstance;
+    //const readingIndicatorPluginInstance = ReadingIndicatorPluginP();
+    //const { ReadingIndicator } = readingIndicatorPluginInstance;
 
     //PAGINA ACTUAL
     const handlePageChange = (e: PageChangeEvent) => {
@@ -155,7 +155,11 @@ const Lectura = () => {
     
     //DEFAULT LAYOUT
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
-        renderToolbar
+        renderToolbar,
+        toolbarPlugin: {
+            searchPlugin: {
+            },
+        },
     });
 
     return (
@@ -205,13 +209,10 @@ const Lectura = () => {
                         />
                     </Grid>
                 </Grid>
-                <div style={{ margin: '4px -4px -4px -4px' }}>
-                    <ReadingIndicator />
-                </div>
             </Box>
 
             { /*CARGA DE PLUGINS*/}
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+            <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.13.216/build/pdf.worker.min.js">
                 <div className={classes.viewer}>
                     <Viewer
                         fileUrl={ libro.archivoTexto }
@@ -219,10 +220,7 @@ const Lectura = () => {
                         theme={currentTheme} onSwitchTheme={handleSwitchTheme}
                         initialPage={initialPage} onPageChange={handlePageChange}
                         localization={es_ES as unknown as LocalizationMap}
-
                         plugins={[
-                            // Register plugins
-                            readingIndicatorPluginInstance,
                             defaultLayoutPluginInstance,
                             ]}
                             

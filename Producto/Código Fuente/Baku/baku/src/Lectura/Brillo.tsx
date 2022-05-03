@@ -85,11 +85,11 @@ const Brillo = () => {
                 {
                 `.rpv-core__text-layer {
                     background-color: rgb(${rojo},${verde},${azul}) !${important};
-                    opacity: ${tipoColor2 == "Ninguno"?0:1} !${important};
+                    opacity: ${tipoColor2 == "Ninguno" || tipoColor2 == null?0:1} !${important};
                 }
                 .rpv-core__text-layer-text {
                     color: rgb(${brilloTexto()},${brilloTexto()},${brilloTexto()}) !${important};
-                    opacity: ${tipoColor2 == "Ninguno"?0:1} !${important};
+                    opacity: ${tipoColor2 == "Ninguno" || tipoColor2 == null?0:1} !${important};
                 }
                 
                 .rpv-core__text-layer-text::selection{
@@ -104,6 +104,7 @@ const Brillo = () => {
                         value={tipoColor2}
                         onChange={(event: any, newValue: string | null) => {
                         setTipoColor2(newValue);
+                        console.log(newValue)
                         colores(newValue) //llamarlo en otro lado
                         }}
                         id="controllable-states-demo"
@@ -121,7 +122,7 @@ const Brillo = () => {
                         <Tooltip title="Brillo">
                             <Brightness6Icon />
                         </Tooltip>
-                        <Slider disabled={tipoColor2 == "Ninguno"?true:false} aria-label="Volume" value={value} max={99} onChange={handleChange} />
+                        <Slider disabled={tipoColor2 == "Ninguno" || tipoColor2 == null?true:false} aria-label="Volume" value={value} max={99} onChange={handleChange} />
                         </Stack>
                     </Box>
                 </Grid>
