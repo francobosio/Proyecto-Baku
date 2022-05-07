@@ -160,7 +160,6 @@ export default function Perfil() {
     };
 
     const res = usuarioService.modificarUsuario(usuarioData);
-    console.log(res);
   }
 
   const [open, setOpen] = React.useState(false);
@@ -175,7 +174,6 @@ export default function Perfil() {
 
   const deleteUser = () => {
     const res = usuarioService.eliminarUsuario(userDB._id, flagPermanenciaLibros, logout);
-    console.log(res);
     localStorage.removeItem("usuario_id")
     localStorage.removeItem("tipoUsuario")
   }

@@ -201,15 +201,10 @@ export const deleteUsuario: RequestHandler = async (req, res) => {
             const user = await Usuario.findById(id);
             const baku = await Usuario.findOne(queryBaku).exec()
 
-            console.log(baku);
-            console.log(user);
-
             if (baku && user) {
                 const aux = baku.libros_publicados.concat(user.libros_publicados);
                 baku.libros_publicados = aux;
             }
-            
-            console.log(baku);
         }
         await Usuario.findByIdAndDelete(id);
         return res.json({
