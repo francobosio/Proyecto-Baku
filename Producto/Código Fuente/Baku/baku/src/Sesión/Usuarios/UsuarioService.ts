@@ -36,3 +36,7 @@ export const asignarTipoUsuario = async (id: String, tipoUsuario: String) => {
 export const modificarUsuario = async (usuarioData: {}) => {
     return await axios.put('http://localhost:4000/usuarios/modificarUsuario', usuarioData)
 }
+
+export const eliminarUsuario = async (id: string, flagData: boolean, _callback: any) => {
+    return await axios.delete('http://localhost:4000/usuarios/' + id + '/' + flagData).then(() => {_callback()})
+}

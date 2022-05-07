@@ -19,4 +19,6 @@ router.put('/usuarios/modificarTipo', usuarioCtrl.putTipoUsuario)
 
 router.put('/usuarios/modificarUsuario', usuarioCtrl.putUsuario)
 
+router.delete('/usuarios/:userId/:flagData', usuarioCtrl.deleteUsuario)
+
 export default router;
