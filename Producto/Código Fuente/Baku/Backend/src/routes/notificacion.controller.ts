@@ -1,3 +1,4 @@
+import { Console } from "console";
 import { RequestHandler } from "express";
 import Notificacion from "./Notificacion";
 import Usuario from "./Usuario";
@@ -8,7 +9,7 @@ export const createNotificacion: RequestHandler = async (req, res) => {
     const notificacion = new Notificacion(newNotificacion);
     console.log(newNotificacion);
     await notificacion.save();
-    //buscar cada uno de los usuarios que tengan el tipo de usuario que se le pasa por parametro y mandarle la notificacion
+    //busco el usuario que sube la obra
     const author = await Usuario.findOne({ auth0_id: auth0usuario }).exec();
     console.log(author)
     //acceder al vector suscriptores del author y mandarle la notificacion
@@ -29,5 +30,24 @@ export const createNotificacion: RequestHandler = async (req, res) => {
 export const getNotificacion: RequestHandler = async (req, res) => {
     const respuestaBD = await Notificacion.find().exec();
     return res.json(respuestaBD);
+}
+
+export const getNotificacionUsuarioActual: RequestHandler = async (req, res) => {
+    const auth0usuario = req.params.idAuthUsuario; 
+    //traer solo el campo mensajes
+    const respuestaBD = await Usuario.findOne({ auth0_id: auth0usuario }).select("mensajes").exec();
+    return res.json(respuestaBD);
+}
+
+export const marcarTodasComoLeidas: RequestHandler = async (req, res) => {
+    //obtener el array que se manda por el body
+    const {usuarioActual} = req.body;
+    console.log(usuarioActual);
+    //change el campo esNoleido a false
+    await Usuario.findByIdAndUpdate({_id: "6189a5e6efa0cdc3945db096" }, { $set: { "mensajes.$.esNoleido": false } }).exec();
+
+    return res.json({
+        message: "Todas las notificaciones marcadas como leidas"
+    });
 }
 

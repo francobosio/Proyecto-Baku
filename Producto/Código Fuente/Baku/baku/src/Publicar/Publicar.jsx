@@ -25,7 +25,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import * as libroServices from '../Libros/LibroService.ts';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
+import * as notificacionService from '../Notificacion/NotificacionService'
 import Termino from './Termino'
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
 
@@ -229,7 +232,6 @@ const conflictos = {
 }
 
 export default function MiniDrawer() {
-    window.scrollTo(0, 0)
     const [categoriaLibro, setCategoriaLibro] = useState([]);
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
@@ -242,8 +244,6 @@ export default function MiniDrawer() {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-
-
     // Estas variables son para el control de los errores en el form
     const [errorTitulo, setErrorTitulo] = useState(null);
     const [errorSelect, setErrorSelect] = useState(null);
@@ -254,7 +254,7 @@ export default function MiniDrawer() {
 
     // Esta variable es para los mensajes de alerta
     const alert = useAlert();
-   
+
     const handleSelectChange = (event) => {
         categorias.map((value) => (
             value.disabled = false
@@ -281,7 +281,6 @@ export default function MiniDrawer() {
         if (e.target.files.length) {
             setImage({
                 preview: URL.createObjectURL(e.target.files[0]),
-                
                 raw: e.target.files[0]
             });
         }
@@ -309,6 +308,8 @@ export default function MiniDrawer() {
         if (validate()) {
             e.preventDefault();
             const usuario_auth0Id = localStorage.getItem("usuario_activo")
+            const usuario = localStorage.getItem("usuario")
+            const avatar = localStorage.getItem("avatar")
             const formData = new FormData();    //formdata object
             formData.append("imagenPath", image.raw);
             formData.append("titulo", libro.titulo);
@@ -320,14 +321,26 @@ export default function MiniDrawer() {
             formData.append("aptoTodoPublico", aptoTodoPublico);
             formData.append("aceptaTerminos", aceptaTerminos);
             formData.append("estado", estado)
-            formData.append("editorial",libro.editorial)
-            formData.append("autor",libro.autor)
+            formData.append("editorial", libro.editorial)
+            formData.append("autor", libro.autor)
+            formData.append("usuario", usuario)
+            formData.append("avatar", avatar)
             const res = await libroServices.createLibro(formData);
             const idData = {
                 'auth0id': usuario_auth0Id,
                 'idLibro': res.data.libro._id
             };
-            const res2 = await usuarioService.usuarioLibroCargado(idData);
+            const nuevaNotificacion = {
+                'auth0usuario': localStorage.getItem("usuario_activo"),
+                'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido un nuevo libro",
+                'descripcion': libro.descripcion,
+                'avatar': localStorage.getItem("avatar"),
+                'tipo': "subidaLibro",
+                'esNoleido': false,
+            }
+            await usuarioService.usuarioLibroCargado(idData);
+            console.log(nuevaNotificacion)
+             await notificacionService.createNotificacion(nuevaNotificacion);
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
         }

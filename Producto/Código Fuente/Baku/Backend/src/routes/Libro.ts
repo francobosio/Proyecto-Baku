@@ -29,6 +29,10 @@ const libroSchema = new Schema({
     autor:{
         type: String,
     },
+    usuario:{
+        type: String,
+        trim:true
+    },
     genero:{
         type: [String],
         trim: true,

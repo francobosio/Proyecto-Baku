@@ -7,5 +7,8 @@ router.get('/notificacion', notificacionCtrl.getNotificacion);
 
 router.post('/notificacion', notificacionCtrl.createNotificacion);
 
+router.get('/notificacion/:idAuthUsuario', notificacionCtrl.getNotificacionUsuarioActual);
+
+router.put('/notificacion/marcarTodasComoLeidas', notificacionCtrl.marcarTodasComoLeidas);
 
 export default router

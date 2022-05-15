@@ -25,6 +25,7 @@ import {
 import Iconify from './Iconify';
 import Scrollbar from './Scrollbar';
 import MenuPopover from './MenuPopover';
+import * as NotificacionServices from '../Notificacion/NotificacionService.ts';
 
 // ----------------------------------------------------------------------
 
@@ -79,27 +80,26 @@ const NOTIFICATIONS = [
 function renderContent(notification) {
   const title = (
     <Typography variant="subtitle2">
-      {notification.title}
+      {notification.titulo}
       <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-        &nbsp; {noCase(notification.description)}
+        &nbsp; {noCase(notification.descripcion)}
       </Typography>
     </Typography>
   );
-  console.log(notification.avatar);
-  if (notification.type === 'mail') {
+  if (notification.tipo === 'mail') {
     return {
-      avatar: <img alt={notification.titleo} src={notification.avatar} width='40px' />,
+      avatar: <img alt={notification.titulo} src={notification.avatar} width='40px' />,
       title
     };
   }
-  if (notification.type === 'chat_message') {
+  if (notification.tipo === 'chat_message') {
     return {
-      avatar: <img alt={notification.title} src="/static/icons/ic_notification_chat.svg" />,
+      avatar: <img alt={notification.titulo} src="/static/icons/ic_notification_chat.svg" />,
       title
     };
   }
   return {
-    avatar: <img alt={notification.title} src={notification.avatar} />,
+    avatar: <img alt={notification.titulo} src={notification.avatar} />,
     title
   };
 
@@ -109,9 +109,10 @@ NotificationItem.propTypes = {
   notification: PropTypes.object.isRequired
 };
 
+
 //Permite modificar los iconos de las notificaciones
 function NotificationItem({ notification }) {
-  const { avatar, title } = renderContent(notification);
+  const { avatar, titulo } = renderContent(notification);
 
   return (
     <ListItemButton
@@ -131,7 +132,7 @@ function NotificationItem({ notification }) {
         <Avatar sx={{ bgcolor: 'background.neutral'}}> {avatar}</Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={title}
+        primary={titulo}
         secondary={
           <Typography
             variant="caption"
@@ -151,22 +152,16 @@ function NotificationItem({ notification }) {
   );
 }
 
-export default function NotificationsPopover(avatarProps) {
+export default function NotificationsPopover(propNotificacion) {
+  console.log(propNotificacion.notificacion);
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [notifications, setNotifications] = useState(NOTIFICATIONS);
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
-  // PROVISORIOOOOO!!! eliminar cuando se traiga de BD
-  useEffect(() => {
-    setNotifications(NOTIFICATIONS.map((item) => {
-      return {
-        ...item,
-        avatar: avatarProps.avatar
-      };
-    }));
-  }, [avatarProps]);
+  const [notifications, setNotifications] = useState(propNotificacion.notificacion);
+  // activar useEffect cada vez que se abre el popover de notificaciones 
 
 
+  const totalUnRead = notifications.filter((item) => item.esNoleido === true).length;
+  
   const handleOpen = () => {
     setOpen(true);
   };
@@ -175,15 +170,22 @@ export default function NotificationsPopover(avatarProps) {
     setOpen(false);
   };
 
+  const marcarTodasComoLeidas = async () => {
+    //obtener todos los _id de las notificaciones
+    const arrayNotif = notifications.map((item) => item._id);
+    console.log(arrayNotif);
+    const usuarioActual= localStorage.getItem('usuario_id');
+    await NotificacionServices.marcarTodasComoLeidas(usuarioActual);
+  };
+
   const handleMarkAllAsRead = () => {
+    marcarTodasComoLeidas();
     setNotifications(
       notifications.map((notification) => ({
         ...notification,
-        isUnRead: false
+        esNoleido: false
       }))
     );
-    console.log(notifications + "esto es el notifications");
-
   };
 
   return (
@@ -239,7 +241,7 @@ export default function NotificationsPopover(avatarProps) {
             }
           >
             {notifications.slice(0, 2).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
+              <NotificationItem key={notification._id} notification={notification} />
             ))}
           </List>
 
@@ -252,7 +254,7 @@ export default function NotificationsPopover(avatarProps) {
             }
           >
             {notifications.slice(2, 5).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
+              <NotificationItem key={notification._id} notification={notification} />
             ))}
           </List>
         </Scrollbar>

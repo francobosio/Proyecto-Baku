@@ -39,11 +39,11 @@ export const createLibro: RequestHandler = async (req, res) => {
         public_id_pdf: respuestaPdf.public_id,
         genero: req.body.genero,
         autor: req.body.autor,
+        usuario: req.body.usuario,
         editorial: req.body.editorial,
         aptoTodoPublico: req.body.aptoTodoPublico,
         aceptaTerminos: req.body.aceptaTerminos,
         estado: req.body.estado,
-
     };
     const libro = new Libro(newLibro);
     console.log(libro)

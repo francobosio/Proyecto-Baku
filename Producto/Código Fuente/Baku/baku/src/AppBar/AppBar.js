@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,6 +18,12 @@ import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar'
 import { useHistory } from "react-router-dom";
 import { Box } from '@mui/material';
+import * as NotificacionServices from '../Notificacion/NotificacionService.ts'
+import NotificationsPopover from './Notificacion.js';
+
+//BORRAR
+import { faker } from '@faker-js/faker';
+import { set, sub, formatDistanceToNow } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -107,10 +113,27 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [valor, setValor] = React.useState('');
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let history = useHistory();
-
+  
+  const buscarNotificaciones = async () => {
+    //esperar 1 segundo para que se carguen las notificaciones
+    /* let usuarioAuth0 = localStorage.getItem('usuario_activo'); */
+    console.log("entro")
+    const notificaciones = await NotificacionServices.buscarNotificacionUsuarioAuth0("google-oauth2|100909772997701456515");
+    const respuesta = notificaciones.data.mensajes;
+    setValor(respuesta)
+    console.log(respuesta);
+    return respuesta;
+  };
+  
+  useEffect(() => {
+      console.log("hola")
+      buscarNotificaciones();
+    }, [])
+  
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -127,6 +150,8 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -159,7 +184,10 @@ export default function PrimarySearchAppBar() {
     >
       
       <MenuItem>
-        <Notifications avatar={user.picture} />
+     {/*  {(buscarNotificaciones() !== "undefined")?
+        <Notifications notificacion={buscarNotificaciones()}  />
+        : null
+      } */}
         <p>Notificaciones</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
@@ -175,7 +203,53 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
-
+  const NOTIFICATIONS = [
+    {
+      id: faker.datatype.uuid(),
+      title: 'Your order is placed',
+      description: 'waiting for shipping',
+      avatar: null,
+      type: 'mail',
+      createdAt: set(new Date(), { hours: 10, minutes: 30 }),
+      isUnRead: true
+    },
+    {
+      id: faker.datatype.uuid(),
+      title: faker.name.findName(),
+      description: 'answered to your comment on the Minimal',
+      avatar: null,
+      type: 'mail',
+      createdAt: sub(new Date(), { hours: 3, minutes: 30 }),
+      isUnRead: true
+    },
+    {
+      id: faker.datatype.uuid(),
+      title: 'You have new message',
+      description: '5 unread messages',
+      avatar: null,
+      type: 'chat_message',
+      createdAt: sub(new Date(), { days: 1, hours: 3, minutes: 30 }),
+      isUnRead: false
+    },
+    {
+      id: faker.datatype.uuid(),
+      title: 'You have new mail',
+      description: 'sent from Guido Padberg',
+      avatar: null,
+      type: 'mail',
+      createdAt: sub(new Date(), { days: 2, hours: 3, minutes: 30 }),
+      isUnRead: false
+    },
+    {
+      id: faker.datatype.uuid(),
+      title: 'Delivery processing',
+      description: 'Your order is being shipped',
+      avatar: null,
+      type: 'order_shipped',
+      createdAt: sub(new Date(), { days: 3, hours: 3, minutes: 30 }),
+      isUnRead: false
+    }
+  ];
   return (
     <div className={classes.grow}>
       <AppBar position="static"  >
@@ -203,7 +277,8 @@ export default function PrimarySearchAppBar() {
             <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
           </div>
           <div className={classes.sectionDesktop}>
-             <Notifications avatar={user.picture}/>
+            {valor ? <Notifications notificacion={valor}  /> : null }
+
           </div>
           <div className={classes.sectionDesktop}>
           <IconButton

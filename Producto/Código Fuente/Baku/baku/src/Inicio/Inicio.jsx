@@ -14,6 +14,7 @@ import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import imgCarrusel1 from '../Imagenes/CarruselBaku1.png'
 import imgCarrusel2 from '../Imagenes/CarruselBaku2.png'
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -101,6 +102,8 @@ export default function Inicio() {
                 'apellido': user.family_name ? user.family_name : user.nickname,
                 'nombre': user.given_name ? user.given_name : user.nickname,
                 'tipo': '1',
+                'avatar': user.picture,
+                'usuario': user.nickname,
                 'correo_electronico': user.email
             }
             console.log(usuarioData);
@@ -112,6 +115,8 @@ export default function Inicio() {
         localStorage.setItem("usuario_activo", usuario.auth0_id)
         localStorage.setItem("usuario_id", usuario._id)
         localStorage.setItem("tipoUsuario", usuario.tipoUsuario)
+        localStorage.setItem("usuario", usuario.usuario)
+        localStorage.setItem("avatar", usuario.avatar)
     }
 
 

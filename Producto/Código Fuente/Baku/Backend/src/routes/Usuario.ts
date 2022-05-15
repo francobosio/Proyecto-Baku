@@ -31,6 +31,10 @@ const usuarioSchema = new Schema({
         type: String,
         required: true,
     },
+    avatar: {
+        type: String,
+        required: true,
+    },
 }, {
     versionKey: false,
     timestamps: true
@@ -48,6 +52,7 @@ interface IUsuario extends Document {
     mensajes: any[];
     suscriptores: any[];
     estado: string;
+    avatar: string;
 }
 
 export default model<IUsuario>('Usuario', usuarioSchema);

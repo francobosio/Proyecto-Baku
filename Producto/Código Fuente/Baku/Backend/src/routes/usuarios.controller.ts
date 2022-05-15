@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import Usuario from "./Usuario";
 
 export const createUsuario: RequestHandler = async (req, res) => {
-    const { auth0_id, apellido, nombre, correo_electronico } = req.body;
+    const { auth0_id, apellido, nombre, correo_electronico, avatar } = req.body;
 
     const newUsuario = {
         auth0_id,
@@ -11,6 +11,7 @@ export const createUsuario: RequestHandler = async (req, res) => {
         correo_electronico,
         tipoUsuario: "1",
         estado: "Activo",
+        avatar,
     };
 
     const usuario = new Usuario(newUsuario);
