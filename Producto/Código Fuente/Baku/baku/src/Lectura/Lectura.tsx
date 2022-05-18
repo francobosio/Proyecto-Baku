@@ -25,7 +25,7 @@ import { useParams } from "react-router-dom";
 //Display reading progress at the top
 import ReadingIndicatorPluginP from './Reading_Progress/readingIndicatorPlugin';
 
-//Brillo
+//BRILLO
 import Brillo from './Brillo';
 
 //PAG ACTUAL
@@ -39,12 +39,9 @@ import ButtonMui from '@material-ui/core/Button';
 
 //LENGUAJE
 import { LocalizationMap } from '@react-pdf-viewer/core';
+
 // Import the localization file
 import es_ES from '@react-pdf-viewer/locales/lib/es_ES.json';
-
-//COMBOBOX
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 
 
 import '@react-pdf-viewer/core/lib/styles/index.css';
@@ -97,12 +94,6 @@ const Lectura = () => {
     // Create new plugin instance
     const classes = useStyles();
     let { id } = useParams<QuizParams>();
-
-    //TIPO DE LETRA
-    const cbTipoLetra = ['', 'sans-serif', 'calibri', 'Comic Sans MS']
-
-    const [tipoLetra2, setTipoLetra2] = React.useState<string | null>(cbTipoLetra[0]);
-    const [inputValue, setInputValue] = React.useState('');
 
     //TEMA
     const [currentTheme, setCurrentTheme] = React.useState(localStorage.getItem('theme') || 'light');
@@ -164,19 +155,6 @@ const Lectura = () => {
 
     return (
         <div className={classes.root}>
-            { /*TIPO DE LETRA*/}
-            <style>
-                {   
-                    `
-                        .rpv-core__text-layer {
-                        }
-                        .rpv-core__text-layer-text {
-                            font-family: "${tipoLetra2}" !important;
-                        }
-                    `
-                }
-            </style>
-            
             { /*APPBAR*/}
             <AppBar />
 
@@ -191,28 +169,11 @@ const Lectura = () => {
                     <Grid item xs={6}>
                         <Brillo />
                     </Grid>
-                    <Grid item xs={3}>
-                        <Autocomplete
-                            size="small"
-                            value={tipoLetra2}
-                            onChange={(event: any, newValue: string | null) => {
-                                setTipoLetra2(newValue);
-                            }}
-                            inputValue={inputValue}
-                            onInputChange={(event, newInputValue) => {
-                                setInputValue(newInputValue);
-                            }}
-                            id="controllable-states-demo"
-                            options={cbTipoLetra}
-                            sx={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Tipo de Letra" />}
-                        />
-                    </Grid>
                 </Grid>
             </Box>
 
             { /*CARGA DE PLUGINS*/}
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.13.216/build/pdf.worker.min.js">
+            <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.14.305/build/pdf.worker.min.js">
                 <div className={classes.viewer}>
                     <Viewer
                         fileUrl={ libro.archivoTexto }
@@ -224,7 +185,7 @@ const Lectura = () => {
                             defaultLayoutPluginInstance,
                             ]}
                             
-                    >{currentTheme}{tipoLetra2}</Viewer>
+                    >{currentTheme}</Viewer>
                 </div>
             </Worker>
         </div>
