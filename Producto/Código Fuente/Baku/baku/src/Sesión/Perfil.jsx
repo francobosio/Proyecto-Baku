@@ -13,6 +13,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import esLocale from 'date-fns/locale/es';
+import Checkbox from '@material-ui/core/Checkbox';
+import { Dialog, DialogActions, DialogContent, DialogContentText, FormControl, FormControlLabel} from "@mui/material";
 import 'date-fns';
 
 import * as usuarioService from './Usuarios/UsuarioService';
@@ -66,11 +68,27 @@ const useStyles = makeStyles((theme) => ({
       'color': '#FFFFFF',
     }
   },
+  botonEliminar: {
+    'color': '#FFFFFF',
+    'background-color': '#922c2c',
+    'borderRadius': '5rem',
+    width: '15rem',
+    '&:hover': {
+      'background': '#580000',
+      'color': '#FFFFFF',
+    }
+  },
   textFieldEnabled: {
     "& input.Mui-disabled": {
       color: "#000"
     }
-  }
+  },
+  datePicker: {
+    "paddingBottom": '10%',
+  },
+  customCheckbox: {
+    'color': '#076F55',
+  },
 }));
 
 export default function Perfil() {
@@ -78,8 +96,9 @@ export default function Perfil() {
   const [locale] = React.useState("es");
   const [flagNombreEnabled, setFlagNombreEnabled] = React.useState(false);
   const [flagApellidoEnabled, setFlagApellidoEnabled] = React.useState(false);
+  const [flagPermanenciaLibros, setFlagPermanenciaLibros] = React.useState(false);
 
-  const { user } = useAuth0();
+  const { user, logout } = useAuth0();
   const [userDB, setUserDB] = useState(null);
   const classes = useStyles();
 
@@ -100,7 +119,7 @@ export default function Perfil() {
       inputNombre.current.value = usuario.nombre;
       inputApellido.current.value = usuario.apellido;
       inputEmail.current.value = usuario.correo_electronico;
-      if (usuario.fecha_nacimiento != null){
+      if (usuario.fecha_nacimiento != null) {
         setSelectedDate(Date.parse(usuario.fecha_nacimiento));
       }
     }
@@ -108,19 +127,23 @@ export default function Perfil() {
   useEffect(() => {
     loadUsuario()
   }, [])
-  
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
   const handleApellidoEnable = () => {
     inputApellido.current.disabled = false;
-    setFlagApellidoEnabled(true)
+    setFlagApellidoEnabled(true);
   }
 
   const handleNombreEnable = () => {
     inputNombre.current.disabled = false;
-    setFlagNombreEnabled(true)
+    setFlagNombreEnabled(true);
+  }
+
+  const handlePermanenciaLibros = e => {
+    setFlagPermanenciaLibros(e.target.checked);
   }
 
   const saveChanges = () => {
@@ -130,14 +153,29 @@ export default function Perfil() {
     const todayDate = new Date(Date.now());
 
     const usuarioData = {
-        'id': userDB._id,
-        'apellido': nuevoApellido != '' ? nuevoApellido : userDB.apellido,
-        'nombre': nuevoNombre != '' ? nuevoNombre : userDB.nombre,
-        'fecha_nacimiento': selectedDateFormat.toDateString() != todayDate.toDateString() ? selectedDateFormat : userDB.fecha_nacimiento,
+      'id': userDB._id,
+      'apellido': nuevoApellido != '' ? nuevoApellido : userDB.apellido,
+      'nombre': nuevoNombre != '' ? nuevoNombre : userDB.nombre,
+      'fecha_nacimiento': selectedDateFormat.toDateString() != todayDate.toDateString() ? selectedDateFormat : userDB.fecha_nacimiento,
     };
 
     const res = usuarioService.modificarUsuario(usuarioData);
-    console.log(res);
+  }
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const openDeleteDialog = () => {
+    setOpen(true);
+  }
+
+  const deleteUser = () => {
+    const res = usuarioService.eliminarUsuario(userDB._id, flagPermanenciaLibros, logout);
+    localStorage.removeItem("usuario_id")
+    localStorage.removeItem("tipoUsuario")
   }
 
   return (
@@ -179,7 +217,7 @@ export default function Perfil() {
               </Grid>
               <Grid item xs={4}>
                 <TextField
-                  className={flagApellidoEnabled ?  classes.textFieldEnabled : ''}
+                  className={flagApellidoEnabled ? classes.textFieldEnabled : ''}
                   name="apellido"
                   disabled
                   inputRef={inputApellido}
@@ -207,8 +245,8 @@ export default function Perfil() {
               <Grid item xs={3}>
                 <Typography className={classes.texto}>Fecha de Nacimiento:</Typography>
               </Grid>
-              <Grid item xs={4}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localeMap[locale]}>
+              <Grid className={classes.datePicker} item xs={4}>
+                <MuiPickersUtilsProvider className={classes.datePicker} utils={DateFnsUtils} locale={localeMap[locale]}>
                   <KeyboardDatePicker
                     margin="normal"
                     id="fechaNacimiento"
@@ -223,9 +261,35 @@ export default function Perfil() {
                   />
                 </MuiPickersUtilsProvider>
               </Grid>
-
-              <Grid item xs={12}>
+            </Grid>
+            <div>
+              <Dialog
+                open={open}
+                onClose={handleClose}>
+                <DialogContent>
+                  <DialogContentText>
+                    ¿Está seguro de que quiere eliminar su cuenta?, esta decisión no puede revertirse!
+                  </DialogContentText>
+                    
+                  <FormControlLabel 
+                          className={classes.controlLabel}
+                          control={<Checkbox className={classes.customCheckbox} color="secondary" name="permanenciaLibros" onChange={handlePermanenciaLibros} />}
+                          label="Acepto que mis obras permanezcan en la aplicación luego de borrada mi cuenta"/>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancelar</Button>
+                  <Button type="Button" onClick={deleteUser} autoFocus>
+                    Eliminar
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </div>
+            <Grid container spacing={10}>
+              <Grid spacing={10} item xs={6}>
                 <Button className={classes.botonGuardar} onClick={saveChanges}>Guardar Cambios</Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button className={classes.botonEliminar} onClick={openDeleteDialog}>Eliminar mi Cuenta</Button>
               </Grid>
             </Grid>
           </Container>

@@ -190,4 +190,31 @@ export const putUsuario: RequestHandler = async (req, res) => {
     });
 }
 
+export const deleteUsuario: RequestHandler = async (req, res) => {
+    let id = req.params.userId;
+    let flagLibro = req.params.flagData;
+    let queryBaku = {'auth0_id' : "google-oauth2|112174430754594254481"}
+
+    if (id) {
+        if (flagLibro === 'true')
+        {
+            const user = await Usuario.findById(id);
+            const baku = await Usuario.findOne(queryBaku).exec()
+
+            if (baku && user) {
+                const aux = baku.libros_publicados.concat(user.libros_publicados);
+                baku.libros_publicados = aux;
+            }
+        }
+        await Usuario.findByIdAndDelete(id);
+        return res.json({
+            message: "Usuario Eliminado"
+        });
+    } else {
+        return res.json ({
+            message: "No se encontro el usuario indicado"
+        })
+    }
+}
+
 
