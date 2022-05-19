@@ -40,6 +40,10 @@ import ButtonMui from '@material-ui/core/Button';
 //LENGUAJE
 import { LocalizationMap } from '@react-pdf-viewer/core';
 
+//TITULO
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+
 // Import the localization file
 import es_ES from '@react-pdf-viewer/locales/lib/es_ES.json';
 
@@ -49,7 +53,6 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { useHistory } from "react-router-dom";
 
 import renderToolbar from './RenderToolbar';
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -83,6 +86,8 @@ const useStyles = makeStyles((theme) => ({
         display: "none",
     },
 }));
+
+
 
 
 const Lectura = () => {
@@ -126,7 +131,7 @@ const Lectura = () => {
         console.log(res);
     }
 
-    const [libro, setLibro] = useState({archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf"});
+    const [libro, setLibro] = useState({archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf", titulo: ''});
     const [initialPage, setInitialPage] = useState(1);
     const comienzaLectura = async () => {
         setInitialPage(1);
@@ -168,6 +173,11 @@ const Lectura = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <Brillo />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Typography variant="h5" gutterBottom component="div" align= 'center'>
+                            Título: {libro.titulo}
+                        </Typography>
                     </Grid>
                 </Grid>
             </Box>
