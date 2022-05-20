@@ -37,7 +37,7 @@
     "material-ui-image": "^3.3.2",
     "mongoose": "^6.0.4",
     "morgan": "^1.10.0",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.1",
     "pdfjs-dist": "^2.14.305",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",
