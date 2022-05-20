@@ -128,6 +128,17 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const HandleSuscripcion = () => {
+    console.log(process.env.REACT_APP_MPAGO_TEST_PUBLIC_KEY)
+    const mp = new window.MercadoPago(process.env.REACT_APP_MPAGO_TEST_PUBLIC_KEY, {locale: 'es-AR'});
+    const checkout = mp.checkout({
+      preference: {
+        id: process.env.REACT_APP_MPAGO_TEST_PREFERENCE_ID
+      }
+    });
+    checkout.open();
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -211,7 +222,7 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.grow} />
           <div>
-            <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
+            <Button className={classes.btnSuscripcion} onClick={HandleSuscripcion} variant="contained">Suscribirse</Button>
           </div>
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 17 new notifications" color="inherit">
