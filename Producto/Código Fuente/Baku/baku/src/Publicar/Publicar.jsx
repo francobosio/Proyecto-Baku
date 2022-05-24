@@ -332,11 +332,12 @@ export default function MiniDrawer() {
             };
             const nuevaNotificacion = {
                 'auth0usuario': localStorage.getItem("usuario_activo"),
-                'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido un nuevo libro",
+                'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido:",
                 'descripcion': libro.descripcion,
                 'avatar': localStorage.getItem("avatar"),
                 'tipo': "subidaLibro",
-                'esNoleido': false,
+                'esNoleido': true,
+                'id_libro': res.data.libro._id
             }
             await usuarioService.usuarioLibroCargado(idData);
             console.log(nuevaNotificacion)

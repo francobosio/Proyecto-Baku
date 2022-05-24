@@ -2,8 +2,10 @@ import { faker } from '@faker-js/faker';
 import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
 import { useEffect, useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { set, sub, formatDistanceToNow } from 'date-fns';
+
+import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
 // material
 import { alpha } from '@mui/material/styles';
 import {
@@ -78,7 +80,7 @@ const NOTIFICATIONS = [
 ];
 
 function renderContent(notification) {
-  const title = (
+  const titulo = (
     <Typography variant="subtitle2">
       {notification.titulo}
       <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
@@ -89,18 +91,18 @@ function renderContent(notification) {
   if (notification.tipo === 'mail') {
     return {
       avatar: <img alt={notification.titulo} src={notification.avatar} width='40px' />,
-      title
+      titulo
     };
   }
   if (notification.tipo === 'chat_message') {
     return {
       avatar: <img alt={notification.titulo} src="/static/icons/ic_notification_chat.svg" />,
-      title
+      titulo
     };
   }
   return {
     avatar: <img alt={notification.titulo} src={notification.avatar} />,
-    title
+    titulo
   };
 
 }
@@ -118,7 +120,7 @@ function NotificationItem({ notification }) {
     <ListItemButton
       to="#"
       disableGutters
-      component={RouterLink}
+      component={Link}
       sx={{
         py: 1.5,
         px: 2.5,
@@ -129,7 +131,7 @@ function NotificationItem({ notification }) {
       }}
     >
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral'}}> {avatar}</Avatar>
+        <Avatar sx={{ bgcolor: 'background.neutral' }}> {avatar}</Avatar>
       </ListItemAvatar>
       <ListItemText
         primary={titulo}
@@ -153,7 +155,7 @@ function NotificationItem({ notification }) {
 }
 
 export default function NotificationsPopover(propNotificacion) {
-  console.log(propNotificacion.notificacion);
+  //console.log(propNotificacion.notificacion);
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(propNotificacion.notificacion);
@@ -161,7 +163,7 @@ export default function NotificationsPopover(propNotificacion) {
 
 
   const totalUnRead = notifications.filter((item) => item.esNoleido === true).length;
-  
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -174,7 +176,7 @@ export default function NotificationsPopover(propNotificacion) {
     //obtener todos los _id de las notificaciones
     const arrayNotif = notifications.map((item) => item._id);
     console.log(arrayNotif);
-    const usuarioActual= localStorage.getItem('usuario_id');
+    const usuarioActual = localStorage.getItem('usuario_id');
     await NotificacionServices.marcarTodasComoLeidas(usuarioActual);
   };
 
@@ -187,6 +189,17 @@ export default function NotificationsPopover(propNotificacion) {
       }))
     );
   };
+
+  const LibroLeido = async (libroId) => {
+    const usuario_id = localStorage.getItem("usuario_activo")
+    const libroData = {
+      'auth0id': usuario_id,
+      'idLibro': libroId,
+      'finLectura': false,
+    }
+    const res = await usuarioService.usuarioLibroLeido(libroData);
+    console.log(res);
+  }
 
   return (
     <>
@@ -241,7 +254,9 @@ export default function NotificationsPopover(propNotificacion) {
             }
           >
             {notifications.slice(0, 2).map((notification) => (
-              <NotificationItem key={notification._id} notification={notification} />
+              
+              <NotificationItem key={notification._id} notification={notification}/>
+
             ))}
           </List>
 
@@ -254,7 +269,10 @@ export default function NotificationsPopover(propNotificacion) {
             }
           >
             {notifications.slice(2, 5).map((notification) => (
-              <NotificationItem key={notification._id} notification={notification} />
+              //anular style de Link
+              
+                <NotificationItem key={notification._id} notification={notification} redirect={"/Lectura/" + notification._id}/>
+             
             ))}
           </List>
         </Scrollbar>
@@ -262,7 +280,7 @@ export default function NotificationsPopover(propNotificacion) {
         <Divider />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple component={RouterLink} to="#">
+          <Button fullWidth disableRipple component={Link} to="#">
             Ver Todas
           </Button>
         </Box>

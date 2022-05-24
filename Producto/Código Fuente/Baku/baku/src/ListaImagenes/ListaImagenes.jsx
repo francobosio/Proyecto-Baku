@@ -8,7 +8,7 @@ import { Container, Grid } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
-import { Link,useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
 
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         "margin-bottom": "2rem",
-        "align-content":"flex-start",
+        "align-content": "flex-start",
         minHeight: '100vh',
     },
     imageList: {
@@ -63,10 +63,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#fff',
     },
     imagen: {
-      
+
         width: "100%",
         "position": "relative",
-      },
+    },
     grid: {
         display: "flex",
         "place-items": "center",
@@ -127,52 +127,52 @@ const useStyles = makeStyles((theme) => ({
 
 
 const categorias = [
-    {   
-        id:"Arte",
+    {
+        id: "Arte",
         img: arte,
     },
     {
-        id:"Ciencia Ficción",
+        id: "Ciencia Ficción",
         img: ciencia_ficcion,
     },
     {
-        id:"Fantasía",
+        id: "Fantasía",
         img: fantasia,
     },
-    {   
-        id:"Infantil",
+    {
+        id: "Infantil",
         img: infantil,
     },
     {
-        id:"Terror",
+        id: "Terror",
         img: terror,
     },
     {
-        id:"Aventura",
+        id: "Aventura",
         img: aventura,
     },
     {
-        id:"Viajes",
+        id: "Viajes",
         img: viajes,
     },
     {
-        id:"Romántico",
+        id: "Romántico",
         img: romantico,
     },
     {
-        id:"Policial",
+        id: "Policial",
         img: policial,
     },
     {
-        id:"Poesía",
+        id: "Poesía",
         img: poesia,
     },
     {
-        id:"Teatro",
+        id: "Teatro",
         img: teatro,
     },
     {
-        id:"Biografía",
+        id: "Biografía",
         img: biografias,
     },
 ];
@@ -190,7 +190,7 @@ export default function TitlebarImageList() {
         setEstado(true);
         if (!buscador) {
             setEstado(false);
-            return setError('Por favor ingrese un texto valido');
+            return setError('Por favor ingrese un texto válido');
         }
         const res = await libroService.buscarLibro(busquedaVariable);
         setLibroBuscado(res.data, setError(''));
@@ -248,8 +248,8 @@ export default function TitlebarImageList() {
         const res = await usuarioService.usuarioLibroLeido(libroData);
         console.log(res);
     }
-    
-    
+
+
     return (
         <div className={classes.root}>
             <Grid className={classes.grid}>
@@ -281,7 +281,7 @@ export default function TitlebarImageList() {
 
                     <ImageList rowHeight={500} className={classes.imageList} cols={3} gap={20}>
                         <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
-                        <ListSubheader component="div"  className={classes.titulo}>Resultado</ListSubheader>
+                            <ListSubheader component="div" className={classes.titulo}>Resultado</ListSubheader>
                         </ImageListItem>
                         {libroBuscado.map((item) => (
                             <ImageListItem key={item.id} style={{ width: "16.8rem", height: "23.5rem" }} >
@@ -304,20 +304,20 @@ export default function TitlebarImageList() {
                     :
                     <Container className={classes.contenedor} onR  >
                         <Container>
-                             <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
-                             <br />
+                            <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
+                            <br />
                         </Container>
                         <Container className={classes.contenedor}>
 
                             {categorias.map((item) =>
                             (
-                                <Card style={{ maxWidth: 345 , width:"18rem",background:"#99cfbf","margin-top": "10px"}}>
+                                <Card style={{ maxWidth: 345, width: "18rem", background: "#99cfbf", "margin-top": "10px" }}>
                                     <CardActionArea onClick={() => handleClick(item.id)}  >
                                         <CardMedia
                                             component="img"
                                             height="auto"
                                             image={item.img}
-                                            style={{ "margin-top": "-2px"}}
+                                            style={{ "margin-top": "-2px" }}
                                         />
                                     </CardActionArea>
                                 </Card>

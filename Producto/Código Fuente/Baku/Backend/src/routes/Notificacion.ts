@@ -16,7 +16,9 @@ const notificacionSchema = new Schema({
     esNoleido:{
         type: Boolean,
         required:true
-    },
+    },id_libro:{
+        type: String
+    }
 },{
     versionKey: false,
     timestamps: true,

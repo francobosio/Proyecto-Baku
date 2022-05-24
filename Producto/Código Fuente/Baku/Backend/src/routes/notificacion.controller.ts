@@ -4,8 +4,8 @@ import Notificacion from "./Notificacion";
 import Usuario from "./Usuario";
 
 export const createNotificacion: RequestHandler = async (req, res) => {
-    const { auth0usuario, titulo, descripcion, tipo, esNoleido } = req.body
-    const newNotificacion = { titulo, descripcion, tipo, esNoleido };
+    const { auth0usuario, titulo, descripcion, tipo, esNoleido,id_libro } = req.body
+    const newNotificacion = { titulo, descripcion, tipo, esNoleido,id_libro  };
     const notificacion = new Notificacion(newNotificacion);
     console.log(newNotificacion);
     await notificacion.save();
@@ -44,8 +44,7 @@ export const marcarTodasComoLeidas: RequestHandler = async (req, res) => {
     const {usuarioActual} = req.body;
     console.log(usuarioActual);
     //change el campo esNoleido a false
-    await Usuario.findByIdAndUpdate({_id: "6189a5e6efa0cdc3945db096" }, { $set: { "mensajes.$.esNoleido": false } }).exec();
-
+    await Usuario.findByIdAndUpdate({_id: "6189a5e6efa0cdc3945db096" }, { $set: { "mensajes.[].esNoleido": false } }).exec();
     return res.json({
         message: "Todas las notificaciones marcadas como leidas"
     });
