@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import Usuario from "./Usuario";
+import Libro from "./Libro";
 
 /* Método para la creación de un nuevo usuario. Recibe un Json en el campo req y devuelve el usaurio creado en el campo res */
 export const createUsuario: RequestHandler = async (req, res) => {
@@ -196,15 +197,20 @@ export const deleteUsuario: RequestHandler = async (req, res) => {
     let queryBaku = {'auth0_id' : "google-oauth2|112174430754594254481"}
 
     if (id) {
+        const user = await Usuario.findById(id);
         if (flagLibro === 'true')
         {
-            const user = await Usuario.findById(id);
             const baku = await Usuario.findOne(queryBaku).exec()
 
             if (baku && user) {
                 const aux = baku.libros_publicados.concat(user.libros_publicados);
-                baku.libros_publicados = aux;
-            }
+                await Usuario.updateOne({auth0_id: "google-oauth2|112174430754594254481"},{libros_publicados: aux})
+            } 
+        } 
+        else {
+            user?.libros_publicados.forEach(async element => {
+                await Libro.findByIdAndDelete(element.id_libro)
+            });
         }
         await Usuario.findByIdAndDelete(id);
         return res.json({
