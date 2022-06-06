@@ -2,8 +2,10 @@ import { faker } from '@faker-js/faker';
 import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink, Redirect, useParams } from "react-router-dom";
 import { set, sub, formatDistanceToNow } from 'date-fns';
+import {es} from 'date-fns/esm/locale';
+import { format } from 'date-fns/esm'
 
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
 // material
@@ -79,7 +81,10 @@ const NOTIFICATIONS = [
   }
 ];
 
+
+
 function renderContent(notification) {
+ console.log(notification.tipo)
   const titulo = (
     <Typography variant="subtitle2">
       {notification.titulo}
@@ -100,11 +105,12 @@ function renderContent(notification) {
       titulo
     };
   }
+
   return {
-    avatar: <img alt={notification.titulo} src={notification.avatar} />,
+    avatar: <img alt={notification.titulo} src={notification.avatar}  width='40px' />,
     titulo
   };
-
+  
 }
 
 NotificationItem.propTypes = {
@@ -112,20 +118,37 @@ NotificationItem.propTypes = {
 };
 
 
+
 //Permite modificar los iconos de las notificaciones
-function NotificationItem({ notification }) {
+function NotificationItem({ notification, id }) {
+
   const { avatar, titulo } = renderContent(notification);
+  console.log(avatar)
+
+  const LibroLeido = async (libroId) => {
+    const usuario_id = localStorage.getItem("usuario_activo")
+    const libroData = {
+      'auth0id': usuario_id,
+      'idLibro': libroId,
+      'finLectura': false,
+    }
+    //setteo la noti como leida
+    await NotificacionServices.notificacionLeida(usuario_id, notification._id);
+    const res = await usuarioService.usuarioLibroLeido(libroData);
+    console.log(res);
+  }
 
   return (
     <ListItemButton
-      to="#"
       disableGutters
-      component={Link}
+      onClick={() => LibroLeido(id)}
+      component={RouterLink}
+      to={`/Lectura/${id}`}
       sx={{
         py: 1.5,
         px: 2.5,
         mt: '1px',
-        ...(notification.isUnRead && {
+        ...(notification.esNoleido && {
           bgcolor: 'action.selected'
         })
       }}
@@ -146,7 +169,8 @@ function NotificationItem({ notification }) {
             }}
           >
             <Iconify icon="eva:clock-fill" sx={{ mr: 0.5, width: 16, height: 16 }} />
-            {formatDistanceToNow(new Date(notification.createdAt))}
+           
+            {formatDistanceToNow(new Date(notification.createdAt),  {locale: es, addSuffix: true })}
           </Typography>
         }
       />
@@ -190,16 +214,6 @@ export default function NotificationsPopover(propNotificacion) {
     );
   };
 
-  const LibroLeido = async (libroId) => {
-    const usuario_id = localStorage.getItem("usuario_activo")
-    const libroData = {
-      'auth0id': usuario_id,
-      'idLibro': libroId,
-      'finLectura': false,
-    }
-    const res = await usuarioService.usuarioLibroLeido(libroData);
-    console.log(res);
-  }
 
   return (
     <>
@@ -253,11 +267,10 @@ export default function NotificationsPopover(propNotificacion) {
               </ListSubheader>
             }
           >
-            {notifications.slice(0, 2).map((notification) => (
-              
-              <NotificationItem key={notification._id} notification={notification}/>
-
+            {notifications.filter((item) => item.esNoleido).map((notification) => (
+              <NotificationItem key={notification._id} notification={notification} id={notification.id_libro} />
             ))}
+
           </List>
 
           <List
@@ -268,22 +281,24 @@ export default function NotificationsPopover(propNotificacion) {
               </ListSubheader>
             }
           >
-            {notifications.slice(2, 5).map((notification) => (
+            {notifications.filter((item) => item.esNoleido === false).map((notification) => (
               //anular style de Link
-              
-                <NotificationItem key={notification._id} notification={notification} redirect={"/Lectura/" + notification._id}/>
-             
+
+              <NotificationItem key={notification._id} notification={notification} id={notification.id_libro} />
+
             ))}
           </List>
-        </Scrollbar>
 
-        <Divider />
+
+        </Scrollbar>
+        {/* Se deja para futuras implementaciones */}
+        {/*  <Divider />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple component={Link} to="#">
+          <Button fullWidth disableRipple>
             Ver Todas
           </Button>
-        </Box>
+        </Box> */}
       </MenuPopover>
     </>
   );

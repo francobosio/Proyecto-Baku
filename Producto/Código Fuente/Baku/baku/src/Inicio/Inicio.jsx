@@ -72,7 +72,7 @@ const imagenesCarrusel = [
 
 function Item(props) {
     return (
-        <img src={props.item} alt="" style={{ 'object-fit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
+        <img src={props.item} alt="" style={{ 'objectFit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
     )
 }
 export default function Inicio() {

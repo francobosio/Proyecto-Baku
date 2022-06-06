@@ -250,7 +250,6 @@ const Lectura = () => {
             'finLectura': true,
         }
         const res = await usuarioService.usuarioLibroLeido(libroData);
-        console.log(res);
     }
 
     const [libro, setLibro] = useState({archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf"});
@@ -627,9 +626,10 @@ const Lectura = () => {
                 }
             </style>
             <div className={classes.ocultar}>
-                <CurrentPageLabel>
+               {/*  Esto me ROMPE TODO */}
+                {/* <CurrentPageLabel>
                     {(e: RenderCurrentPageLabelProps) => (showCurrentPage(e))}
-                </CurrentPageLabel>
+                </CurrentPageLabel> */}
             </div >
             <AppBar />
             <div className={classes.ocultar}>
