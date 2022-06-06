@@ -1,3 +1,4 @@
+import { AttachEmailTwoTone } from "@mui/icons-material";
 import axios from "axios";
 import { Usuario } from "./Usuario";
 
@@ -32,6 +33,7 @@ export const asignarTipoUsuario = async (id: String, tipoUsuario: String) => {
     return await axios.put('http://localhost:4000/usuarios/modificarTipo', { id, tipoUsuario })
 }
 
+<<<<<<< HEAD
 export const suscribirUsuario = async (usuario_id: String, autor2: String) => {
     return await axios.put('http://localhost:4000/usuarios/suscribir', { usuario_id, autor2 })
 }
@@ -44,3 +46,12 @@ export const buscarNombreSuscripcion = async (usuario_id: String, autor: String)
     return await axios.get('http://localhost:4000/usuarios/buscarNombreSuscripcion/' + usuario_id + '/' + autor)
 }
 
+=======
+export const modificarUsuario = async (usuarioData: {}) => {
+    return await axios.put('http://localhost:4000/usuarios/modificarUsuario', usuarioData)
+}
+
+export const eliminarUsuario = async (id: string, flagData: boolean, _callback: any) => {
+    return await axios.delete('http://localhost:4000/usuarios/' + id + '/' + flagData).then(() => {_callback()})
+}
+>>>>>>> e297922cc979e1cd758547d4f0ebbb0fa1da07d6

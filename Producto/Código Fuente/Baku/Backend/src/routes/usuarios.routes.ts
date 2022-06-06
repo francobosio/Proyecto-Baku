@@ -17,10 +17,16 @@ router.get('/usuarios', usuarioCtrl.getUsuarios)
 
 router.put('/usuarios/modificarTipo', usuarioCtrl.putTipoUsuario)
 
+<<<<<<< HEAD
 router.put('/usuarios/suscribir', usuarioCtrl.putSuscribir)
 
 router.put('/usuarios/desuscribir', usuarioCtrl.putDesuscribir)
 
 router.get('/usuarios/buscarNombreSuscripcion/:usuario_id/:autor', usuarioCtrl.buscarNombreSuscripcion)
+=======
+router.put('/usuarios/modificarUsuario', usuarioCtrl.putUsuario)
+
+router.delete('/usuarios/:userId/:flagData', usuarioCtrl.deleteUsuario)
+>>>>>>> e297922cc979e1cd758547d4f0ebbb0fa1da07d6
 
 export default router;
