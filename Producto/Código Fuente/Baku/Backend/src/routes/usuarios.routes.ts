@@ -23,4 +23,8 @@ router.put('/usuarios/desuscribir', usuarioCtrl.putDesuscribir)
 
 router.get('/usuarios/buscarNombreSuscripcion/:usuario_id/:autor', usuarioCtrl.buscarNombreSuscripcion)
 
+router.put('/usuarios/modificarUsuario', usuarioCtrl.putUsuario)
+
+router.delete('/usuarios/:userId/:flagData', usuarioCtrl.deleteUsuario)
+
 export default router;

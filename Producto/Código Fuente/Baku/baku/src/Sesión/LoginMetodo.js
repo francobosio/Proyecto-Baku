@@ -20,6 +20,7 @@ const useStyles = makeStyles({
     }},
 })
 
+/* metodo de auth0 para realizar el login del usaurio */
 export const LoginButton = (props) => {
     const {loginWithRedirect} = useAuth0();
     const estilos = useStyles();

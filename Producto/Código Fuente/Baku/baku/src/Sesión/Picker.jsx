@@ -2,14 +2,16 @@ import 'date-fns';
 import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
 } from '@material-ui/pickers';
 import esLocale from 'date-fns/locale/es';
 
 const localeMap = {
   es: esLocale
 }
+
+/* esta clase no se ultiliza */
 
 export default function Picker() {
   // The first commit of Material-UI
@@ -31,7 +33,7 @@ export default function Picker() {
         value={selectedDate}
         onChange={handleDateChange}
         KeyboardButtonProps={{
-            'aria-label': 'change date',
+          'aria-label': 'change date',
         }}
       />
     </MuiPickersUtilsProvider>

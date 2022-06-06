@@ -83,6 +83,10 @@ const useStyles = makeStyles({
     }
 });
 
+/* 
+Esta clase ya no se utiliza, no la borre porque puedo necesitar algunas de las cosas que hice
+*/
+
 function Login() {
     const estilos = useStyles();
     return (

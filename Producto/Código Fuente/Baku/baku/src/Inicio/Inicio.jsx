@@ -77,16 +77,18 @@ function Item(props) {
 }
 export default function Inicio() {
     const [libros, setlibros] = useState([])
+    /* Carga todos los libros desde la base de datos y los guarda en la variable libros como un array */
     const loadLibros = async () => {
         const res = await libroService.getLibros();
         setlibros(res.data);
     }
-
     useEffect(() => {
         loadLibros()
         window.scrollTo(0, 0)
     }, [])
 
+    /* Intenta cargar el usuario que se logueó, si no lo encuentra crea un nuevo usuario. En cualquiera de los casos guarda su id de auth0 en la variable local "usuario_activo" */
+    //ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR TIPO Y ID NO LOS TRAE
     const loadUsuario = async () => {
         const res = await usuarioService.getUsuario(user.sub);
         let usuario = res.data;
