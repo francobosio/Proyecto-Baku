@@ -17,3 +17,16 @@ export const getMarcador: RequestHandler = async (req, res) => {
     return res.json(respuestaBD);
 }
 
+export const guardarNota: RequestHandler = async (req, res) => {
+    const {usuario,libro,HighlightArea,content,quote} = req.body;
+    const newMarcador = { usuario,libro,HighlightArea,content,quote };
+    const marcador = new Marcador(newMarcador);
+    console.log(newMarcador);
+    await marcador.save();
+    return res.json({
+        marcador
+    });
+}
+
+
+

@@ -11,5 +11,5 @@ router.get('/notificacion/:idAuthUsuario', notificacionCtrl.getNotificacionUsuar
 
 router.put('/notificacion/marcarTodasComoLeidas', notificacionCtrl.marcarTodasComoLeidas);
 
-router.put('/notificacion/marcarComoLeida', notificacionCtrl.marcarTodasComoLeidas);
+router.put('/notificacion/marcarComoLeida', notificacionCtrl.notificacionLeida);
 export default router

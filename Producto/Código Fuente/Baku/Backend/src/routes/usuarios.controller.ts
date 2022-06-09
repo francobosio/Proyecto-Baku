@@ -52,9 +52,6 @@ export const getUltimaPagina: RequestHandler = async (req, res) => {
         if (index > -1) {
             ultimaPagina = libros_leidos[index].ultima_pagina;
         }
-
-        console.log("pagina encontrada");
-        console.log(ultimaPagina)
         return res.json(ultimaPagina);
     } else {
         console.log(usuario)
@@ -72,8 +69,6 @@ export const putLibroPublicado: RequestHandler = async (req, res) => {
     const usuario = await Usuario.findOne(queryUsuario).exec();
     usuario?.libros_publicados.push({ id_libro: idLibro });
     await usuario?.save();
-    console.log("Modificado con éxito");
-    console.log(usuario)
     return res.json({
         message: "Usuario modificado con éxito !!!"
     });
@@ -116,14 +111,10 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
         usuario.libros_leidos.push(libroLeido);
 
         await usuario.save();
-
-        console.log("Modificado con éxito");
-        console.log(usuario)
         return res.json({
             message: "Usuario modificado con éxito !!!"
         });
     }
-    console.log(usuario)
     return res.json({
         message: "Usuario no existe"
     });
@@ -225,15 +216,12 @@ export const deleteUsuario: RequestHandler = async (req, res) => {
 }
 
 export const putSuscribir: RequestHandler = async (req, res) => {
-    console.log("hola")
     const { usuario_id, autor2 } = req.body;
-    console.log("ACAAAAAAA" + autor2)
     const usuario = await Usuario.findById(autor2).exec();
     if (usuario != undefined) {
         usuario.suscriptores.push({usuario_id: usuario_id});
         await usuario.save();
         console.log("Suscripto con éxito");
-        console.log(usuario)
         return res.json({
             message: "Usuario suscripto con éxito !!!"
         });

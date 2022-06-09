@@ -3,7 +3,7 @@ import AppBar from '../AppBar/AppBarLectura.jsx';
 import { useParams } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-
+import * as lecturaService from '../Lectura/LecturaService';
 // PLUGINS
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
     //Worker
@@ -129,7 +129,7 @@ const Lectura = () => {
             'ultimaPaginaLeida': paginaActual,
             'finLectura': true,
         }
-        const res = await usuarioService.usuarioLibroLeido(libroData);
+        await usuarioService.usuarioLibroLeido(libroData);
     }
 
     const [libro, setLibro] = useState({archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf", titulo: ''});
@@ -203,7 +203,12 @@ const Lectura = () => {
                         highlightAreas: props.highlightAreas,
                         quote: props.selectedText,
                     };
-    
+
+
+                    const usuario : string = localStorage.getItem("usuario_id")!;
+                    
+                    lecturaService.guardarNota(note.content,note.highlightAreas,note.quote,usuario,id) 
+                    
                     //Agrega la nota al Array "notes"
                     setNotes(notes.concat([note]));
                     activateTab(3);

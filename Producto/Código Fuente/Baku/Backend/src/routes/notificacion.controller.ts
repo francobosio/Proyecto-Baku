@@ -4,14 +4,12 @@ import Notificacion from "./Notificacion";
 import Usuario from "./Usuario";
 
 export const createNotificacion: RequestHandler = async (req, res) => {
-    const { auth0usuario, titulo, descripcion, tipo, esNoleido,id_libro,avatar } = req.body
-    const newNotificacion = { titulo, descripcion, tipo, esNoleido,id_libro,avatar  };
+    const { auth0usuario, titulo, descripcion, tipo, esNoleido, id_libro, avatar } = req.body
+    const newNotificacion = { titulo, descripcion, tipo, esNoleido, id_libro, avatar };
     const notificacion = new Notificacion(newNotificacion);
-    console.log(newNotificacion);
     await notificacion.save();
     //busco el usuario que sube la obra
     const author = await Usuario.findOne({ auth0_id: auth0usuario }).exec();
-    console.log(author)
     //acceder al vector suscriptores del author y mandarle la notificacion
     if (author) {
         author.suscriptores.forEach(async suscriptor => {
@@ -33,7 +31,7 @@ export const getNotificacion: RequestHandler = async (req, res) => {
 }
 
 export const getNotificacionUsuarioActual: RequestHandler = async (req, res) => {
-    const auth0usuario = req.params.idAuthUsuario; 
+    const auth0usuario = req.params.idAuthUsuario;
     //traer solo el campo mensajes
     const respuestaBD = await Usuario.findOne({ auth0_id: auth0usuario }).select("mensajes").exec();
     return res.json(respuestaBD);
@@ -41,8 +39,7 @@ export const getNotificacionUsuarioActual: RequestHandler = async (req, res) => 
 
 export const marcarTodasComoLeidas: RequestHandler = async (req, res) => {
     //obtener el array que se manda por el body
-    const {usuarioActual} = req.body;
-    console.log(usuarioActual);
+    const { usuarioActual } = req.body;
     //change el campo esNoleido a false
     await Usuario.findByIdAndUpdate({_id: "6189a5e6efa0cdc3945db096" }, { $set: { "mensajes.$[].esNoleido": false } }).exec();
     return res.json({
@@ -51,8 +48,17 @@ export const marcarTodasComoLeidas: RequestHandler = async (req, res) => {
 }
 
 export const notificacionLeida: RequestHandler = async (req, res) => {
-    const {usuario_id,notificacion_id} = req.body;
-    //pasarle a $set la variable notificacion_id
-    const elem={_id:notificacion_id};
-    await Usuario.findByIdAndUpdate({_id: usuario_id }, { $set: { "mensajes.$[elem].esNoleido": false } }).exec();
+    const { usuario_id, notificacion_id } = req.body;
+    //obtener el index de la notificacion que se quiere marcar como leido igual a notificacion_id 
+
+    await Usuario.findByIdAndUpdate({ auth0_id: usuario_id }, { $set: { "mensajes.$[item].esNoleido": false } }, { arrayFilters: [{ "item._id": notificacion_id }] }).exec();
+    return res.json({
+        message: "Notificacion marcada como leida"
+    });
 }
+
+/* var yourIndexVariableName= yourIndexValue,
+anyVariableName= { "$set": {} };
+yourVariableName["$set"]["yourFieldName."+yourIndexVariableName] = "yourValue";
+db.yourCollectionName.update({ "_id":  yourObjectId}, yourVariableName);
+ */
