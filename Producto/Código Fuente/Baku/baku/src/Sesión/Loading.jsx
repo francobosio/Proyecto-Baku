@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     'color': '#076F55'
   }
 }));
-<<<<<<< HEAD
 
 export const Loading = () => {
   const classes = useStyles();
@@ -43,13 +42,6 @@ export const Loading = () => {
     }, [] )
 
 
-=======
-
-/* página de carga, solamente renderiza un circulo giratorio de color verde */
-
-export const Loading = () => {
-  const classes = useStyles();
->>>>>>> e297922cc979e1cd758547d4f0ebbb0fa1da07d6
   return (<div>
     <Container justifycontent="center" maxWidth="xl" className={classes.root}>
       <Grid

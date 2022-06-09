@@ -15,12 +15,8 @@ import Parametros from '../Parametros/Parametros.jsx';
 import Resultado from '../Revision/Resultado.jsx'
 import Autor from '../Autor/Autor.jsx'
 import { Loading } from '../Sesión/Loading.jsx'
-<<<<<<< HEAD
-
-=======
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import Perfil from "../Sesión/Perfil.jsx";
->>>>>>> e297922cc979e1cd758547d4f0ebbb0fa1da07d6
 
 export default function Layout() {
     /* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links

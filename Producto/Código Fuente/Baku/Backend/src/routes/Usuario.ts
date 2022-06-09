@@ -53,6 +53,7 @@ interface IUsuario extends Document {
     suscriptores: any[];
     estado: string;
     avatar: string;
+    marcadoresxLibro: any[]
 }
 
 export default model<IUsuario>('Usuario', usuarioSchema);

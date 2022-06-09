@@ -16,7 +16,12 @@ const notificacionSchema = new Schema({
     esNoleido:{
         type: Boolean,
         required:true
+    },id_libro:{
+        type: String
     },
+    avatar:{
+        type: String
+    }
 },{
     versionKey: false,
     timestamps: true,
@@ -28,6 +33,8 @@ interface INotificacion extends Document {
     descripcion: string;
     tipo: string;
     esNoleido: boolean;
+    id_libro: string;
+    avatar: string;
     
 }
 

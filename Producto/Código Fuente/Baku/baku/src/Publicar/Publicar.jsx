@@ -29,10 +29,6 @@ import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import * as notificacionService from '../Notificacion/NotificacionService'
 import Termino from './Termino'
 
-<<<<<<< HEAD
-
-=======
->>>>>>> e297922cc979e1cd758547d4f0ebbb0fa1da07d6
 const useStyles = makeStyles((theme) => ({
     root: {
 
@@ -259,11 +255,8 @@ export default function MiniDrawer() {
     // Esta variable es para los mensajes de alerta
     const alert = useAlert();
 
-<<<<<<< HEAD
-=======
     /* metodo para deshabilitar los géneros que tengan conflictos entre si */
    
->>>>>>> e297922cc979e1cd758547d4f0ebbb0fa1da07d6
     const handleSelectChange = (event) => {
         categorias.map((value) => (
             value.disabled = false
@@ -334,11 +327,8 @@ export default function MiniDrawer() {
             formData.append("estado", estado)
             formData.append("editorial", libro.editorial)
             formData.append("autor", libro.autor)
-<<<<<<< HEAD
             formData.append("usuario", usuario)
             formData.append("avatar", avatar)
-=======
->>>>>>> e297922cc979e1cd758547d4f0ebbb0fa1da07d6
             const res = await libroServices.createLibro(formData);
             const idData = {
                 'auth0id': usuario_auth0Id,
@@ -346,11 +336,12 @@ export default function MiniDrawer() {
             };
             const nuevaNotificacion = {
                 'auth0usuario': localStorage.getItem("usuario_activo"),
-                'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido un nuevo libro",
+                'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido:",
                 'descripcion': libro.descripcion,
                 'avatar': localStorage.getItem("avatar"),
                 'tipo': "subidaLibro",
-                'esNoleido': false,
+                'esNoleido': true,
+                'id_libro': res.data.libro._id
             }
             await usuarioService.usuarioLibroCargado(idData);
             console.log(nuevaNotificacion)

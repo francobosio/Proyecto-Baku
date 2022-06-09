@@ -133,16 +133,14 @@ export default function PrimarySearchAppBar() {
   const buscarNotificaciones = async () => {
     //esperar 1 segundo para que se carguen las notificaciones
     /* let usuarioAuth0 = localStorage.getItem('usuario_activo'); */
-    console.log("entro")
+   
     const notificaciones = await NotificacionServices.buscarNotificacionUsuarioAuth0("google-oauth2|100909772997701456515");
     const respuesta = notificaciones.data.mensajes;
     setValor(respuesta)
-    console.log(respuesta);
     return respuesta;
   };
   
   useEffect(() => {
-    console.log("hola")
     buscarNotificaciones();
   }, [])
 
