@@ -13,8 +13,8 @@ import Buscar from '../Buscar/Buscar.jsx';
 import Biblioteca from '../Biblioteca/Biblioteca.jsx';
 import Parametros from '../Parametros/Parametros.jsx';
 import Resultado from '../Revision/Resultado.jsx'
+import HomeSuscripcion from "../Suscripcion/home-suscripcion.jsx";
 import { Loading } from '../Sesión/Loading.jsx'
-import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import Perfil from "../Sesión/Perfil.jsx";
 
 export default function Layout() {
@@ -23,23 +23,8 @@ export default function Layout() {
     const { isAuthenticated, isLoading } = useAuth0();
     //valide que el usuario_activo en el localStorage es de tipo 1, si es asi, redireccionarlo a la pagina de inicio
     const [locale, setLocale] = React.useState('esES');
-    const [usuarioActivo, setUsuarioActivo] = React.useState(true)
     const theme = useTheme();
-    const { user } = useAuth0();
-    /* console.log(user)
-    const loadLibros = async () => {
-        if (user.sub !== undefined) {
-            const res = await usuarioService.getUsuario(user.sub);
-            let usuario = res.data;
-            let activo = true;
-            console.log("entro")
-            if (usuario == null) {
-                console.log("Aca wey " + usuario)
-            }
-            usuario.esActivo === "Activo" ? activo = true : activo = false;
-            return activo
-        }
-    } */
+   
     const themeWithLocale = React.useMemo(
         () => createTheme(theme, locales[locale]),
         [locale, theme],
@@ -64,6 +49,7 @@ export default function Layout() {
                             <Route exact path="/Revision" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Revision : Home : Home} />
                             <Route exact path="/Revision/:id" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Resultado : Home : Home} />
                             <Route exact path="/Parametros" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Parametros : Home : Home} />
+                            <Route exact path="/Suscripcion" component={isLoading ? Loading : isAuthenticated ?  HomeSuscripcion : Home } />
                             <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                         </Switch>
                     </div>

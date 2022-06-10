@@ -211,7 +211,7 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div>
-            <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
+            <Button href="/suscripcion" className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
           </div>
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
