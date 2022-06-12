@@ -44,15 +44,21 @@ const useStyles = makeStyles((theme) => ({
     titulo: {
         fontWeight: 'bold',
         fontSize: '2rem',
-        padding: '3rem',
-        textAlign: 'justify',
+        padding: '2rem',
+        textAlign: 'center',
         color: '#1B1B1B'
     },
     descripcion: {
         fontSize: '1rem',
         padding: '2rem',
-        textAlign: 'justify'
+        textAlign: 'justify',
+        color: '#1B1B1B'
     },
+    precio: {
+        fontSize: '1rem',
+        padding: '2rem',
+        textAlign: 'justify',
+    }
 
 }));
 
@@ -64,7 +70,7 @@ const modelosSuscripcion = [
     },
     {
         nombre: "Suscripcion Prémium",
-        descripcion: "Descripcion",
+        descripcion: "Esta suscripcion esta muy buena porque",
         precio: "699 ARS"
     },
     {
@@ -96,16 +102,23 @@ export default function HomeSuscripcion() {
                 <Grid className={classes.contenedor} container spacing={3}>
                     {modelosSuscripcion.map((modelo) => {
                         return (
-                        <Grid clasName={classes.celda} item xs={4}>
-                            <div className={classes.suscriptionBox}>
-                                <InputLabel className={classes.titulo}>{modelo.nombre}</InputLabel>
-                                <InputLabel className={classes.descripcion}>{modelo.descripcion}</InputLabel>
-                                <InputLabel className={classes.descripcion}>Precio: {modelo.precio}</InputLabel>
-                                <Button className={classes.boton} onClick={HandleSuscription}>
-                                    Suscribirme
-                                </Button>
-                            </div>
-                        </Grid>)
+                            <Grid clasName={classes.celda} item xs={4}>
+                                <div className={classes.suscriptionBox}>
+                                    <InputLabel className={classes.titulo}>{modelo.nombre}</InputLabel>
+                                    <InputLabel className={classes.descripcion}>{modelo.descripcion}</InputLabel>
+                                    <Grid container>
+                                        <Grid item xs={3}>
+                                            <InputLabel className={classes.descripcion}>Precio:</InputLabel>
+                                        </Grid>
+                                        <Grid item xs={9}>
+                                            <InputLabel className={classes.precio}>{modelo.precio}</InputLabel>
+                                        </Grid>
+                                    </Grid>
+                                    <Button className={classes.boton} onClick={HandleSuscription}>
+                                        Suscribirme
+                                    </Button>
+                                </div>
+                            </Grid>)
                     })}
                 </Grid>
                 <Footy />
