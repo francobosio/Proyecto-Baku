@@ -4,12 +4,11 @@ import { Usuario } from "./Usuario";
 
 export const getUsuario = async (id: String) => {
     const usuario = await axios.get('http://localhost:4000/usuarios/' + id)
-
-    console.log(usuario.data.estado)
     return usuario
 }
 
 export const createUsuario = async (usuarioData: {}) => {
+    
     return await axios.post('http://localhost:4000/usuarios/', usuarioData)
 }
 
