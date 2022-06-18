@@ -16,7 +16,6 @@ export const getLibro = async (id: String) => {
 }
 
 export const buscarLibro = async (buscar: string) => {
-    console.log(buscar);
     return await axios.get(`http://localhost:4000/libros/buscar/${buscar}`)
 }
 

@@ -6,7 +6,8 @@ export const createNotificacion = async (nuevaNotificacion: {}) => {
 }
 
 export const buscarNotificacionUsuarioAuth0 = async (idAuthUsuario: String) => {
-    return await axios.get('http://localhost:4000/notificacion/' + idAuthUsuario)
+    console.log(idAuthUsuario);
+        return await axios.get('http://localhost:4000/notificacion/' + idAuthUsuario)
 }
 
 export const marcarTodasComoLeidas = async (usuarioActual: String) => {

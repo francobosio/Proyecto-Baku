@@ -84,7 +84,6 @@ const NOTIFICATIONS = [
 
 
 function renderContent(notification) {
- console.log(notification.tipo)
   const titulo = (
     <Typography variant="subtitle2">
       {notification.titulo}
@@ -123,7 +122,6 @@ NotificationItem.propTypes = {
 function NotificationItem({ notification, id }) {
 
   const { avatar, titulo } = renderContent(notification);
-  console.log(avatar)
 
   const LibroLeido = async (libroId) => {
     const usuario_id = localStorage.getItem("usuario_activo")
@@ -135,7 +133,6 @@ function NotificationItem({ notification, id }) {
     //setteo la noti como leida
     await NotificacionServices.notificacionLeida(usuario_id, notification._id);
     const res = await usuarioService.usuarioLibroLeido(libroData);
-    console.log(res);
   }
 
   return (
@@ -179,7 +176,7 @@ function NotificationItem({ notification, id }) {
 }
 
 export default function NotificationsPopover(propNotificacion) {
-  //console.log(propNotificacion.notificacion);
+  console.log(propNotificacion.notificacion);
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(propNotificacion.notificacion);
@@ -198,8 +195,7 @@ export default function NotificationsPopover(propNotificacion) {
 
   const marcarTodasComoLeidas = async () => {
     //obtener todos los _id de las notificaciones
-    const arrayNotif = notifications.map((item) => item._id);
-    console.log(arrayNotif);
+    notifications.map((item) => item._id);
     const usuarioActual = localStorage.getItem('usuario_id');
     await NotificacionServices.marcarTodasComoLeidas(usuarioActual);
   };
@@ -281,7 +277,9 @@ export default function NotificationsPopover(propNotificacion) {
               </ListSubheader>
             }
           >
-            {notifications.filter((item) => item.esNoleido === false).map((notification) => (
+            {/* ordenar notifications por fecha de creacion */}
+          
+            {notifications.filter((item) => item.esNoleido === false).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((notification) => (
               //anular style de Link
 
               <NotificationItem key={notification._id} notification={notification} id={notification.id_libro} />

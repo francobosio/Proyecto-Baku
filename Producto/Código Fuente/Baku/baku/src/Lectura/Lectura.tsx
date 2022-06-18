@@ -137,7 +137,9 @@ const Lectura = () => {
     const comienzaLectura = async () => {
         setInitialPage(1);
         const usuario_id = localStorage.getItem("usuario_activo");
+        console.log("HOLA")
         if (usuario_id != null){
+            console.log(id);
             const resPagina = await usuarioService.usuarioUltimaPagina(usuario_id, id);
             setInitialPage(resPagina.data);
             const resLibro = await libroService.getLibro(id);
