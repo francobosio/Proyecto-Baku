@@ -94,7 +94,7 @@ export default function Inicio() {
         const res = await usuarioService.getUsuario(user.sub);
         let usuario = res.data;
         
-        if (usuario == null || usuario === undefined) {
+        if (usuario === null || usuario === undefined) {
             const usuarioData = {
                 'auth0_id': user.sub,
                 'apellido': user.family_name ? user.family_name : user.nickname,
@@ -106,13 +106,14 @@ export default function Inicio() {
             }
             const res = await usuarioService.createUsuario(usuarioData)
             usuario = res.data.usuario
+            console.log('usuario creado: ', usuario)
+            localStorage.setItem('usuario_estado', usuario.estado)
+            localStorage.setItem("usuario_activo", usuario.auth0_id)
+            localStorage.setItem("usuario_id", usuario._id)
+            localStorage.setItem("tipoUsuario", usuario.tipoUsuario)
+            localStorage.setItem("usuario", usuario.usuario)
+            localStorage.setItem("avatar", usuario.avatar)
         }
-        localStorage.setItem('usuario_estado', usuario.estado)
-        localStorage.setItem("usuario_activo", usuario.auth0_id)
-        localStorage.setItem("usuario_id", usuario._id)
-        localStorage.setItem("tipoUsuario", usuario.tipoUsuario)
-        localStorage.setItem("usuario", usuario.usuario)
-        localStorage.setItem("avatar", usuario.avatar)
         if (usuario.estado === 'Inactivo') {
             //no mostrar el componente de inicio 
 
@@ -121,8 +122,6 @@ export default function Inicio() {
         }
        
     }
-
-
     useEffect(() => {
         loadUsuario()
     }, [])

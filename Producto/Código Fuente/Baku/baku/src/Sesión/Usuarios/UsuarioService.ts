@@ -8,6 +8,7 @@ export const getUsuario = async (id: String) => {
 }
 
 export const createUsuario = async (usuarioData: {}) => {
+    
     return await axios.post('http://localhost:4000/usuarios/', usuarioData)
 }
 

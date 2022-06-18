@@ -22,9 +22,6 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
-//TIPO DE LETRA
-import TipoLetra from './TipoLetra';
-
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))({
@@ -144,9 +141,6 @@ const Brillo = () => {
                             <Slider disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} aria-label="Volume" value={value} max={99} onChange={handleChange} />
                         </Stack>
                     </Box>
-                </Grid>
-                <Grid item xs={4} >
-                    <TipoLetra tipoColor1={tipoColor1}/>
                 </Grid>
             </Grid>
         </div>
