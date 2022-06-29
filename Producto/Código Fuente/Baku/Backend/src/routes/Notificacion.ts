@@ -1,6 +1,9 @@
 import {Schema,model,Document} from 'mongoose'
 
 const notificacionSchema = new Schema({
+    auth0usuario:{
+        type: String
+    },
     titulo:{
         type: String,
         required:true
@@ -29,6 +32,7 @@ const notificacionSchema = new Schema({
 })
 
 interface INotificacion extends Document {
+    auth0usuario: string;
     titulo: string;
     descripcion: string;
     tipo: string;

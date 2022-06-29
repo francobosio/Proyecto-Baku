@@ -84,6 +84,7 @@ export default function Inicio() {
     }
     useEffect(() => {
         loadLibros()
+        
         window.scrollTo(0, 0)
     }, [])
 
@@ -103,7 +104,6 @@ export default function Inicio() {
                 'usuario': user.nickname,
                 'correo_electronico': user.email
             }
-            console.log(usuarioData);
             const res = await usuarioService.createUsuario(usuarioData)
             usuario = res.data.usuario
             console.log('usuario creado: ', usuario)

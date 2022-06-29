@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose'
+import { Schema, model, Document } from 'mongoose';
 
 const usuarioSchema = new Schema({
     auth0_id: {
@@ -26,7 +26,18 @@ const usuarioSchema = new Schema({
     libros_publicados: [],
     libros_leidos: [],
     suscriptores:[],
-    mensajes: [],
+    mensajes: [
+        {
+            _id:String,
+            id_libro:String,
+            titulo: String,
+            descripcion: String,
+            tipo: String,
+            esNoleido: Boolean,
+            createdAt: Date,
+            updatedAt: Date
+        }
+    ],
     estado: {
         type: String,
         required: true,
