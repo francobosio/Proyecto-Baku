@@ -3,6 +3,7 @@ import { makeStyles, Grid, Button, InputLabel } from "@material-ui/core";
 import { MiDrawer } from "../Drawer/Drawer";
 import AppBar from '../AppBar/AppBar.js';
 import Footy from "../Footy/Footy";
+import { Link } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,16 +65,19 @@ const useStyles = makeStyles((theme) => ({
 
 const modelosSuscripcion = [
     {
+        id: 1,
         nombre: "Suscripcion Clásica",
         descripcion: "Descripcion",
         precio: "499 ARS"
     },
     {
+        id: 2,
         nombre: "Suscripcion Prémium",
         descripcion: "Esta suscripcion esta muy buena porque",
         precio: "699 ARS"
     },
-    {
+    {   
+        id: 3,
         nombre: "Suscripcion Familiar",
         descripcion: "Descripcion",
         precio: "499 ARS"
@@ -83,17 +87,6 @@ const modelosSuscripcion = [
 export default function HomeSuscripcion() {
     const classes = useStyles();
 
-    const HandleSuscription = () => {
-        console.log(process.env.REACT_APP_MPAGO_TEST_PUBLIC_KEY)
-        const mp = new window.MercadoPago(process.env.REACT_APP_MPAGO_TEST_PUBLIC_KEY, { locale: 'es-AR' });
-        const checkout = mp.checkout({
-            preference: {
-                id: process.env.REACT_APP_MPAGO_TEST_PREFERENCE_ID
-            }
-        });
-        checkout.open();
-    }
-
     return (
         <div className={classes.root}>
             <MiDrawer />
@@ -102,7 +95,7 @@ export default function HomeSuscripcion() {
                 <Grid className={classes.contenedor} container spacing={3}>
                     {modelosSuscripcion.map((modelo) => {
                         return (
-                            <Grid clasName={classes.celda} item xs={4}>
+                            <Grid className={classes.celda} item xs={4}>
                                 <div className={classes.suscriptionBox}>
                                     <InputLabel className={classes.titulo}>{modelo.nombre}</InputLabel>
                                     <InputLabel className={classes.descripcion}>{modelo.descripcion}</InputLabel>
@@ -114,8 +107,8 @@ export default function HomeSuscripcion() {
                                             <InputLabel className={classes.precio}>{modelo.precio}</InputLabel>
                                         </Grid>
                                     </Grid>
-                                    <Button className={classes.boton} onClick={HandleSuscription}>
-                                        Suscribirme
+                                    <Button className={classes.boton}>
+                                        <Link href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848191d6450181a7589c3c08de">Suscribirme</Link>
                                     </Button>
                                 </div>
                             </Grid>)

@@ -45,11 +45,12 @@ export default function Layout() {
                             <Route exact path="/Buscar/:busqueda" component={isLoading ? Loading : isAuthenticated ? Buscar : Home} />
                             <Route exact path="/Biblioteca" component={isLoading ? Loading : isAuthenticated ? Biblioteca : Home} />
                             <Route exact path="/Perfil" component={isLoading ? Loading : isAuthenticated ? Perfil : Home} />
+                            <Route exact path="/Suscripcion" component={isLoading ? Loading : isAuthenticated ? HomeSuscripcion : Home } />
                             <Route exact path="/Estadistica" component={isLoading ? Loading : isAuthenticated ? Estadistica : Home} />
                             <Route exact path="/Revision" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Revision : Home : Home} />
                             <Route exact path="/Revision/:id" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Resultado : Home : Home} />
                             <Route exact path="/Parametros" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Parametros : Home : Home} />
-                            <Route exact path="/Suscripcion" component={isLoading ? Loading : isAuthenticated ?  HomeSuscripcion : Home } />
+                            
                             <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                         </Switch>
                     </div>
