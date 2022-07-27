@@ -255,3 +255,45 @@ export const buscarNombreSuscripcion: RequestHandler = async (req, res) => {
         });
     }
 }
+
+//https://dev.to/krishnabose02/mongodb-lookup-on-an-array-of-objects-which-contains-foreign-objectid-as-a-key-37b9
+//https://itecnote.com/tecnote/mongodb-how-to-convert-objectid-to-string-in-lookup-aggregation/  ($addFields:)
+export const getLibrosLeidosPorUsuario: RequestHandler = async (req, res) => {
+    //usar $lookup para unir a usuario y tipoUsuario para obtener el tipo de usuario de cada usuario excluir los campos libros_leidos y libros_publicados
+    const usuarios = await Usuario.aggregate([
+        {
+            $unwind: {
+                path: '$libros_leidos'
+            }
+            
+        },
+        { $addFields: { "idLibro": { "$toObjectId": "$libros_leidos.id_libro" }}},
+        {
+            $lookup: {
+                from: 'libros',
+                localField: 'idLibro',
+                foreignField: '_id',
+                as: 'libros_leidos.id_libro'
+            }
+        },
+        {
+            $unwind: {
+                path: '$libros_leidos.id_libro'
+            }
+        },
+        {
+            $group: {
+                _id: '$_id',
+                libros_leidos: {
+                    $push: '$libros_leidos'
+                }
+            }
+        },
+    ]);
+    return res.json(usuarios);
+}
+
+export const getLeidosPorUsuario: RequestHandler = async (req, res) => {
+    const usuarios = await Usuario.find();
+    return res.json(usuarios);
+}

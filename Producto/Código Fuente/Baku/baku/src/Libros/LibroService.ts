@@ -43,4 +43,10 @@ export const buscarLibros = async (id: string) => {
     return await axios.get(`http://localhost:4000/autor/libros/${id}`)
 }
 
+export const obtenerLibros = async () => {
+    return await axios.get("http://localhost:4000/libros")
+}
 
+export const obtenerLibrosFecha = async (mes: Number, anho: Number) => {
+    return await axios.get(`http://localhost:4000/librosFecha/${mes}/${anho}`)
+}

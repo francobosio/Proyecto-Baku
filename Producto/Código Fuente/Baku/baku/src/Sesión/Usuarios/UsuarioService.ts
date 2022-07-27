@@ -51,3 +51,12 @@ export const modificarUsuario = async (usuarioData: {}) => {
 export const eliminarUsuario = async (id: string, flagData: boolean, _callback: any) => {
     return await axios.delete('http://localhost:4000/usuarios/' + id + '/' + flagData).then(() => {_callback()})
 }
+
+export const getLibrosLeidosPorUsuario = async () => {
+    return await axios.get('http://localhost:4000/usuarios_librosLeidos')
+}
+
+export const getLeidosPorUsuario = async () => {
+    return await axios.get('http://localhost:4000/usuarios_todosLibrosLeidos')
+}
+

@@ -27,4 +27,8 @@ router.put('/usuarios/modificarUsuario', usuarioCtrl.putUsuario)
 
 router.delete('/usuarios/:userId/:flagData', usuarioCtrl.deleteUsuario)
 
+router.get('/usuarios_librosLeidos', usuarioCtrl.getLibrosLeidosPorUsuario)
+
+router.get('/usuarios_todosLibrosLeidos', usuarioCtrl.getLeidosPorUsuario)
+
 export default router;
