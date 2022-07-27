@@ -176,7 +176,6 @@ function NotificationItem({ notification, id }) {
 }
 
 export default function NotificationsPopover(propNotificacion) {
-  console.log(propNotificacion.notificacion);
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(propNotificacion.notificacion);

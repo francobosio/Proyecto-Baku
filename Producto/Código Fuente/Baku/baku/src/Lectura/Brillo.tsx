@@ -22,6 +22,9 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
+//TIPO DE LETRA
+import TipoLetra from './TipoLetra';
+
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))({
@@ -130,7 +133,12 @@ const Brillo = () => {
                             <Typography>
                                 Brillo
                             </Typography>
-                            <CustomTooltip title='Brillo se deshabilitará cuando Tipo de Color sea "Ninguno"'>
+                            <CustomTooltip title={
+                                <React.Fragment>
+                                    <b>{'Brillo se deshabilitará cuando Tipo de Color sea "Ninguno"'}</b>
+                                    <p><b>{'Las palabras resaltadas se deshabilitarán cuando Tipo de Color sea distinto de "Ninguno"'}</b></p>
+                                </React.Fragment>
+                            }>
                                 <ErrorIcon fontSize='small' color="disabled"/>
                             </CustomTooltip>
                         </Stack>
@@ -141,6 +149,9 @@ const Brillo = () => {
                             <Slider disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} aria-label="Volume" value={value} max={99} onChange={handleChange} />
                         </Stack>
                     </Box>
+                </Grid>
+                <Grid item xs={4} >
+                    <TipoLetra tipoColor1={tipoColor1}/>
                 </Grid>
             </Grid>
         </div>
