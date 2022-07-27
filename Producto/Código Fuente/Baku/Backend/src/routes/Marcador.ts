@@ -5,17 +5,21 @@ const marcadorSchema = new Schema({
         type: String,
         required: true,
     },
-    libro: {
+    id_libro: {
         type: String,
         required: true,
     },
-   HighlightArea: {
-        height: String,
-        left: String,
-        pageIndex: String,
-        top: String,
-        width: String
-    },
+    highlightAreas: 
+    [   
+        {
+       height: Number,
+       left: Number,
+       pageIndex: Number,
+       top: Number,
+       width: Number,
+       _id : false
+        }
+    ],
     content: {
         type: String,
         required: true,
@@ -51,8 +55,8 @@ const marcadorSchema = new Schema({
 
 interface IMarcador extends Document {
     usuario: string;
-    libro: string;
-    HighlightArea: any;
+    id: string;
+    highlightAreas:any [];
     content: string;
     quote: string;
     startPageIndex: string;
