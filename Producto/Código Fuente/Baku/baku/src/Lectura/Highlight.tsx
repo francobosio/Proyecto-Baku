@@ -116,13 +116,26 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
 
                 //Manda 5 elementos: el contenido de la nota, la lista de highlight areas, el texto seleccionado "quote",
                 //el id del usuario, y el id del libro """type QuizParams = { id: string;}"" linea 98
-                lecturaService.guardarNota(note.content, note.highlightAreas, note.quote, usuario, id)
-                //Agrega la nota al Array "notes"
-                setNotes(notes.concat([note])); //despues ver si no se pisa con lo que traemos del BACK
-                activateTab(3);
-
-                //Una vez agregada la nota, cierra el formulario:
-                props.cancel();
+                //lecturaService.guardarNota(note.content, note.highlightAreas, note.quote, usuario, id).then(val => note._id = val.data.marcador._id)
+                
+                const guardarNotaIdMongo = async () => {
+                    //Coloco el await para esperar a que se termine de ejecutar el save del marcador.controller, así me envía los datos del nuevo marcador
+                    const res = await lecturaService.guardarNota(note.content, note.highlightAreas, note.quote, usuario, id)
+                    //Cambio el ID de la nota por el id que se crea en mongo
+                    note._id = res.data.marcador._id
+                    console.log(note)
+                    //Agrega la nota al Array "notes"
+                    setNotes(notes.concat([note]));
+                    console.log(notes)
+                    //Abre la pestaña de las notas
+                    activateTab(3);
+                    // //Una vez agregada la nota, cierra el form:
+                    props.cancel();
+                }
+                guardarNotaIdMongo()
+                // setNotes(notes.concat([note])); //despues ver si no se pisa con lo que traemos del BACK
+                // activateTab(3);
+                // props.cancel();
             }
         };
 
@@ -182,7 +195,8 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
     // Listing all highlights on page is simple as following:
     const renderHighlights = (props: RenderHighlightsProps) => (
         <div>
-            {console.log('288 - notas:'+ notes)} 
+            {console.log('185 - notas:')}
+            {console.log(notes)} 
             {/*Usa cada una de las notas en el Array "notes"*/}
             {notes.map((note) => (
                     <React.Fragment key={note._id}>
