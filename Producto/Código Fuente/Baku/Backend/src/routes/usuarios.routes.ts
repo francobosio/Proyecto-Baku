@@ -27,6 +27,10 @@ router.put('/usuarios/modificarUsuario', usuarioCtrl.putUsuario)
 
 router.delete('/usuarios/:userId/:flagData', usuarioCtrl.deleteUsuario)
 
+router.get('/usuarios_librosLeidos', usuarioCtrl.getLibrosLeidosPorUsuario)
+
+router.get('/usuarios_todosLibrosLeidos', usuarioCtrl.getLeidosPorUsuario)
+
 //No se usa solo de control.
 router.put('/usuarios/bloquearUsuario', usuarioCtrl.bloquearUsuario)
 

@@ -17,7 +17,6 @@ import logo from '../Imagenes/Logo Blanco Sin Letras.png';
 import Avatar from '@material-ui/core/Avatar'
 import NotificationsPopover from './Notificacion.js';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts'
-import Notifications from './Notificacion.js';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -132,9 +131,9 @@ export default function PrimarySearchAppBar() {
 
   const buscarNotificaciones = async () => {
     //esperar 1 segundo para que se carguen las notificaciones
-    /* let usuarioAuth0 = localStorage.getItem('usuario_activo'); */
+     let usuarioAuth0 = localStorage.getItem('usuario_activo');
    
-    const notificaciones = await NotificacionServices.buscarNotificacionUsuarioAuth0("google-oauth2|100909772997701456515");
+    const notificaciones = await NotificacionServices.buscarNotificacionUsuarioAuth0(usuarioAuth0);
     const respuesta = notificaciones.data.mensajes;
     setValor(respuesta)
     return respuesta;
@@ -226,7 +225,7 @@ export default function PrimarySearchAppBar() {
             <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
           </div>
           <div className={classes.sectionDesktop}>
-            {valor ? <Notifications notificacion={valor}  /> : null }
+            {valor ? <NotificationsPopover notificacion={valor}  /> : null }
           </div>
           <div className={classes.sectionDesktop}>
             <IconButton

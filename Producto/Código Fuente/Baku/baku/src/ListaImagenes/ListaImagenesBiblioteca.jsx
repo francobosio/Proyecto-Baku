@@ -78,16 +78,12 @@ export default function TitlebarImageList() {
         if (!librosLeidos.length > 0 && !librosPublicados.length > 0) {
             const resUsuario = await usuarioService.getUsuario(auth0id)
             let aux = resUsuario.data.libros_leidos
-            console.log(aux)
             setLibrosLeidos(aux)
             aux = resUsuario.data.libros_publicados
             setLibrosPublicados(aux)
-            console.log(librosLeidos)
-            console.log(librosPublicados);
         }
         const res = await libroService.getLibros();
         setlibros(res.data);
-        console.log(libros)
     }
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -102,7 +98,6 @@ export default function TitlebarImageList() {
             'finLectura': false,
         }
         const res = await usuarioService.usuarioLibroLeido(libroData);
-        console.log(res);
     }
 
     return (

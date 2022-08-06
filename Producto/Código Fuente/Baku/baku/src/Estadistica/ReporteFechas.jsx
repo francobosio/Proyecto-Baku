@@ -1,0 +1,197 @@
+import React, { useEffect, useState, Component } from "react";
+import ReactApexChart from "react-apexcharts";
+import * as libroService from '../Libros/LibroService'
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@mui/material/TextField';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import esLocale from 'date-fns/locale/es';
+
+const useStyles = makeStyles((theme) => ({
+    title3: {
+        paddingTop: '30px',
+        margin: '0',
+        fontSize: '30px',
+        color: '#333',
+    },
+    title2: {
+        paddingTop: '5px',
+        margin: '0',
+        fontSize: '30px',
+        color: '#333',
+    }
+}));
+
+const localeMap = {
+    es: esLocale
+  }
+
+const ReporteFechas = () => {
+
+        const classes = useStyles();
+        const [locale] = React.useState("es");
+        const [value, setValue] = React.useState(new Date());
+        const [libros, setlibros] = useState([])
+        const [ejecuto, setEjecuto] = useState(false)
+
+        const loadLibros = async () => {
+            console.log("LoadLibros")
+            const res = await libroService.obtenerLibrosFecha(value.getMonth() + 1, value.getFullYear())
+            console.log("ARRAY FECHAS")
+            console.log(res.data)
+            setlibros(res.data)
+            setEjecuto(true)
+        }
+
+        //El codigo del useEffect se renderiza despues de que se haya montado el componente
+        useEffect(() => {
+            loadLibros()
+            //window.scrollTo(0, 0)
+        }, [value])
+
+        const obtenerTodosDiasDelMes = (mes, anho) =>
+            Array.from(
+                { length: new Date(anho, mes, 0).getDate() },
+                (_, i) => new Date(anho, mes - 1, i + 1)
+        );
+        var todosDiasMes = obtenerTodosDiasDelMes(value.getMonth()  + 1 , value.getFullYear())
+        var arrayContador = Array.apply(null, Array(todosDiasMes.length)).map(Number.prototype.valueOf,0);
+        console.log("arrayContadorConCeros") 
+        console.log(arrayContador)
+        var isVisible = false
+        if(ejecuto){
+            isVisible = true
+        }
+
+        //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
+        if(libros.length != 0){
+
+            libros.forEach(libro => {
+                console.log("Dia")
+                var date = new Date(libro.createdAt).getUTCDate();
+                arrayContador[date-1] += 1
+            })
+            console.log("arrayContadorLleno") 
+            console.log(arrayContador)
+        }
+            
+            
+        let dias = Array.from({length: todosDiasMes.length}, (_, i) => i + 1);
+        //TEST
+        let miarray = Array.from({length: todosDiasMes.length}, () => Math.floor(Math.random() * 10));
+
+
+        //APEXCHART
+
+        var seriesLibros = [
+            {
+                name: 'Cantidad de Libros Pudblicados',
+                data: arrayContador
+            }
+        ];
+        
+        //OPCIONES DEL GRÁFICO
+
+        const colors = ["#FFC300","#FF5733","#C70039","#900C3F","#581845","#3D3D6B","#2A7B9B","#00BAAD","#57C785","#ADD45C","#ADD45C"]
+    
+        var options= {
+            chart: {
+                type: 'line',
+                stacked: true,
+                dropShadow: {
+                    enabled: true,
+                    color: '#000',
+                    top: 18,
+                    left: 7,
+                    blur: 10,
+                    opacity: 0.2
+                },
+                toolbar: {
+                    show: false
+                }
+            },
+            colors: ['#77B6EA'],
+            dataLabels: {
+                enabled: true,
+                style: {
+                    fontSize: '12px',
+                    colors: ["#304758"]
+                }
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                    colors: ['#fff', '#f2f2f2'], // takes an array which will be repeated on columns
+                    opacity: 0.3
+                },
+            },
+            markers: {
+                size: 1
+            },
+            xaxis: {
+                title: {
+                    text: 'DIAS',
+                    offsetY: -20,
+                },
+                labels: {
+                    show: true,
+                    minHeight: 100,
+                    maxHeight: 130,
+                    style: {
+                        fontSize: '14px',
+                    }
+                },
+                
+                categories: dias,
+                tickPlacement: 'on'
+            },
+            yaxis: {
+                title: {
+                    text: 'CANTIDAD DE LIBROS PUBLICADOS',
+                },
+                labels: {
+                    show: true,
+                },
+            },
+        }
+        
+        
+
+        return (
+            <div id="Fechas" style={{ 
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center"
+            }}>
+                <LocalizationProvider dateAdapter={AdapterDateFns} utils={DateFnsUtils} locale={localeMap[locale]}>
+                    <DatePicker
+                        views={['year', 'month']}
+                        label="Mes y Año"
+                        minDate={new Date('2022-01-02')}
+                        maxDate={new Date()}
+                        disableFuture={true}
+                        value={value}
+                        onChange={(newValue) => {
+                            setValue(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} helperText={null} />}
+                    />
+                </LocalizationProvider>
+                {isVisible && (
+                    <div >
+                        <ReactApexChart options={options} series={seriesLibros} height={450} width={600}/>
+                    </div>
+                )}
+            </div>
+        );
+}
+export default ReporteFechas;

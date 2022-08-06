@@ -259,3 +259,35 @@ export const getLibrosAutor: RequestHandler = async (req, res) => {
     const libros = await Libro.find({ _id: { $in:librosId}});
     res.json(libros);
 }
+
+//Obtener Libros- Michael
+export const obtenerLibros: RequestHandler = async (req, res) => {
+    const libros = await Libro.find()
+    if (!libros) return res.status(204).json("No existen libros");
+    res.json(libros);
+}
+
+//Obtener Libros con Fecha Determinada- Michael
+export const obtenerLibrosFecha: RequestHandler = async (req, res) => {
+
+    //FECHA DESDE
+    const from_date = new Date(`${req.params.mes}/01/${req.params.anho}`) //MM/DD/AAAA
+    from_date.setUTCHours(0,0,0,0) //Establecemos desde las 00 hs
+
+
+    //FECHA HASTA
+    // SI (el mes es diciembre) ENTONCES el mes siguiente es Enero SINO el mes siguiente es "mes actual + 1"
+                                                    // SI (el mes es diciembre) ENTONCES el año del mes siguiente "Enero" es "año actual + 1" SINO el año del mes siguiente es "año actual"
+    const to_date = new Date(`${parseInt(req.params.mes) == 12 ? "01" : parseInt(req.params.mes)+1}/01/${parseInt(req.params.mes) == 12 ? parseInt(req.params.anho) + 1 : req.params.anho}`)
+    to_date.setUTCHours(0,0,0,0)
+
+    try {
+        //toISOString() transforma al formato Date de MongoBD
+        const librosFecha = await Libro.find({createdAt:{$gte: from_date.toISOString(), $lt: to_date.toISOString()}})
+        //res.json([librosFecha, from_date.toISOString(), to_date.toISOString()]) PARA VER COMO TOMA LAS FECHAS
+        res.json(librosFecha)
+    } catch (error) {
+        res.json({ message: error })
+    }
+    
+}

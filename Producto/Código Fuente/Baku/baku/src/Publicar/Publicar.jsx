@@ -340,10 +340,10 @@ export default function MiniDrawer() {
                 'avatar': localStorage.getItem("avatar"),
                 'tipo': "subidaLibro",
                 'esNoleido': true,
-                'id_libro': res.data.libro._id
+                'id_libro': res.data.libro._id,
             }
             await usuarioService.usuarioLibroCargado(idData);
-            console.log(nuevaNotificacion)
+            console.log("CREO LA NOTI:"+nuevaNotificacion)
              await notificacionService.createNotificacion(nuevaNotificacion);
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
@@ -352,8 +352,8 @@ export default function MiniDrawer() {
 
     /* Método para resetear todos los campos del formulario. Se ejecuta al cargar un nuevo libro */
     const resetForm = () => {
-        setAceptaTerminos(null);
-        setAptoTodoPublicos(null);
+        setAceptaTerminos(false);
+        setAptoTodoPublicos(false);
         setLibro({});
         setPdf("");
         setImage({ preview: "", raw: "" });

@@ -4,12 +4,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import Notifications from './Notificacion.js';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
@@ -19,7 +17,6 @@ import Avatar from '@material-ui/core/Avatar'
 import { useHistory } from "react-router-dom";
 import { Box } from '@mui/material';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts'
-import NotificationsPopover from './Notificacion.js';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -110,21 +107,21 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [valor, setValor] = React.useState('');
+  const [valor, setValor] = React.useState("");
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let history = useHistory();
   
   const buscarNotificaciones = async () => {
     //esperar 1 segundo para que se carguen las notificaciones
-    /* let usuarioAuth0 = localStorage.getItem('usuario_activo'); */
-    const notificaciones = await NotificacionServices.buscarNotificacionUsuarioAuth0("google-oauth2|100909772997701456515");
+    let usuarioAuth0 = localStorage.getItem('usuario_activo');
+    const notificaciones = await NotificacionServices.buscarNotificacionUsuarioAuth0(usuarioAuth0);
     const respuesta = notificaciones.data.mensajes;
+
     //ordenar el array de notificaciones por fecha de creacion
     respuesta.sort(function (a, b) {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
-    console.log(respuesta);
     setValor(respuesta)
     return respuesta;
   };
@@ -216,7 +213,6 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
-                  console.log('diste enter');
                  const  valor=e.target.value;
                   //redirecionar al componente buscar con parametros
                  history.push(`/Buscar/${valor}`);

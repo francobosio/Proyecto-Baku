@@ -84,6 +84,7 @@ export default function Inicio() {
     }
     useEffect(() => {
         loadLibros()
+        
         window.scrollTo(0, 0)
     }, [])
 

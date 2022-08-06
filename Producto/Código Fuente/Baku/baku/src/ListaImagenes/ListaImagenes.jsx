@@ -217,14 +217,11 @@ export default function TitlebarImageList() {
 
     const handleChange = (e) => {
         setError('');
-        console.log(e.target.value);
         busquedaVariable = e.target.value;
         setBuscador(e.target.value);
-        console.log(busquedaVariable)
         clearTimeout(setTimeOutId) //para que no se ejecute el setTimeOutId
         setTimeOutId = setTimeout(() => {
             if (busquedaVariable.length > 0) {
-                console.log('Se esta buscando');
                 handleSubmit(busquedaVariable);
             }
         }, 1000);
@@ -261,7 +258,6 @@ export default function TitlebarImageList() {
             'finLectura': false,
         }
         const res = await usuarioService.usuarioLibroLeido(libroData);
-        console.log(res);
     }
 
     const BotonReset= () => {
