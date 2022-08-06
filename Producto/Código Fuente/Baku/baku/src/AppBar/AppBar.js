@@ -18,9 +18,6 @@ import { useHistory } from "react-router-dom";
 import { Box } from '@mui/material';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts'
 
-//BORRAR
-import { faker } from '@faker-js/faker';
-import { set, sub, formatDistanceToNow } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   grow: {

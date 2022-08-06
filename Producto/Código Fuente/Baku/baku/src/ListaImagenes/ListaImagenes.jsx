@@ -6,17 +6,19 @@ import ImageListItem from '@material-ui/core/ImageListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { Container, Grid } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
+import ReplyTwoToneIcon from '@mui/icons-material/ReplyTwoTone';
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
 import { Link, useParams } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
+import { useHistory } from "react-router-dom";
 
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
+import { ButtonBase, CardActionArea } from '@mui/material';
 //Imagenes
 import arte from "./Categorias/categoria_arte.png";
 import ciencia_ficcion from "./Categorias/categoria_ciencia_ficcion.png";
@@ -118,12 +120,24 @@ const useStyles = makeStyles((theme) => ({
         'justify-content': 'space-between',
         'flex-wrap': 'wrap'
     },
-    icono: {
-        width: "1.5em",
-        height: "1.5em",
-        color: "white",
+    contenedor2: {
+        display: 'flex',
+        height: "2%",
+        width: "80%",
+        'flex-direction': 'row',
+        'align-items': 'center',
+        'justify-content': 'space-between',
+        'flex-wrap': 'wrap'
     },
+    icono: {
+        width: "4em",
+        height: "3em",
+        color: "white",
+        //a la izquierda
+    },
+    
 }));
+
 
 
 const categorias = [
@@ -185,7 +199,7 @@ export default function TitlebarImageList() {
     const [libroBuscado, setLibroBuscado] = useState(0)
     const classes = useStyles();
     const { busqueda } = useParams();
-
+    let history = useHistory();
     const handleSubmit = async (e) => {
         setEstado(true);
         if (!buscador) {
@@ -220,6 +234,7 @@ export default function TitlebarImageList() {
         console.log(res);
     }
     const cargaIncial = async () => {
+        setLibroBuscado(0);
         if (busqueda) {
             setEstado(true);
             const res = await libroService.buscarLibro(busqueda);
@@ -245,9 +260,19 @@ export default function TitlebarImageList() {
         const res = await usuarioService.usuarioLibroLeido(libroData);
     }
 
+    const BotonReset= () => {
+        setEstado(false);
+        setLibroBuscado(0);
+    }
 
     return (
         <div className={classes.root}>
+                <Container className={classes.contenedor2}>
+                    {/* alto y ancho mas grandes */}
+                    <IconButton size={'small'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}>
+                         <ReplyTwoToneIcon sx={{height:"auto", width:"3em", color:"white"}}/>
+                    </IconButton>
+                 </Container>
             <Grid className={classes.grid}>
                 <Divider className={classes.divider} />
                 <div className={classes.search}>

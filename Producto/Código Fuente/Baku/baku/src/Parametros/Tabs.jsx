@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ListaLibrosRevisar from '../Revision/ListaLibrosRevisar.jsx';
 import Permisos from './Permisos.jsx'
+import Denuncias from './Denuncias.jsx';
 const useStyles = makeStyles((theme) => ({
   //la ventada ocupe todo el ancho de la pantalla
     root: {
@@ -62,7 +63,7 @@ export default function BasicTabs() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Permisos" {...a11yProps(0)} />
-          <Tab label="Generos" {...a11yProps(1)} />
+          <Tab label="Denuncias" {...a11yProps(1)} />
           <Tab label="Item Three" {...a11yProps(2)} />
         </Tabs>
       </Box>
@@ -70,7 +71,7 @@ export default function BasicTabs() {
         <Permisos/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <Denuncias/>
       </TabPanel>
       <TabPanel value={value} index={2}>
       <ListaLibrosRevisar/>
