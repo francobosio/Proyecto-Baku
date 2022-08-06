@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';

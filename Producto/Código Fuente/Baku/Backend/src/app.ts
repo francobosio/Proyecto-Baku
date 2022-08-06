@@ -6,6 +6,7 @@ import libroRoutes from './routes/libros.routes'
 import usuarioRoutes from './routes/usuarios.routes'
 import tipoUsuarioRoutes from './routes/tipoUsuario.routes'
 import notificacionRoutes from './routes/notificacion.routes'
+import denunciaRoutes from './routes/denuncias.routes'
 import path from 'path'
 import responseTime from 'response-time'
 
@@ -26,6 +27,7 @@ app.use(libroRoutes)
 app.use(usuarioRoutes)
 app.use(tipoUsuarioRoutes)
 app.use(notificacionRoutes)
+app.use(denunciaRoutes)
 
 
 export default app;

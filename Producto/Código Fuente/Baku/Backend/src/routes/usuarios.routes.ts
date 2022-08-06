@@ -27,4 +27,7 @@ router.put('/usuarios/modificarUsuario', usuarioCtrl.putUsuario)
 
 router.delete('/usuarios/:userId/:flagData', usuarioCtrl.deleteUsuario)
 
+//No se usa solo de control.
+router.put('/usuarios/bloquearUsuario', usuarioCtrl.bloquearUsuario)
+
 export default router;

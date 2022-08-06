@@ -1,4 +1,3 @@
-import { Console } from "console";
 import { RequestHandler } from "express";
 import Notificacion from "./Notificacion";
 import Usuario from "./Usuario";
@@ -13,7 +12,6 @@ export const createNotificacion: RequestHandler = async (req, res) => {
     //acceder al vector suscriptores del author y mandarle la notificacion
     if (author) {
         author.suscriptores.forEach(async suscriptor => {
-            console.log(suscriptor);
             //buscar y agregarle la notificacion en el vector de notificaciones
             await Usuario.findOneAndUpdate({ auth0_id: suscriptor.auth0_id }, { $push: { mensajes: notificacion } }).exec();
         })

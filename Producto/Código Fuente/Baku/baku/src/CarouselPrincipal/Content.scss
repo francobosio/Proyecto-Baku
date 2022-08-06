@@ -97,6 +97,18 @@
     right: 3.4em;
   }
 
+  &__denuncia{
+    color: rgb(255, 255, 255);
+    width: 4em;
+    height: 4em;
+    background: transparent;
+    outline: none;
+    border: none;
+    position: absolute;
+    top: 13em;
+    right: 3em;
+  }
+
   &__read{
     color: rgb(255, 255, 255);
     width: 4em;
@@ -117,7 +129,7 @@
 
 //efecto de temblor SCSS cuando es visible
 
-.content__read-button{
+.content__read{
   animation: shake-baidu 2s ease 0s infinite;
     animation-play-state: running;
     @keyframes shake-baidu {
@@ -139,7 +151,9 @@
   transform: scale(1.5);
   cursor: pointer;
 }
-
+.content_denuncia:hover{
+  cursor: pointer;
+}
 .content__subtitle:hover{
   color:#24ecba;
   cursor: pointer;

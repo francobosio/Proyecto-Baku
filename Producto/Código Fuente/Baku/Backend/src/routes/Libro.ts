@@ -28,6 +28,7 @@ const libroSchema = new Schema({
     },
     autor:{
         type: String,
+        required:true
     },
     usuario:{
         type: String,

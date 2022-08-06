@@ -255,3 +255,18 @@ export const buscarNombreSuscripcion: RequestHandler = async (req, res) => {
         });
     }
 }
+
+export const bloquearUsuario: RequestHandler = async (req, res) => {
+    const { auth0_id } = req.body;
+    //buscar por el campo auth0_id y actualizar el campo bloqueado
+    const usuario = await Usuario.findOneAndUpdate({auth0_id: auth0_id}, {estado: "Suspendido"}, {new: true}).exec();
+    if (usuario != undefined) {
+        return res.json({
+            message: "Usuario bloqueado con éxito !!!"
+        });
+    }
+    return res.json({
+        message: "Usuario no encontrado"
+    });
+}
+
