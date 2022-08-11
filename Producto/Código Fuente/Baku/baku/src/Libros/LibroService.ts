@@ -30,6 +30,10 @@ export const getLibroRegistrado = async () => {
 export const getLibroRevisar = async (id: String) => {
     return await axios.get(`http://localhost:4000/libro/revision/${id}`)
 }
+
+export const getLibrosPublicado = async (id: String) => {
+    return await axios.get(`http://localhost:4000/librosPublicados`)
+}
 //los parametros id y estado se envian en el body del put 
 export const putCambiarEstado = async (id: String, estado: string) => {
     return await axios.put(`http://localhost:4000/libro/cambiarEstado`, { id, estado })

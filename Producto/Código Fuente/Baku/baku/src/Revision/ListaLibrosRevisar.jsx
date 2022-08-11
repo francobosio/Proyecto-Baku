@@ -121,7 +121,7 @@ export default function TitlebarImageList() {
 
                                 </ImageList>
                             ) : (
-                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'100vh'} />
+                                null
                             )
                         }
                     </Grid>

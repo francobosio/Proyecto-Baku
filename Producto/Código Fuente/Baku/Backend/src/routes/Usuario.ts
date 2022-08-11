@@ -25,6 +25,7 @@ const usuarioSchema = new Schema({
     },
     libros_publicados: [],
     libros_leidos: [],
+    libros_favoritos: [],
     suscriptores:[],
     mensajes: [
         {
@@ -60,6 +61,7 @@ interface IUsuario extends Document {
     fecha_nacimiento: Date;
     libros_publicados: any[];
     libros_leidos: any[];
+    libros_favoritos: any[];
     mensajes: any[];
     suscriptores: any[];
     estado: string;

@@ -97,11 +97,31 @@ export const getLibrosRegistrados: RequestHandler = async (req, res) => {
             return res.json(JSON.parse(reply))
         }
         else {
-
             const libros = await Libro.find({ estado: 'Registrado' })
-
             reply = await SET_ASYNC('libros', JSON.stringify(libros))
+            res.json(libros);
+        }
+    } catch (error) {
+        res.json({ message: error })
+    }
+}
 
+export const getLibrosPublicados: RequestHandler = async (req, res) => {
+    try {
+        //Para limpiar la cache
+        client.flushdb((err, succeeded) => {
+            if (err) {
+                console.log("error occured on redisClient.flushdb");
+            } else console.log("Cache eliminado con exito!!!");
+        });
+
+        let reply: any = await GET_ASYNC('libros')
+        if (reply) {
+            return res.json(JSON.parse(reply))
+        }
+        else {
+            const libros = await Libro.find({ estado: 'Publicado' })
+            reply = await SET_ASYNC('libros', JSON.stringify(libros))
             res.json(libros);
         }
     } catch (error) {

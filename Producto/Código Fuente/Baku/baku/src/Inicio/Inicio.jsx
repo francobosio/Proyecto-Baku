@@ -79,7 +79,7 @@ export default function Inicio() {
     const [libros, setlibros] = useState([])
     /* Carga todos los libros desde la base de datos y los guarda en la variable libros como un array */
     const loadLibros = async () => {
-        const res = await libroService.getLibros();
+        const res = await libroService.getLibrosPublicado();
         setlibros(res.data);
     }
     useEffect(() => {

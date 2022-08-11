@@ -19,6 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { ButtonBase, CardActionArea } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
 //Imagenes
 import arte from "./Categorias/categoria_arte.png";
 import ciencia_ficcion from "./Categorias/categoria_ciencia_ficcion.png";
@@ -110,7 +111,9 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     title: {
-        color: '#932121'
+        color: '#932121',
+        "margin-top": "1.4rem",
+        "padding-left": "0px",
     },
     contenedor: {
         display: 'flex',
@@ -122,11 +125,11 @@ const useStyles = makeStyles((theme) => ({
     },
     contenedor2: {
         display: 'flex',
-        height: "2%",
-        width: "80%",
+        height: "5rem",
+        width: "80rem",
         'flex-direction': 'row',
         'align-items': 'center',
-        'justify-content': 'space-between',
+        'justify-content': 'center',
         'flex-wrap': 'wrap'
     },
     icono: {
@@ -135,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
         //a la izquierda
     },
-    
+
 }));
 
 
@@ -260,21 +263,23 @@ export default function TitlebarImageList() {
         const res = await usuarioService.usuarioLibroLeido(libroData);
     }
 
-    const BotonReset= () => {
+    const BotonReset = () => {
         setEstado(false);
         setLibroBuscado(0);
     }
 
     return (
         <div className={classes.root}>
+
+            <Grid className={classes.grid}>
                 <Container className={classes.contenedor2}>
                     {/* alto y ancho mas grandes */}
-                    <IconButton size={'small'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}>
-                         <ReplyTwoToneIcon sx={{height:"auto", width:"3em", color:"white"}}/>
+                   {libroBuscado.length > 0 && <IconButton size={'small'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}>
+                        <RefreshIcon sx={{ height: "auto", width: "2em", color: "#076f55", }} />
                     </IconButton>
-                 </Container>
-            <Grid className={classes.grid}>
-                <Divider className={classes.divider} />
+                    }
+               <div style={{  width: "2em" }}>
+                </div>
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
                         <SearchIcon />
@@ -294,6 +299,7 @@ export default function TitlebarImageList() {
                         autoFocus
                     />
                 </div>
+                </Container>
                 <Typography variant="h5" className={classes.title}>
                     {error ? error : ''}
                 </Typography>

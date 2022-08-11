@@ -47,9 +47,9 @@ export default function ConfirmationDialogRaw(props) {
 
   const [cerrar, setCerrar] = React.useState(true)
   const [open2, setOpen2] = React.useState(open)
-  console.log("open: "+open)
+  /* console.log("open: "+open)
   console.log("open2:" + open2)
-  console.log("cerrar: "+cerrar)
+  console.log("cerrar: "+cerrar) */
   const inputDenuncia = React.useRef("")
   const [value, setValue] = React.useState(valueProp);
   const [cuadroTexto, setCuadroTexto] = React.useState("");

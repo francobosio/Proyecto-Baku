@@ -17,6 +17,11 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@mui/material/Avatar';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,13 +80,13 @@ const useStyles = makeStyles((theme) => ({
   CircularProgress: {
     'color': '#076F55',
     //cambiar el color del fondo del circulo
-    },
-    //elementos alineados por la mitad del contenedor 
-    contenedorLibro: {
-      'display': 'flex',
-      'justifyContent': 'center',
-      'alignItems': 'center',
-    },
+  },
+  //elementos alineados por la mitad del contenedor 
+  contenedorLibro: {
+    'display': 'flex',
+    'justifyContent': 'center',
+    'alignItems': 'center',
+  },
 
 }));
 
@@ -105,9 +110,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 
 }));
-function createData(id, palabra, ocurrencia) {
-  return { id, palabra, ocurrencia };
-}
 
 //creat new component 
 //create new component React to show "no results" if sinMalasPalabras is true 
@@ -130,6 +132,10 @@ export default function BasicTable() {
   const [libroRevisar, setlibroRevisar] = useState("")
   const [sinMalasPalabras, setSinMalasPalabras] = useState(false)
   const { id } = useParams();
+  const [textoDialog, settextoDiaglo] = useState("");
+  const [abrirDialog, setabrirDialog] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const loadLibros = async () => {
     const res = await libroService.getLibroRevisar(id);
@@ -137,7 +143,6 @@ export default function BasicTable() {
     setarrayPalbras(res.data.arrayDataMatchCountArray);
     setlibroRevisar(res.data.libroFound);
     setSinMalasPalabras(res.data.sinMalasPalabras)
-    console.log(res.data);
   }
 
   useEffect(() => {
@@ -155,20 +160,34 @@ export default function BasicTable() {
     const classes = useStyles();
     return (
       <Container >
-        <Stack spacing={40}  direction='row' className={classes.contenedorLibro} >
-        <Typography variant="h5" component="h2" className={classes.sinMalasPalabrasCss}>
-           {libroRevisar.titulo} 
-        </Typography>
-        <Avatar
-        alt="Portada"
-        variant="rounded"
-        src={libroRevisar.imagenPath}
-        sx={{ width: '10%', height: '20%' }}
-      />
+        <Stack spacing={40} direction='row' className={classes.contenedorLibro} >
+          <Typography variant="h5" component="h2" className={classes.sinMalasPalabrasCss}>
+            {libroRevisar.titulo}
+          </Typography>
+          <Avatar
+            alt="Portada"
+            variant="rounded"
+            src={libroRevisar.imagenPath}
+            sx={{ width: '10%', height: '20%' }}
+          />
         </Stack>
       </Container>
     )
   }
+
+  const handleCloseDialog = () => {
+    setabrirDialog(false);
+  };
+  const handleCloseDialogAceptarPublicar = () => {
+    libroService.putCambiarEstado(id, "Publicado");
+    history.push('/Revision');
+    setabrirDialog(false);
+  };
+  const handleCloseDialogAceptarRechazar = () => {
+    libroService.putCambiarEstado(id, "Rechazado");
+    history.push('/Revision');
+    setabrirDialog(false);
+  };
 
   return (
     <>
@@ -208,28 +227,52 @@ export default function BasicTable() {
                   :
                   <StyledTableRow>
                     <StyledTableCell align="center"><CircularProgress size={50} className={classes.CircularProgress} /></StyledTableCell>
-                    <StyledTableCell align="center"><CircularProgress size={50} className={classes.CircularProgress}/></StyledTableCell>
-                    <StyledTableCell align="center"><CircularProgress size={50} className={classes.CircularProgress}/></StyledTableCell>
+                    <StyledTableCell align="center"><CircularProgress size={50} className={classes.CircularProgress} /></StyledTableCell>
+                    <StyledTableCell align="center"><CircularProgress size={50} className={classes.CircularProgress} /></StyledTableCell>
                   </StyledTableRow>
                 }
-                </TableBody>
+              </TableBody>
             </Table>
           </TableContainer>
 
         }
         <Stack direction="row" spacing={6} justifyContent="flex-end" className={classes.stack}>
           <Button className={classes.boton} onClick={() => {
-            libroService.putCambiarEstado(id, "Rechazado");
-            history.push('/Revision');
+            setabrirDialog(true)
+            settextoDiaglo("¿Esta seguro que quiere Rechazar este libro?")
           }}>
             Rechazar</Button>
           <Button className={classes.boton} onClick={() => {
-            libroService.putCambiarEstado(id, "Publicado");
-            history.push('/Revision');
+            setabrirDialog(true)
+            settextoDiaglo("¿Esta seguro que quiere Aprobar este libro?")
           }}>
             Aprobar
           </Button>
         </Stack>
+        {/* CODIGO PARA EL DIALOG */}
+        {abrirDialog && <Dialog
+          fullScreen={fullScreen}
+          open={abrirDialog}
+          onClose={handleCloseDialog}
+          aria-labelledby="responsive-dialog-title"
+        >
+          <DialogTitle id="responsive-dialog-title">{textoDialog}</DialogTitle>
+          <DialogActions>
+            <Button autoFocus onClick={handleCloseDialog} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={() => {
+              if (textoDialog === "¿Esta seguro que quiere Aprobar este libro?") {
+                handleCloseDialogAceptarPublicar()
+              } else {
+                handleCloseDialogAceptarRechazar()
+              }
+            }} color="primary" autoFocus>
+              Aceptar
+            </Button>
+          </DialogActions>
+        </Dialog>
+        }
       </Container>
     </>
   )

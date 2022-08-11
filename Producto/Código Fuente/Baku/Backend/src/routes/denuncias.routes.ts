@@ -10,7 +10,7 @@ router.post('/denuncia/guardar', denunciaCtrl.guardarDenuncia);
 
 router.put('/denuncia/contadorxUsuario', denunciaCtrl.putContadorDenuncias);
 
-router.put('/denuncia/contadorxlibro', denunciaCtrl.putContadorDenunciasxLibro);
+router.put('/denuncia/contadorxlibro', denunciaCtrl.putContadorDenunciasxLibro );
 
 router.get('/denuncia/obtenerCompleto', denunciaCtrl.getDenunciasxLibroxUsuario);
 
