@@ -2,24 +2,13 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import ListaLibrosRevisar from '../Revision/ListaLibrosRevisar.jsx';
 import MisLibrosLeidos from './MisLibrosLeidos.jsx';
 import MisLibrosPublicados from './MisLibrosPublicados.jsx';
-const useStyles = makeStyles((theme) => ({
-  //la ventada ocupe todo el ancho de la pantalla
-    root: {
-        maxWidth: '500vh',
-        
-
-    },
-}));
-
+import MisFavoritos from './MisFavoritos.jsx';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  const classes = useStyles();
   return (
     <div
       role="tabpanel"
@@ -74,7 +63,7 @@ export default function BasicTabs() {
         <MisLibrosPublicados/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-      <ListaLibrosRevisar/>
+      <MisFavoritos/>
       </TabPanel>
     </Box>
   );

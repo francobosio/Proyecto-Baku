@@ -68,18 +68,15 @@ export default function TitlebarImageList() {
 
     const classes = useStyles();
     const [libros, setlibros] = useState([])
-    const [librosLeidos, setLibrosLeidos] = useState([])
-    const [librosPublicados, setLibrosPublicados] = useState([])
+    const [librosFavoritos, setlibrosFavoritos] = useState([])
 
     /* Carga los libros leidos y publicados del usuario y luego los guarda en 2 vectores para poder mostrarlos */
     const loadLibros = async () => {
         const auth0id = localStorage.getItem('usuario_activo');
-        if (!librosLeidos.length > 0 && !librosPublicados.length > 0) {
+        if (!librosFavoritos.length > 0 ) {
             const resUsuario = await usuarioService.getUsuario(auth0id)
-            let aux = resUsuario.data.libros_leidos
-            setLibrosLeidos(aux)
-            aux = resUsuario.data.libros_publicados
-            setLibrosPublicados(aux)
+            let aux = resUsuario.data.libros_favoritos
+            setlibrosFavoritos(aux)
         }
         const res = await libroService.getLibros();
         setlibros(res.data);
@@ -105,7 +102,7 @@ export default function TitlebarImageList() {
                     <Grid className={classes.fondo} item xs={12}>
                         {libros.length > 0 ? (
                             <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={20}>
-                                {libros.map((item) => ((((librosLeidos.findIndex(x => x.id_libro == item._id)) > -1) ? (
+                                {libros.map((item) => ((((librosFavoritos.findIndex(x => x.id_libro == item._id)) > -1) ? (
                                         <ImageListItem key={item._id} style={{ width: "16.8rem", height: "23.5rem" }} >
                                             <img src={item.imagenPath} alt={item.titulo} />
                                             <ImageListItemBar

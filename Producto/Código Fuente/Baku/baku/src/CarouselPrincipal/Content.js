@@ -2,11 +2,9 @@ import React from 'react';
 import IconCross from '../Icons/IconCross';
 import './Content.scss';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ReportGmailerrorredOutlinedIcon from '@mui/icons-material/ReportGmailerrorredOutlined';
 import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
-import IconButton from '@mui/material/IconButton';
 import Favorito from '../Favorito/Favorito';
 
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
@@ -23,11 +21,10 @@ const LibroLeido = async (libroId) => {
     'ultimaPaginaLeida': 0,
     'finLectura': false,
   }
-  const res = await usuarioService.usuarioLibroLeido(libroData);
+await usuarioService.usuarioLibroLeido(libroData);
 }
 
-const AutorSeleccionado = async (libroId) => {
-  const res = await libroService.buscarAutorLibro(libroId);
+const AutorSeleccionado = async (libroId) => {await libroService.buscarAutorLibro(libroId);
 }
 //al hacer click en el boton invocar al componente Denuncia y pasarle el id del libro
 
@@ -35,10 +32,6 @@ const AutorSeleccionado = async (libroId) => {
 export default function Content({ movie, onClose }) {
   let [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('Dione');
-  const [libroId, setLibroId] = React.useState(movie._id);
-  const handleClickListItem = () => {
-    setOpen(true);
-  };
 
   const handleClose = (newValue) => {
     setOpen(false);

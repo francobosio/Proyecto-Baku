@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
-import { Container, Button, ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Typography, Grid } from '@material-ui/core';
+import {  ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles,Grid } from '@material-ui/core';
 
 import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
@@ -68,17 +68,14 @@ export default function TitlebarImageList() {
 
     const classes = useStyles();
     const [libros, setlibros] = useState([])
-    const [librosLeidos, setLibrosLeidos] = useState([])
     const [librosPublicados, setLibrosPublicados] = useState([])
 
     /* Carga los libros leidos y publicados del usuario y luego los guarda en 2 vectores para poder mostrarlos */
     const loadLibros = async () => {
         const auth0id = localStorage.getItem('usuario_activo');
-        if (!librosLeidos.length > 0 && !librosPublicados.length > 0) {
+        if (!librosPublicados.length > 0) {
             const resUsuario = await usuarioService.getUsuario(auth0id)
-            let aux = resUsuario.data.libros_leidos
-            setLibrosLeidos(aux)
-            aux = resUsuario.data.libros_publicados
+            let aux = resUsuario.data.libros_publicados
             setLibrosPublicados(aux)
         }
         const res = await libroService.getLibros();
@@ -96,8 +93,9 @@ export default function TitlebarImageList() {
             'idLibro': libroId,
             'finLectura': false,
         }
-        const res = await usuarioService.usuarioLibroLeido(libroData);
+         await usuarioService.usuarioLibroLeido(libroData);
     }
+
 
     return (
         <div style={{ height: 'auto', width: '100%' }}>

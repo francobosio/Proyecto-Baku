@@ -1,10 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
@@ -15,8 +11,6 @@ import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import * as denunciaService from '../Denuncia/DenunciaService';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
-import { sub } from 'date-fns';
-import { Movie } from '@mui/icons-material';
 
 const options = [
   'Contenido sexual explicito',

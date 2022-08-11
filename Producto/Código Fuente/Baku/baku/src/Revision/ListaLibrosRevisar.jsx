@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import SpellcheckOutlinedIcon from '@mui/icons-material/SpellcheckOutlined';
-
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
 import { Container, ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Typography, Grid } from '@material-ui/core';
@@ -74,7 +73,7 @@ export default function TitlebarImageList() {
 
     const classes = useStyles();
     const [libros, setlibros] = useState([])
-    const [libroSeleccionado, setLibroSeleccionado] = useState(true)
+    const [libroSeleccionado] = useState(true)
 
     const loadLibros = async () => {
         const res = await libroService.getLibroRegistrado();
