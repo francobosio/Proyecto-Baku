@@ -57,15 +57,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 //crear un componente que se llame Ayuda para mostrar un parrafo 
 
-export default function Ayuda() {
-    //al abrir el componente el scroll se queda en la posicion 0
+export default function ParaEscritores() {
     window.scrollTo(0, 0);
-    
 
     return (
-        <MainCard title="Preguntas Frecuentes (FAQs)" /* sx={{height: '41.49em',}} */>
+        <MainCard title="Para escritores" /* sx={{height: '41.49em',}} */>
             <Grid container spacing={3}>
-
                 <Grid item xs={12} sm={12}>
                     <SubCard title="¿Qué historias se pueden publicar en Baku?">
                         <Grid container direction="column" spacing={1}>
@@ -93,81 +90,6 @@ export default function Ayuda() {
                             <Grid item>
                                 <MuiTypography variant="subtitle1" gutterBottom>
                                     Nuestro objetivo es crear una comunidad segura para todos en Baku, por lo que cada libro pasa por un proceso de revisión en donde si el libro no cumple con las pautas establecidas en los Términos y Condiciones, como infracción de derechos de autor o contenido inapropiado, el libro no será publicado.
-                                </MuiTypography>
-                            </Grid>
-                        </Grid>
-                    </SubCard>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                    <SubCard title="¿Qué es una infracción de derechos de autor?
-">
-                        <Grid container direction="column" spacing={1}>
-                            <Grid item>
-                                <MuiTypography variant="subtitle1" gutterBottom paragraph={true} >
-                                    {/* al final de la horacion realizar un salto de linea */}
-                                    • Publicar las obras protegidas por derechos de autor de otros sin su consentimiento legal. <br />
-                                    • Publicar en nombre de un autor y darles crédito. Esto sigue siendo una violación de los derechos de autor y se tratará de la misma manera. SIEMPRE se requiere el consentimiento del autor.<br />
-                                    • Las adaptaciones o alteraciones leves a una obra, como cambiar de nombre, copiar los eventos y escribirlos con sus propias palabras, cambiar los puntos de vista de los personajes, constituyen una violación de los derechos de autor.<br />
-                                    • Usando una imagen que no es tuya. Esto incluye hacer una portada con una imagen de la que no posee los derechos (a menos que sea de dominio público).
-                                </MuiTypography>
-                            </Grid>
-                        </Grid>
-                    </SubCard>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                    <SubCard title="¿Qué se considera como contenido inapropiado?">
-                        <Grid container direction="column" spacing={1}>
-                            <Grid item>
-                                <MuiTypography variant="subtitle1" gutterBottom>
-                                    Nuestro objetivo es crear una comunidad segura para todos en Baku. La siguiente no es una lista completa y tenemos derecho a eliminar cualquier contenido que consideremos inapropiado. Se eliminará cualquier contenido que pueda poner en riesgo a nuestra comunidad. Baku tiene derecho a cerrar cualquier cuenta o eliminar contenido sin previo aviso. Por lo tanto, te pedimos no publiques ningún contenido que:<br />
-                                    • Fomente o dé instrucciones sobre la autolesión<br />
-                                    • Tengan la intención de conmocionar o disgustar a nuestra comunidad<br />
-                                    • Contenga amenazas físicas de violencia o amenazas de muerte hacia ningún individuo o grupo de personas<br />
-                                    • Historias o individuos que glorifiquen, elogien o romanticen a grupos, figuras u organizaciones extremistas violentas de odio en la vida real con intenciones violentas u odiosas<br />
-                                    • Ataque a un usuario por motivos puramente personales<br />
-                                    • Revele cualquier información de identificación personal sobre otras personas<br />
-                                    • Promueve activamente la violencia o el odio. La promoción del odio por motivos de raza, etnia, religión, discapacidad, género, edad u orientación sexual, o contenido que tenga la intención de intimidar, amenazar o acosar a otros, está estrictamente prohibido<br />
-                                    • Tenga contenido pornográfico, fomente los mensajes privados sexuales, actos sexuales ilegales o glorificación de la violencia sexual.
-                                </MuiTypography>
-                            </Grid>
-                        </Grid>
-                    </SubCard>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                    <SubCard title="¿Cómo se califica el contenido en Baku?">
-                        <Grid container direction="column" spacing={1}>
-                            <Grid item>
-                                <MuiTypography variant="subtitle1" gutterBottom>
-                                    Cuando se publique en Baku, se dispondrá de la opción de elegir si es Apto para todo público o si no lo es. Para el primer caso, estará disponible para todo el público libremente, y para el segundo caso, se exigirá que los usuarios que posean acceso tengan una edad mayor a 18 años obligatoriamente.
-                                    Marcar un libro como tal no significa que pueda incluir contenido inapropiado. Los libros que incluyan contenido inapropiado se eliminarán independientemente de su clasificación.
-                                    Si cree que su libro se ajusta a nuestras pautas, pero puede incluir partes que no son apropiadas para lectores más jóvenes, NO califique su libro como Apto para todo público, para así evitar inconvenientes futuros que pueden derivar en eliminar tanto su contenido de la aplicación como su cuenta en Baku.
-                                </MuiTypography>
-                            </Grid>
-                        </Grid>
-                    </SubCard>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                    <SubCard title="¿Pierdo mis derechos como autor al publicar en Baku?">
-                        <Grid container direction="column" spacing={1}>
-                            <Grid item>
-                                <MuiTypography variant="subtitle1" gutterBottom>
-                                    No, tu contenido es tuyo. Eres propietario de todos los derechos sobre el contenido que publicas en los Servicios de Baku. Si el contenido no era tuyo en un principio, publicarlo en Baku no lo convierte en tal. No envíe contenido sobre el que no tenga los derechos de autor. <br />
-
-                                    Cuando publica contenido en Baku, necesitamos el permiso legal según Ley 11.723 de Propiedad Intelectual establecida en el Boletín Nacional de la República Argentina, para mostrar ese contenido a los usuarios de los Servicios de Baku. Es la protección que le da la ley al autor de una obra científica, literaria, artística o didáctica por su creación intelectual. Le permite exponerla o reproducirla por cualquier medio, traducirla, explotarla comercialmente o autorizar a otros a hacerlo. También le permite impedir que cualquier persona no autorizada ejerza estos derechos.<br />
-                                    Las obras publicadas en sitios de Internet también están protegidas, ya que una obra esté en internet no significa que su autor haya renunciado al derecho de explotar económicamente su obra.<br />
-                                    Se considera autor a la persona natural que aparece como tal en la obra. Como autor, eres responsable del contenido que publicas. Esto significa que se asumen todos los riesgos relacionados con su publicación y visualización, incluido cualquier reclamo relacionado con la propiedad intelectual u otros derechos legales.
-
-                                </MuiTypography>
-                            </Grid>
-                        </Grid>
-                    </SubCard>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                    <SubCard title="¿Hay contenido de dominio público en Baku?">
-                        <Grid container direction="column" spacing={1}>
-                            <Grid item>
-                                <MuiTypography variant="subtitle1" gutterBottom>
-                                    Sí, estos son los libros escritos y creados sin ningún tipo de licencia o escritos bajo licencias de dominio público, y que nunca han estado bajo derechos de autor, o libros en los que los derechos de autor han expirado, y que tenemos disponible en nuestra plataforma para ser accedidos libremente.
                                 </MuiTypography>
                             </Grid>
                         </Grid>

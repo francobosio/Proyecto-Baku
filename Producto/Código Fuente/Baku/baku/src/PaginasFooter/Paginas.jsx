@@ -5,6 +5,10 @@ import Footy from '../Footy/Footy.jsx';
 import { MiDrawer } from "../Drawer/Drawer.jsx"
 import { Link, useParams } from "react-router-dom";
 import Ayuda from './Ayuda.jsx';
+import ParaEscritores from './ParaEscritores.jsx';
+import ReglasParaPublicar from './ReglasParaPublicar.jsx';
+import TerminosCondiciones from './TerminosCondiciones.jsx';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,7 +64,17 @@ export default function MiniDrawer() {
         console.log(tipo);
         switch (tipo) {
             case '1':
-                    return <Ayuda />
+                return <ParaEscritores />
+        
+            case '2':
+                return <Ayuda />
+            
+            case '3':
+                return <ReglasParaPublicar />
+            
+            case '4':
+                return <TerminosCondiciones />
+                
             default:
                 return console.log("No se encontro el tipo de pagina")
         }
