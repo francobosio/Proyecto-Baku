@@ -312,3 +312,52 @@ export const bloquearUsuario: RequestHandler = async (req, res) => {
     });
 }
 
+export const obtenerFavoritos: RequestHandler = async (req, res) => {
+    const { usuarioAuth0 } = req.body;
+    console.log(usuarioAuth0)
+    const usuario = await Usuario.findOne({auth0_id: usuarioAuth0}).exec();
+    if (usuario != undefined || usuario != null) {
+        return res.json({
+            favoritos: usuario.libros_favoritos
+        });
+    }
+    return res.json({
+        message: "Usuario no encontrado"
+    });
+}
+
+export const agregarFavorito: RequestHandler = async (req, res) => {
+    const { usuarioAuth0, idLibro } = req.body;
+    console.log(usuarioAuth0, idLibro);
+    const usuario = await Usuario.findOne({auth0_id: usuarioAuth0}).exec();
+    console.log("usuario", usuario);
+    if (usuario != undefined ) {
+        usuario.libros_favoritos.push({id_libro: idLibro});
+        await usuario.save();
+        return res.json({
+           favoritos:usuario.libros_favoritos
+        });
+    }
+    return res.json({
+        message: "Usuario no encontrado"
+    });
+}
+
+export const eliminarFavorito: RequestHandler = async (req, res) => {
+    const { usuarioAuth0, idLibro } = req.body;
+    console.log(usuarioAuth0, idLibro);
+    const usuario = await Usuario.findOne({auth0_id: usuarioAuth0}).exec();
+    console.log("usuario", usuario);
+    if (usuario != undefined ) {
+        const index = usuario.libros_favoritos.findIndex(x => x.id_libro === idLibro);
+        usuario.libros_favoritos.splice(index, 1);
+        await usuario.save();
+        return res.json({
+            favoritos:usuario.libros_favoritos
+        });
+    }
+    return res.json({
+        message: "Usuario no encontrado"
+    });
+}
+

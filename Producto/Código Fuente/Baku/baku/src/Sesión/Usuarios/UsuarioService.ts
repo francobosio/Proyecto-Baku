@@ -1,6 +1,4 @@
-import { AttachEmailTwoTone } from "@mui/icons-material";
 import axios from "axios";
-import { Usuario } from "./Usuario";
 
 export const getUsuario = async (id: String) => {
     const usuario = await axios.get('http://localhost:4000/usuarios/' + id)
@@ -59,4 +57,17 @@ export const getLibrosLeidosPorUsuario = async () => {
 export const getLeidosPorUsuario = async () => {
     return await axios.get('http://localhost:4000/usuarios_todosLibrosLeidos')
 }
+
+export const obtenerFavoritos = async (usuarioAuth0: String) => {
+    return await axios.put('http://localhost:4000/usuarios/favoritos', { usuarioAuth0 })
+}
+
+export const agregarFavorito = async (usuarioAuth0: String, idLibro: String) => {
+    return await axios.put('http://localhost:4000/usuarios/agregarFavorito', { usuarioAuth0, idLibro})
+}
+
+export const eliminarFavorito = async (usuarioAuth0: String, idLibro: String) => {
+    return await axios.put('http://localhost:4000/usuarios/eliminarFavorito', { usuarioAuth0, idLibro})
+}
+
 

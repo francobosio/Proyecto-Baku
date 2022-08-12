@@ -34,4 +34,10 @@ router.get('/usuarios_todosLibrosLeidos', usuarioCtrl.getLeidosPorUsuario)
 //No se usa solo de control.
 router.put('/usuarios/bloquearUsuario', usuarioCtrl.bloquearUsuario)
 
+router.put('/usuarios/favoritos', usuarioCtrl.obtenerFavoritos)
+
+router.put('/usuarios/agregarFavorito', usuarioCtrl.agregarFavorito)
+
+router.put('/usuarios/eliminarFavorito', usuarioCtrl.eliminarFavorito)
+
 export default router;
