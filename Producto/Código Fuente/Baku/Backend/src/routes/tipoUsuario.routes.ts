@@ -4,8 +4,10 @@ import * as tipoUsuarioCtrl from './tipoUsuario.controller';
 
 const router = Router();
 
-router.post('/tipoUsuarios', tipoUsuarioCtrl.createTipoUsuario)
+router.post('/tipoUsuariosNuevo', tipoUsuarioCtrl.createTipoUsuario)
 
 router.get('/tipoUsuarios', tipoUsuarioCtrl.getTipoUsuarios)
+
+router.put('/tipoUsuarios/eliminar', tipoUsuarioCtrl.eliminarTipoUsuario)
 
 export default router;
