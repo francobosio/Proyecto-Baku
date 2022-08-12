@@ -1,14 +1,12 @@
 import {Schema,model,Document} from 'mongoose'
 
-const tipoUsuarioSchema = new Schema({
+const tipousuariosSchema = new Schema({
     id:{
-        type: String,
-        required:true
+        type: String
     },
     nombre:{
-        type: String,
-        required:true
-    },
+        type: String
+    }
 },{
     versionKey: false,
     timestamps: true,
@@ -18,6 +16,5 @@ const tipoUsuarioSchema = new Schema({
 interface ITipoUsuario extends Document {
     id: string;
     nombre: string;
-
 }
-export default model<ITipoUsuario>('TipoUsuario', tipoUsuarioSchema);
+export default model<ITipoUsuario>('TipoUsuario', tipousuariosSchema);
