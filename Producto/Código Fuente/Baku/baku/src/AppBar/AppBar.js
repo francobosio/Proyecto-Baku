@@ -15,7 +15,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar'
 import { useHistory } from "react-router-dom";
-import { Box } from '@mui/material';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts'
 
 

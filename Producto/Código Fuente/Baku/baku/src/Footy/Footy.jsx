@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import logoBaku from '../Imagenes/Logo_baku_blanco.png';
 import Grid from '@material-ui/core/Grid';
 
+import { Link, useParams } from "react-router-dom";
+
 import ButtonBase from '@material-ui/core/ButtonBase';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -67,9 +69,9 @@ function Footy() {
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" >
               <Grid item xs>
-                <ButtonBase>
+                <Link to="/Ayuda/1">
                   <Typography>Ayuda</Typography>
-                </ButtonBase>
+                </Link>
               </Grid>
               <Grid item xs>
                 <ButtonBase>

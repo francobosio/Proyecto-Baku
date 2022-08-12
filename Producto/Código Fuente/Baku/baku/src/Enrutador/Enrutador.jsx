@@ -17,6 +17,7 @@ import Autor from '../Autor/Autor.jsx'
 import { Loading } from '../Sesión/Loading.jsx'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import Perfil from "../Sesión/Perfil.jsx";
+import Paginas from "../PaginasFooter/Paginas.jsx";
 
 export default function Layout() {
     /* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
@@ -50,6 +51,7 @@ export default function Layout() {
                             <Route exact path="/Revision/:id" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Resultado :  Home} />
                             <Route exact path="/Parametros" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Parametros :  Home} />
                             <Route exact path="/Autor/:libroId" component={isLoading ? Loading : isAuthenticated ? Autor : Home} />
+                            <Route exact path="/Ayuda/:tipo" component={Paginas} />
                             <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                         </Switch>
                     </div>
