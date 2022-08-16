@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import logoBaku from '../Imagenes/Logo_baku_blanco.png';
 import Grid from '@material-ui/core/Grid';
 
+import { Link, useParams } from "react-router-dom";
+
 import ButtonBase from '@material-ui/core/ButtonBase';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -11,11 +13,12 @@ import IconButton from '@material-ui/core/IconButton';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import YouTubeIcon from '@material-ui/icons/YouTube';
+import { color } from '@mui/system';
 
 const useStyles = makeStyles((theme) => ({
   contenedor: {
     background: '#4B9C8E',
-    height: 210,
+    height: '14em',
     width: '100%',
     textAlign: "center"
 
@@ -23,11 +26,14 @@ const useStyles = makeStyles((theme) => ({
   contenedorGrilla: {
     textAlign: "left",
     alignContent: "center",
-    marginBottom: 15,
+    paddingTop: "1.5em",
+    marginBottom: '1em',
     color: "#FFFFFF"
   },
   imagen: {
     height: 150,
+    position: "relative",
+    top: -20,
   },
   icono: {
     height: 35,
@@ -40,7 +46,7 @@ function Footy() {
 
   return <React.Fragment>
     <footer>
-      <Container maxWidth="xl" className={classes.contenedor}>
+      <Container maxWidth="xl" className={classes.contenedor}   >
         <Grid container spacing={3} className={classes.contenedorGrilla}>
           <Grid item xs={12} sm container >
             <img src={logoBaku} alt="" className={classes.imagen} />
@@ -48,38 +54,33 @@ function Footy() {
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column">
               <Grid item xs>
-                <ButtonBase>
+                <Link to="/Ayuda/1"  style={{textDecoration: 'none',color:'white'}}>
                   <Typography>Para escritores</Typography>
-                </ButtonBase>
+                </Link>
               </Grid>
               <Grid item xs>
-                <ButtonBase>
+                {/* quitar el color y el subrayado a link */}
+                <Link to="/Ayuda/3" style={{textDecoration: 'none',color:'white' }}>
                   <Typography>Reglas para publicar libros</Typography>
-                </ButtonBase>
+                </Link>
               </Grid>
               <Grid item xs>
-                <ButtonBase>
-                  <Typography>Publicidad</Typography>
-                </ButtonBase>
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" >
               <Grid item xs>
-                <ButtonBase>
+                <Link to="/Ayuda/2" style={{textDecoration: 'none',color:'white' }}>
                   <Typography>Ayuda</Typography>
-                </ButtonBase>
+                </Link>
               </Grid>
               <Grid item xs>
-                <ButtonBase>
+                <Link to="/Ayuda/4" style={{textDecoration: 'none',color:'white' }}>
                   <Typography>Términos y Condiciones de Uso</Typography>
-                </ButtonBase>
+                </Link>
               </Grid>
               <Grid item xs>
-                <ButtonBase>
-                  <Typography>Acuerdos de Privacidad</Typography>
-                </ButtonBase>
               </Grid>
             </Grid>
           </Grid>
