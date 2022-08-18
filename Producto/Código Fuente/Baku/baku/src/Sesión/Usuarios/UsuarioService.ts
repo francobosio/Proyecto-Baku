@@ -70,4 +70,9 @@ export const eliminarFavorito = async (usuarioAuth0: String, idLibro: String) =>
     return await axios.put('http://localhost:4000/usuarios/eliminarFavorito', { usuarioAuth0, idLibro})
 }
 
+export const obtenerSuscripciones = async (usuarioAuth0: String) => {
+    return await axios.get('http://localhost:4000/usuarios/suscripciones/' + usuarioAuth0)
+}
+
+
 

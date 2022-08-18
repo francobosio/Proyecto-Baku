@@ -22,10 +22,14 @@ const useStyles = makeStyles((theme) => ({
     titulo: {
         "font": "200% sans-serif",
         "margin-top": "1rem",
-        "marginBottom": "1rem",
+        "marginBottom": "0",
         'font-weight': 'bold',
         "padding-left": "0",
         color: "black",
+    },
+    suscriptores:
+    {
+        color:"#606060"
     },
     icono: {
         width: "1.7em",
@@ -75,10 +79,7 @@ export default function TitlebarImageList() {
     const [nombre, setNombre] = useState('Cargando...')
     const [flagBoton, setFlagBoton] = useState(true)
     const [autor, setAutor] = useState('')
-
-    const [librosLeidos, setLibrosLeidos] = useState([])
-    const [librosPublicados, setLibrosPublicados] = useState([])
-    const [flagBiblioteca, setFlagBiblioteca] = useState(true)
+    const [suscriptores, setSuscriptores] = useState(0)
     const { libroId } = useParams();
 
     const loadLibros = async () => {
@@ -97,6 +98,8 @@ export default function TitlebarImageList() {
             setFlagBoton(false)
         }
         const libros = await libroService.buscarLibros(autor._id)
+        const suscriptores = await usuarioService.obtenerSuscripciones(autor.auth0_id)
+        setSuscriptores(suscriptores.data.suscriptores)
         //guardar el libro en el estado sincrono
         setlibros(libros.data)
     }
@@ -104,6 +107,8 @@ export default function TitlebarImageList() {
         window.scrollTo(0, 0)
         loadLibros()
     }, [])
+
+
     //al hacer click en el boton cambiar el nombre Suscribirse por Desuscribirse y viceversa 
     const suscripcion = async () => {
         const autor2 = autor._id
@@ -111,11 +116,13 @@ export default function TitlebarImageList() {
         console.log(autor2)
         if (nombre === 'Suscribirse') {
             setNombre('Suscripto')
+            setSuscriptores(suscriptores + 1)
             const res = await usuarioService.suscribirUsuario(usuario_id, autor2)
 
         } else {
             console.log("estoy en desuscribirse")
             setNombre('Suscribirse')
+            setSuscriptores(suscriptores - 1)
             const res = await usuarioService.desuscribirUsuario(usuario_id, autor2)
             window.alert('Se ha anulado su suscripción')
         }
@@ -140,6 +147,7 @@ export default function TitlebarImageList() {
                         <Grid item direction='row' xs={12} container  >
                             <Grid item xs={2}>
                                 <Typography className={classes.titulo}>{libros[0].autor}</Typography>
+                                <Typography className={classes.suscriptores} variant="subtitle1" >{suscriptores} suscriptores</Typography>
                             </Grid>
                             <Grid item xs={1} className={classes.alinearCentro}>
                                 <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
