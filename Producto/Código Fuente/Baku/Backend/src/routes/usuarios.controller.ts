@@ -86,7 +86,11 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
         const libros_leidos = usuario.libros_leidos;
         // Busca en la lista el libro cuyo que coincida con el id pasado por parametro. Si no encuentra nada devuelve -1.
         const index = libros_leidos.findIndex(x => x.id_libro === idLibro);
-
+        console.log(index)
+        if (index > -1) {
+            //aumentar en 1 el campo visitas del libro
+            await Libro.findByIdAndUpdate(idLibro, { $inc: { visitas: 1,visitas24Horas:1 } });
+            }
         // Si es el fin de la lectura elimina el libro para actualizar la lista
         if (finLectura){
             libros_leidos.splice(index, 1);
@@ -95,7 +99,7 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
             {
                 // Si encuentra el libro ya existe y no es el fin de lectura saca la ultima pagina leida y borra el item de la lista
                 ultimaPaginaLeida = usuario.libros_leidos[index].ultima_pagina;
-                libros_leidos.splice(index, 1);
+                libros_leidos.splice(index, 1);0
             } else {
                 // si el libro no existe aun setea la ultima pagina en 0
                 ultimaPaginaLeida = 0;
@@ -330,7 +334,8 @@ export const agregarFavorito: RequestHandler = async (req, res) => {
     const { usuarioAuth0, idLibro } = req.body;
     console.log(usuarioAuth0, idLibro);
     const usuario = await Usuario.findOne({auth0_id: usuarioAuth0}).exec();
-    console.log("usuario", usuario);
+    //sumar 1 al contador de favoritos
+    await Libro.findByIdAndUpdate(idLibro, {$inc: {favoritos: 1}});
     if (usuario != undefined ) {
         usuario.libros_favoritos.push({id_libro: idLibro});
         await usuario.save();
@@ -345,9 +350,9 @@ export const agregarFavorito: RequestHandler = async (req, res) => {
 
 export const eliminarFavorito: RequestHandler = async (req, res) => {
     const { usuarioAuth0, idLibro } = req.body;
-    console.log(usuarioAuth0, idLibro);
     const usuario = await Usuario.findOne({auth0_id: usuarioAuth0}).exec();
-    console.log("usuario", usuario);
+    //restar 1 al contador de favoritos
+    await Libro.findByIdAndUpdate(idLibro, {$inc: {favoritos: -1}});
     if (usuario != undefined ) {
         const index = usuario.libros_favoritos.findIndex(x => x.id_libro === idLibro);
         usuario.libros_favoritos.splice(index, 1);

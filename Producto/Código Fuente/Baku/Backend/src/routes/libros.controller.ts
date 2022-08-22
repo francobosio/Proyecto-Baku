@@ -44,6 +44,8 @@ export const createLibro: RequestHandler = async (req, res) => {
         aptoTodoPublico: req.body.aptoTodoPublico,
         aceptaTerminos: req.body.aceptaTerminos,
         estado: req.body.estado,
+        visitas:0,
+        visitas24Horas:0,
     };
     const libro = new Libro(newLibro);
     console.log(libro)
@@ -160,7 +162,7 @@ export const buscarLibro: RequestHandler = async (req, res) => {
     const busqueda = req.params.buscar;
     const valor = "\"" + `${busqueda}` + "\"";
     console.log(valor);
-    const libroFound = await Libro.find({ $text: { $search: valor, $caseSensitive: false, $diacriticSensitive: false } });
+    const libroFound = await Libro.find({ $text: { $search: valor, $caseSensitive: false, $diacriticSensitive: false },estado: "Publicado" });
     if (!libroFound) return res.status(204).json();
     res.json(libroFound);
 }
@@ -168,13 +170,14 @@ export const buscarLibro: RequestHandler = async (req, res) => {
 export const buscarLibroGenero: RequestHandler = async (req, res) => {
     console.log(req.params)
     const genero = req.params.genero;
-    const libroFound = await Libro.find({ "genero": genero });
+    const libroFound = await Libro.find({ genero: genero, estado: "Publicado" });
     if (!libroFound) return res.status(204).json();
     res.json(libroFound);
 }
 
+//NO ABRIR 
 const malasPalabras = [
-    "puto", "trolo", "padre", "perro", "roca", "castillo", "arma", "hombre"
+    "mierda", "puta", "puto", "concha", "pelotudo", "pelotuda", "boludo", "boluda", "idiota", "estupido", "estupida", "forro", "forra", "conchudo", "conchuda", "pajero", "pija", "ojete", "culo", "pete", "chota", "choto", "trolo", "tarado", "cago", "cagando", "cagon", "cagate", "bosta", "orto", "ortiva","trola","coger","pajera","mogolico","mogolica","subnormal","chupala","tragaleche","petero","petera","cagar","pingo","mojon","culiar","culiado","culiada","culiau","baboso","babosa","bobalicon","capullo","caraculo","cretino","deserebrado","deserebrada","donnadie","huevon","lameculos","malparido","patan","pedorro","pedorra","zoquete","hitler","nazi"
 ]
 
 export const getLibroRevision: RequestHandler = async (req, res) => {
@@ -192,7 +195,6 @@ export const getLibroRevision: RequestHandler = async (req, res) => {
         }
         )
     })
-
     //esperar a que el archivo se descargue
     await new Promise(resolve => setTimeout(resolve, 2000));
     const pdfFile = await fs.readFile(`./revision/${libroFound.titulo}.pdf`);
@@ -309,5 +311,16 @@ export const obtenerLibrosFecha: RequestHandler = async (req, res) => {
     } catch (error) {
         res.json({ message: error })
     }
-    
+}
+//buscar los 20 libros con mas favoritos y estado publicado
+export const obtenerLibrosMasFavoritos: RequestHandler = async (req, res) => {
+    const libros = await Libro.find({ estado: "Publicado" }).sort({ favoritos: -1 }).limit(20)
+    console.log(libros)
+    if (!libros) return res.status(204).json("No existen libros");
+    res.json(libros);
+}
+
+    //METODOS AUTOMATICOS 
+export const eliminarVisitas24Hr = async () => {
+    await Libro.updateMany({}, { $unset: { visitas24Horas: 1 } }) 
 }
