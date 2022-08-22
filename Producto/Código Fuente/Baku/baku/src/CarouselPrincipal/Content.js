@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import IconCross from '../Icons/IconCross';
 import './Content.scss';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
@@ -10,8 +10,10 @@ import Favorito from '../Favorito/Favorito';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import * as libroService from '../Libros/LibroService'
 import Denuncia from '../Denuncia/DialogDenuncia.jsx'
+import { Typography, Stack } from '@mui/material';
 
 
+// eslint-disable-next-line no-unused-vars
 let array = [];
 const LibroLeido = async (libroId) => {
   const usuario_id = localStorage.getItem("usuario_activo")
@@ -21,10 +23,11 @@ const LibroLeido = async (libroId) => {
     'ultimaPaginaLeida': 0,
     'finLectura': false,
   }
-await usuarioService.usuarioLibroLeido(libroData);
+  await usuarioService.usuarioLibroLeido(libroData);
 }
 
-const AutorSeleccionado = async (libroId) => {await libroService.buscarAutorLibro(libroId);
+const AutorSeleccionado = async (libroId) => {
+  await libroService.buscarAutorLibro(libroId);
 }
 //al hacer click en el boton invocar al componente Denuncia y pasarle el id del libro
 
@@ -32,7 +35,6 @@ const AutorSeleccionado = async (libroId) => {await libroService.buscarAutorLibr
 export default function Content({ movie, onClose }) {
   let [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('Dione');
-
   const handleClose = (newValue) => {
     setOpen(false);
     if (newValue) {
@@ -40,14 +42,15 @@ export default function Content({ movie, onClose }) {
     }
   };
 
+ 
   return (
     <div className="content">
       {array = movie.archivoTexto.split("/")}
-      <div className="content__area">
+      <div className="content__area" /* onMouseLeave={onClose} */>
         <div className="content__area__container">
-          <div className="grupo" style={{flexDirection: 'row',display:'flex',alignContent:'center',alignItems:'self-end'}}>
+          <div className="grupo" style={{ flexDirection: 'row', display: 'flex', alignContent: 'center', alignItems: 'self-end' }}>
             <div className="content__title">{movie.titulo}</div>
-            <div style={{with:'5em',height:'auto',margin:'0.3em'}}></div>
+            <div style={{ with: '5em', height: 'auto', margin: '0.3em' }}></div>
             <Favorito libroId={movie._id} />
           </div>
           <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id}>
@@ -57,8 +60,17 @@ export default function Content({ movie, onClose }) {
             (
               //agrandar la letra de la descripcion 
               <TextField className="content__description" multiline value={movie.descripcion} disabled></TextField>
+
             )}
         </div>
+        <Stack direction='row'>
+          <Typography variant='subtitle2' sx={{ paddingLeft: '5.1429em', paddingRight: '0.5em', color: '#333333' }}>
+            Género:
+          </Typography>
+          <Typography variant='subtitle2'sx={{color:'white' }} >
+            {movie.genero.map(x => x).toString().split(', ').join(',').split(',').join(', ')}
+          </Typography>
+        </Stack>
         <button className="content__close" onClick={onClose} title={"Cerrar"}>
           <IconCross className="content__close__icon" />
         </button>

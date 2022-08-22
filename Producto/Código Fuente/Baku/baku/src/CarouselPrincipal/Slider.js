@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {flushSync} from 'react-dom';
 import cx from 'classnames';
 import SliderContext from './context'
 import Content from './Content'
@@ -7,6 +8,7 @@ import SliderWrapper from './SliderWrapper'
 import useSliding from './useSliding'
 import useSizeElement from './useSizeElement'
 import './Slider.scss'
+import { Collapse } from '@mui/material';
 
 const Slider = ({ children, activeSlide }) => {
   const [currentSlide, setCurrentSlide] = useState(activeSlide);
@@ -25,7 +27,7 @@ const Slider = ({ children, activeSlide }) => {
   };
 
   const handleClose = () => {
-    setCurrentSlide(null);
+      setCurrentSlide(null);  
   };
 
   const contextValue = {
@@ -46,8 +48,11 @@ const Slider = ({ children, activeSlide }) => {
         {hasPrev && <SlideButton onClick={handlePrev} type="prev" />}
         {hasNext && <SlideButton onClick={handleNext} type="next" />}
       </SliderWrapper>
+      <Collapse in={currentSlide}>
       {currentSlide && <Content movie={currentSlide} onClose={handleClose} />}
+      </Collapse>
     </SliderContext.Provider>
+
   );
 };
 

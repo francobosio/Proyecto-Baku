@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Favorito({ libroId }) {
-    console.log(libroId);
+    /* console.log(libroId); */
     const [libros, setlibros] = useState(libroId)
     const [iconoFavorito, seticonoFavorito] = useState(false)
     const [estado, setestado] = useState(false)
@@ -80,15 +80,15 @@ export default function Favorito({ libroId }) {
     }, [])
 
     const loadFavoritos = () => {
-        console.log(libros)
+        /* console.log(libros) */
         //si libroId esta en el array de libros cabiar iconoFavorito a true
         if (estado) {
 
             if (libros.map(x => x.id_libro).includes(libroId)) {
-                console.log('si esta')
+                /* console.log('si esta') */
                 seticonoFavorito(true)
             } else {
-                console.log('no esta')
+                /* console.log('no esta') */
                 seticonoFavorito(false)
             }
         }
