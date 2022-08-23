@@ -10,7 +10,7 @@ export default function Favorito({ libroId }) {
     const [iconoFavorito, seticonoFavorito] = useState(false)
 
     const loadFavoritos = () => {
-        console.log(listaLibros)
+        /* console.log(libros) */
         //si libroId esta en el array de libros cabiar iconoFavorito a true
         if (listaLibros.map(x => x.id_libro).includes(libroId)) {
             console.log('si esta')
