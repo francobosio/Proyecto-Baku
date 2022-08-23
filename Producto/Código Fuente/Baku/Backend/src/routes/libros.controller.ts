@@ -259,7 +259,7 @@ export const getBuscarAutor: RequestHandler = async (req, res) => {
     const libroId = req.params.libroId;
     //buscar que usuario tiene el libro en la coleccion libro_publicados y solo mostrar el campo autor con projeccion
     const separoLibros = await Usuario.aggregate([{ $unwind: "$libros_publicados" }])
-    const autorNombre = await Usuario.find({ "libros_publicados.id_libro": libroId }, { nombre: 1,apellido:1, _id: 1 });
+    const autorNombre = await Usuario.find({ "libros_publicados.id_libro": libroId }, { nombre: 1,apellido:1, _id: 1, auth0_id:1 });
     const respuesta= autorNombre[0];
     //si autorNombre no existe retornar un status 204 y un mensaje
     if (!respuesta) return res.status(204).json("No existe el nombre del autor");

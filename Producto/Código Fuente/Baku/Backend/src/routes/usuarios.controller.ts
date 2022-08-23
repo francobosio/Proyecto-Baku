@@ -26,6 +26,7 @@ export const createUsuario: RequestHandler = async (req, res) => {
 
 /* Método para la búsqueda de un usuario, recibe el id de auth0 en el campo req y devuelve el usaurio encontrado en el campo res  */
 export const getUsuario: RequestHandler = async (req, res) => {
+    res.header("Set-Cookie", "Secure;SameSite=None");
     const auth0id = req.params.auth0id
     const queryUsuario = { auth0_id: auth0id }
     const usuarioFound = await Usuario.findOne(queryUsuario).exec();
@@ -365,4 +366,19 @@ export const eliminarFavorito: RequestHandler = async (req, res) => {
         message: "Usuario no encontrado"
     });
 }
+//obtener la cantidad de suscriptores de un usuario
+export const getSuscripciones: RequestHandler = async (req, res) => {
+    let auth0id = req.params.auth0id;
+    console.log(auth0id);
+    const usuario = await Usuario.findOne({auth0_id: auth0id}).exec();
+    if (usuario != undefined) {
+        return res.json({
+            suscriptores: usuario.suscriptores.length
+        });
+    }
+    return res.json({
+        message: "Usuario no encontrado"
+    });
+}
+
 

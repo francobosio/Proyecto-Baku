@@ -40,4 +40,6 @@ router.put('/usuarios/agregarFavorito', usuarioCtrl.agregarFavorito)
 
 router.put('/usuarios/eliminarFavorito', usuarioCtrl.eliminarFavorito)
 
+router.get('/usuarios/suscripciones/:auth0id', usuarioCtrl.getSuscripciones)
+
 export default router;
