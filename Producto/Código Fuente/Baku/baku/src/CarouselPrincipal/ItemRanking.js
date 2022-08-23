@@ -1,15 +1,17 @@
 import React from 'react';
 import cx from 'classnames';
 import SliderContext from './context'
-import ShowDetailsButton from './ShowDetailsButton'
 import Mark from './Mark'
-import './Item.scss'
+import './ItemRanking.scss'
 
-const Item = ({ movie }) => (
+const ItemRanking = ({ movie }) => (
   <SliderContext.Consumer>
-    {({ onSelectSlide, currentSlide, elementRef }) => {
+    {
+    ({ onSelectSlide, currentSlide, elementRef }) => {
       const isActive = false;
       let incremento = 0;
+      
+      
       return (
         <div
           ref={elementRef}
@@ -17,9 +19,7 @@ const Item = ({ movie }) => (
             'item--open': true,
           })}
         >
-          {incremento=incremento+1}
-          <h1 className='numero' onClick={() => onSelectSlide(movie)}>1</h1>
-          <img src={movie.imagenPath} alt="" onClick={() => onSelectSlide(movie)} ></img>
+          <img src={movie.imagenPath} alt="" onClick={() => onSelectSlide(movie)}></img>
           {isActive && <Mark />}
         </div>
       );
@@ -27,4 +27,4 @@ const Item = ({ movie }) => (
   </SliderContext.Consumer>
 );
 
-export default Item;
+export default ItemRanking;

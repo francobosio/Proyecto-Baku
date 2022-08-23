@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@mui/material/Paper';
 import './Estadistica.css';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
@@ -67,9 +68,10 @@ export default function Estadistica() {
                             flexDirection: "column",
                             alignItems: "center"
                     }}>
+                        <Paper variant="outlined" elevation={7} sx={{backgroundColor:"#4b9c8e",padding:"2em"}} >
                         <h3 className={classes.title3}>Porcentaje de libros por género</h3>
-                        
                         <BarChart />
+                         </Paper>
                     </div>
                     <div className="chart2" 
                         style={{ 
