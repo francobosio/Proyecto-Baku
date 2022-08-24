@@ -8,13 +8,12 @@ import './Item.scss'
 const Item = ({ movie }) => (
   <SliderContext.Consumer>
     {({ onSelectSlide, currentSlide, elementRef }) => {
-      const isActive = false;
-      let incremento = 0;
+      const isActive = currentSlide && currentSlide._id === movie._id;
       return (
         <div
           ref={elementRef}
           className={cx('item', {
-            'item--open': true,
+            'item--open': isActive,
           })}
         >
           {incremento=incremento+1}

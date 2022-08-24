@@ -1,7 +1,6 @@
 .content {
   position: relative;
   height: 30em;
-  margin-top: -2.5em;
 
   &__background,
   &__background__shadow,
@@ -43,16 +42,16 @@
       z-index: 1;
     }
   }
-
+ // ORIGINAL #076F55
   &__area {
     left: 0;
     right: 0;
     height: 80%;
     z-index: 3;
-    background-image: linear-gradient(to right,#4B9C8E,#076F55);
+    background-image: linear-gradient(to right,#4B9C8E,#014635);
 
     &__container {
-      padding: 30px 70px;
+      padding: 1.5em 4.5em;
       color: rgb(0, 0, 0);
     }
   }

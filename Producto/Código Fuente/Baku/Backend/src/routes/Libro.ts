@@ -52,6 +52,18 @@ const libroSchema = new Schema({
     estado:{
         type: String,
     },
+    visitas:{
+        type: Number,
+        default:"0",
+    },
+    visitas24Horas:{
+        type: Number,
+        default:"0",
+    },
+    favoritos:{
+        type: Number,
+        default:"0",
+    },
 },{
     versionKey: false,
     timestamps: true,
@@ -71,5 +83,8 @@ interface ILibro extends Document {
     aptoTodoPublico: boolean;
     aceptaTerminos: boolean;
     estado: string;
+    visitas: number;
+    visitas24Horas: number;
+    favoritos: number;
 }
 export default model<ILibro>('Libro', libroSchema);
