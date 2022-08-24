@@ -41,11 +41,7 @@ const useStyles = makeStyles((theme) => ({
     carousel: {
         paddingTop: "1.5em",
         marginTop: 11,
-        marginHorizon: '100%',
-        alignItems: 'center',
         alignSelf: 'center',
-        justifyContent: 'center',
-        alignContent: 'center',
     },
     content: {
         display: 'flex',
