@@ -64,6 +64,15 @@ const libroSchema = new Schema({
         type: Number,
         default:"0",
     },
+    indicadorAS:
+    {
+        type: Number,
+        default:"0",
+    },
+    ordenRanking:
+    {
+        type: Number,
+    }
 },{
     versionKey: false,
     timestamps: true,
@@ -86,5 +95,7 @@ interface ILibro extends Document {
     visitas: number;
     visitas24Horas: number;
     favoritos: number;
+    indicadorAS: number;
+    ordenRanking: number;
 }
 export default model<ILibro>('Libro', libroSchema);

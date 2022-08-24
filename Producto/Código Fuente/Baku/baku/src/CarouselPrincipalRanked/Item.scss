@@ -1,0 +1,29 @@
+.item {
+  flex: 0 0 10vw;
+  transition: transform 300ms ease 100ms;
+  margin: 0 2px;
+  position: relative;
+  
+
+  img {
+    height: 100%;
+    width: 100%;
+    vertical-align: center;
+  }
+  .numero{
+    position: absolute;
+  left: 19%;
+  font-size: 290px;
+  opacity: 1;
+  font-style: normal;
+  bottom: -260.217px;
+  background-image: linear-gradient(to right, #00000000, #08b688);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

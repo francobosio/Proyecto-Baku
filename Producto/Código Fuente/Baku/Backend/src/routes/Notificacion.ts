@@ -38,8 +38,7 @@ interface INotificacion extends Document {
     tipo: string;
     esNoleido: boolean;
     id_libro: string;
-    avatar: string;
-    
+    avatar: string; 
 }
 
 

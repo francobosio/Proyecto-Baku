@@ -5,6 +5,7 @@ import { Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Slider from '../CarouselPrincipal';
+import SliderRanked from '../CarouselPrincipalRanked';
 import { useAuth0 } from '@auth0/auth0-react'
 import Skeleton from '@mui/material/Skeleton';
 
@@ -40,11 +41,7 @@ const useStyles = makeStyles((theme) => ({
     carousel: {
         paddingTop: "1.5em",
         marginTop: 11,
-        marginHorizon: '100%',
-        alignItems: 'center',
         alignSelf: 'center',
-        justifyContent: 'center',
-        alignContent: 'center',
     },
     content: {
         display: 'flex',
@@ -81,12 +78,17 @@ export default function Inicio() {
     const [librosFavoritos, setLibrosFavoritos] = useState([])
     const [favoritosComponente, setFavoritosComponente] = useState([])
     const [flagScroll, setFlagScroll] = useState(true)
+    const [librosRankeados, setlibrosRankeados] = useState([])
     const [flagActualizar, setFlagActualizar] = useState(true)
     const [numeroRandom, setNumeroRandom] = useState(Math.random())
     /* Carga todos los libros desde la base de datos y los guarda en la variable libros como un array */
     const loadLibros = async () => {
         const res = await libroService.getLibrosPublicado();
+        const res2 = await libroService.obtenerRanking();
         setlibros(res.data);
+        setlibrosRankeados(res2.data);
+        console.log(res.data)
+        console.log(res2.data)
     }
     useEffect(() => {
         loadLibros()
@@ -183,6 +185,16 @@ export default function Inicio() {
                                 <Slider.Item movie={movie} key={movie._id}></Slider.Item>
                             )).sort(() => numeroRandom - 0.5)}
                         </Slider>
+                        ) : (
+                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                    }
+                    <Typography variant='h4' className={classes.titulo} >Ranking</Typography>
+                    {librosRankeados.length > 0 ? (
+                        <SliderRanked className={classes.slider}>
+                            {librosRankeados.map(movie => (
+                                <SliderRanked.Item movie={movie} key={movie._id}></SliderRanked.Item>
+                            )).reverse()}
+                        </SliderRanked>
                         ) : (
                         <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
                     }

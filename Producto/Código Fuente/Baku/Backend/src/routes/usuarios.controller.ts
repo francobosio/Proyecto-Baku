@@ -90,7 +90,7 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
         console.log(index)
         if (index > -1) {
             //aumentar en 1 el campo visitas del libro
-            await Libro.findByIdAndUpdate(idLibro, { $inc: { visitas: 1,visitas24Horas:1 } });
+            await Libro.findByIdAndUpdate(idLibro, { $inc: { visitas: 1,visitas24Horas:1,indicadorAS:1 } });
             }
         // Si es el fin de la lectura elimina el libro para actualizar la lista
         if (finLectura){
@@ -336,7 +336,7 @@ export const agregarFavorito: RequestHandler = async (req, res) => {
     console.log(usuarioAuth0, idLibro);
     const usuario = await Usuario.findOne({auth0_id: usuarioAuth0}).exec();
     //sumar 1 al contador de favoritos
-    await Libro.findByIdAndUpdate(idLibro, {$inc: {favoritos: 1}});
+    await Libro.findByIdAndUpdate(idLibro, {$inc: {favoritos: 1,indicadorAS:1}});
     if (usuario != undefined ) {
         usuario.libros_favoritos.push({id_libro: idLibro});
         await usuario.save();
@@ -353,7 +353,7 @@ export const eliminarFavorito: RequestHandler = async (req, res) => {
     const { usuarioAuth0, idLibro } = req.body;
     const usuario = await Usuario.findOne({auth0_id: usuarioAuth0}).exec();
     //restar 1 al contador de favoritos
-    await Libro.findByIdAndUpdate(idLibro, {$inc: {favoritos: -1}});
+    await Libro.findByIdAndUpdate(idLibro, {$inc: {favoritos: -1,indicadorAS:-1}});
     if (usuario != undefined ) {
         const index = usuario.libros_favoritos.findIndex(x => x.id_libro === idLibro);
         usuario.libros_favoritos.splice(index, 1);

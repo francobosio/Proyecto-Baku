@@ -1,11 +1,11 @@
 import React from 'react';
 import cx from 'classnames';
-import SliderContext from './context'
+import Slider2Context from './context'
 import Mark from './Mark'
 import './Item.scss'
 
 const Item = ({ movie }) => (
-  <SliderContext.Consumer>
+  <Slider2Context.Consumer>
     {({ onSelectSlide, currentSlide, elementRef }) => {
        const isActive = currentSlide && currentSlide._id === movie._id;
       return (
@@ -15,13 +15,13 @@ const Item = ({ movie }) => (
             'item--open': isActive,
           })}>
           
-         
+          {(movie.ordenRanking?(<h1 className='numero' onClick={() => onSelectSlide(movie)}>{movie.ordenRanking}</h1> ): null)}
           <img src={movie.imagenPath} alt="" onClick={() => onSelectSlide(movie)} ></img>
           {isActive && <Mark />}
         </div>
       );
     }}
-  </SliderContext.Consumer>
+  </Slider2Context.Consumer>
 );
 
 export default Item;

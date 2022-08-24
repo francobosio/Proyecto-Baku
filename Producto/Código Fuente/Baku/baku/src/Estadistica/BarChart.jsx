@@ -113,7 +113,7 @@ const BarChart = () => {
                 formatter: function (val) {
                     return val + "%";
                 },
-                offsetX: 50,
+                offsetX: 0,
                 style: {
                     fontSize: '12px',
                     colors: ["#304758"]

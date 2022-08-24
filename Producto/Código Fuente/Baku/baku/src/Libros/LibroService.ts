@@ -58,3 +58,8 @@ export const obtenerLibrosFecha = async (mes: Number, anho: Number) => {
 export const obtenerLibrosFavoritos = async (id: String) => {
     return await axios.get(`http://localhost:4000/librosFavoritos`)
 }
+
+export const obtenerRanking = async () => {
+    return await axios.get(`http://localhost:4000/libros/ranking`)
+}
+
