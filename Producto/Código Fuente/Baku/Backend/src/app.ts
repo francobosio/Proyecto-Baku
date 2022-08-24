@@ -11,7 +11,7 @@ import denunciaRoutes from './routes/denuncias.routes'
 import path from 'path'
 import responseTime from 'response-time'
 import cron from 'node-cron'
-import {eliminarVisitas24Hr} from './routes/libros.controller'
+import {eliminarVisitas24Hr,establecerRanking} from './routes/libros.controller'
 
 
 
@@ -26,6 +26,12 @@ cron.schedule('0 19 * * * *',  () => {
   console.log('Se ejecuto eliminarVisitas24Hr '+ tiempo)
   eliminarVisitas24Hr()
 } )
+cron.schedule('*/30 * * * * *',  () => {
+  let tiempo = new Date().getFullYear()+'-'+new Date().getMonth()+'-'+new Date().getDate()+' '+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds();
+  console.log('Se ejecuto establecerRanking '+ tiempo)
+  establecerRanking(8);
+} )
+
 
 //middlewares
 app.use(morgan('dev'));

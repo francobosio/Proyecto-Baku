@@ -3,20 +3,20 @@
   transition: transform 300ms ease 100ms;
   margin: 0 2px;
   position: relative;
+  
 
   img {
     height: 100%;
     width: 100%;
     vertical-align: center;
   }
-
   .numero{
     position: absolute;
-  left: 35%;
-  font-size: 295px;
+  left: 19%;
+  font-size: 290px;
   opacity: 1;
   font-style: normal;
-  bottom: -269.217px;
+  bottom: -260.217px;
   background-image: linear-gradient(to right, #00000000, #08b688);
     -webkit-background-clip: text;
     background-clip: text;
@@ -27,4 +27,3 @@
   -ms-user-select: none;
   user-select: none;
 }
-

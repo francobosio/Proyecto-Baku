@@ -39,4 +39,6 @@ router.get('/librosFecha/:mes/:anho', libroCtrl.obtenerLibrosFecha)
 
 router.get('/librosFavoritos', libroCtrl.obtenerLibrosMasFavoritos)
 
+ router.get('/libros/ranking', libroCtrl.obtenerRanking) 
+
 export default router
