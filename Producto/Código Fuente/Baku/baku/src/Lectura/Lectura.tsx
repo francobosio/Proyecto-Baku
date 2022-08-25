@@ -3,6 +3,14 @@ import AppBar from '../AppBar/AppBarLectura.jsx';
 import { useParams } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
 //Worker
 import { Worker } from '@react-pdf-viewer/core';
 // Core viewer
@@ -67,6 +75,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 const Lectura = () => {
     let history = useHistory()
     type QuizParams = {
@@ -96,6 +112,38 @@ const Lectura = () => {
         console.log('Pagina Actual: ' + e.currentPage)
     };
 
+    //************************************************************************************
+  
+    const contador = () => {
+        setTimeout(() => {
+            console.log("Entro al contador 1")
+            setMostrarAlerta(true)
+            handleClickOpen();
+            contadorCerrar();
+        }, 1800000);
+        clearTimeout();
+    }
+    const contadorCerrar = () => {
+        console.log("Entro al contador 2")
+        setTimeout(() => {
+            handleClose();
+            contador();
+        }, 3000);
+        clearTimeout();
+    }
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+    //*************************************************************************************
+
+
     const terminaLectura = async () => {
         const usuario_activo = localStorage.getItem("usuario_activo");
         const paginaActual = localStorage.getItem('current-page');
@@ -112,7 +160,10 @@ const Lectura = () => {
     const [libro, setLibro] = useState({ archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf", titulo: '' });
     const [initialPage, setInitialPage] = useState<number>();
     const usuario_id = localStorage.getItem("usuario_id")!;
+    const [mostrarAlerta, setMostrarAlerta] = useState(false);
     const comienzaLectura = async () => {
+        contador();
+        /*  contadorCerrar(); */
         setInitialPage(1);
         const usuario_activo = localStorage.getItem("usuario_activo")
         if (usuario_activo != null) {
@@ -128,7 +179,7 @@ const Lectura = () => {
     useEffect(() => {
         comienzaLectura();
     }, [])
-    
+
     //PLUGINS
     const object = highlightPluginComponent(id, usuario_id)
     const highlightPluginInstance = object.highlightPluginInstance
@@ -157,8 +208,33 @@ const Lectura = () => {
                         </Typography>
                     </Grid>
                 </Grid>
-            </Box>
 
+                {mostrarAlerta === true &&
+                    <div>
+                        <Dialog
+                            /* text in dialog with color red  */
+                            sx={{ '& .MuiDialog-paper': { bgcolor: '#ceffed' }, '& .MuiButton-root ': { color: 'black' } }}
+                            open={open}
+                            TransitionComponent={Transition}
+                            keepMounted
+                            onClose={handleClose}
+                            aria-describedby="alert-dialog-slide-description"
+                        >
+                            <DialogTitle>ALERTA DE DESCANSO</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-slide-description">
+                                    <Typography variant="h6" gutterBottom component="div" align='center'>
+                                        Hola! ,te recomendamos que descanse un poco, para que puedas seguir disfrutando de la lectura.
+                                    </Typography>
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose} size="large" >Cerrar</Button>
+                            </DialogActions>
+                        </Dialog>
+                    </div>
+                }
+            </Box>
             { /*CARGA DE PLUGINS*/}
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.14.305/build/pdf.worker.min.js">
                 <div className={classes.viewer}>
