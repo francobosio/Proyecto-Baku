@@ -7,6 +7,8 @@ router.post('/usuarios', usuarioCtrl.createUsuario)
 
 router.get('/usuarios/:auth0id', usuarioCtrl.getUsuario)
 
+router.get('/usuarios2/:id', usuarioCtrl.getUsuarioId)
+
 router.get('/usuario/ultimaPagina/:auth0id/:idLibro', usuarioCtrl.getUltimaPagina)
 
 router.put('/usuarios/libroSubido', usuarioCtrl.putLibroPublicado)
@@ -41,5 +43,7 @@ router.put('/usuarios/agregarFavorito', usuarioCtrl.agregarFavorito)
 router.put('/usuarios/eliminarFavorito', usuarioCtrl.eliminarFavorito)
 
 router.get('/usuarios/suscripciones/:auth0id', usuarioCtrl.getSuscripciones)
+
+router.put('/usuarios/suscriptos', usuarioCtrl.getUsuariosSuscriptos)
 
 export default router;

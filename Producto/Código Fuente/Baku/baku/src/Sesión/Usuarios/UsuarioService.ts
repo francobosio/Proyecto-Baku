@@ -5,8 +5,12 @@ export const getUsuario = async (id: String) => {
     return usuario
 }
 
+export const getUsuariosPorId = async (id: String) => {
+    return await axios.get('http://localhost:4000/usuarios2/' + id)
+}
+
 export const createUsuario = async (usuarioData: {}) => {
-    
+
     return await axios.post('http://localhost:4000/usuarios/', usuarioData)
 }
 
@@ -47,7 +51,7 @@ export const modificarUsuario = async (usuarioData: {}) => {
 }
 
 export const eliminarUsuario = async (id: string, flagData: boolean, _callback: any) => {
-    return await axios.delete('http://localhost:4000/usuarios/' + id + '/' + flagData).then(() => {_callback()})
+    return await axios.delete('http://localhost:4000/usuarios/' + id + '/' + flagData).then(() => { _callback() })
 }
 
 export const getLibrosLeidosPorUsuario = async () => {
@@ -63,16 +67,17 @@ export const obtenerFavoritos = async (usuarioAuth0: String) => {
 }
 
 export const agregarFavorito = async (usuarioAuth0: String, idLibro: String) => {
-    return await axios.put('http://localhost:4000/usuarios/agregarFavorito', { usuarioAuth0, idLibro})
+    return await axios.put('http://localhost:4000/usuarios/agregarFavorito', { usuarioAuth0, idLibro })
 }
 
 export const eliminarFavorito = async (usuarioAuth0: String, idLibro: String) => {
-    return await axios.put('http://localhost:4000/usuarios/eliminarFavorito', { usuarioAuth0, idLibro})
+    return await axios.put('http://localhost:4000/usuarios/eliminarFavorito', { usuarioAuth0, idLibro })
 }
 
 export const obtenerSuscripciones = async (usuarioAuth0: String) => {
     return await axios.get('http://localhost:4000/usuarios/suscripciones/' + usuarioAuth0)
 }
 
-
-
+export const obtenerUsuariosSuscriptos = async (usuarioAuth0: String) => {
+    return await axios.put('http://localhost:4000/usuarios/suscriptos',{usuarioAuth0})
+}

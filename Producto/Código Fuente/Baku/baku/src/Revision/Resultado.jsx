@@ -239,12 +239,12 @@ export default function BasicTable() {
         <Stack direction="row" spacing={6} justifyContent="flex-end" className={classes.stack}>
           <Button className={classes.boton} onClick={() => {
             setabrirDialog(true)
-            settextoDiaglo("¿Esta seguro que quiere Rechazar este libro?")
+            settextoDiaglo("¿Está seguro que quiere RECHAZAR este libro?")
           }}>
             Rechazar</Button>
           <Button className={classes.boton} onClick={() => {
             setabrirDialog(true)
-            settextoDiaglo("¿Esta seguro que quiere Aprobar este libro?")
+            settextoDiaglo("¿Está seguro que quiere APROBAR este libro?")
           }}>
             Aprobar
           </Button>
@@ -262,7 +262,7 @@ export default function BasicTable() {
               Cancelar
             </Button>
             <Button onClick={() => {
-              if (textoDialog === "¿Esta seguro que quiere Aprobar este libro?") {
+              if (textoDialog === "¿Está seguro que quiere APROBAR este libro?") {
                 handleCloseDialogAceptarPublicar()
               } else {
                 handleCloseDialogAceptarRechazar()

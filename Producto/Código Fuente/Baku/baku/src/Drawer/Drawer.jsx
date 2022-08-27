@@ -22,6 +22,7 @@ import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 //Imagenes
@@ -131,6 +132,12 @@ export const MiDrawer = () => {
                         <ListItem button>
                             <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
+                        </ListItem>
+                    </Link>
+                    <Link to="/Usuarios" className={classes.link} >
+                        <ListItem button>
+                            <ListItemIcon><AccountCircleIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                            <ListItemText primary='Usuarios' style={{ color: "#FFFFFF" }} />
                         </ListItem>
                     </Link>
                     <Link to="/Biblioteca" className={classes.link} >

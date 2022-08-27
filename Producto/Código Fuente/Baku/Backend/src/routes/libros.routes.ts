@@ -31,6 +31,7 @@ router.put('/libro/cambiarEstado', libroCtrl.updateLibroEstado)
 
 router.get('/autor/:libroId', libroCtrl.getBuscarAutor)
 
+
 router.get('/autor/libros/:id', libroCtrl.getLibrosAutor)
 
 router.get('/libros', libroCtrl.obtenerLibros);

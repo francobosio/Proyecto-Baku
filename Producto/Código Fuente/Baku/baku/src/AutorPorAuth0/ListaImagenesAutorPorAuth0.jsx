@@ -80,12 +80,13 @@ export default function TitlebarImageList() {
     const [flagBoton, setFlagBoton] = useState(true)
     const [autor, setAutor] = useState('')
     const [suscriptores, setSuscriptores] = useState(0)
-    const { libroId } = useParams();
+    const { Id } = useParams();
     
     const loadLibros = async () => {
-
-        const autorRes = await libroService.buscarAutorLibro(libroId);
-        const autor = autorRes.data.respuesta
+        console.log(Id)
+        const autorRes = await usuarioService.getUsuariosPorId(Id)
+        const autor = autorRes.data
+        console.log(autor)
         //usar el setAutor sincrono para que no se pierda el valor
         setAutor(autor)
         const buscarNombreSuscripcion = await usuarioService.buscarNombreSuscripcion(usuario_id, autor._id)
@@ -101,6 +102,7 @@ export default function TitlebarImageList() {
         const suscriptores = await usuarioService.obtenerSuscripciones(autor.auth0_id)
         setSuscriptores(suscriptores.data.suscriptores)
         //guardar el libro en el estado sincrono
+        console.log(libros.data)
         setlibros(libros.data)
     }
     useEffect(() => {

@@ -106,7 +106,7 @@ export default function Inicio() {
                 'nombre': user.given_name ? user.given_name : user.nickname,
                 'tipo': '1',
                 'avatar': user.picture,
-                'usuario': user.nickname,
+                'usuario': user.nickname?user.nickname:'Invitado'+Math.floor(Math.random() * 100),
                 'correo_electronico': user.email
             }
             const res = await usuarioService.createUsuario(usuarioData)
