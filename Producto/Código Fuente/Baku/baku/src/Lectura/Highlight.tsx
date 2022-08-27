@@ -195,8 +195,8 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
     // Listing all highlights on page is simple as following:
     const renderHighlights = (props: RenderHighlightsProps) => (
         <div>
-            {console.log('185 - notas:')}
-            {console.log(notes)} 
+            {/* {console.log('185 - notas:')}
+            {console.log(notes)}  */}
             {/*Usa cada una de las notas en el Array "notes"*/}
             {notes.map((note) => (
                     <React.Fragment key={note._id}>

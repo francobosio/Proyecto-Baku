@@ -239,6 +239,7 @@ export default function MiniDrawer() {
     const [aceptaTerminos, setAceptaTerminos] = useState(false)
     const [aptoTodoPublico, setAptoTodoPublicos] = useState(false)
     const [estado, setEstado] = useState("Registrado")
+    const [bloquearPublicar, setBloquearPublicar] = useState(true)
     const [scroll, setScroll] = useState(true)
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
@@ -300,6 +301,7 @@ export default function MiniDrawer() {
 
     const handleAceptaTerminoChange = e => {
         setAceptaTerminos(e.target.checked)
+        setBloquearPublicar(!e.target.checked)
     }
 
     const handleParaTodoPublicoChange = e => {
@@ -342,9 +344,9 @@ export default function MiniDrawer() {
                 'esNoleido': true,
                 'id_libro': res.data.libro._id,
             }
-            await usuarioService.usuarioLibroCargado(idData);
-            console.log("CREO LA NOTI:"+nuevaNotificacion)
-             await notificacionService.createNotificacion(nuevaNotificacion);
+            /*await usuarioService.usuarioLibroCargado(idData);
+             console.log("CREO LA NOTI:"+nuevaNotificacion) 
+             await notificacionService.createNotificacion(nuevaNotificacion);*/
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
         }
@@ -371,6 +373,7 @@ export default function MiniDrawer() {
 
     /* Método para validar todos los campos del formulario. Se ejecuta al intentar cargar un nuevo libro */
     const validate = () => {
+        setBloquearPublicar(true)
         // creo una variable temporal temp y guardo en ella cadenas vacias si los campos son correctos u otra cadena cualquiera si no lo son
         let temp = {}
         temp.img = image.raw !== "" ? "" : "Imagen"
@@ -569,7 +572,7 @@ export default function MiniDrawer() {
                                 </Grid>
 
                                 <Grid item xs={12} style={{ marginTop: "1rem" }}>
-                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained" disabled={!aceptaTerminos}>Publicar</Button>
+                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained" disabled={(bloquearPublicar)}>Publicar</Button>
                                 </Grid>
                                 <Grid item xs={12} >
                                     <br />

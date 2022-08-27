@@ -11,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Image from 'material-ui-image';
 import { Link } from "react-router-dom";
 import { useLocation } from 'react-router';
+import Tooltip from '@mui/material/Tooltip';
 
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -97,7 +98,7 @@ export const MiDrawer = () => {
     }, [location.pathname])
 
     //si el tipo de usuario es 1, se muestra el boton Revisar
-    
+
 
     return (
         <div className={classes.root}>
@@ -122,17 +123,23 @@ export const MiDrawer = () => {
                 </div>
                 <Divider />
                 <List>
+
                     <Link onClick={handleLink} to="/Inicio" className={classes.link} >
-                        <ListItem button className={classes.texto} >
-                            <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
-                        </ListItem>
+                        {/* Crear tooltip por debajo del cursor */}
+                        <Tooltip title="Inicio" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                            <ListItem button className={classes.texto} >
+                                <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
+                            </ListItem>
+                        </Tooltip>
                     </Link>
                     <Link onClick={handleLink} to="/Buscar" className={classes.link}>
+                        <Tooltip title="Buscar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                         <ListItem button>
                             <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
                         </ListItem>
+                        </Tooltip>
                     </Link>
                     <Link to="/Usuarios" className={classes.link} >
                         <ListItem button>
@@ -141,35 +148,45 @@ export const MiDrawer = () => {
                         </ListItem>
                     </Link>
                     <Link to="/Biblioteca" className={classes.link} >
+                        <Tooltip title="Biblioteca" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                         <ListItem button>
                             <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
                         </ListItem>
+                        </Tooltip>
                     </Link>
                     <Link to="/Publicar" className={classes.link} >
+                        <Tooltip title="Publicar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                         <ListItem button>
                             <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
                         </ListItem>
+                        </Tooltip>
                     </Link>
                     {(revisar === true) ?
                         <List>
                             <Link to="/Estadistica" className={classes.link} >
+                                <Tooltip title="Estadisticas" enterDelay={1000} leaveDelay={200} enterNextDelay={1000}arrow>
                                 <ListItem button>
                                     <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                     <ListItemText primary='Estadísticas' style={{ color: "#FFFFFF" }} />
                                 </ListItem>
+                                </Tooltip>
                             </Link>
                             <Link to="/Revision" className={classes.link} >
+                                <Tooltip title="Revisar"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                                 <ListItem button>
                                     <ListItemIcon><RateReviewOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                     <ListItemText primary='Revisión' style={{ color: "#FFFFFF" }} />
                                 </ListItem>
+                                </Tooltip>
                             </Link>
                             <Link to="/Parametros" className={classes.link} >
                                 <ListItem button>
                                     <ListItemIcon><MiscellaneousServicesIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <Tooltip title="Parametros"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000}  arrow>
                                     <ListItemText primary={`Parámetros`} style={{ color: "#FFFFFF" }} />
+                                </Tooltip>
                                 </ListItem>
                             </Link>
                         </List> :
