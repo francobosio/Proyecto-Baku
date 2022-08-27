@@ -46,7 +46,7 @@ export default function Content({ movie, onClose }) {
   return (
     <div className="content">
       {array = movie.archivoTexto.split("/")}
-      <div className="content__area" /* onMouseLeave={onClose} */>
+      <div className="content__area" onMouseLeave={onClose}>
         <div className="content__area__container">
           <div className="grupo" style={{ flexDirection: 'row', display: 'flex', alignContent: 'center', alignItems: 'self-end' }}>
             <div className="content__title">{movie.titulo}</div>

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   contenedor: {
     background: '#4B9C8E',
     height: '14em',
-    width: '100%',
+    width: 'auto',
     textAlign: "center"
 
   },
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF"
   },
   imagen: {
-    height: 150,
+    height: '10em',
     position: "relative",
     top: -20,
   },
