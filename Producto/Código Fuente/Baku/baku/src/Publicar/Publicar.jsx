@@ -344,9 +344,8 @@ export default function MiniDrawer() {
                 'esNoleido': true,
                 'id_libro': res.data.libro._id,
             }
-            /*await usuarioService.usuarioLibroCargado(idData);
-             console.log("CREO LA NOTI:"+nuevaNotificacion) 
-             await notificacionService.createNotificacion(nuevaNotificacion);*/
+            await usuarioService.usuarioLibroCargado(idData);
+            await notificacionService.createNotificacion(nuevaNotificacion);
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
         }

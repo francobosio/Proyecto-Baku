@@ -40,6 +40,7 @@ const usuarioSchema = new Schema({
             descripcion: String,
             tipo: String,
             esNoleido: Boolean,
+            avatar: String,
             createdAt: Date,
             updatedAt: Date
         }
