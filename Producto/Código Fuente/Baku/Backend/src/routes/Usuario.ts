@@ -13,6 +13,9 @@ const usuarioSchema = new Schema({
         type: String,
         required: true,
     },
+    usuario: {
+        type: String,
+    },
     tipoUsuario: {
         type: String,
     },
@@ -26,7 +29,9 @@ const usuarioSchema = new Schema({
     libros_publicados: [],
     libros_leidos: [],
     libros_favoritos: [],
-    suscriptores:[],
+    suscriptores:[
+        {usuario_id: String}
+    ],
     mensajes: [
         {
             _id:String,
@@ -47,6 +52,10 @@ const usuarioSchema = new Schema({
         type: String,
         required: true,
     },
+    popularidad: {
+        type: Number,
+        default: 0
+    },
 }, {
     versionKey: false,
     timestamps: true
@@ -56,6 +65,7 @@ interface IUsuario extends Document {
     auth0_id: string;
     apellido: string;
     nombre: string;
+    usuario:string;
     tipoUsuario: string;
     correo_electronico: string;
     fecha_nacimiento: Date;
@@ -66,7 +76,8 @@ interface IUsuario extends Document {
     suscriptores: any[];
     estado: string;
     avatar: string;
-    marcadoresxLibro: any[]
+    marcadoresxLibro: any[];
+    popularidad: number;
 }
 
 export default model<IUsuario>('Usuario', usuarioSchema);

@@ -21,17 +21,18 @@ app.set('port', config.PORT);
 //Se ejecuta a las 19:00 de cada dia '0 19 * * * *'
 //Se ejecuta cada 10 segundos '*/10 * * * * *'
 
-cron.schedule('0 19 * * * *',  () => {
+/* cron.schedule('0 19 * * * *',  () => {
   let tiempo = new Date().getFullYear()+'-'+new Date().getMonth()+'-'+new Date().getDate()+' '+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds();
   console.log('Se ejecuto eliminarVisitas24Hr '+ tiempo)
   eliminarVisitas24Hr()
 } )
+
 cron.schedule('0 8 * * * *',  () => {
+
   let tiempo = new Date().getFullYear()+'-'+new Date().getMonth()+'-'+new Date().getDate()+' '+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds();
   console.log('Se ejecuto establecerRanking '+ tiempo)
   establecerRanking(8);
-} )
-
+} ) */
 
 //middlewares
 app.use(morgan('dev'));
