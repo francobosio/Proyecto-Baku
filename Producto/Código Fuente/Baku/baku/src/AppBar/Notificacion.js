@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
-import { useEffect, useRef, useState } from 'react';
-import { Link as RouterLink, Redirect, useParams } from "react-router-dom";
-import { set, sub, formatDistanceToNow } from 'date-fns';
+import {  useRef, useState } from 'react';
+import { Link as RouterLink } from "react-router-dom";
+import { formatDistanceToNow } from 'date-fns';
 import {es} from 'date-fns/esm/locale';
-import { format } from 'date-fns/esm'
 
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
 // material
@@ -42,9 +41,9 @@ function renderContent(notification) {
       </Typography>
     </Typography>
   );
-  if (notification.tipo === 'mail') {
+  if (notification.tipo === "subidaLibro") {
     return {
-      avatar: <img alt={notification.titulo} src={notification.avatar} width='40px' />,
+      avatar: <img referrerPolicy="no-referrer" alt={notification.titulo} src={notification.avatar}  width='40px' />,
       titulo
     };
   }
@@ -56,7 +55,7 @@ function renderContent(notification) {
   }
 
   return {
-    avatar: <img alt={notification.titulo} src={notification.avatar}  width='40px' />,
+    avatar: <img referrerPolicy="no-referrer" alt={notification.titulo} src={notification.avatar}  width='40px' />,
     titulo
   };
   
@@ -70,7 +69,6 @@ NotificationItem.propTypes = {
 
 //Permite modificar los iconos de las notificaciones
 function NotificationItem({ notification, id }) {
-
   const { avatar, titulo } = renderContent(notification);
 
   const LibroLeido = async (libroId) => {
@@ -186,7 +184,7 @@ export default function NotificationsPopover(propNotificacion) {
       >
         <Box sx={{ display: 'flex', alignItems: 'center', py: 2, px: 2.5 }}>
           <Box sx={{ flexGrow: 1 }}>
-            <Typography variant="subtitle1">Notificaciones</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 500 }}>Notificaciones</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Tienes {totalUnRead} mensajes sin leer
             </Typography>
@@ -194,8 +192,8 @@ export default function NotificationsPopover(propNotificacion) {
 
           {totalUnRead > 0 && (
             <Tooltip title=" Marcas todas como leidas">
-              <IconButton color="primary" onClick={handleMarkAllAsRead}>
-                <Iconify icon="eva:done-all-fill" width={20} height={20} />
+              <IconButton color='success'  onClick={handleMarkAllAsRead} backgroundcolor='success'>
+                <Iconify icon="eva:done-all-fill" focusVisible  width={'1.3em'} height={'1.3em'} />
               </IconButton>
             </Tooltip>
           )}
@@ -208,7 +206,7 @@ export default function NotificationsPopover(propNotificacion) {
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                NUEVAS
+               <Typography variant="subtitle2">NUEVAS</Typography> 
               </ListSubheader>
             }
           >
@@ -222,7 +220,7 @@ export default function NotificationsPopover(propNotificacion) {
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                ANTERIORES
+                 <Typography variant="subtitle2">ANTERIORES</Typography> 
               </ListSubheader>
             }
           >

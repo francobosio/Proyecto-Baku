@@ -115,7 +115,9 @@ export const MiDrawer = () => {
                 }}
             >
                 <div className={classes.toolbar}>
-                    <Image src={Logo} aspectRatio={2.4} color={"#4B9C8E"} />
+                    <Link onClick={handleLink} to="/Inicio" className={classes.link} >
+                    <Image animationDuration={0}  src={Logo} aspectRatio={2.4} color={"#4B9C8E"} />
+                    </Link>
                     <IconButton className={classes.icono} onClick={handleDrawerOpenClose} style={{ color: "#FFFFFF" }} >
                         {open === false ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
@@ -183,7 +185,7 @@ export const MiDrawer = () => {
                                 </ListItem>
                             </Link>
                         </List> :
-                        null};
+                        null}
                 </List>
                 <Divider />
             </Drawer>
