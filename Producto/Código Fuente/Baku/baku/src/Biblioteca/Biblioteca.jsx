@@ -31,16 +31,16 @@ export default function MiniDrawer() {
 
     return (
         <div className={classes.root}>
-            <MiDrawer pestaña={3}/>
+            <MiDrawer pestaña={3} />
             <main className={classes.content}>
-                
+
                 <AppBar />
                 <Container maxWidth='xl' disableGutters fixed>
-                <br />
+                    <br />
                     <Typography variant='h4' className={classes.titulo}> Mi Biblioteca</Typography>
                     <Tabs />
                 </Container>
-                
+
                 <Footy />
             </main>
         </div>

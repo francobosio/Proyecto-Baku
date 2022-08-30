@@ -4,7 +4,6 @@ import Libro from './Libro'
 import config from '../config'
 import https from 'https'
 import fs from 'fs-extra'
-import redis from 'redis'
 import { promisify } from 'util'
 import PdfParse from "pdf-parse";
 import Usuario from "./Usuario"
@@ -16,16 +15,7 @@ cloudinary.config({
     api_secret: config.API_SECRET,
 });
 
-const client = redis.createClient();
-const GET_ASYNC = promisify(client.get).bind(client);
-const SET_ASYNC = promisify(client.set).bind(client);
-
 export const createLibro: RequestHandler = async (req, res) => {
-    client.flushdb((err, succeeded) => {
-        if (err) {
-            console.log("error occured on redisClient.flushdb");
-        } else console.log("purge caches store in redis");
-    });
     const { titulo, descripcion } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const respuestaImg = await cloudinary.v2.uploader.upload(files.imagenPath[0].path);
@@ -68,41 +58,17 @@ export const createLibro: RequestHandler = async (req, res) => {
 //use redis to cache the data
 export const getLibros: RequestHandler = async (req, res) => {
     try {
-        let reply: any = await GET_ASYNC('libros')
-        if (reply) {
-            return res.json(JSON.parse(reply))
-        }
-        else {
-
-            const libros = await Libro.find()
-
-            reply = await SET_ASYNC('libros', JSON.stringify(libros))
-
+        const libros = await Libro.find()
             res.json(libros);
         }
-    } catch (error) {
+    catch (error) {
         res.json({ message: error })
     }
 }
 
 export const getLibrosRegistrados: RequestHandler = async (req, res) => {
     try {
-        //Para limpiar la cache
-        client.flushdb((err, succeeded) => {
-            if (err) {
-                console.log("error occured on redisClient.flushdb");
-            } else console.log("Cache eliminado con exito!!!");
-        });
-
-        let reply: any = await GET_ASYNC('libros')
-        if (reply) {
-            return res.json(JSON.parse(reply))
-        }
-        else {
-            const libros = await Libro.find({ estado: 'Registrado' })
-            reply = await SET_ASYNC('libros', JSON.stringify(libros))
-            res.json(libros);
-        }
+        const libros = await Libro.find({ estado: 'Registrado' })
     } catch (error) {
         res.json({ message: error })
     }
@@ -110,23 +76,10 @@ export const getLibrosRegistrados: RequestHandler = async (req, res) => {
 
 export const getLibrosPublicados: RequestHandler = async (req, res) => {
     try {
-        //Para limpiar la cache
-        client.flushdb((err, succeeded) => {
-            if (err) {
-                console.log("error occured on redisClient.flushdb");
-            } else console.log("Cache eliminado con exito!!!");
-        });
-
-        let reply: any = await GET_ASYNC('libros')
-        if (reply) {
-            return res.json(JSON.parse(reply))
-        }
-        else {
             const libros = await Libro.find({ estado: 'Publicado' })
-            reply = await SET_ASYNC('libros', JSON.stringify(libros))
             res.json(libros);
         }
-    } catch (error) {
+     catch (error) {
         res.json({ message: error })
     }
 }
