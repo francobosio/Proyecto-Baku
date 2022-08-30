@@ -4,6 +4,7 @@ import {  useRef, useState } from 'react';
 import { Link as RouterLink } from "react-router-dom";
 import { formatDistanceToNow } from 'date-fns';
 import {es} from 'date-fns/esm/locale';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
 // material
@@ -162,17 +163,17 @@ export default function NotificationsPopover(propNotificacion) {
     <>
       <IconButton
         ref={anchorRef}
-        size="large"
-        color={open ? 'primary' : 'default'}
+       
         onClick={handleOpen}
         sx={{
           ...(open && {
-            bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity)
+            bgcolor: (theme) => alpha(theme.palette.grey[900], 0.01)
           })
         }}
       >
         <Badge badgeContent={totalUnRead} color="error">
-          <Iconify icon="line-md:bell-twotone" width={30} height={30} />
+          {/* Quitar animacion  */}
+          <NotificationsIcon sx={{ width: '1.4em', height: '1.4em' }} />
         </Badge>
       </IconButton>
 
