@@ -31,7 +31,7 @@ export default function MiniDrawer() {
 
     return (
         <div className={classes.root}>
-            <MiDrawer />
+            <MiDrawer pestaña={7} />
             <main className={classes.content}>
                 
                 <AppBar />

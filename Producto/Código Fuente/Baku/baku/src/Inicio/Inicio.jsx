@@ -149,7 +149,7 @@ export default function Inicio() {
 
     return (
         <div className={classes.root}>
-            <MiDrawer />
+            <MiDrawer pestaña={1} />
             <main className={classes.content}>
                 <AppBar />
                 <Carousel className={classes.carousel}  >
