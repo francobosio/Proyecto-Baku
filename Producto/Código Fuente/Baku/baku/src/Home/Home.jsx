@@ -12,9 +12,10 @@ import "typeface-kaushan-script";
 import Footy from '../Footy/Footy';
 import { LoginButton } from "../Sesión/LoginMetodo"
 import { Grid } from '@material-ui/core';
-
+import Image from 'material-ui-image';
 import imagenFondo from '../Imagenes/book_fantasy_5k.jpg';
 import logoBaku from '../Imagenes/Logo_Baku_Negro_sin_fondo.png';
+import { Container,Box } from '@mui/system';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,27 +91,24 @@ const useStyles = makeStyles((theme) => ({
       'color': '#FFFFFF',
     }
   },
-  divImagen:{
+  divImagen: {
     backgroundImage: `url(${imagenFondo})`,
-    'background-size': '100%'
-  },
-  paper:{
-    maxHeight:'30em',
-    maxWidth:'50em',
+    'background-size': '100vh'
   }
 }));
 
 export default function ButtonAppBar() {
   const classes = useStyles();
-  
+
   return (
-    <div className={classes.root}>
-      <div>
+    <Grid container direction="column" minHeight="100vh"  xl={12} lg={12} md={12} sm={12} xs={12} >
+      <Grid item xl={12}>
+        {/* hacer los componentes responsivos  */}
         <AppBar position="static" className={classes.color}>
           <Toolbar>
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             </IconButton>
-            <Typography variant="h1" className={classes.title}>
+            <Typography variant="h1" xs={12} sm={12} md={12} lg={12} xl={12} className={classes.title}>
             </Typography>
             <Button className={classes.boton + ' ' + classes.botonVerde}>
               <Link className={classes.link} to="/">Premium</Link>
@@ -119,16 +117,23 @@ export default function ButtonAppBar() {
             <LoginButton text="Iniciar Sesión"></LoginButton>
           </Toolbar>
         </AppBar>
-        <div className={classes.divImagen}>
-          <Grid className={classes.grid}>
-            <img className={classes.paper} alt='' src={logoBaku}/>
+      </Grid>
+      <Grid item  justifyContent="center" >
+        <Box className={classes.divImagen} sx={{ flexGrow: 1,minHeight:'73vh',imageOrientation: 'from-image',backgroundSize: 'cover',backgroundRepeat: 'no-repeat',backgroundPosition: 'center',}}>
+        <Grid container  spacing={0} direction="column" alignItems="center"  justifyContent="center" style={{ minHeight: '60vh' }} >
+        {/* /* el grid item debe ocupar todo el espacio  */}
+          <Grid item  xs={9} lg={3} xl={3} justifyContent="center" alignItems="center" >
             <Typography className={classes.typographyKsText}>No dejes para mañana lo que puedes leer hoy.</Typography>
             <Typography className={classes.typographyKsText}>Accedé a cientos de libros originales en forma gratuita</Typography>
             <LoginButton text="Ingresa a Baku"></LoginButton>
+
           </Grid>
-        </div>
-      </div>
-      <Footy />
-    </div>
+        </Grid>
+        </Box>
+      </Grid>
+      <Grid item xl={12}>
+        <Footy></Footy>
+      </Grid>
+    </Grid>
   );
 }

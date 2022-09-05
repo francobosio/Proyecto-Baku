@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
 import Carousel from 'react-material-ui-carousel';
 import { Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
@@ -148,9 +149,9 @@ export default function Inicio() {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
+        <Grid className={classes.root}>
             <MiDrawer pestaña={1} />
-            <main className={classes.content}>
+            <Grid className={classes.content}>
                 <AppBar />
                 <Carousel className={classes.carousel}  >
                     {
@@ -227,7 +228,7 @@ export default function Inicio() {
                     }
                 </div>
                 <Footy />
-            </main>
-        </div>
+            </Grid>
+        </Grid>
     );
 }

@@ -14,14 +14,15 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import { color } from '@mui/system';
-
+import Image from 'material-ui-image';
 const useStyles = makeStyles((theme) => ({
   contenedor: {
     background: '#4B9C8E',
-    height: '14em',
-    width: 'auto',
-    textAlign: "center"
-
+    flexGrow: 1,
+    textAlign: "center",
+    position: "absolute",
+    bottom: "0",
+    width: "100%",
   },
   contenedorGrilla: {
     textAlign: "left",
@@ -29,11 +30,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "1.5em",
     marginBottom: '1em',
     color: "#FFFFFF"
-  },
-  imagen: {
-    height: '10em',
-    position: "relative",
-    top: -20,
   },
   icono: {
     height: 35,
@@ -44,14 +40,13 @@ const useStyles = makeStyles((theme) => ({
 function Footy() {
   const classes = useStyles();
 
-  return <React.Fragment>
-    <footer>
-      <Container maxWidth="xl" className={classes.contenedor}   >
+  return(
+      <Container  maxWidth={"xl"} xs={12} xl={12} className={classes.contenedor}   >
         <Grid container spacing={3} className={classes.contenedorGrilla}>
-          <Grid item xs={12} sm container >
-            <img src={logoBaku} alt="" className={classes.imagen} />
+          <Grid item xs={4} xl={3}>
+          <Image src={logoBaku} aspectRatio={3} color={"#4B9C8E"} />
           </Grid>
-          <Grid item xs={12} sm container>
+          <Grid item xs={2} sm container>
             <Grid item xs container direction="column">
               <Grid item xs>
                 <Link to="/Ayuda/1"  style={{textDecoration: 'none',color:'white'}}>
@@ -68,7 +63,7 @@ function Footy() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm container>
+          <Grid item xs={3} sm container>
             <Grid item xs container direction="column" >
               <Grid item xs>
                 <Link to="/Ayuda/2" style={{textDecoration: 'none',color:'white' }}>
@@ -84,7 +79,7 @@ function Footy() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm container>
+          <Grid item xs={3} sm container>
             <Grid item xs container direction="row" >
               <Grid item xs>
                 <IconButton size='small' aria-label="Facebook.com/BakuLibros" onClick={() => window.open('https://www.facebook.com/LibrosBaku/')}>
@@ -105,8 +100,6 @@ function Footy() {
           </Grid>
         </Grid>
       </Container>
-    </footer>
-  </React.Fragment>
-}
+);}
 
 export default Footy
