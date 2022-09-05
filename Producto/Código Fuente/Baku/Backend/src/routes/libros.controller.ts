@@ -69,6 +69,7 @@ export const getLibros: RequestHandler = async (req, res) => {
 export const getLibrosRegistrados: RequestHandler = async (req, res) => {
     try {
         const libros = await Libro.find({ estado: 'Registrado' })
+        res.json(libros);
     } catch (error) {
         res.json({ message: error })
     }
