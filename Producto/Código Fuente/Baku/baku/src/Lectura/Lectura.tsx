@@ -32,7 +32,7 @@ import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 
 //GRID
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
 import ButtonMui from '@material-ui/core/Button';
 
@@ -42,13 +42,14 @@ import Typography from '@mui/material/Typography';
 //Highlight
 import highlightPluginComponent from './Highlight'
 
+//Narrador
+import Narrador from './Narrador.jsx';
+
+import jumpToPagePlugin from './jumpToPagePlugin';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-    },
-    grid: {
-        'paddingBottom': '0.7rem',
-        'margin': '0 auto',
     },
     boton: {
         'font-weight': 'bold',
@@ -108,9 +109,11 @@ const Lectura = () => {
     //const { ReadingIndicator } = readingIndicatorPluginInstance;
 
     //PAGINA ACTUAL
+    const [currentPage, setCurrentPage] = React.useState(0)
     const handlePageChange = (e: PageChangeEvent) => {
         localStorage.setItem('current-page', `${e.currentPage}`);
         //console.log('Pagina Actual: ' + e.currentPage)
+        setCurrentPage(e.currentPage)
     };
 
     //************************************************************************************
@@ -146,6 +149,10 @@ const Lectura = () => {
 
 
     const terminaLectura = async () => {
+        //Presiona el BOTON DE PAUSE del Narrador al salir
+        let element: HTMLElement = document.getElementsByClassName('pause')[0] as HTMLElement;
+        element.click();
+                
         const usuario_activo = localStorage.getItem("usuario_activo");
         const paginaActual = localStorage.getItem('current-page');
         const libroData = {
@@ -156,6 +163,7 @@ const Lectura = () => {
         }
         await usuarioService.usuarioLibroLeido(libroData);
         setInitialPage(1);
+        await libroService.eliminarLibroRevision(libro.titulo);
     }
 
     const [libro, setLibro] = useState({ archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf", titulo: '' });
@@ -207,29 +215,58 @@ const Lectura = () => {
     const defaultLayoutPluginInstance = object.defaultLayoutPluginInstance
     const handleDocumentLoad = object.handleDocumentLoad
 
+    var isVisible = false
+    if(libro.titulo != ""){
+        isVisible = true
+    }
+
+    const jumpToPagePluginInstance = jumpToPagePlugin();
+    const { jumpToPage } = jumpToPagePluginInstance;
+
     return (
         <div className={classes.root}>
             { /*APPBAR*/}
             <AppBar />
 
             { /*BARRA DE HERRAMIENTAS*/}
-            <Box sx={{ width: '100%' }} style={{ paddingTop: '10px', backgroundColor: '#99cfbf' }}>
-                <Grid className={classes.grid} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
-                    <Grid item xs={2}>
+            <Box sx={{ width: '100%', flexGrow: 1 }} style={{ paddingTop: '10px', backgroundColor: '#99cfbf' }}>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
+                    <Grid xs={1.5}>
                         <ButtonMui className={classes.boton} variant="contained">
                             <ButtonMui className={classes.link} onClick={() => { terminaLectura(); history.goBack() }}>Atrás</ButtonMui>
                         </ButtonMui>
                     </Grid>
-                    <Grid item xs={6}>
-                        {habilitado &&
-                        <Brillo />
-                        }
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Typography variant="h5" gutterBottom component="div" align='center'>
+                    <Grid xs={2}>
+                        <Typography variant="h6" gutterBottom component="div">
                             Título: {libro.titulo}
                         </Typography>
                     </Grid>
+                    <Grid xs={5}>
+                        {habilitado &&
+                            <Brillo />
+                        }
+                    </Grid>
+                    <Grid xs={2}>
+                        {habilitado && 
+                            isVisible && (
+                                <div style={{ 
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center"
+                                }}>
+                                    <Narrador 
+                                        idLibro={id} 
+                                        currentPage={currentPage} 
+                                        titulo={libro.titulo}
+                                        jumpToPage = {jumpToPage}
+                                    />
+                                
+                                </div>
+                            )
+                        }
+                        
+                    </Grid>
+                    
                 </Grid>
 
                 {mostrarAlerta === true &&
@@ -270,6 +307,7 @@ const Lectura = () => {
                         plugins={[
                             highlightPluginInstance,
                             defaultLayoutPluginInstance,
+                            jumpToPagePluginInstance
                         ]}
                         onDocumentLoad={handleDocumentLoad}
 

@@ -36,7 +36,7 @@ const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Bo
     const [notes, setNotes] = React.useState<Note[]>([]); //Array "notes"
 
     const obtenerNotasPorUsuarioLibro = async () => {
-        console.log(usuario_id, id)
+        //console.log(usuario_id, id)
         const res = await lecturaService.obtenerNotaPorUsuarioLibro(usuario_id, id)
         const notesArray = res.data.respuesta.filter(function(props: { usuario?: String; id_libro?: String; createdAt?: String; updatedAt?: String;}) {
             delete props.usuario;
@@ -45,7 +45,7 @@ const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Bo
             delete props.updatedAt;
             return true;
         });
-        console.log(notesArray )
+        //console.log(notesArray )
         setNotes(notesArray)
     }
 
