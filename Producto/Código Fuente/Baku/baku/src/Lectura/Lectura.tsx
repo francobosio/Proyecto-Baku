@@ -83,6 +83,7 @@ const Transition = React.forwardRef(function Transition(
 ) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
 const Lectura = () => {
     let history = useHistory()
     type QuizParams = {
@@ -109,7 +110,7 @@ const Lectura = () => {
     //PAGINA ACTUAL
     const handlePageChange = (e: PageChangeEvent) => {
         localStorage.setItem('current-page', `${e.currentPage}`);
-        console.log('Pagina Actual: ' + e.currentPage)
+        //console.log('Pagina Actual: ' + e.currentPage)
     };
 
     //************************************************************************************
@@ -161,6 +162,7 @@ const Lectura = () => {
     const [initialPage, setInitialPage] = useState<number>();
     const usuario_id = localStorage.getItem("usuario_id")!;
     const [mostrarAlerta, setMostrarAlerta] = useState(false);
+
     const comienzaLectura = async () => {
         contador();
         /*  contadorCerrar(); */
@@ -168,20 +170,39 @@ const Lectura = () => {
         const usuario_activo = localStorage.getItem("usuario_activo")
         if (usuario_activo != null) {
             const resPagina = await usuarioService.usuarioUltimaPagina(usuario_activo, id);
-            console.log(resPagina.data)
+            //console.log(resPagina.data)
             setInitialPage(resPagina.data);
-            console.log(initialPage)
+            //console.log(initialPage)
             const resLibro = await libroService.getLibro(id);
             setLibro(resLibro.data);
         }
     }
 
+    const [habilitado, setHabilitado] = useState(false)
+    const cargarUsuario = async () => {
+        const usuario_activo = localStorage.getItem("usuario_activo");
+        const res = await usuarioService.getUsuario(usuario_activo!);
+        console.log(res.data)
+        if(res.data.tipoUsuario == 1)
+        {
+            
+            console.log("El USUARIO es FREE")
+        }
+        else{
+            setHabilitado(true)
+            console.log("El USUARIO es PREMIUM o ADMINISTRADOR")
+        }
+    }
+
+
     useEffect(() => {
         comienzaLectura();
+        cargarUsuario()
     }, [])
 
     //PLUGINS
-    const object = highlightPluginComponent(id, usuario_id)
+    
+    const object = highlightPluginComponent(id, usuario_id, habilitado)
     const highlightPluginInstance = object.highlightPluginInstance
     const defaultLayoutPluginInstance = object.defaultLayoutPluginInstance
     const handleDocumentLoad = object.handleDocumentLoad
@@ -200,7 +221,9 @@ const Lectura = () => {
                         </ButtonMui>
                     </Grid>
                     <Grid item xs={6}>
+                        {habilitado &&
                         <Brillo />
+                        }
                     </Grid>
                     <Grid item xs={4}>
                         <Typography variant="h5" gutterBottom component="div" align='center'>
