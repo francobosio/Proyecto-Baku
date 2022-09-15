@@ -84,6 +84,7 @@ const Transition = React.forwardRef(function Transition(
 ) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
 const Lectura = () => {
     let history = useHistory()
     type QuizParams = {
@@ -169,6 +170,7 @@ const Lectura = () => {
     const [initialPage, setInitialPage] = useState<number>();
     const usuario_id = localStorage.getItem("usuario_id")!;
     const [mostrarAlerta, setMostrarAlerta] = useState(false);
+
     const comienzaLectura = async () => {
         contador();
         /*  contadorCerrar(); */
@@ -184,12 +186,31 @@ const Lectura = () => {
         }
     }
 
+    const [habilitado, setHabilitado] = useState(false)
+    const cargarUsuario = async () => {
+        const usuario_activo = localStorage.getItem("usuario_activo");
+        const res = await usuarioService.getUsuario(usuario_activo!);
+        console.log(res.data)
+        if(res.data.tipoUsuario == 1)
+        {
+            
+            console.log("El USUARIO es FREE")
+        }
+        else{
+            setHabilitado(true)
+            console.log("El USUARIO es PREMIUM o ADMINISTRADOR")
+        }
+    }
+
+
     useEffect(() => {
         comienzaLectura();
+        cargarUsuario()
     }, [])
 
     //PLUGINS
-    const object = highlightPluginComponent(id, usuario_id)
+    
+    const object = highlightPluginComponent(id, usuario_id, habilitado)
     const highlightPluginInstance = object.highlightPluginInstance
     const defaultLayoutPluginInstance = object.defaultLayoutPluginInstance
     const handleDocumentLoad = object.handleDocumentLoad
@@ -221,24 +242,29 @@ const Lectura = () => {
                         </Typography>
                     </Grid>
                     <Grid xs={5}>
-                        <Brillo />
+                        {habilitado &&
+                            <Brillo />
+                        }
                     </Grid>
                     <Grid xs={2}>
-                        {isVisible && (
-                            <div style={{ 
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center"
-                            }}>
-                                <Narrador 
-                                    idLibro={id} 
-                                    currentPage={currentPage} 
-                                    titulo={libro.titulo}
-                                    jumpToPage = {jumpToPage}
-                                />
-                            
-                            </div>
-                        )}
+                        {habilitado && 
+                            isVisible && (
+                                <div style={{ 
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center"
+                                }}>
+                                    <Narrador 
+                                        idLibro={id} 
+                                        currentPage={currentPage} 
+                                        titulo={libro.titulo}
+                                        jumpToPage = {jumpToPage}
+                                    />
+                                
+                                </div>
+                            )
+                        }
+                        
                     </Grid>
                     
                 </Grid>

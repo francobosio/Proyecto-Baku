@@ -31,7 +31,7 @@ interface Note {
     quote: string;
 }
 
-const HighlightPluginComponent = (id: String, usuario_id: String) => {
+const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Boolean) => {
 
     const [notes, setNotes] = React.useState<Note[]>([]); //Array "notes"
 
@@ -224,12 +224,12 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
         </div>
     );
 
-    const highlightPluginInstance = highlightPlugin({
+    const highlightPluginInstance = highlightPlugin(habilitado?{
         trigger: Trigger.TextSelection,
         renderHighlightTarget,
         renderHighlightContent,
         renderHighlights,
-    });
+    }:{});
 
     const { jumpToHighlightArea } = highlightPluginInstance;
 
@@ -310,14 +310,21 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
     Integración con Default Layout plugin:
             Para mover la lista de notas al sidebar, creamos una nueva pestaña:
     */
-    const defaultLayoutPluginInstance = defaultLayoutPlugin({
+    const defaultLayoutPluginInstance = defaultLayoutPlugin(habilitado?{
         renderToolbar,
-        sidebarTabs: (defaultTabs) =>
-            defaultTabs.concat({
+        sidebarTabs: (defaultTabs) => [
+            defaultTabs[0], // Bookmarks tab
+            defaultTabs[1], // Thumbnails tab
+            defaultTabs[2], // Attachments tab
+            {
                 content: sidebarNotes,
                 icon: <MessageIcon />,
                 title: 'Notas',
-            }),
+            }
+        ],
+    }:{
+        renderToolbar,
+        sidebarTabs: (defaultTabs) => [],
     });
 
     const { activateTab } = defaultLayoutPluginInstance;
