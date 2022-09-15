@@ -249,6 +249,15 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
             }}
         >
             {notes.length === 0 && <div style={{ textAlign: 'center' }}>No hay notas agregadas</div>}
+            {notes.length > 0 && <div style={{ 
+                        textAlign: 'center', 
+                        borderBottom: '1px solid rgba(0, 0, 0, .3)',
+                        padding: '8px',
+                        display: 'flex',
+                        justifyContent: 'space-between' }}>
+                            Los Marcadores se visualizarán cuando Tipo de Color sea Ninguno
+                        </div>}
+
             {/*console.log('339 - notas:'+ notes)*/}
             {notes.map((note) => {
                 const deleteNote = () => {
