@@ -68,7 +68,7 @@ const TipoLetra = (props: { tipoColor1: string; }) => {
                     `
                 }
             </style>
-            <Stack spacing={1} direction="row" sx={{ mb: 1 }} alignItems="center">
+            <Stack spacing={1} direction="row" alignItems="center">
                 <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
                     <InputLabel id="demo-simple-select-label">Tipo de Letra</InputLabel>
                     <Select
