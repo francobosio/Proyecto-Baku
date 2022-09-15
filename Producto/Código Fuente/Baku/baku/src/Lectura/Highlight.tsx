@@ -36,7 +36,7 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
     const [notes, setNotes] = React.useState<Note[]>([]); //Array "notes"
 
     const obtenerNotasPorUsuarioLibro = async () => {
-        console.log(usuario_id, id)
+        //console.log(usuario_id, id)
         const res = await lecturaService.obtenerNotaPorUsuarioLibro(usuario_id, id)
         const notesArray = res.data.respuesta.filter(function(props: { usuario?: String; id_libro?: String; createdAt?: String; updatedAt?: String;}) {
             delete props.usuario;
@@ -45,7 +45,7 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
             delete props.updatedAt;
             return true;
         });
-        console.log(notesArray )
+        //console.log(notesArray )
         setNotes(notesArray)
     }
 
@@ -191,7 +191,7 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
             notesContainer.scrollTop = noteEle.getBoundingClientRect().top;
         }
     };
-    console.log(notes)
+    //console.log(notes)
     // Listing all highlights on page is simple as following:
     const renderHighlights = (props: RenderHighlightsProps) => (
         <div>
