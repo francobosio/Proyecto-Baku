@@ -89,6 +89,24 @@ export const getLibrosPublicados: RequestHandler = async (req, res) => {
 export const getLibro: RequestHandler = async (req, res) => {
     const libroFound = await Libro.findById(req.params.id);
     if (!libroFound) return res.status(204).json();
+    
+    //DESCARGA DEL LIBRO
+    const url = libroFound.archivoTexto;
+    const url2 = url.replace("http", "https");
+    https.get(url2, function (res) {
+        //nombre del archivo
+        const fileStream = fs.createWriteStream(`./revision/${libroFound.titulo}.pdf`);
+        res.pipe(fileStream);
+        fileStream.on('finish', function () {
+            fileStream.close();
+            console.log("El Archivo fue descargado con éxito !!");
+        }
+        )
+    })
+    //Esperar a que el archivo se descargue
+    console.log("ESPERAMOS - GETLIBRO()")
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     return res.json(libroFound)
 }
 
@@ -299,4 +317,81 @@ export const establecerRanking = async (numero: number) => {
         for (let i = 0; i < numero; i++) {
             await Libro.findByIdAndUpdate({ _id: libros[i]._id }, { ordenRanking: (i + 1) }, { new: true })
         }
+}
+
+
+export const deleteLibroRevision: RequestHandler = async (req, res) => {
+
+    fs.unlink(`./revision/${req.params.titulo}.pdf`, (err) => {
+        if (err) throw err;
+        console.log('El archivo fue eliminado con exito !!');
+    });
+}
+
+export const getLibroNarrador: RequestHandler = async (req, res) => {
+    
+    console.log("Empieza narrador!!")
+
+    const array: any[] = []
+
+    function render_page(pageData: any) {
+        let render_options = {
+            //replaces all occurrences of whitespace with standard spaces (0x20). The default value is `false`.
+            normalizeWhitespace: false,
+            //do not attempt to combine same line TextItem's. The default value is `false`.
+            disableCombineTextItems: false,
+        }
+      
+        //console.log(pageData.pageNumber)
+      
+        return pageData.getTextContent(render_options)
+        .then(function(textContent: any) {
+            let lastY, text = '';
+            for (let item of textContent.items) {
+                if (lastY == item.transform[5] || !lastY){
+                    text += item.str;
+                }  
+                else{
+                    text += '\n' + item.str;
+                }    
+                lastY = item.transform[5];
+            }
+            array.push(text)
+            return text;
+        })
+    }
+      
+    let options = {
+        pagerender: render_page,
+    }
+
+    //Me parece que con libroFound.archivoTexto nos ahorramos este paso...
+    const pdfFile = await fs.readFile(`./revision/${req.params.titulo}.pdf`);
+
+    PdfParse(pdfFile, options).then(function (data) {
+        let dataText = data.text;
+        //Separo en palabras el texto del pdf
+        let arrayData = data.text.split(/\t|\n|\s/);
+
+        let arrayText = arrayData.join(' ')
+
+        const arrayLimpio: any[] = []
+        array.forEach(function (elemento, indice, array) {
+            
+            //Separo en palabras el texto del pdf
+            let arrayData = elemento.split(/\t|\n|\s/);
+
+            let arrayText = arrayData.join(' ')
+            arrayLimpio.push(arrayText);
+        });
+
+        return res.json({
+            dataText,
+            arrayData,
+            arrayText,
+            array,
+            arrayLimpio
+        })
+
+    });
 }
