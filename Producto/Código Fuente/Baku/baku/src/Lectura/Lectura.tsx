@@ -232,9 +232,17 @@ const Lectura = () => {
             <Box sx={{ width: '100%', flexGrow: 1 }} style={{ paddingTop: '10px', backgroundColor: '#99cfbf' }}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
                     <Grid xs={1.5}>
-                        <ButtonMui className={classes.boton} variant="contained">
-                            <ButtonMui className={classes.link} onClick={() => { terminaLectura(); history.goBack() }}>Atrás</ButtonMui>
-                        </ButtonMui>
+                        <div style={{ 
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        height: "4rem",
+                                        justifyContent: "center"
+                                }}>
+                            <ButtonMui className={classes.boton} variant="contained">
+                                <ButtonMui className={classes.link} onClick={() => { terminaLectura(); history.goBack() }}>Atrás</ButtonMui>
+                            </ButtonMui>
+                        </div>
                     </Grid>
                     <Grid xs={2}>
                         <Typography variant="h6" gutterBottom component="div">
