@@ -126,7 +126,6 @@ export default function ButtonAppBar() {
             <Typography className={classes.typographyKsText}>No dejes para mañana lo que puedes leer hoy.</Typography>
             <Typography className={classes.typographyKsText}>Accedé a cientos de libros originales en forma gratuita</Typography>
             <LoginButton text="Ingresa a Baku"></LoginButton>
-
           </Grid>
         </Grid>
         </Box>

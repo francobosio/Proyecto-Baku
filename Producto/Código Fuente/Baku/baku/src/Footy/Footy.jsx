@@ -20,8 +20,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#4B9C8E',
     flexGrow: 1,
     textAlign: "center",
-    position: "absolute",
-    bottom: "0",
+    position: "relative",
     width: "100%",
   },
   contenedorGrilla: {

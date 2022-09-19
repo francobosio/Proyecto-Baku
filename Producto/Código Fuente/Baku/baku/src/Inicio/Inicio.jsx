@@ -6,6 +6,7 @@ import { Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Slider from '../CarouselPrincipal';
+import { Container, Box } from '@mui/system';
 import SliderRanked from '../CarouselPrincipalRanked';
 import { useAuth0 } from '@auth0/auth0-react'
 import Skeleton from '@mui/material/Skeleton';
@@ -19,7 +20,6 @@ import imgCarrusel2 from '../Imagenes/CarruselBaku2.png'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
         'background': '#99cfbf',
     },
     menuButton: {
@@ -31,26 +31,12 @@ const useStyles = makeStyles((theme) => ({
     icono: {
         marginLeft: -3,
     },
-    toolbar: {
-        // display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-    },
     carousel: {
         paddingTop: "1.5em",
-        marginTop: 11,
+        marginTop: "0.8em",
         alignSelf: 'center',
     },
-    content: {
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1,
-    },
     slider: {
-        marginTop: 500,
     },
     titulo: {
         marginLeft: 20,
@@ -70,7 +56,7 @@ const imagenesCarrusel = [
 
 function Item(props) {
     return (
-        <img src={props.item} alt="" style={{ 'objectFit': 'contain', justifyContent: 'center', alignItems: 'center' }} />
+        <img src={props.item} alt="" />
     )
 }
 export default function Inicio() {
@@ -107,7 +93,7 @@ export default function Inicio() {
                 'nombre': user.given_name ? user.given_name : user.nickname,
                 'tipo': '1',
                 'avatar': user.picture,
-                'usuario': user.nickname?user.nickname:'Invitado'+Math.floor(Math.random() * 100),
+                'usuario': user.nickname ? user.nickname : 'Invitado' + Math.floor(Math.random() * 100),
                 'correo_electronico': user.email
             }
             const res = await usuarioService.createUsuario(usuarioData)
@@ -144,90 +130,98 @@ export default function Inicio() {
             setLibrosFavoritos(res3.data);
         };
     }
-    
+
     const { user } = useAuth0();
     const classes = useStyles();
 
     return (
-        <Grid className={classes.root}>
-            <MiDrawer pestaña={1} />
-            <Grid className={classes.content}>
-                <AppBar />
-                <Carousel className={classes.carousel}  >
-                    {
-                        imagenesCarrusel.map((item) => { return <Item key={item.id} item={item.img} /> })
-                    }
-                </Carousel>
-                {/* <Container disableGutters={true} maxWidth="xl"> CONSULTAR!*/}
-                <div>
-                    <Typography variant='h4' className={classes.titulo} >Subidos recientemente</Typography>
-                    {libros.length > 0 ? (
-                        <Slider >
-                            {libros.map(movie => (
-                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                            )).reverse()}
-                        </Slider>) : (
-                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
-                    }
-                    <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
-                    {libros.length > 0 ? (
-                        //ordenar por cantidad de visitas 
-                        <Slider className={classes.slider}>
-                            {libros.sort((a, b) => b.visitas - a.visitas).map(movie => (
-                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                            ))}
-                        </Slider>) :
-                        (<Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
-                    }
-                    <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
-                    {libros.length > 0 && flagActualizar===true ? (
-                        <Slider className={classes.slider}>
-                            {libros.sort((a, b) => b.visitas24Horas - a.visitas24Horas).map(movie => (
-                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                            )).sort(() => numeroRandom - 0.5)}
-                        </Slider>
+        <Grid container direction="row" className={classes.root}>
+            <Grid item direction="column" >
+                {/* si la pantalla es pequeña achicar el drawer  */}
+                <MiDrawer pestaña={1} sx={{ width: 240, flexShrink: 0, '& .MuiDrawer-paper': { width: 240, boxSizing: 'border-box', }, }} />
+            </Grid>
+            <Grid container direction="column" item xs={true} xl={true} lg={true}>
+                <Grid item >
+                    <AppBar />
+                </Grid>
+                <Grid item direction="column" alignItems="center" justifyContent="center" sx={{ flex: "1" }}>
+                    <Carousel className={classes.carousel}  >
+                        {
+                            imagenesCarrusel.map((item) => { return <Item key={item.id} item={item.img} /> })
+                        }
+                    </Carousel>
+                </Grid>
+                <Grid component={'main'} >
+                        <Typography variant='h4' className={classes.titulo} >Subidos recientemente</Typography>
+                        {libros.length > 0 ? (
+                            <Slider >
+                                {libros.map(movie => (
+                                    <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                                )).reverse()}
+                            </Slider>) : (
+                            <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                        }
+                        <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
+                        {libros.length > 0 ? (
+                            //ordenar por cantidad de visitas 
+                            <Slider className={classes.slider}>
+                                {libros.sort((a, b) => b.visitas - a.visitas).map(movie => (
+                                    <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                                ))}
+                            </Slider>) :
+                            (<Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                        }
+                        <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
+                        {libros.length > 0 && flagActualizar === true ? (
+                            <Slider className={classes.slider}>
+                                {libros.sort((a, b) => b.visitas24Horas - a.visitas24Horas).map(movie => (
+                                    <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                                )).sort(() => numeroRandom - 0.5)}
+                            </Slider>
                         ) : (
-                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
-                    }
-                    <Typography variant='h4' className={classes.titulo} >Ranking</Typography>
-                    {librosRankeados.length > 0 ? (
-                        <SliderRanked className={classes.slider}>
-                            {librosRankeados.map(movie => (
-                                <SliderRanked.Item movie={movie} key={movie._id}></SliderRanked.Item>
-                            )).reverse()}
-                        </SliderRanked>
+                            <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                        }
+                        <Typography variant='h4' className={classes.titulo} >Ranking</Typography>
+                        {librosRankeados.length > 0 ? (
+                            <SliderRanked className={classes.slider}>
+                                {librosRankeados.map(movie => (
+                                    <SliderRanked.Item movie={movie} key={movie._id}></SliderRanked.Item>
+                                )).reverse()}
+                            </SliderRanked>
                         ) : (
-                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
-                    }
-                    <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
-                    {libros.length > 0 ? (
-                        <Slider className={classes.slider}>
-                            {libros.map(movie => (
-                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                            )).sort(() => numeroRandom - 0.5)}
-                        </Slider>) : (
-                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
-                    }
-                    <Typography variant='h4' className={classes.titulo}>Para una noche de terror</Typography>
-                    {librosGenero.length > 0 ? (
-                        <Slider className={classes.slider}>
-                            {librosGenero.map(movie => (
-                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                            )).sort(() => Math.random() - 0.5)}
-                        </Slider>) : (
-                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
-                    }
-                    <Typography variant='h4' className={classes.titulo}>Más favoritos por la comunidad</Typography>
-                    {librosFavoritos.length > 0 ? (
-                        <Slider className={classes.slider}>
-                            {librosFavoritos.map(movie => (
-                                <Slider.Item movie={movie} key={movie._id}></Slider.Item>
-                            )).sort(() => Math.random() - 0.5)}
-                        </Slider>) : (
-                        <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
-                    }
-                </div>
-                <Footy />
+                            <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                        }
+                        <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
+                        {libros.length > 0 ? (
+                            <Slider className={classes.slider}>
+                                {libros.map(movie => (
+                                    <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                                )).sort(() => numeroRandom - 0.5)}
+                            </Slider>) : (
+                            <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                        }
+                        <Typography variant='h4' className={classes.titulo}>Para una noche de terror</Typography>
+                        {librosGenero.length > 0 ? (
+                            <Slider className={classes.slider}>
+                                {librosGenero.map(movie => (
+                                    <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                                )).sort(() => Math.random() - 0.5)}
+                            </Slider>) : (
+                            <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                        }
+                        <Typography variant='h4' className={classes.titulo}>Más favoritos por la comunidad</Typography>
+                        {librosFavoritos.length > 0 ? (
+                            <Slider className={classes.slider}>
+                                {librosFavoritos.map(movie => (
+                                    <Slider.Item movie={movie} key={movie._id}></Slider.Item>
+                                )).sort(() => Math.random() - 0.5)}
+                            </Slider>) : (
+                            <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                        }
+                </Grid>
+                <Grid item >
+                    <Footy />
+                </Grid>
             </Grid>
         </Grid>
     );
