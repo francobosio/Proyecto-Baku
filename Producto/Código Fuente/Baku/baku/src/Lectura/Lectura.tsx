@@ -194,6 +194,15 @@ const Lectura = () => {
 
     useEffect(() => {
         comienzaLectura();
+            const t = setInterval(() => {
+            setMostrarAlerta(true)
+            handleClickOpen();
+            contadorCerrar();
+            setTimeout(() => {
+                handleClose();
+            }, 3000);
+        }, 1800000);
+        return () => clearTimeout(t);
     }, [])
 
     //PLUGINS
