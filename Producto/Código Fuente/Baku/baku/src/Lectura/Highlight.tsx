@@ -31,12 +31,12 @@ interface Note {
     quote: string;
 }
 
-const HighlightPluginComponent = (id: String, usuario_id: String) => {
+const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Boolean) => {
 
     const [notes, setNotes] = React.useState<Note[]>([]); //Array "notes"
 
     const obtenerNotasPorUsuarioLibro = async () => {
-        console.log(usuario_id, id)
+        //console.log(usuario_id, id)
         const res = await lecturaService.obtenerNotaPorUsuarioLibro(usuario_id, id)
         const notesArray = res.data.respuesta.filter(function(props: { usuario?: String; id_libro?: String; createdAt?: String; updatedAt?: String;}) {
             delete props.usuario;
@@ -45,7 +45,7 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
             delete props.updatedAt;
             return true;
         });
-        console.log(notesArray )
+        //console.log(notesArray )
         setNotes(notesArray)
     }
 
@@ -191,7 +191,7 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
             notesContainer.scrollTop = noteEle.getBoundingClientRect().top;
         }
     };
-    console.log(notes)
+    //console.log(notes)
     // Listing all highlights on page is simple as following:
     const renderHighlights = (props: RenderHighlightsProps) => (
         <div>
@@ -224,12 +224,12 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
         </div>
     );
 
-    const highlightPluginInstance = highlightPlugin({
+    const highlightPluginInstance = highlightPlugin(habilitado?{
         trigger: Trigger.TextSelection,
         renderHighlightTarget,
         renderHighlightContent,
         renderHighlights,
-    });
+    }:{});
 
     const { jumpToHighlightArea } = highlightPluginInstance;
 
@@ -249,6 +249,15 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
             }}
         >
             {notes.length === 0 && <div style={{ textAlign: 'center' }}>No hay notas agregadas</div>}
+            {notes.length > 0 && <div style={{ 
+                        textAlign: 'center', 
+                        borderBottom: '1px solid rgba(0, 0, 0, .3)',
+                        padding: '8px',
+                        display: 'flex',
+                        justifyContent: 'space-between' }}>
+                            Los Marcadores se visualizarán cuando Tipo de Color sea Ninguno
+                        </div>}
+
             {/*console.log('339 - notas:'+ notes)*/}
             {notes.map((note) => {
                 const deleteNote = () => {
@@ -310,14 +319,21 @@ const HighlightPluginComponent = (id: String, usuario_id: String) => {
     Integración con Default Layout plugin:
             Para mover la lista de notas al sidebar, creamos una nueva pestaña:
     */
-    const defaultLayoutPluginInstance = defaultLayoutPlugin({
+    const defaultLayoutPluginInstance = defaultLayoutPlugin(habilitado?{
         renderToolbar,
-        sidebarTabs: (defaultTabs) =>
-            defaultTabs.concat({
+        sidebarTabs: (defaultTabs) => [
+            defaultTabs[0], // Bookmarks tab
+            defaultTabs[1], // Thumbnails tab
+            defaultTabs[2], // Attachments tab
+            {
                 content: sidebarNotes,
                 icon: <MessageIcon />,
                 title: 'Notas',
-            }),
+            }
+        ],
+    }:{
+        renderToolbar,
+        sidebarTabs: (defaultTabs) => [],
     });
 
     const { activateTab } = defaultLayoutPluginInstance;

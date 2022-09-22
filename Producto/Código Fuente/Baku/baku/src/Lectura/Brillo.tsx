@@ -25,6 +25,24 @@ import FormControl from '@mui/material/FormControl';
 //TIPO DE LETRA
 import TipoLetra from './TipoLetra';
 
+//ALERTA
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+export interface State extends SnackbarOrigin {
+  open: boolean;
+}
+
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))({
@@ -38,6 +56,7 @@ const Brillo = () => {
     //TIPO DE LETRA
     const cbTipoColor = ['Ninguno','Negro/Blanco','Sepia']
     const [tipoColor1, setTipoColor1] = React.useState('Ninguno'); //Después debería mantener la preferencia del usuario
+    
 
     const [important, setImportant] = React.useState('');
     const [value, setValue] = React.useState<number>(0);
@@ -67,9 +86,47 @@ const Brillo = () => {
         }
     }
 
+    
+
+    const [state, setState] = React.useState<State>({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
+    const { vertical, horizontal, open } = state;
+
+    const handleClick = (newState: SnackbarOrigin) => {
+        setState({ open: true, ...newState });
+    };
+
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    };
+
+    const action = (
+        <React.Fragment>
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </React.Fragment>
+    );
+
     const handleChangeSelect = (event: SelectChangeEvent) => {
         setTipoColor1(event.target.value as string);
         colores(event.target.value as string)
+        if(event.target.value != "Ninguno")
+        {
+            handleClick({
+                vertical: 'bottom',
+                horizontal: 'right',
+              })
+        }
+            
     };
 
     const handleChange = (event: Event, newValue: number | number[]) => {
@@ -154,6 +211,19 @@ const Brillo = () => {
                     <TipoLetra tipoColor1={tipoColor1}/>
                 </Grid>
             </Grid>
+            
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                onClose={handleClose}
+                key={vertical + horizontal}
+                autoHideDuration={4000}
+                action={action}
+            >
+                <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
+                    Los Marcadores se visualizarán cuando Tipo de Color sea Ninguno
+                </Alert>
+            </Snackbar>
         </div>
     )
 };
