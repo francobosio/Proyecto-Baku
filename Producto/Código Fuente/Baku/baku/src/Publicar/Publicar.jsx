@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, FormHelperText, Typography } from '@material-ui/core';
+import { Container, FormHelperText, Tooltip, Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Grid from '@material-ui/core/Grid';
@@ -23,6 +23,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
+import InfoIcon from '@mui/icons-material/Info';
 
 import * as libroServices from '../Libros/LibroService.ts';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
@@ -101,6 +103,14 @@ const useStyles = makeStyles((theme) => ({
     },
     btnPdf: {
         'background-color': '#4B9C8E',
+        'width': '25rem',
+        '&:hover': {
+            'background': '#076F55',
+            'color': '#FFFFFF',
+        }
+    },
+    btnPdf2: {
+        'background-color': 'green',
         'width': '25rem',
         '&:hover': {
             'background': '#076F55',
@@ -235,6 +245,7 @@ export default function MiniDrawer() {
     const [categoriaLibro, setCategoriaLibro] = useState([]);
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
+    const [archivoSubido, setarchivoSubido] = useState(false);
     const [libro, setLibro] = useState({ titulo: "", descripcion: "" });
     const [aceptaTerminos, setAceptaTerminos] = useState(false)
     const [aptoTodoPublico, setAptoTodoPublicos] = useState(false)
@@ -244,6 +255,11 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const [abrirDialog, setabrirDialog] = React.useState(false);
+
+    const handleCloseDialog = () => {
+        setabrirDialog(false);
+      };
 
     // Estas variables son para el control de los errores en el form
     const [errorTitulo, setErrorTitulo] = useState(null);
@@ -257,7 +273,7 @@ export default function MiniDrawer() {
     const alert = useAlert();
 
     /* metodo para deshabilitar los géneros que tengan conflictos entre si */
-   
+
     const handleSelectChange = (event) => {
         categorias.map((value) => (
             value.disabled = false
@@ -290,8 +306,21 @@ export default function MiniDrawer() {
     };
 
     const handlePdfChange = e => {
-        if (e.target.files.length) {
-            setPdf(e.target.files[0])
+        console.log(e.target.files[0].type )
+        if  (e.target.files[0].type === "application/pdf") {
+            if (e.target.files.length) {
+                setPdf(e.target.files[0])
+            }
+            console.log(e.target.files[0])
+            /* si se selecciono un archivo cambiar el boton */
+            if (e.target.files[0]) {
+                setarchivoSubido(true)
+            } else {
+                setarchivoSubido(false)
+            }
+        } else {
+            setarchivoSubido(false)
+            alert.error("Eror al subir el archivo, solo se permiten archivos PDF")
         }
     };
 
@@ -353,6 +382,7 @@ export default function MiniDrawer() {
 
     /* Método para resetear todos los campos del formulario. Se ejecuta al cargar un nuevo libro */
     const resetForm = () => {
+        setarchivoSubido(false);
         setAceptaTerminos(false);
         setAptoTodoPublicos(false);
         setLibro({});
@@ -412,7 +442,7 @@ export default function MiniDrawer() {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <MiDrawer pestaña={4}/>
+            <MiDrawer pestaña={4} />
             <main className={classes.content}>
                 <AppBar />
                 <React.Fragment>
@@ -558,22 +588,59 @@ export default function MiniDrawer() {
                                         </Dialog>
                                     </div>
                                 </Grid >
-                                <Grid item xs={12} >
-                                    <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}> Subí el contenido de tu libro
-                                        <input
-                                            type="file"
-                                            name="archivoTexto"
-                                            onChange={handlePdfChange}
-                                            hidden
-                                            accept=".pdf"
-                                        />
-                                    </Button>
+                                {/* grid direction row */}
+                                <Grid container xs={6} direction="row" alignItems="center" justify="center" >
+                                    { archivoSubido ?
+                                                <Button component="label" startIcon={<CheckCircleTwoToneIcon />} className={classes.btnPdf2+ " " + classes.centrar} >
+                                                    Libro cargado con éxito
+                                                    <input
+                                                        type="file"
+                                                        name="archivoTexto"
+                                                        onChange={handlePdfChange}
+                                                        hidden
+                                                        accept=".pdf"
+                                                    />
+                                                </Button>
+                                                :
+                                                <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}>
+                                                    Subí el contenido de tu libro
+                                                    <input
+                                                        type="file"
+                                                        name="archivoTexto"
+                                                        onChange={handlePdfChange}
+                                                        hidden
+                                                        accept=".pdf"
+                                                    />
+                                                   
+                                                </Button>
+                                    }
+                                    <Tooltip title="El archivo debe ser en formato PDF" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
+                                        <InfoIcon />
+                                    </Tooltip>
                                 </Grid>
 
                                 <Grid item xs={12} style={{ marginTop: "1rem" }}>
-                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained" disabled={(bloquearPublicar)}>Publicar</Button>
+                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={()=>setabrirDialog(true)} variant="contained" disabled={(bloquearPublicar)}>Publicar</Button>
                                 </Grid>
                                 <Grid item xs={12} >
+                                     {/* CODIGO PARA EL DIALOG */}
+                                    {abrirDialog && <Dialog
+                                    fullScreen={fullScreen}
+                                    open={abrirDialog}
+                                    onClose={handleCloseDialog}
+                                    aria-labelledby="responsive-dialog-title"
+                                    >
+                                    <DialogTitle id="responsive-dialog-title">¿Esta seguro que desea publicar el libro?</DialogTitle>
+                                    <DialogActions>
+                                        <Button autoFocus onClick={handleCloseDialog} color="primary">
+                                        Cancelar
+                                        </Button>
+                                        <Button onClick={handleSubmit} color="primary" autoFocus>
+                                        Aceptar
+                                        </Button>
+                                    </DialogActions>
+                                    </Dialog>
+                                    }
                                     <br />
                                 </Grid>
                             </Grid>
