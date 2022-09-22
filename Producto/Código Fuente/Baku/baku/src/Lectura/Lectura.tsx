@@ -32,7 +32,7 @@ import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 
 //GRID
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import ButtonMui from '@material-ui/core/Button';
 
@@ -161,8 +161,6 @@ const Lectura = () => {
     const usuario_id = localStorage.getItem("usuario_id")!;
     const [mostrarAlerta, setMostrarAlerta] = useState(false);
     const comienzaLectura = async () => {
-        contador();
-        /*  contadorCerrar(); */
         setInitialPage(1);
         const usuario_activo = localStorage.getItem("usuario_activo")
         if (usuario_activo != null) {
@@ -194,6 +192,15 @@ const Lectura = () => {
 
     useEffect(() => {
         comienzaLectura();
+        const t = setInterval(() => {
+            setMostrarAlerta(true)
+            handleClickOpen();
+            contadorCerrar();
+            setTimeout(() => {
+                handleClose();
+            }, 3000);
+        }, 1800000);
+        return () => clearTimeout(t);
     }, [])
 
     //PLUGINS
