@@ -192,6 +192,7 @@ const Lectura = () => {
 
     useEffect(() => {
         comienzaLectura();
+        cargarUsuario()
         const t = setInterval(() => {
             setMostrarAlerta(true)
             handleClickOpen();
@@ -226,7 +227,7 @@ const Lectura = () => {
             { /*BARRA DE HERRAMIENTAS*/}
             <Box sx={{ width: '100%', flexGrow: 1 }} style={{ paddingTop: '10px', backgroundColor: '#99cfbf' }}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
-                    <Grid xs={1.5}>
+                    <Grid item xs={1.5}>
                         <div style={{ 
                                         display: "flex",
                                         flexDirection: "column",
@@ -239,17 +240,17 @@ const Lectura = () => {
                             </ButtonMui>
                         </div>
                     </Grid>
-                    <Grid xs={2}>
+                    <Grid item xs={2}>
                         <Typography variant="h6" gutterBottom component="div">
                             Título: {libro.titulo}
                         </Typography>
                     </Grid>
-                    <Grid xs={5}>
+                    <Grid item xs={5}>
                         {habilitado &&
                             <Brillo />
                         }
                     </Grid>
-                    <Grid xs={2}>
+                    <Grid item xs={2}>
                         {habilitado && 
                             isVisible && (
                                 <div style={{ 
