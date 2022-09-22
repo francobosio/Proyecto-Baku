@@ -92,7 +92,6 @@ const Lectura = () => {
     // Create new plugin instance
     const classes = useStyles();
     let { id } = useParams<QuizParams>();
-
     //TEMA
     const [currentTheme, setCurrentTheme] = React.useState(localStorage.getItem('theme') || 'light');
 
@@ -114,22 +113,13 @@ const Lectura = () => {
 
     //************************************************************************************
   
-    const contador = () => {
-        setTimeout(() => {
-            console.log("Entro al contador 1")
-            setMostrarAlerta(true)
-            handleClickOpen();
-            contadorCerrar();
-        }, 1800000);
-        clearTimeout();
-    }
+/*     const contador = () => {
+        console.log("Entro al contador 1")
+  
+    } */
     const contadorCerrar = () => {
         console.log("Entro al contador 2")
-        setTimeout(() => {
-            handleClose();
-            contador();
-        }, 3000);
-        clearTimeout();
+        
     }
 
     const [open, setOpen] = React.useState(false);
@@ -162,8 +152,6 @@ const Lectura = () => {
     const usuario_id = localStorage.getItem("usuario_id")!;
     const [mostrarAlerta, setMostrarAlerta] = useState(false);
     const comienzaLectura = async () => {
-        contador();
-        /*  contadorCerrar(); */
         setInitialPage(1);
         const usuario_activo = localStorage.getItem("usuario_activo")
         if (usuario_activo != null) {
@@ -178,6 +166,15 @@ const Lectura = () => {
 
     useEffect(() => {
         comienzaLectura();
+        const t = setInterval(() => {
+            setMostrarAlerta(true)
+            handleClickOpen();
+            contadorCerrar();
+            setTimeout(() => {
+                handleClose();
+            }, 3000);
+        }, 1800000);
+        return () => clearTimeout(t);
     }, [])
 
     //PLUGINS
