@@ -131,7 +131,7 @@ function Login() {
                             label="Recordame"
                         />
                         <Button variant="contained" className={estilos.boton + ' ' + estilos.botonVerde}>
-                            <Link to="/Inicio">Iniciar Sesión</Link>
+                            <Link to="/Inicio">InASDASDASDASr Se</Link>
                         </Button>
                     </FormControl>
                 </Container>

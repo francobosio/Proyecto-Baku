@@ -1,29 +1,28 @@
-// Core viewer
-import { RenderPage, RenderPageProps, PageChangeEvent, Viewer, SpecialZoomLevel} from '@react-pdf-viewer/core';
-
-// Plugins
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-
+import React, { JSXElementConstructor, useEffect, useState } from 'react';
+import AppBar from '../AppBar/AppBarLectura.jsx';
+import { useParams } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
 //Worker
 import { Worker } from '@react-pdf-viewer/core';
+// Core viewer
+import { PageChangeEvent, Viewer, SpecialZoomLevel } from '@react-pdf-viewer/core';
+//Lenguaje
+import { LocalizationMap } from '@react-pdf-viewer/core';
+import es_ES from '@react-pdf-viewer/locales/lib/es_ES.json';
 
 // Import styles
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-
 import '@react-pdf-viewer/bookmark/lib/styles/index.css';
-
-import { makeStyles } from '@material-ui/core/styles';
-
-//------------------------------------------------------------------------------------------------------------
-import React, { useEffect, useState } from 'react';
-
-import AppBar from '../AppBar/AppBarLectura.jsx';
-
-import { useParams } from "react-router-dom";
-
-//Display reading progress at the top
-import ReadingIndicatorPluginP from './Reading_Progress/readingIndicatorPlugin';
 
 //BRILLO
 import Brillo from './Brillo';
@@ -37,29 +36,18 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import ButtonMui from '@material-ui/core/Button';
 
-//LENGUAJE
-import { LocalizationMap } from '@react-pdf-viewer/core';
-
 //TITULO
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
 
-// Import the localization file
-import es_ES from '@react-pdf-viewer/locales/lib/es_ES.json';
-
-
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import { useHistory } from "react-router-dom";
-
-import renderToolbar from './RenderToolbar';
+//Highlight
+import highlightPluginComponent from './Highlight'
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
     grid: {
-        'paddingBottom':'0.7rem',
+        'paddingBottom': '0.7rem',
         'margin': '0 auto',
     },
     boton: {
@@ -87,9 +75,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
-
-
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 const Lectura = () => {
     let history = useHistory()
     type QuizParams = {
@@ -116,29 +109,68 @@ const Lectura = () => {
     //PAGINA ACTUAL
     const handlePageChange = (e: PageChangeEvent) => {
         localStorage.setItem('current-page', `${e.currentPage}`);
+        console.log('Pagina Actual: ' + e.currentPage)
     };
 
+    //************************************************************************************
+  
+    const contador = () => {
+        setTimeout(() => {
+            console.log("Entro al contador 1")
+            setMostrarAlerta(true)
+            handleClickOpen();
+            contadorCerrar();
+        }, 1800000);
+        clearTimeout();
+    }
+    const contadorCerrar = () => {
+        console.log("Entro al contador 2")
+        setTimeout(() => {
+            handleClose();
+            contador();
+        }, 3000);
+        clearTimeout();
+    }
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+    //*************************************************************************************
+
+
     const terminaLectura = async () => {
-        const usuario_id = localStorage.getItem("usuario_activo");
+        const usuario_activo = localStorage.getItem("usuario_activo");
         const paginaActual = localStorage.getItem('current-page');
         const libroData = {
-            'auth0id': usuario_id,
+            'auth0id': usuario_activo,
             'idLibro': id,
             'ultimaPaginaLeida': paginaActual,
             'finLectura': true,
         }
-        const res = await usuarioService.usuarioLibroLeido(libroData);
-        console.log(res);
+        await usuarioService.usuarioLibroLeido(libroData);
+        setInitialPage(1);
     }
 
-    const [libro, setLibro] = useState({archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf", titulo: ''});
-    const [initialPage, setInitialPage] = useState(1);
+    const [libro, setLibro] = useState({ archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf", titulo: '' });
+    const [initialPage, setInitialPage] = useState<number>();
+    const usuario_id = localStorage.getItem("usuario_id")!;
+    const [mostrarAlerta, setMostrarAlerta] = useState(false);
     const comienzaLectura = async () => {
+        contador();
+        /*  contadorCerrar(); */
         setInitialPage(1);
-        const usuario_id = localStorage.getItem("usuario_activo");
-        if (usuario_id != null){
-            const resPagina = await usuarioService.usuarioUltimaPagina(usuario_id, id);
+        const usuario_activo = localStorage.getItem("usuario_activo")
+        if (usuario_activo != null) {
+            const resPagina = await usuarioService.usuarioUltimaPagina(usuario_activo, id);
+            console.log(resPagina.data)
             setInitialPage(resPagina.data);
+            console.log(initialPage)
             const resLibro = await libroService.getLibro(id);
             setLibro(resLibro.data);
         }
@@ -146,17 +178,13 @@ const Lectura = () => {
 
     useEffect(() => {
         comienzaLectura();
-    },[])
+    }, [])
 
-    
-    //DEFAULT LAYOUT
-    const defaultLayoutPluginInstance = defaultLayoutPlugin({
-        renderToolbar,
-        toolbarPlugin: {
-            searchPlugin: {
-            },
-        },
-    });
+    //PLUGINS
+    const object = highlightPluginComponent(id, usuario_id)
+    const highlightPluginInstance = object.highlightPluginInstance
+    const defaultLayoutPluginInstance = object.defaultLayoutPluginInstance
+    const handleDocumentLoad = object.handleDocumentLoad
 
     return (
         <div className={classes.root}>
@@ -168,33 +196,60 @@ const Lectura = () => {
                 <Grid className={classes.grid} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
                     <Grid item xs={2}>
                         <ButtonMui className={classes.boton} variant="contained">
-                            <ButtonMui className={classes.link} onClick={() => {terminaLectura(); history.goBack()}}>Atrás</ButtonMui>
+                            <ButtonMui className={classes.link} onClick={() => { terminaLectura(); history.goBack() }}>Atrás</ButtonMui>
                         </ButtonMui>
                     </Grid>
                     <Grid item xs={6}>
                         <Brillo />
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography variant="h5" gutterBottom component="div" align= 'center'>
+                        <Typography variant="h5" gutterBottom component="div" align='center'>
                             Título: {libro.titulo}
                         </Typography>
                     </Grid>
                 </Grid>
-            </Box>
 
+                {mostrarAlerta === true &&
+                    <div>
+                        <Dialog
+                            /* text in dialog with color red  */
+                            sx={{ '& .MuiDialog-paper': { bgcolor: '#ceffed' }, '& .MuiButton-root ': { color: 'black' } }}
+                            open={open}
+                            TransitionComponent={Transition}
+                            keepMounted
+                            onClose={handleClose}
+                            aria-describedby="alert-dialog-slide-description"
+                        >
+                            <DialogTitle>ALERTA DE DESCANSO</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-slide-description">
+                                    <Typography variant="h6" gutterBottom component="div" align='center'>
+                                        Hola! ,te recomendamos que descanse un poco, para que puedas seguir disfrutando de la lectura.
+                                    </Typography>
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose} size="large" >Cerrar</Button>
+                            </DialogActions>
+                        </Dialog>
+                    </div>
+                }
+            </Box>
             { /*CARGA DE PLUGINS*/}
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.14.305/build/pdf.worker.min.js">
                 <div className={classes.viewer}>
                     <Viewer
-                        fileUrl={ libro.archivoTexto }
+                        fileUrl={libro.archivoTexto}
                         defaultScale={SpecialZoomLevel.PageFit}
                         theme={currentTheme} onSwitchTheme={handleSwitchTheme}
                         initialPage={initialPage} onPageChange={handlePageChange}
                         localization={es_ES as unknown as LocalizationMap}
                         plugins={[
+                            highlightPluginInstance,
                             defaultLayoutPluginInstance,
-                            ]}
-                            
+                        ]}
+                        onDocumentLoad={handleDocumentLoad}
+
                     >{currentTheme}</Viewer>
                 </div>
             </Worker>

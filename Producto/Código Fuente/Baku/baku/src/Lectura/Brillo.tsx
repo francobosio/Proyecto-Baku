@@ -133,7 +133,12 @@ const Brillo = () => {
                             <Typography>
                                 Brillo
                             </Typography>
-                            <CustomTooltip title='Brillo se deshabilitará cuando Tipo de Color sea "Ninguno"'>
+                            <CustomTooltip title={
+                                <React.Fragment>
+                                    <b>{'Brillo se deshabilitará cuando Tipo de Color sea "Ninguno"'}</b>
+                                    <p><b>{'Las palabras resaltadas se deshabilitarán cuando Tipo de Color sea distinto de "Ninguno"'}</b></p>
+                                </React.Fragment>
+                            }>
                                 <ErrorIcon fontSize='small' color="disabled"/>
                             </CustomTooltip>
                         </Stack>

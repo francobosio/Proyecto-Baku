@@ -11,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Image from 'material-ui-image';
 import { Link } from "react-router-dom";
 import { useLocation } from 'react-router';
+import Tooltip from '@mui/material/Tooltip';
 
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -22,6 +23,7 @@ import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 //Imagenes
@@ -73,13 +75,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export const MiDrawer = () => {
+export const MiDrawer = (props) => {
     const location = useLocation();
+    const [revisar, setrevisar] = React.useState(localStorage.getItem('tipoUsuario') === '3' ? true : false);
     const classes = useStyles();
     const [open, setOpen] = React.useState(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false);
-
-    const revisar = localStorage.getItem('tipoUsuario') === '3' ? true : false;
-    console.log(revisar)
+    const [selectedIndex] = React.useState(props.pestaña);
     const handleDrawerOpenClose = () => {
         setOpen((data) => {
             localStorage.setItem('drawer_open', !data)
@@ -90,14 +91,14 @@ export const MiDrawer = () => {
     const handleLink = () => {
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
     }
-
+   
     useEffect(() => {
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
-        
+        setrevisar(localStorage.getItem('tipoUsuario') === '3' ? true : false)
     }, [location.pathname])
 
     //si el tipo de usuario es 1, se muestra el boton Revisar
-    
+
 
     return (
         <div className={classes.root}>
@@ -115,7 +116,9 @@ export const MiDrawer = () => {
                 }}
             >
                 <div className={classes.toolbar}>
-                    <Image src={Logo} aspectRatio={2.4} color={"#4B9C8E"} />
+                    <Link onClick={handleLink} to="/Inicio" className={classes.link} >
+                    <Image animationDuration={0}  src={Logo} aspectRatio={2.4} color={"#4B9C8E"} />
+                    </Link>
                     <IconButton className={classes.icono} onClick={handleDrawerOpenClose} style={{ color: "#FFFFFF" }} >
                         {open === false ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
@@ -123,51 +126,72 @@ export const MiDrawer = () => {
                 <Divider />
                 <List>
                     <Link onClick={handleLink} to="/Inicio" className={classes.link} >
-                        <ListItem button className={classes.texto} >
-                            <ListItemIcon><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
-                        </ListItem>
+                        {/* Crear tooltip por debajo del cursor */}
+                        <Tooltip title="Inicio" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                            <ListItem button className={classes.texto} selected={selectedIndex===1}  >
+                                <ListItemIcon  ><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
+                            </ListItem>
+                        </Tooltip>
                     </Link>
                     <Link onClick={handleLink} to="/Buscar" className={classes.link}>
-                        <ListItem button>
+                        <Tooltip title="Buscar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                        <ListItem button selected={selectedIndex === 2}>
                             <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
                         </ListItem>
+                        </Tooltip>
+                    </Link>
+                    <Link to="/Usuarios" className={classes.link} >
+                        <ListItem button>
+                            <ListItemIcon><AccountCircleIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                            <ListItemText primary='Usuarios' style={{ color: "#FFFFFF" }} />
+                        </ListItem>
                     </Link>
                     <Link to="/Biblioteca" className={classes.link} >
-                        <ListItem button>
+                        <Tooltip title="Biblioteca" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                        <ListItem button selected={selectedIndex === 3}>
                             <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
                         </ListItem>
+                        </Tooltip>
                     </Link>
                     <Link to="/Publicar" className={classes.link} >
-                        <ListItem button>
+                        <Tooltip title="Publicar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                        <ListItem button selected={selectedIndex === 4}>
                             <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
                         </ListItem>
+                        </Tooltip>
                     </Link>
                     {(revisar === true) ?
                         <List>
                             <Link to="/Estadistica" className={classes.link} >
-                                <ListItem button>
+                                <Tooltip title="Estadisticas" enterDelay={1000} leaveDelay={200} enterNextDelay={1000}arrow>
+                                <ListItem button selected={selectedIndex === 5}>
                                     <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                     <ListItemText primary='Estadísticas' style={{ color: "#FFFFFF" }} />
                                 </ListItem>
+                                </Tooltip>
                             </Link>
                             <Link to="/Revision" className={classes.link} >
-                                <ListItem button>
+                                <Tooltip title="Revisar"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                                <ListItem button selected={selectedIndex === 6} >
                                     <ListItemIcon><RateReviewOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                     <ListItemText primary='Revisión' style={{ color: "#FFFFFF" }} />
                                 </ListItem>
+                                </Tooltip>
                             </Link>
                             <Link to="/Parametros" className={classes.link} >
-                                <ListItem button>
+                                <ListItem button selected={selectedIndex === 7}>
                                     <ListItemIcon><MiscellaneousServicesIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <Tooltip title="Parametros"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000}  arrow>
                                     <ListItemText primary={`Parámetros`} style={{ color: "#FFFFFF" }} />
+                                </Tooltip>
                                 </ListItem>
                             </Link>
                         </List> :
-                        null};
+                        null}
                 </List>
                 <Divider />
             </Drawer>

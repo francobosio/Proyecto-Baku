@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import SpellcheckOutlinedIcon from '@mui/icons-material/SpellcheckOutlined';
-import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
-
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
-import { Container, Button, ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Typography, Grid } from '@material-ui/core';
+import { Container, ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Typography, Grid } from '@material-ui/core';
 
 import * as libroService from '../Libros/LibroService';
-import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -76,9 +73,7 @@ export default function TitlebarImageList() {
 
     const classes = useStyles();
     const [libros, setlibros] = useState([])
-    const [librosLeidos, setLibrosLeidos] = useState([])
-    const [flagBiblioteca, setFlagBiblioteca] = useState(true)
-    const [libroSeleccionado, setLibroSeleccionado] = useState(true)
+    const [libroSeleccionado] = useState(true)
 
     const loadLibros = async () => {
         const res = await libroService.getLibroRegistrado();
@@ -125,7 +120,7 @@ export default function TitlebarImageList() {
 
                                 </ImageList>
                             ) : (
-                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'100vh'} />
+                                null
                             )
                         }
                     </Grid>

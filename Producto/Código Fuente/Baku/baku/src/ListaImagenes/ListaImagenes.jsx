@@ -6,17 +6,20 @@ import ImageListItem from '@material-ui/core/ImageListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { Container, Grid } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
+import ReplyTwoToneIcon from '@mui/icons-material/ReplyTwoTone';
 import SearchIcon from '@material-ui/icons/Search';
 import Divider from '@material-ui/core/Divider';
-import { Link,useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
+import { useHistory } from "react-router-dom";
 
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
+import { ButtonBase, CardActionArea } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
 //Imagenes
 import arte from "./Categorias/categoria_arte.png";
 import ciencia_ficcion from "./Categorias/categoria_ciencia_ficcion.png";
@@ -42,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         "margin-bottom": "2rem",
-        "align-content":"flex-start",
+        "align-content": "flex-start",
         minHeight: '100vh',
     },
     imageList: {
@@ -63,10 +66,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#fff',
     },
     imagen: {
-      
+
         width: "100%",
         "position": "relative",
-      },
+    },
     grid: {
         display: "flex",
         "place-items": "center",
@@ -108,7 +111,9 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     title: {
-        color: '#932121'
+        color: '#932121',
+        "margin-top": "1.4rem",
+        "padding-left": "0px",
     },
     contenedor: {
         display: 'flex',
@@ -118,61 +123,73 @@ const useStyles = makeStyles((theme) => ({
         'justify-content': 'space-between',
         'flex-wrap': 'wrap'
     },
-    icono: {
-        width: "1.5em",
-        height: "1.5em",
-        color: "white",
+    contenedor2: {
+        display: 'flex',
+        height: "5rem",
+        width: "80rem",
+        'flex-direction': 'row',
+        'align-items': 'center',
+        'justify-content': 'center',
+        'flex-wrap': 'wrap'
     },
+    icono: {
+        width: "4em",
+        height: "3em",
+        color: "white",
+        //a la izquierda
+    },
+
 }));
 
 
+
 const categorias = [
-    {   
-        id:"Arte",
+    {
+        id: "Arte",
         img: arte,
     },
     {
-        id:"Ciencia Ficción",
+        id: "Ciencia Ficción",
         img: ciencia_ficcion,
     },
     {
-        id:"Fantasía",
+        id: "Fantasía",
         img: fantasia,
     },
-    {   
-        id:"Infantil",
+    {
+        id: "Infantil",
         img: infantil,
     },
     {
-        id:"Terror",
+        id: "Terror",
         img: terror,
     },
     {
-        id:"Aventura",
+        id: "Aventura",
         img: aventura,
     },
     {
-        id:"Viajes",
+        id: "Viajes",
         img: viajes,
     },
     {
-        id:"Romántico",
+        id: "Romántico",
         img: romantico,
     },
     {
-        id:"Policial",
+        id: "Policial",
         img: policial,
     },
     {
-        id:"Poesía",
+        id: "Poesía",
         img: poesia,
     },
     {
-        id:"Teatro",
+        id: "Teatro",
         img: teatro,
     },
     {
-        id:"Biografía",
+        id: "Biografía",
         img: biografias,
     },
 ];
@@ -185,12 +202,12 @@ export default function TitlebarImageList() {
     const [libroBuscado, setLibroBuscado] = useState(0)
     const classes = useStyles();
     const { busqueda } = useParams();
-
+    let history = useHistory();
     const handleSubmit = async (e) => {
         setEstado(true);
         if (!buscador) {
             setEstado(false);
-            return setError('Por favor ingrese un texto valido');
+            return setError('Por favor ingrese un texto válido');
         }
         const res = await libroService.buscarLibro(busquedaVariable);
         setLibroBuscado(res.data, setError(''));
@@ -203,14 +220,11 @@ export default function TitlebarImageList() {
 
     const handleChange = (e) => {
         setError('');
-        console.log(e.target.value);
         busquedaVariable = e.target.value;
         setBuscador(e.target.value);
-        console.log(busquedaVariable)
         clearTimeout(setTimeOutId) //para que no se ejecute el setTimeOutId
         setTimeOutId = setTimeout(() => {
             if (busquedaVariable.length > 0) {
-                console.log('Se esta buscando');
                 handleSubmit(busquedaVariable);
             }
         }, 1000);
@@ -223,6 +237,7 @@ export default function TitlebarImageList() {
         console.log(res);
     }
     const cargaIncial = async () => {
+        setLibroBuscado(0);
         if (busqueda) {
             setEstado(true);
             const res = await libroService.buscarLibro(busqueda);
@@ -246,14 +261,25 @@ export default function TitlebarImageList() {
             'finLectura': false,
         }
         const res = await usuarioService.usuarioLibroLeido(libroData);
-        console.log(res);
     }
-    
-    
+
+    const BotonReset = () => {
+        setEstado(false);
+        setLibroBuscado(0);
+    }
+
     return (
         <div className={classes.root}>
+
             <Grid className={classes.grid}>
-                <Divider className={classes.divider} />
+                <Container className={classes.contenedor2}>
+                    {/* alto y ancho mas grandes */}
+                   {libroBuscado.length > 0 && <IconButton size={'small'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}>
+                        <RefreshIcon sx={{ height: "auto", width: "2em", color: "#076f55", }} />
+                    </IconButton>
+                    }
+               <div style={{  width: "2em" }}>
+                </div>
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
                         <SearchIcon />
@@ -273,6 +299,7 @@ export default function TitlebarImageList() {
                         autoFocus
                     />
                 </div>
+                </Container>
                 <Typography variant="h5" className={classes.title}>
                     {error ? error : ''}
                 </Typography>
@@ -281,7 +308,7 @@ export default function TitlebarImageList() {
 
                     <ImageList rowHeight={500} className={classes.imageList} cols={3} gap={20}>
                         <ImageListItem key="Subheader" cols={3} style={{ height: 'auto' }}>
-                        <ListSubheader component="div"  className={classes.titulo}>Resultado</ListSubheader>
+                            <ListSubheader component="div" className={classes.titulo}>Resultado</ListSubheader>
                         </ImageListItem>
                         {libroBuscado.map((item) => (
                             <ImageListItem key={item.id} style={{ width: "16.8rem", height: "23.5rem" }} >
@@ -304,20 +331,20 @@ export default function TitlebarImageList() {
                     :
                     <Container className={classes.contenedor} onR  >
                         <Container>
-                             <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
-                             <br />
+                            <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
+                            <br />
                         </Container>
                         <Container className={classes.contenedor}>
 
                             {categorias.map((item) =>
                             (
-                                <Card style={{ maxWidth: 345 , width:"18rem",background:"#99cfbf","margin-top": "10px"}}>
+                                <Card style={{ maxWidth: 345, width: "18rem", background: "#99cfbf", "margin-top": "10px" }}>
                                     <CardActionArea onClick={() => handleClick(item.id)}  >
                                         <CardMedia
                                             component="img"
                                             height="auto"
                                             image={item.img}
-                                            style={{ "margin-top": "-2px"}}
+                                            style={{ "margin-top": "-2px" }}
                                         />
                                     </CardActionArea>
                                 </Card>

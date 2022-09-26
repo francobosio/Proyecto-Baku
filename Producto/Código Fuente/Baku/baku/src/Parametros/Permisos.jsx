@@ -54,10 +54,9 @@ export default function ColumnTypesGrid() {
         Tipo: usuario.tipoUsuario[0].nombre
       }
       arrayUsuarios.push(objetoUsuario);
-    }
-    )
+    })
     setRows(arrayUsuarios);
-
+    console.log(arrayUsuarios);
   }
   
 
@@ -68,7 +67,7 @@ export default function ColumnTypesGrid() {
  //al selececionar le boton asignar se guarda el id del usuario seleccionado en la variable usuario 
   const handleClickAsignar = async() => {
     let buscarNombre = tipoUsuarios.find(tipo => tipo.id === usuario);
-    
+    //Cambio el id por el nombre del tipoDeUsuario en toda la grilla
     setRows(rows.map(row => {
       if (row.id === idUsuarioRow) {
           row.Tipo = buscarNombre.nombre;
@@ -129,7 +128,7 @@ export default function ColumnTypesGrid() {
       { field: 'Tipo', type: 'string',flex:1 , minWidth: 100 },
       { field: 'actions',
         type: 'actions',
-        flex:1 , minWidth: 50,
+        flex:0.6 , minWidth: 50,
         getActions: (params) => [
           <GridActionsCellItem
             icon={<DeleteIcon />}

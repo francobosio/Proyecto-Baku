@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
@@ -31,7 +31,7 @@ export default function MiniDrawer() {
 
     return (
         <div className={classes.root}>
-            <MiDrawer />
+            <MiDrawer pestaña={7} />
             <main className={classes.content}>
                 
                 <AppBar />

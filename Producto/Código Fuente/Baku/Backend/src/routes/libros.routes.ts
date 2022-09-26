@@ -10,6 +10,8 @@ router.get('/libros', libroCtrl.getLibros);
 
 router.get('/librosRegistrados', libroCtrl.getLibrosRegistrados);
 
+router.get('/librosPublicados', libroCtrl.getLibrosPublicados);
+
 router.get('/libro/:id', libroCtrl.getLibro)
 
 router.get('/libro/revision/:id', libroCtrl.getLibroRevision)
@@ -26,5 +28,18 @@ router.get('/libros/buscar/genero/:genero', libroCtrl.buscarLibroGenero)
 
 //los parametros se paran por el body de la peticion
 router.put('/libro/cambiarEstado', libroCtrl.updateLibroEstado)
+
+router.get('/autor/:libroId', libroCtrl.getBuscarAutor)
+
+
+router.get('/autor/libros/:id', libroCtrl.getLibrosAutor)
+
+router.get('/libros', libroCtrl.obtenerLibros);
+
+router.get('/librosFecha/:mes/:anho', libroCtrl.obtenerLibrosFecha)
+
+router.get('/librosFavoritos', libroCtrl.obtenerLibrosMasFavoritos)
+
+ router.get('/libros/ranking', libroCtrl.obtenerRanking) 
 
 export default router

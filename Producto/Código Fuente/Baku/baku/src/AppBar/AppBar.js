@@ -1,22 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import Notifications from './Notificacion.js';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar'
 import { useHistory } from "react-router-dom";
+import * as NotificacionServices from '../Notificacion/NotificacionService.ts'
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -106,11 +106,29 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [valor, setValor] = React.useState("");
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let history = useHistory();
+  
+  const buscarNotificaciones = async () => {
+    //esperar 1 segundo para que se carguen las notificaciones
+    let usuarioAuth0 = localStorage.getItem('usuario_activo');
+    const notificaciones = await NotificacionServices.buscarNotificacionUsuarioAuth0(usuarioAuth0);
+    const respuesta = notificaciones.data.mensajes;
 
-
+    //ordenar el array de notificaciones por fecha de creacion
+    respuesta.sort(function (a, b) {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+    setValor(respuesta)
+    return respuesta;
+  };
+  
+  useEffect(() => {
+      buscarNotificaciones();
+    }, [])
+  
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -127,6 +145,8 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -157,20 +177,12 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Mensajes</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
+     {/*  {(buscarNotificaciones() !== "undefined")?
+        <Notifications notificacion={buscarNotificaciones()}  />
+        : null
+      } */}
         <p>Notificaciones</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
@@ -186,7 +198,6 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
-
   return (
     <div className={classes.grow}>
       <AppBar position="static"  >
@@ -201,7 +212,6 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
-                  console.log('diste enter');
                  const  valor=e.target.value;
                   //redirecionar al componente buscar con parametros
                  history.push(`/Buscar/${valor}`);
@@ -218,12 +228,11 @@ export default function PrimarySearchAppBar() {
             </Button>
           </div>
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
+            {valor ? <Notifications notificacion={valor}  /> : null }
+
+          </div>
+          <div className={classes.sectionDesktop}>
+          <IconButton
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -231,9 +240,9 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Avatar alt={user.name} src={user.picture}></Avatar>
+              <Avatar  alt={user.name} src={user.picture} referrerPolicy="no-referrer" />
             </IconButton>
-          </div>
+            </div>
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"

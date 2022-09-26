@@ -22,19 +22,30 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
 const TipoLetra = (props: { tipoColor1: string; }) => {
 
     //TIPO DE LETRA
-    const cbTipoLetra = ['sans-serif', 'calibri', 'Comic Sans MS']
-    const [tipoLetra2, setTipoLetra2] = React.useState('sans-serif');
+    const cbTipoLetra = ['Ninguno','Sans-serif', 'Calibri', 'Comic Sans MS']
+    const [tipoLetra2, setTipoLetra2] = React.useState('Ninguno');
     const [scaleX, setScaleX] = React.useState<number>(0);
     const [important, setImportant] = React.useState('');
+    const [important2, setImportant2] = React.useState('');
 
     function scaleXnumber(nuevoValor: string) {
-        if (nuevoValor == "calibri"){
+        if (nuevoValor == "Sans-serif"){
+            setImportant("important");
+            setImportant2("");
+        }
+        if (nuevoValor == "Calibri"){
             setScaleX(0.97);
-            //setImportant("important");
+            setImportant("important");
+            setImportant2("important");
         }
         if (nuevoValor == "Comic Sans MS"){
             setScaleX(0.85);
-            //setImportant("important");
+            setImportant("important");
+            setImportant2("important");
+        }
+        if (nuevoValor == "Ninguno"){
+            setImportant("");
+            setImportant2("");
         }
     }
 
@@ -51,8 +62,8 @@ const TipoLetra = (props: { tipoColor1: string; }) => {
                         .rpv-core__text-layer {
                         }
                         .rpv-core__text-layer-text {
-                            font-family: "${tipoLetra2}" !important;
-                            transform: scaleX(${tipoLetra2 == 'sans-serif'?'':scaleX}) ${tipoLetra2 == 'sans-serif'?'':'!important'};
+                            font-family: "${tipoLetra2}" !${important};
+                            transform: scaleX(${scaleX}) !${important2};
                         }
                     `
                 }

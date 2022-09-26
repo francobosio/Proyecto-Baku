@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid'
+import { useAuth0 } from '@auth0/auth0-react';
+import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,10 +21,27 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-/* página de carga, solamente renderiza un circulo giratorio de color verde */
-
 export const Loading = () => {
   const classes = useStyles();
+  const { user } = useAuth0();
+  const validarEstado = async () => {
+    if (user !== undefined) {
+      const usuario = await usuarioService.getUsuario(user.sub)
+      if (usuario.data.estado === 'Inactivo') {
+        //alerta de usuario inactivo y redireccionar a login
+        alert('Usuario inactivo, por favor contacte al administrador')
+        window.location.href = '/'
+      }
+      } else {
+        console.log('Usuario Activo')
+    }
+  }
+
+  useEffect(() => {
+    validarEstado()
+    }, [] )
+
+
   return (<div>
     <Container justifycontent="center" maxWidth="xl" className={classes.root}>
       <Grid

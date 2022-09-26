@@ -5,8 +5,10 @@ import Tab from '@mui/material/Tab';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import ListaLibrosRevisar from '../Revision/ListaLibrosRevisar.jsx';
+import TipoUsuario from './TipoUsuario';
 import Permisos from './Permisos.jsx'
+import Denuncias from './Denuncias.jsx';
+import { height } from '@mui/system';
 const useStyles = makeStyles((theme) => ({
   //la ventada ocupe todo el ancho de la pantalla
     root: {
@@ -62,18 +64,18 @@ export default function BasicTabs() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Permisos" {...a11yProps(0)} />
-          <Tab label="Generos" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Denuncias" {...a11yProps(1)} />
+          <Tab label="Tipo de Usuario" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
         <Permisos/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <Denuncias/>
       </TabPanel>
-      <TabPanel value={value} index={2}>
-      <ListaLibrosRevisar/>
+      <TabPanel sx={{height:'100em'}} value={value} index={2}>
+      <TipoUsuario/>
       </TabPanel>
     </Box>
   );

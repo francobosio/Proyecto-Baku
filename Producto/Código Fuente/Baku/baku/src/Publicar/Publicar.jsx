@@ -26,6 +26,7 @@ import { useTheme } from '@mui/material/styles';
 
 import * as libroServices from '../Libros/LibroService.ts';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
+import * as notificacionService from '../Notificacion/NotificacionService'
 import Termino from './Termino'
 
 const useStyles = makeStyles((theme) => ({
@@ -231,7 +232,6 @@ const conflictos = {
 }
 
 export default function MiniDrawer() {
-    window.scrollTo(0, 0)
     const [categoriaLibro, setCategoriaLibro] = useState([]);
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
@@ -239,12 +239,11 @@ export default function MiniDrawer() {
     const [aceptaTerminos, setAceptaTerminos] = useState(false)
     const [aptoTodoPublico, setAptoTodoPublicos] = useState(false)
     const [estado, setEstado] = useState("Registrado")
+    const [bloquearPublicar, setBloquearPublicar] = useState(true)
     const [scroll, setScroll] = useState(true)
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
-
 
     // Estas variables son para el control de los errores en el form
     const [errorTitulo, setErrorTitulo] = useState(null);
@@ -285,7 +284,6 @@ export default function MiniDrawer() {
         if (e.target.files.length) {
             setImage({
                 preview: URL.createObjectURL(e.target.files[0]),
-                
                 raw: e.target.files[0]
             });
         }
@@ -303,6 +301,7 @@ export default function MiniDrawer() {
 
     const handleAceptaTerminoChange = e => {
         setAceptaTerminos(e.target.checked)
+        setBloquearPublicar(!e.target.checked)
     }
 
     const handleParaTodoPublicoChange = e => {
@@ -315,6 +314,7 @@ export default function MiniDrawer() {
         if (validate()) {
             e.preventDefault();
             const usuario_auth0Id = localStorage.getItem("usuario_activo")
+            const avatar = localStorage.getItem("avatar")
             const formData = new FormData();    //formdata object
             formData.append("imagenPath", image.raw);
             formData.append("titulo", libro.titulo);
@@ -328,12 +328,24 @@ export default function MiniDrawer() {
             formData.append("estado", estado)
             formData.append("editorial", libro.editorial)
             formData.append("autor", libro.autor)
+            formData.append("usuario", usuario_auth0Id)
+            formData.append("avatar", avatar)
             const res = await libroServices.createLibro(formData);
             const idData = {
                 'auth0id': usuario_auth0Id,
                 'idLibro': res.data.libro._id
             };
-            const res2 = await usuarioService.usuarioLibroCargado(idData);
+            const nuevaNotificacion = {
+                'auth0usuario': localStorage.getItem("usuario_activo"),
+                'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido:",
+                'descripcion': libro.descripcion,
+                'avatar': localStorage.getItem("avatar"),
+                'tipo': "subidaLibro",
+                'esNoleido': true,
+                'id_libro': res.data.libro._id,
+            }
+            await usuarioService.usuarioLibroCargado(idData);
+            await notificacionService.createNotificacion(nuevaNotificacion);
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
         }
@@ -341,8 +353,8 @@ export default function MiniDrawer() {
 
     /* Método para resetear todos los campos del formulario. Se ejecuta al cargar un nuevo libro */
     const resetForm = () => {
-        setAceptaTerminos(null);
-        setAptoTodoPublicos(null);
+        setAceptaTerminos(false);
+        setAptoTodoPublicos(false);
         setLibro({});
         setPdf("");
         setImage({ preview: "", raw: "" });
@@ -360,6 +372,7 @@ export default function MiniDrawer() {
 
     /* Método para validar todos los campos del formulario. Se ejecuta al intentar cargar un nuevo libro */
     const validate = () => {
+        setBloquearPublicar(true)
         // creo una variable temporal temp y guardo en ella cadenas vacias si los campos son correctos u otra cadena cualquiera si no lo son
         let temp = {}
         temp.img = image.raw !== "" ? "" : "Imagen"
@@ -399,7 +412,7 @@ export default function MiniDrawer() {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <MiDrawer />
+            <MiDrawer pestaña={4}/>
             <main className={classes.content}>
                 <AppBar />
                 <React.Fragment>
@@ -558,7 +571,7 @@ export default function MiniDrawer() {
                                 </Grid>
 
                                 <Grid item xs={12} style={{ marginTop: "1rem" }}>
-                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained" disabled={!aceptaTerminos}>Publicar</Button>
+                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained" disabled={(bloquearPublicar)}>Publicar</Button>
                                 </Grid>
                                 <Grid item xs={12} >
                                     <br />

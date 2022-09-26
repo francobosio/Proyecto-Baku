@@ -14,17 +14,20 @@ import Biblioteca from '../Biblioteca/Biblioteca.jsx';
 import Parametros from '../Parametros/Parametros.jsx';
 import Resultado from '../Revision/Resultado.jsx'
 import HomeSuscripcion from "../Suscripcion/home-suscripcion.jsx";
+import Usuarios from '../Usuarios/Usuarios.jsx';
+import Autor from '../Autor/Autor.jsx'
+import AutorPorAuth0 from '../AutorPorAuth0/AutorPorAuth0.jsx'
 import { Loading } from '../Sesión/Loading.jsx'
 import Perfil from "../Sesión/Perfil.jsx";
+import Paginas from "../PaginasFooter/Paginas.jsx";
 
 export default function Layout() {
     /* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
     isAuthenticated permite saber si el usuario esta autenticado, isLoading permite saber si la aplicación esta cargando datos desde auth0 */
     const { isAuthenticated, isLoading } = useAuth0();
     //valide que el usuario_activo en el localStorage es de tipo 1, si es asi, redireccionarlo a la pagina de inicio
-    const [locale, setLocale] = React.useState('esES');
+    const [locale] = React.useState('esES');
     const theme = useTheme();
-   
     const themeWithLocale = React.useMemo(
         () => createTheme(theme, locales[locale]),
         [locale, theme],
@@ -38,10 +41,11 @@ export default function Layout() {
                         usuario esta logueado */}
                         <Switch>
                             <Route exact path="/" component={Home} />
-                            <Route exact path="/Inicio" component={isLoading ? Loading : (isAuthenticated ) ? Inicio : Home} />
+                            <Route exact path="/Inicio" component={isLoading ? Loading :  isAuthenticated ? Inicio : Home} />
                             <Route exact path="/Lectura/:id" component={isLoading ? Loading : isAuthenticated ? Lectura : Home} />
                             <Route exact path="/Publicar" component={isLoading ? Loading : isAuthenticated ? Publicar : Home} />
                             <Route exact path="/Buscar" component={isLoading ? Loading : isAuthenticated ? Buscar : Home} />
+                            <Route exact path="/Usuarios" component={isLoading ? Loading : isAuthenticated ? Usuarios : Home} />
                             <Route exact path="/Buscar/:busqueda" component={isLoading ? Loading : isAuthenticated ? Buscar : Home} />
                             <Route exact path="/Biblioteca" component={isLoading ? Loading : isAuthenticated ? Biblioteca : Home} />
                             <Route exact path="/Perfil" component={isLoading ? Loading : isAuthenticated ? Perfil : Home} />
@@ -51,6 +55,12 @@ export default function Layout() {
                             <Route exact path="/Revision/:id" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Resultado : Home : Home} />
                             <Route exact path="/Parametros" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Parametros : Home : Home} />
                             
+                            <Route exact path="/Revision" component={isLoading ? Loading : !isAuthenticated ? Home :((localStorage.getItem('tipoUsuario') === '3') && localStorage.getItem('usuario_estado')==='Activo')? Revision : Home } />
+                            <Route exact path="/Revision/:id" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Resultado :  Home} />
+                            <Route exact path="/Parametros" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Parametros :  Home} />
+                            <Route exact path="/Autor/:libroId" component={isLoading ? Loading : isAuthenticated ? Autor : Home} />
+                            <Route exact path="/AutorId/:Id" component={isLoading ? Loading : isAuthenticated ? AutorPorAuth0 : Home} />
+                            <Route exact path="/Ayuda/:tipo" component={Paginas} />
                             <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                         </Switch>
                     </div>
