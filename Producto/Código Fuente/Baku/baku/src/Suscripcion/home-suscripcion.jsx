@@ -13,14 +13,14 @@ const useStyles = makeStyles((theme) => ({
         'font-weight': 'bold',
         'margin-top': '3rem',
         'display': 'flex',
-        'color': '#FFFFFF',
+        'color': 'white',
         'fontSize': '1rem',
         'background-color': '#3a7a6f',
         'paddingBottom': '-1rem',
         'width': '15.5rem',
         '&:hover': {
             'background': '#076F55',
-            'color': '#FFFFFF',
+            'color': 'white',
         },
     },
     main: {
@@ -104,7 +104,7 @@ export default function HomeSuscripcion() {
                                             <InputLabel className={classes.precio}>{modelo.precio}</InputLabel>
                                         </Grid>
                                     </Grid>
-                                    <Button className={classes.boton} component={Link} to={modelo.link_pago} variant="contained" disabled={modelo.disabled}>
+                                    <Button className={classes.boton} href={modelo.link_pago} variant="contained" disabled={modelo.disabled}>
                                         Suscribirme
                                     </Button>
                                 </div>
