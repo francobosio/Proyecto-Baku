@@ -221,10 +221,8 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.grow} />
           <div>
-            <Button href="/suscripcion" className={classes.btnSuscripcion} variant="contained">
-                <Link to={"/Suscripcion"} >
-                  Suscribirse
-                </Link>
+            <Button className={classes.btnSuscripcion} component={Link} to="/suscripcion" variant="contained">
+                Suscribirse
             </Button>
           </div>
           <div className={classes.sectionDesktop}>

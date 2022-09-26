@@ -1,4 +1,3 @@
-import React from "react"
 import { makeStyles, Grid, Button, InputLabel } from "@material-ui/core";
 import { MiDrawer } from "../Drawer/Drawer";
 import AppBar from '../AppBar/AppBar.js';
@@ -66,21 +65,19 @@ const useStyles = makeStyles((theme) => ({
 const modelosSuscripcion = [
     {
         id: 1,
-        nombre: "Suscripcion Clásica",
-        descripcion: "Descripcion",
-        precio: "499 ARS"
-    },
-    {
-        id: 2,
         nombre: "Suscripcion Prémium",
         descripcion: "Esta suscripcion esta muy buena porque",
-        precio: "699 ARS"
+        precio: "500 ARS",
+        disabled: false,
+        link_pago: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c93808483727f9e0183771907b40192"
     },
     {   
-        id: 3,
+        id: 2,
         nombre: "Suscripcion Familiar",
         descripcion: "Descripcion",
-        precio: "499 ARS"
+        precio: "700 ARS",
+        disabled: true,
+        link_pago: ""
     }
 ];
 
@@ -107,8 +104,8 @@ export default function HomeSuscripcion() {
                                             <InputLabel className={classes.precio}>{modelo.precio}</InputLabel>
                                         </Grid>
                                     </Grid>
-                                    <Button className={classes.boton}>
-                                        <Link href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848191d6450181a7589c3c08de">Suscribirme</Link>
+                                    <Button className={classes.boton} component={Link} to={modelo.link_pago} variant="contained" disabled={modelo.disabled}>
+                                        Suscribirme
                                     </Button>
                                 </div>
                             </Grid>)

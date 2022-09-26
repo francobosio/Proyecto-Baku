@@ -20,6 +20,7 @@ import AutorPorAuth0 from '../AutorPorAuth0/AutorPorAuth0.jsx'
 import { Loading } from '../Sesión/Loading.jsx'
 import Perfil from "../Sesión/Perfil.jsx";
 import Paginas from "../PaginasFooter/Paginas.jsx";
+import ResultadoCobro from "../Suscripcion/resultado-cobro.jsx";
 
 export default function Layout() {
     /* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
@@ -49,12 +50,13 @@ export default function Layout() {
                             <Route exact path="/Buscar/:busqueda" component={isLoading ? Loading : isAuthenticated ? Buscar : Home} />
                             <Route exact path="/Biblioteca" component={isLoading ? Loading : isAuthenticated ? Biblioteca : Home} />
                             <Route exact path="/Perfil" component={isLoading ? Loading : isAuthenticated ? Perfil : Home} />
-                            <Route exact path="/Suscripcion" component={isLoading ? Loading : isAuthenticated ? HomeSuscripcion : Home } />
+                            <Route exact path="/Suscripcion" component={isLoading ? Loading : isAuthenticated ? HomeSuscripcion : Home} />
                             <Route exact path="/Estadistica" component={isLoading ? Loading : isAuthenticated ? Estadistica : Home} />
+                            <Route exact path="/ResultadoCobro" component={isLoading ? Loading : isAuthenticated ? ResultadoCobro : Home} />
+
                             <Route exact path="/Revision" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Revision : Home : Home} />
                             <Route exact path="/Revision/:id" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Resultado : Home : Home} />
                             <Route exact path="/Parametros" component={isLoading ? Loading : isAuthenticated ? (localStorage.getItem('tipoUsuario') === '3') ? Parametros : Home : Home} />
-                            
                             <Route exact path="/Revision" component={isLoading ? Loading : !isAuthenticated ? Home :((localStorage.getItem('tipoUsuario') === '3') && localStorage.getItem('usuario_estado')==='Activo')? Revision : Home } />
                             <Route exact path="/Revision/:id" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Resultado :  Home} />
                             <Route exact path="/Parametros" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Parametros :  Home} />
