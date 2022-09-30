@@ -40,7 +40,7 @@ const Narrador = (props) => {
 
         const [value, setValue] = useState(""); //TEXTO DEL NARRADOR
         //const [jump, setJump] = useState(false); 
-        const { speak, cancel, speaking } = useSpeechSynthesis(); //NARRADOR
+        const { speak, cancel, speaking, voices } = useSpeechSynthesis(); //NARRADOR
         const [estadoNarrador , setEstadoNarrador] = useState("En Pausa")
 
 
@@ -61,7 +61,7 @@ const Narrador = (props) => {
             if(jump){
                 const timer = setTimeout(() => {
                     //console.log("Hello, World!")
-                    speak({ text: value[props.currentPage] })
+                    speak({ text: value[props.currentPage], voice: voices[0] })
                     //setJump(false)
                     jump = false
                 }, 100);
@@ -106,7 +106,7 @@ const Narrador = (props) => {
         }
 
         const hablar = () => {
-            speak({ text: value[props.currentPage] })
+            speak({ text: value[props.currentPage], voice: voices[0] })
             setEstadoNarrador("Reproduciendo")
         }
 

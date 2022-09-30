@@ -356,40 +356,46 @@ export const getLibroNarrador: RequestHandler = async (req, res) => {
         pagerender: render_page,
     }
 
-    //Me parece que con libroFound.archivoTexto nos ahorramos este paso...
-    const pdfFile = await fs.readFile(`./revision/${req.params.titulo}.pdf`);
 
-    PdfParse(pdfFile, options).then(function (data) {
-        let dataText = data.text;
-        //Separo en palabras el texto del pdf
-        let arrayData = data.text.split(/\t|\n|\s/);
+    if (fs.existsSync(`./revision/${req.params.titulo}.pdf`)) {
 
-        let arrayText = arrayData.join(' ')
+        //Me parece que con libroFound.archivoTexto nos ahorramos este paso...
+        const pdfFile = await fs.readFile(`./revision/${req.params.titulo}.pdf`);
 
-        const arrayLimpio: any[] = []
-        array.forEach(function (elemento, indice, array) {
-            
+        PdfParse(pdfFile, options).then(function (data) {
+            let dataText = data.text;
             //Separo en palabras el texto del pdf
-            let arrayData = elemento.split(/\t|\n|\s/);
+            let arrayData = data.text.split(/\t|\n|\s/);
 
             let arrayText = arrayData.join(' ')
-            arrayLimpio.push(arrayText);
+
+            const arrayLimpio: any[] = []
+            array.forEach(function (elemento, indice, array) {
+                
+                //Separo en palabras el texto del pdf
+                let arrayData = elemento.split(/\t|\n|\s/);
+
+                let arrayText = arrayData.join(' ')
+                arrayLimpio.push(arrayText);
+            });
+
+            fs.access(`./revision/${req.params.titulo}.pdf`, err => err ? 'does not exist' : 'exists')
+
+            fs.unlink(`./revision/${req.params.titulo}.pdf`, (err => {
+                if (err) console.log(err);
+                else {
+                console.log(`Archivo eliminado: ${req.params.titulo}.pdf`);
+                }
+            }));
+
+            return res.json({
+                dataText,
+                arrayData,
+                arrayText,
+                array,
+                arrayLimpio
+            })
+
         });
-
-        fs.unlink(`./revision/${req.params.titulo}.pdf`, (err => {
-            if (err) console.log(err);
-            else {
-              console.log(`Archivo eliminado: ${req.params.titulo}.pdf`);
-            }
-        }));
-
-        return res.json({
-            dataText,
-            arrayData,
-            arrayText,
-            array,
-            arrayLimpio
-        })
-
-    });
+    }
 }
