@@ -32,7 +32,7 @@ import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 
 //GRID
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import ButtonMui from '@material-ui/core/Button';
 
@@ -91,6 +91,8 @@ const Lectura = () => {
         id: string;
     }
 
+    const [habilitado, setHabilitado] = useState(false)
+
     // Create new plugin instance
     const classes = useStyles();
     let { id } = useParams<QuizParams>();
@@ -116,26 +118,7 @@ const Lectura = () => {
         setCurrentPage(e.currentPage)
     };
 
-    //************************************************************************************
-  
-    const contador = () => {
-        setTimeout(() => {
-            console.log("Entro al contador 1")
-            setMostrarAlerta(true)
-            handleClickOpen();
-            contadorCerrar();
-        }, 1800000);
-        clearTimeout();
-    }
-    const contadorCerrar = () => {
-        console.log("Entro al contador 2")
-        setTimeout(() => {
-            handleClose();
-            contador();
-        }, 3000);
-        clearTimeout();
-    }
-
+    //DESCANSO DE LECTURA
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -145,16 +128,31 @@ const Lectura = () => {
     const handleClose = () => {
         setOpen(false);
     };
-    //*************************************************************************************
+
+    useEffect(() => {
+        comienzaLectura();
+        cargarUsuario();
+        const contadorDL = setTimeout(() => {
+            console.log("Entro al contador 1")
+            setMostrarAlerta(true)
+            handleClickOpen();
+          }, 1800000);
+          return () => clearTimeout(contadorDL);
+    }, [])
 
 
     const terminaLectura = async () => {
         //Presiona el BOTON DE PAUSE del Narrador al salir
-        let element: HTMLElement = document.getElementsByClassName('pause')[0] as HTMLElement;
-        element.click();
+        if(habilitado){
+            let element: HTMLElement = document.getElementsByClassName('pause')[0] as HTMLElement;
+            element.click();
+        }
+        
                 
         const usuario_activo = localStorage.getItem("usuario_activo");
         const paginaActual = localStorage.getItem('current-page');
+        console.log("🚀 ~ file: Lectura.tsx ~ line 154 ~ terminaLectura ~ paginaActual", paginaActual)
+        
         const libroData = {
             'auth0id': usuario_activo,
             'idLibro': id,
@@ -162,8 +160,8 @@ const Lectura = () => {
             'finLectura': true,
         }
         await usuarioService.usuarioLibroLeido(libroData);
-        setInitialPage(1);
-        await libroService.eliminarLibroRevision(libro.titulo);
+        //setInitialPage(1);
+        //await libroService.eliminarLibroRevision(libro.titulo);
     }
 
     const [libro, setLibro] = useState({ archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf", titulo: '' });
@@ -171,22 +169,24 @@ const Lectura = () => {
     const usuario_id = localStorage.getItem("usuario_id")!;
     const [mostrarAlerta, setMostrarAlerta] = useState(false);
 
+    console.log("🚀 ~ file: Lectura.tsx ~ line 172 ~ comienzaLectura ~ initialPage", initialPage)
     const comienzaLectura = async () => {
-        contador();
+        // contador();
         /*  contadorCerrar(); */
         setInitialPage(1);
         const usuario_activo = localStorage.getItem("usuario_activo")
         if (usuario_activo != null) {
             const resPagina = await usuarioService.usuarioUltimaPagina(usuario_activo, id);
             //console.log(resPagina.data)
-            setInitialPage(resPagina.data);
-            //console.log(initialPage)
+            setInitialPage(parseInt(resPagina.data, 10));
+            console.log("🚀 ~ file: Lectura.tsx ~ line 181 ~ comienzaLectura ~ initialPage", initialPage)
+            
             const resLibro = await libroService.getLibro(id);
             setLibro(resLibro.data);
         }
     }
 
-    const [habilitado, setHabilitado] = useState(false)
+    //PERMISOS DE USUARIO
     const cargarUsuario = async () => {
         const usuario_activo = localStorage.getItem("usuario_activo");
         const res = await usuarioService.getUsuario(usuario_activo!);
@@ -203,10 +203,7 @@ const Lectura = () => {
     }
 
 
-    useEffect(() => {
-        comienzaLectura();
-        cargarUsuario()
-    }, [])
+    
 
     //PLUGINS
     
@@ -231,7 +228,7 @@ const Lectura = () => {
             { /*BARRA DE HERRAMIENTAS*/}
             <Box sx={{ width: '100%', flexGrow: 1 }} style={{ paddingTop: '10px', backgroundColor: '#99cfbf' }}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
-                    <Grid xs={1.5}>
+                    <Grid item xs={1.5}>
                         <div style={{ 
                                         display: "flex",
                                         flexDirection: "column",
@@ -244,17 +241,17 @@ const Lectura = () => {
                             </ButtonMui>
                         </div>
                     </Grid>
-                    <Grid xs={2}>
+                    <Grid item xs={2}>
                         <Typography variant="h6" gutterBottom component="div">
                             Título: {libro.titulo}
                         </Typography>
                     </Grid>
-                    <Grid xs={5}>
+                    <Grid item xs={5}>
                         {habilitado &&
                             <Brillo />
                         }
                     </Grid>
-                    <Grid xs={2}>
+                    <Grid item xs={3}>
                         {habilitado && 
                             isVisible && (
                                 <div style={{ 
@@ -292,7 +289,7 @@ const Lectura = () => {
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-slide-description">
                                     <Typography variant="h6" gutterBottom component="div" align='center'>
-                                        Hola! ,te recomendamos que descanse un poco, para que puedas seguir disfrutando de la lectura.
+                                        Hola!, te recomendamos que descanse un poco para que puedas seguir disfrutando de la lectura.
                                     </Typography>
                                 </DialogContentText>
                             </DialogContent>
@@ -310,7 +307,7 @@ const Lectura = () => {
                         fileUrl={libro.archivoTexto}
                         defaultScale={SpecialZoomLevel.PageFit}
                         theme={currentTheme} onSwitchTheme={handleSwitchTheme}
-                        initialPage={initialPage} onPageChange={handlePageChange}
+                        initialPage={initialPage! - 1} onPageChange={handlePageChange}
                         localization={es_ES as unknown as LocalizationMap}
                         plugins={[
                             highlightPluginInstance,

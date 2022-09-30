@@ -149,14 +149,16 @@ const ColumnChart = () => {
             xaxis: {
                 title: {
                     text: 'LIBROS',
-                    offsetY: -20,
+                    offsetY: -50,
                 },
                 labels: {
                     show: true,
                     rotate: -45,
                     rotateAlways: true,
-                    minHeight: 100,
-                    maxHeight: 130,
+                    minHeight: 200,
+                    maxHeight: 230,
+                    hideOverlappingLabels: false, //No ocultar las etiquetas superpuestas
+                    trim: true, //Corta los nombres muy largos en los labels y lo completa con puntos suspensivos ...
                     style: {
                         fontSize: '14px',
                     }
@@ -191,7 +193,7 @@ const ColumnChart = () => {
         return (
             <div id="Bar">
                 {isVisible && (
-                    <ReactApexChart options={options} series={seriesLibros} type="bar" height={450} width={600}/>
+                    <ReactApexChart options={options} series={seriesLibros} type="bar" height={550} width={600}/>
                 )}
             </div>
         );

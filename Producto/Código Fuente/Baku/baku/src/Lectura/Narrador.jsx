@@ -8,6 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import Box from '@mui/material/Box';
+import { set } from "date-fns/esm";
+import Typography from '@mui/material/Typography'
 
 const useStyles = makeStyles((theme) => ({
     title3: {
@@ -30,8 +32,8 @@ var jump = false
 
 const Narrador = (props) => {
 
-        console.log(props.currentPage)
-        console.log("render")
+        //console.log(props.currentPage)
+        //console.log("render")
         
 
         const classes = useStyles();
@@ -39,13 +41,13 @@ const Narrador = (props) => {
         const [value, setValue] = useState(""); //TEXTO DEL NARRADOR
         //const [jump, setJump] = useState(false); 
         const { speak, cancel, speaking } = useSpeechSynthesis(); //NARRADOR
-        
+        const [estadoNarrador , setEstadoNarrador] = useState("En Pausa")
 
 
         //TRAE EL TEXTO DE LA PAGINA ACTUAL
         const loadLibros = async () => {
             const res = await libroService.getLibroNarrador(props.idLibro, props.currentPage, props.titulo);
-            console.log(res.data)
+            //console.log(res.data)
             setValue(res.data.arrayLimpio)
         }
 
@@ -55,10 +57,10 @@ const Narrador = (props) => {
         }, [])
 
         useEffect(() => {
-            console.log(jump)
+            //console.log(jump)
             if(jump){
                 const timer = setTimeout(() => {
-                    console.log("Hello, World!")
+                    //console.log("Hello, World!")
                     speak({ text: value[props.currentPage] })
                     //setJump(false)
                     jump = false
@@ -77,7 +79,7 @@ const Narrador = (props) => {
                     
                     userCancel = false
                 }else{
-                    console.log("SALTAR")
+                    //console.log("SALTAR")
                     jump = true
                     props.jumpToPage(props.currentPage + 1)
                     // props.setContadorSeteado(true)
@@ -88,22 +90,24 @@ const Narrador = (props) => {
             userCancel = false
         }
 
-        console.log("estuvoLeyendo: " + estuvoLeyendo,"userCancel: " + userCancel)
+        //console.log("estuvoLeyendo: " + estuvoLeyendo,"userCancel: " + userCancel)
 
         if(props.currentPage == value.length - 1)
         {
             userCancel = true
         }
-        console.log(props.currentPage, value.length - 1)
+        //console.log(props.currentPage, value.length - 1)
 
         const cancelar = () => {
             cancel()
+            setEstadoNarrador("En Pausa")
             userCancel = true
             estuvoLeyendo = false
         }
 
         const hablar = () => {
             speak({ text: value[props.currentPage] })
+            setEstadoNarrador("Reproduciendo")
         }
 
         return (
@@ -116,6 +120,7 @@ const Narrador = (props) => {
                         <IconButton className={"pause"} variant="text" onClick={cancelar}>
                             <PauseIcon/>
                         </IconButton>
+                        <Box sx={{ typography: 'body1', textAlign: 'center', m: 1  }}>({estadoNarrador})</Box>
                     </Box>
             </div>
         );
