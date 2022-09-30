@@ -40,9 +40,7 @@ router.get('/librosFecha/:mes/:anho', libroCtrl.obtenerLibrosFecha)
 
 router.get('/librosFavoritos', libroCtrl.obtenerLibrosMasFavoritos)
 
- router.get('/libros/ranking', libroCtrl.obtenerRanking) 
-
-router.delete('/eliminarLibroRevision/:titulo', libroCtrl.deleteLibroRevision)
+ router.get('/libros/ranking', libroCtrl.obtenerRanking)
 
 router.get('/libro/narrador/:id/:currentPage/:titulo', libroCtrl.getLibroNarrador)
  

@@ -3,6 +3,40 @@ import ReactApexChart from "react-apexcharts";
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import { makeStyles } from '@material-ui/core/styles';
 
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+function createData(title, dataNumber) {
+    return { title, dataNumber};
+}
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "black",
+      color: theme.palette.common.white,
+      opacity: "0.7"
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+}));
+  
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+}));
+
 const useStyles = makeStyles((theme) => ({
     title3: {
         paddingTop: '30px',
@@ -86,10 +120,15 @@ const Reporte = () => {
             var de = Math.round(calcularDE(calcularVarianza(librosLeidosCount))*100)/100;
             console.log(`Varianza: ${varianza}`);
             console.log(`Desviación estándar: ${de}`);
-        }
-        
 
-        
+            
+        }
+
+        const rows = [
+            createData('Promedio de libros leídos por usuario', promLibrosLeidosXUsuario),
+            createData('Varianza', varianza),
+            createData('Desviación estándar', de),
+        ];
 
         return (
             <div id="Reporte">
@@ -99,9 +138,31 @@ const Reporte = () => {
                             flexDirection: "column",
                             alignItems: "center"
                     }}>
-                        <h3 className={classes.title3}>Promedio de libros leidos por usuario: {promLibrosLeidosXUsuario}</h3>
-                        <h3 className={classes.title3}>Varianza: {varianza}</h3>
-                        <h3 className={classes.title3}>Desviación estándar: {de}</h3>
+                        <p></p>
+                        <p></p>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 550 }} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell>Título</StyledTableCell>
+                                        <StyledTableCell align="right">Datos</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {rows.map((row) => (
+                                    <StyledTableRow
+                                    key={row.title}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <StyledTableCell component="th" scope="row">
+                                            {row.title}
+                                        </StyledTableCell>
+                                        <StyledTableCell align="right">{row.dataNumber}</StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </div>
                 )}
             </div>

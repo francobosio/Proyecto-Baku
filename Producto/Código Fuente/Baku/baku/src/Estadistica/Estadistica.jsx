@@ -55,7 +55,7 @@ export default function Estadistica() {
             <main className={classes.content}>
                 <AppBar />
                 
-                <h1 className="title">Reporte de Estadísticas</h1>
+                <h1 className="title">REPORTE DE ESTADÍSTICAS</h1>
                 <div className="chartsA" 
                     style={{ 
                         display: "flex",
@@ -68,17 +68,17 @@ export default function Estadistica() {
                             flexDirection: "column",
                             alignItems: "center"
                     }}>
-                        <Paper variant="outlined" elevation={7} sx={{backgroundColor:"#4b9c8e",padding:"2em"}} >
+                        {/* <Paper variant="outlined" elevation={7} sx={{backgroundColor:"#4b9c8e",padding:"2em"}} > */}
                         <h3 className={classes.title3}>Porcentaje de libros por género</h3>
                         <BarChart />
-                         </Paper>
+                         {/* </Paper> */}
                     </div>
                     <div className="chart2" 
                         style={{ 
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            height: 450,
+                            height: 600,
                             width: 600
                     }}>
                         <h3 className={classes.title3}>Ranking - 10 libros más leidos</h3>
@@ -96,10 +96,11 @@ export default function Estadistica() {
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            justifyContent: "center",
+                            justifyContent: "flex-start",
                             height: 450,
                             width: 600
                     }}>
+                        <h3 className={classes.title3}>Libro leídos por usuario</h3>
                         <Reporte />
                         {/* <ReporteFechasCopy /> */}
                     </div>

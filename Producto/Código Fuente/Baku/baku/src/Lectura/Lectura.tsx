@@ -91,6 +91,8 @@ const Lectura = () => {
         id: string;
     }
 
+    const [habilitado, setHabilitado] = useState(false)
+
     // Create new plugin instance
     const classes = useStyles();
     let { id } = useParams<QuizParams>();
@@ -135,16 +137,20 @@ const Lectura = () => {
     const handleClose = () => {
         setOpen(false);
     };
-    //*************************************************************************************
 
 
     const terminaLectura = async () => {
         //Presiona el BOTON DE PAUSE del Narrador al salir
-        let element: HTMLElement = document.getElementsByClassName('pause')[0] as HTMLElement;
-        element.click();
+        if(habilitado){
+            let element: HTMLElement = document.getElementsByClassName('pause')[0] as HTMLElement;
+            element.click();
+        }
+        
                 
         const usuario_activo = localStorage.getItem("usuario_activo");
         const paginaActual = localStorage.getItem('current-page');
+        console.log("🚀 ~ file: Lectura.tsx ~ line 154 ~ terminaLectura ~ paginaActual", paginaActual)
+        
         const libroData = {
             'auth0id': usuario_activo,
             'idLibro': id,
@@ -152,8 +158,7 @@ const Lectura = () => {
             'finLectura': true,
         }
         await usuarioService.usuarioLibroLeido(libroData);
-        setInitialPage(1);
-        await libroService.eliminarLibroRevision(libro.titulo);
+        //setInitialPage(1);
     }
 
     const [libro, setLibro] = useState({ archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf", titulo: '' });
@@ -166,14 +171,15 @@ const Lectura = () => {
         if (usuario_activo != null) {
             const resPagina = await usuarioService.usuarioUltimaPagina(usuario_activo, id);
             //console.log(resPagina.data)
-            setInitialPage(resPagina.data);
-            //console.log(initialPage)
+            setInitialPage(parseInt(resPagina.data, 10));
+            console.log("🚀 ~ file: Lectura.tsx ~ line 181 ~ comienzaLectura ~ initialPage", initialPage)
+            
             const resLibro = await libroService.getLibro(id);
             setLibro(resLibro.data);
         }
     }
 
-    const [habilitado, setHabilitado] = useState(false)
+    //PERMISOS DE USUARIO
     const cargarUsuario = async () => {
         const usuario_activo = localStorage.getItem("usuario_activo");
         const res = await usuarioService.getUsuario(usuario_activo!);
@@ -250,7 +256,7 @@ const Lectura = () => {
                             <Brillo />
                         }
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         {habilitado && 
                             isVisible && (
                                 <div style={{ 
@@ -288,7 +294,7 @@ const Lectura = () => {
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-slide-description">
                                     <Typography variant="h6" gutterBottom component="div" align='center'>
-                                        Hola! ,te recomendamos que descanse un poco, para que puedas seguir disfrutando de la lectura.
+                                        Hola!, te recomendamos que descanse un poco para que puedas seguir disfrutando de la lectura.
                                     </Typography>
                                 </DialogContentText>
                             </DialogContent>
@@ -306,7 +312,7 @@ const Lectura = () => {
                         fileUrl={libro.archivoTexto}
                         defaultScale={SpecialZoomLevel.PageFit}
                         theme={currentTheme} onSwitchTheme={handleSwitchTheme}
-                        initialPage={initialPage} onPageChange={handlePageChange}
+                        initialPage={initialPage! - 1} onPageChange={handlePageChange}
                         localization={es_ES as unknown as LocalizationMap}
                         plugins={[
                             highlightPluginInstance,
