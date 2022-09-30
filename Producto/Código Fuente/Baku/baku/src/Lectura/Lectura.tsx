@@ -96,7 +96,6 @@ const Lectura = () => {
     // Create new plugin instance
     const classes = useStyles();
     let { id } = useParams<QuizParams>();
-
     //TEMA
     const [currentTheme, setCurrentTheme] = React.useState(localStorage.getItem('theme') || 'light');
 
@@ -118,7 +117,17 @@ const Lectura = () => {
         setCurrentPage(e.currentPage)
     };
 
-    //DESCANSO DE LECTURA
+    //************************************************************************************
+  
+/*     const contador = () => {
+        console.log("Entro al contador 1")
+  
+    } */
+    const contadorCerrar = () => {
+        console.log("Entro al contador 2")
+        
+    }
+
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -128,17 +137,6 @@ const Lectura = () => {
     const handleClose = () => {
         setOpen(false);
     };
-
-    useEffect(() => {
-        comienzaLectura();
-        cargarUsuario();
-        const contadorDL = setTimeout(() => {
-            console.log("Entro al contador 1")
-            setMostrarAlerta(true)
-            handleClickOpen();
-          }, 1800000);
-          return () => clearTimeout(contadorDL);
-    }, [])
 
 
     const terminaLectura = async () => {
@@ -168,11 +166,7 @@ const Lectura = () => {
     const [initialPage, setInitialPage] = useState<number>();
     const usuario_id = localStorage.getItem("usuario_id")!;
     const [mostrarAlerta, setMostrarAlerta] = useState(false);
-
-    console.log("🚀 ~ file: Lectura.tsx ~ line 172 ~ comienzaLectura ~ initialPage", initialPage)
     const comienzaLectura = async () => {
-        // contador();
-        /*  contadorCerrar(); */
         setInitialPage(1);
         const usuario_activo = localStorage.getItem("usuario_activo")
         if (usuario_activo != null) {
@@ -203,7 +197,19 @@ const Lectura = () => {
     }
 
 
-    
+    useEffect(() => {
+        comienzaLectura();
+        cargarUsuario()
+        const t = setInterval(() => {
+            setMostrarAlerta(true)
+            handleClickOpen();
+            contadorCerrar();
+            setTimeout(() => {
+                handleClose();
+            }, 3000);
+        }, 1800000);
+        return () => clearTimeout(t);
+    }, [])
 
     //PLUGINS
     

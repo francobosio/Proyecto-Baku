@@ -38,8 +38,8 @@ export default function ColumnTypesGrid() {
             id: row._id,
             Nombre: row.nombre,
             ID: row.id,
-            //fomato de fecha y hora para que se vea mas claro
-            "Fecha de creacion": new Date(row.createdAt).toLocaleString(),
+            //agregar hora y fecha
+            "Fecha de creacion": row.createdAt.split("T")[0].split("-").reverse().join("/") + " " + row.createdAt.split("T")[1].split(".")[0],
         }));
         setRows(rows);
     }
