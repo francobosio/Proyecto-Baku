@@ -159,7 +159,6 @@ const Lectura = () => {
         }
         await usuarioService.usuarioLibroLeido(libroData);
         //setInitialPage(1);
-        await libroService.eliminarLibroRevision(libro.titulo);
     }
 
     const [libro, setLibro] = useState({ archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf", titulo: '' });

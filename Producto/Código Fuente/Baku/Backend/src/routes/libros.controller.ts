@@ -319,15 +319,6 @@ export const establecerRanking = async (numero: number) => {
         }
 }
 
-
-export const deleteLibroRevision: RequestHandler = async (req, res) => {
-
-    fs.unlink(`./revision/${req.params.titulo}.pdf`, (err) => {
-        if (err) throw err;
-        console.log('El archivo fue eliminado con exito !!');
-    });
-}
-
 export const getLibroNarrador: RequestHandler = async (req, res) => {
     
     console.log("Empieza narrador!!")
@@ -384,6 +375,13 @@ export const getLibroNarrador: RequestHandler = async (req, res) => {
             let arrayText = arrayData.join(' ')
             arrayLimpio.push(arrayText);
         });
+
+        fs.unlink(`./revision/${req.params.titulo}.pdf`, (err => {
+            if (err) console.log(err);
+            else {
+              console.log(`Archivo eliminado: ${req.params.titulo}.pdf`);
+            }
+        }));
 
         return res.json({
             dataText,
