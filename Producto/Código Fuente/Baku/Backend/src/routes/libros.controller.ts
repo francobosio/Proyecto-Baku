@@ -379,8 +379,6 @@ export const getLibroNarrador: RequestHandler = async (req, res) => {
                 arrayLimpio.push(arrayText);
             });
 
-            fs.access(`./revision/${req.params.titulo}.pdf`, err => err ? 'does not exist' : 'exists')
-
             fs.unlink(`./revision/${req.params.titulo}.pdf`, (err => {
                 if (err) console.log(err);
                 else {
