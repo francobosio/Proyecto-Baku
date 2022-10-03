@@ -12,7 +12,8 @@ import Image from 'material-ui-image';
 import { Link } from "react-router-dom";
 import { useLocation } from 'react-router';
 import Tooltip from '@mui/material/Tooltip';
-
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -28,7 +29,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
-const drawerWidth = "15rem";
+const drawerWidth = "16.6667%";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -81,6 +82,20 @@ export const MiDrawer = (props) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false);
     const [selectedIndex] = React.useState(props.pestaña);
+    
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('lg'));
+    const handleDrawerOpen = () => {
+        console.log("CAMBIO EL TAMAÑO"+matches);
+        if (matches) {
+        setOpen(false);
+        localStorage.setItem('drawer_open', false);
+        } else {
+        setOpen(true);
+        localStorage.setItem('drawer_open', true);
+        }
+    };
+
     const handleDrawerOpenClose = () => {
         setOpen((data) => {
             localStorage.setItem('drawer_open', !data)
@@ -96,7 +111,11 @@ export const MiDrawer = (props) => {
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
         setrevisar(localStorage.getItem('tipoUsuario') === '3' ? true : false)
     }, [location.pathname])
-
+    
+    useEffect(() => {
+        handleDrawerOpen()
+        }
+    , [matches])
     //si el tipo de usuario es 1, se muestra el boton Revisar
 
 
@@ -116,6 +135,8 @@ export const MiDrawer = (props) => {
                 }}
             >
                 <div className={classes.toolbar}>
+                    {/* si la pantalla es XS asignar open a false */}
+
                     <Image src={Logo} aspectRatio={2.4} color={"#4B9C8E"} />
                     <IconButton className={classes.icono} onClick={handleDrawerOpenClose} style={{ color: "#FFFFFF" }} >
                         {open === false ? <ChevronRightIcon /> : <ChevronLeftIcon />}

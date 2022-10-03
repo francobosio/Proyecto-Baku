@@ -15,7 +15,7 @@ import { Grid } from '@material-ui/core';
 import Image from 'material-ui-image';
 import imagenFondo from '../Imagenes/book_fantasy_5k.jpg';
 import logoBaku from '../Imagenes/Logo_Baku_Negro_sin_fondo.png';
-import { Container,Box } from '@mui/system';
+import {Box } from '@mui/system';
 
 const useStyles = makeStyles((theme) => ({
   root: {

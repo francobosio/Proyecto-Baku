@@ -10,7 +10,7 @@ import { Container, Box } from '@mui/system';
 import SliderRanked from '../CarouselPrincipalRanked';
 import { useAuth0 } from '@auth0/auth0-react'
 import Skeleton from '@mui/material/Skeleton';
-
+import  Carrucel from '../Carrusel/Carrucel.jsx';
 import { MiDrawer } from "../Drawer/Drawer.jsx";
 import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 20,
         'font-weight': 'bold',
         'color': '#000',
+        [theme.breakpoints.down('sm')]: {
+            fontSize: "1rem",
+            marginLeft: 10
+            }
     },
     link: {
         color: "white",
@@ -49,21 +53,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const imagenesCarrusel = [
-    { id: 1, img: imgCarrusel1 },
-    { id: 2, img: imgCarrusel2 }
-]
-
-function Item(props) {
-    return (
-        <img src={props.item} alt="" />
-    )
-}
 export default function Inicio() {
     const [libros, setlibros] = useState([])
     const [librosGenero, setLibrosGenero] = useState([])
     const [librosFavoritos, setLibrosFavoritos] = useState([])
-    const [favoritosComponente, setFavoritosComponente] = useState([])
     const [flagScroll, setFlagScroll] = useState(true)
     const [librosRankeados, setlibrosRankeados] = useState([])
     const [flagActualizar, setFlagActualizar] = useState(true)
@@ -136,22 +129,18 @@ export default function Inicio() {
 
     return (
         <Grid container direction="row" className={classes.root}>
-            <Grid item direction="column" >
+            <Grid item container direction="column" xs={1} sm={1} md={2} spacing={0}>
                 {/* si la pantalla es pequeña achicar el drawer  */}
-                <MiDrawer pestaña={1} sx={{ width: 240, flexShrink: 0, '& .MuiDrawer-paper': { width: 240, boxSizing: 'border-box', }, }} />
+                <MiDrawer pestaña={1}  />
             </Grid>
-            <Grid container direction="column" item xs={true} xl={true} lg={true}>
+            <Grid item container direction="column"  xs={11} sm={11} md={10} spacing={0}>
                 <Grid item >
                     <AppBar />
                 </Grid>
-                <Grid item direction="column" alignItems="center" justifyContent="center" sx={{ flex: "1" }}>
-                    <Carousel className={classes.carousel}  >
-                        {
-                            imagenesCarrusel.map((item) => { return <Item key={item.id} item={item.img} /> })
-                        }
-                    </Carousel>
+                <Grid item container alignItems="center" justifyContent="center" className={classes.carousel} >
+                    <Carrucel /> 
                 </Grid>
-                <Grid component={'main'} >
+                <Grid item component={'main'} >
                         <Typography variant='h4' className={classes.titulo} >Subidos recientemente</Typography>
                         {libros.length > 0 ? (
                             <Slider >
