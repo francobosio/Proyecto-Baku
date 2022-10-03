@@ -7,6 +7,7 @@ import fs from 'fs-extra'
 import { promisify } from 'util'
 import PdfParse from "pdf-parse";
 import Usuario from "./Usuario"
+import { fileURLToPath } from "url"
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -20,12 +21,13 @@ export const createLibro: RequestHandler = async (req, res) => {
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const respuestaImg = await cloudinary.v2.uploader.upload(files.imagenPath[0].path);
     const respuestaPdf = await cloudinary.v2.uploader.upload(files.archivoTexto[0].path);
+    console.log(respuestaPdf.secure_url);
     const newLibro = {
         imagenPath: respuestaImg.url,
         public_id_imagen: respuestaImg.public_id,
         titulo,
         descripcion,
-        archivoTexto: respuestaPdf.url,
+        archivoTexto: respuestaPdf.secure_url,
         public_id_pdf: respuestaPdf.public_id,
         genero: req.body.genero,
         autor: req.body.autor,
@@ -147,17 +149,17 @@ export const buscarLibroGenero: RequestHandler = async (req, res) => {
     res.json(libroFound);
 }
 
-//NO ABRIR 
+//region VECTOR MALAS PALABRAS
 const malasPalabras = [
     "mierda", "puta", "puto", "concha", "pelotudo", "pelotuda", "boludo", "boluda", "idiota", "estupido", "estupida", "forro", "forra", "conchudo", "conchuda", "pajero", "pija", "ojete", "culo", "pete", "chota", "choto", "trolo", "tarado", "cago", "cagando", "cagon", "cagate", "bosta", "orto", "ortiva", "trola", "coger", "pajera", "mogolico", "mogolica", "subnormal", "chupala", "tragaleche", "petero", "petera", "cagar", "pingo", "mojon", "culiar", "culiado", "culiada", "culiau", "baboso", "babosa", "bobalicon", "capullo", "caraculo", "cretino", "deserebrado", "deserebrada", "donnadie", "huevon", "lameculos", "malparido", "patan", "pedorro", "pedorra", "zoquete", "hitler", "nazi"
 ]
+//endregion
 
 export const getLibroRevision: RequestHandler = async (req, res) => {
     const libroFound = await Libro.findById(req.params.id);
     if (!libroFound) return res.status(204).json(); let sinMalasPalabras = false;
     const url = libroFound.archivoTexto;
-    const url2 = url.replace("http", "https");
-    https.get(url2, function (res) {
+    https.get(url, function (res) {
         //nombre del archivo
         const fileStream = fs.createWriteStream(`./revision/${libroFound.titulo}.pdf`);
         res.pipe(fileStream);
