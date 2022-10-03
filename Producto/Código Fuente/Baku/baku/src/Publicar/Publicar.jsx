@@ -340,6 +340,7 @@ export default function MiniDrawer() {
     /* Método para realizar la carga de un nuevo libro a la base de datos. Primero valida los campos, luego sin son válidos crea un archivo que contiene todos los campos del
     libro y los manda a la BD. luego recibe por parámetro el id del libro y se le asigna ese id a los libros publicados del usuario */
     const handleSubmit = async e => {
+        setabrirDialog(false)
         if (validate()) {
             e.preventDefault();
             const usuario_auth0Id = localStorage.getItem("usuario_activo")

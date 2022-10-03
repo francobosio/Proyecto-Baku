@@ -93,8 +93,7 @@ export const getLibro: RequestHandler = async (req, res) => {
     if (!libroFound) return res.status(204).json();
     
     //DESCARGA DEL LIBRO
-    const url = libroFound.archivoTexto;
-    const url2 = url.replace("http", "https");
+    const url2 = libroFound.archivoTexto;
     https.get(url2, function (res) {
         //nombre del archivo
         const fileStream = fs.createWriteStream(`./revision/${libroFound.titulo}.pdf`);
