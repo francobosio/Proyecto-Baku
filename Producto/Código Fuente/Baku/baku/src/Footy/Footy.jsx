@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     alignContent: "center",
     paddingTop: "1.5em",
-    marginBottom: '1em',
     color: "#FFFFFF"
   },
   icono: {
@@ -36,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#FFFFFF'
   },
 }));
+
 function Footy() {
   const classes = useStyles();
 

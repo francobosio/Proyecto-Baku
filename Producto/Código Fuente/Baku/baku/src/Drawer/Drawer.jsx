@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -14,6 +14,7 @@ import { useLocation } from 'react-router';
 import Tooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import { Container, Box } from '@mui/system';
 //Iconos
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -29,7 +30,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
-const drawerWidth = "16.6667%";
+const drawerWidth = "10%";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -82,17 +83,17 @@ export const MiDrawer = (props) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false);
     const [selectedIndex] = React.useState(props.pestaña);
-    
+
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('lg'));
     const handleDrawerOpen = () => {
-        console.log("CAMBIO EL TAMAÑO"+matches);
+        console.log("CAMBIO EL TAMAÑO" + matches);
         if (matches) {
-        setOpen(false);
-        localStorage.setItem('drawer_open', false);
+            setOpen(false);
+            localStorage.setItem('drawer_open', false);
         } else {
-        setOpen(true);
-        localStorage.setItem('drawer_open', true);
+            setOpen(true);
+            localStorage.setItem('drawer_open', true);
         }
     };
 
@@ -106,22 +107,21 @@ export const MiDrawer = (props) => {
     const handleLink = () => {
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
     }
-   
+
     useEffect(() => {
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
         setrevisar(localStorage.getItem('tipoUsuario') === '3' ? true : false)
     }, [location.pathname])
-    
+
     useEffect(() => {
         handleDrawerOpen()
-        }
-    , [matches])
+    }
+        , [matches])
     //si el tipo de usuario es 1, se muestra el boton Revisar
-
-
     return (
-        <div className={classes.root}>
+        <Box component="div" className={classes.root}>
             <Drawer
+                anchor="left"
                 variant="permanent"
                 className={clsx(classes.drawer, {
                     [classes.drawerOpen]: open,
@@ -134,20 +134,20 @@ export const MiDrawer = (props) => {
                     }),
                 }}
             >
-                <div className={classes.toolbar}>
+                <Box component="div" className={classes.toolbar}>
                     {/* si la pantalla es XS asignar open a false */}
 
                     <Image src={Logo} aspectRatio={2.4} color={"#4B9C8E"} />
                     <IconButton className={classes.icono} onClick={handleDrawerOpenClose} style={{ color: "#FFFFFF" }} >
                         {open === false ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
-                </div>
+                </Box>
                 <Divider />
                 <List>
                     <Link onClick={handleLink} to="/Inicio" className={classes.link} >
                         {/* Crear tooltip por debajo del cursor */}
                         <Tooltip title="Inicio" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                            <ListItem button className={classes.texto} selected={selectedIndex===1}  >
+                            <ListItem button selected={selectedIndex === 1} sx={{ minWidth: "1rem" }}>
                                 <ListItemIcon  ><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                 <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
                             </ListItem>
@@ -155,10 +155,10 @@ export const MiDrawer = (props) => {
                     </Link>
                     <Link onClick={handleLink} to="/Buscar" className={classes.link}>
                         <Tooltip title="Buscar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                        <ListItem button selected={selectedIndex === 2}>
-                            <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary="Buscar" className={classes.texto} style={{ color: "#FFFFFF" }} />
-                        </ListItem>
+                            <ListItem button selected={selectedIndex === 2}>
+                                <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary="Buscar" style={{ color: "#FFFFFF" }} />
+                            </ListItem>
                         </Tooltip>
                     </Link>
                     <Link to="/Usuarios" className={classes.link} >
@@ -169,52 +169,52 @@ export const MiDrawer = (props) => {
                     </Link>
                     <Link to="/Biblioteca" className={classes.link} >
                         <Tooltip title="Biblioteca" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                        <ListItem button selected={selectedIndex === 3}>
-                            <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
-                        </ListItem>
+                            <ListItem button selected={selectedIndex === 3}>
+                                <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
+                            </ListItem>
                         </Tooltip>
                     </Link>
                     <Link to="/Publicar" className={classes.link} >
                         <Tooltip title="Publicar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                        <ListItem button selected={selectedIndex === 4}>
-                            <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
-                        </ListItem>
+                            <ListItem button selected={selectedIndex === 4}>
+                                <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
+                            </ListItem>
                         </Tooltip>
                     </Link>
                     {(revisar === true) ?
                         <List>
                             <Link to="/Estadistica" className={classes.link} >
-                                <Tooltip title="Estadisticas" enterDelay={1000} leaveDelay={200} enterNextDelay={1000}arrow>
-                                <ListItem button selected={selectedIndex === 5}>
-                                    <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                    <ListItemText primary='Estadísticas' style={{ color: "#FFFFFF" }} />
-                                </ListItem>
+                                <Tooltip title="Estadisticas" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                                    <ListItem button selected={selectedIndex === 5}>
+                                        <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                        <ListItemText primary='Estadísticas' style={{ color: "#FFFFFF" }} />
+                                    </ListItem>
                                 </Tooltip>
                             </Link>
                             <Link to="/Revision" className={classes.link} >
-                                <Tooltip title="Revisar"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                                <ListItem button selected={selectedIndex === 6} >
-                                    <ListItemIcon><RateReviewOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                    <ListItemText primary='Revisión' style={{ color: "#FFFFFF" }} />
-                                </ListItem>
+                                <Tooltip title="Revisar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                                    <ListItem button selected={selectedIndex === 6} >
+                                        <ListItemIcon><RateReviewOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                        <ListItemText primary='Revisión' style={{ color: "#FFFFFF" }} />
+                                    </ListItem>
                                 </Tooltip>
                             </Link>
                             <Link to="/Parametros" className={classes.link} >
                                 <ListItem button selected={selectedIndex === 7}>
                                     <ListItemIcon><MiscellaneousServicesIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                <Tooltip title="Parametros"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000}  arrow>
-                                    <ListItemText primary={`Parámetros`} style={{ color: "#FFFFFF" }} />
-                                </Tooltip>
+                                    <Tooltip title="Parametros" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                                        <ListItemText primary={`Parámetros`} style={{ color: "#FFFFFF" }} />
+                                    </Tooltip>
                                 </ListItem>
                             </Link>
                         </List> :
-                        null};
+                        null}
                 </List>
                 <Divider />
             </Drawer>
             <Divider />
-        </div>
+        </Box>
     );
 }
