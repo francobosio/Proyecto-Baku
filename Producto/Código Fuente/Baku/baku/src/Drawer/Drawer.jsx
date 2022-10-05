@@ -142,17 +142,26 @@ export const MiDrawer = (props) => {
                         </ListItem>
                         </Tooltip>
                     </Link>
-                    <Link to="/Usuarios" className={classes.link} >
+                    <Link to="/Comunidad" className={classes.link} >
                         <ListItem button>
                             <ListItemIcon><AccountCircleIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary='Usuarios' style={{ color: "#FFFFFF" }} />
+                            <ListItemText primary='Comunidad' style={{ color: "#FFFFFF" }} />
                         </ListItem>
                     </Link>
+
                     <Link to="/Biblioteca" className={classes.link} >
                         <Tooltip title="Biblioteca" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                         <ListItem button selected={selectedIndex === 3}>
                             <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
+                        </ListItem>
+                        </Tooltip>
+                    </Link>
+                    <Link to="/Suscripciones"className={classes.link} >
+                    <Tooltip title="Suscripciones" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                        <ListItem button selected={selectedIndex === 10}>
+                            <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                            <ListItemText primary='Suscripciones' style={{ color: "#FFFFFF" }} />
                         </ListItem>
                         </Tooltip>
                     </Link>
@@ -170,7 +179,7 @@ export const MiDrawer = (props) => {
                                 <Tooltip title="Estadisticas" enterDelay={1000} leaveDelay={200} enterNextDelay={1000}arrow>
                                 <ListItem button selected={selectedIndex === 5}>
                                     <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                    <ListItemText primary='Estadísticas' style={{ color: "#FFFFFF" }} />
+                                    <ListItemText primary='Reporte' style={{ color: "#FFFFFF" }} />
                                 </ListItem>
                                 </Tooltip>
                             </Link>
@@ -182,11 +191,11 @@ export const MiDrawer = (props) => {
                                 </ListItem>
                                 </Tooltip>
                             </Link>
-                            <Link to="/Parametros" className={classes.link} >
+                            <Link to="/Ajustes" className={classes.link} >
                                 <ListItem button selected={selectedIndex === 7}>
                                     <ListItemIcon><MiscellaneousServicesIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                <Tooltip title="Parametros"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000}  arrow>
-                                    <ListItemText primary={`Parámetros`} style={{ color: "#FFFFFF" }} />
+                                <Tooltip title="Ajustes"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000}  arrow>
+                                    <ListItemText primary={`Ajustes`} style={{ color: "#FFFFFF" }} />
                                 </Tooltip>
                                 </ListItem>
                             </Link>

@@ -37,7 +37,7 @@ export default function MiniDrawer() {
                 <AppBar />
                 <Container maxWidth='xl' disableGutters fixed>
                 <br />
-                    <Typography variant='h4' className={classes.titulo}> Parámetros del sistema</Typography>
+                    <Typography variant='h4' className={classes.titulo}> Ajustes del sistema</Typography>
                     <Tabs />
                 </Container>
                 
