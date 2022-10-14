@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
 
 export default function ColumnTypesGrid() {
-  const [rows, setRows] = React.useState("");
+  const [rowss, setRows] = React.useState("");
 
   const [pageSize, setPageSize] = React.useState(5);
 
@@ -17,7 +17,7 @@ export default function ColumnTypesGrid() {
   React.useEffect(() => {
     loadUsuarios();
   }, []);
-
+  
   const loadUsuarios = async () => {
     const res = await usuarioService.obtenerTodosUsuarios();
     //cada objeto agregarlo al array
@@ -45,7 +45,10 @@ export default function ColumnTypesGrid() {
       //convertir fecha a formato dd/mm/aaaa
       Creado: row.Creado.split("T")[0].split("-").reverse().join("/"),
     }));
-    setRows(rows2);
+    //filtrar los usuarios que son tipo 3 (Administrador)
+    var localTipoUsuario=localStorage.getItem("tipoUsuario");
+    (localTipoUsuario === "1" || localTipoUsuario==="2") ?  setRows(rows2.filter(row => row.Tipo !== "Administrador")):setRows(rows2);
+    console.log(rowss)
   }
 
   //al selececionar le boton asignar se guarda el id del usuario seleccionado en la variable usuario 
@@ -55,7 +58,7 @@ export default function ColumnTypesGrid() {
   const columns = React.useMemo(
     () => [
       { field: 'Usuario', type: 'string', flex: 1, minWidth: 100, },
-      { field: 'Tipo', type: 'string', flex:1, minWidth: 100 },
+      {field: 'Tipo', type: 'string', flex: 1, minWidth: 100,},
       { field: 'Creado', type: 'string', flex: 1, minWidth: 100 },
       { field: 'Cantidad de publicaciones', type: 'string', flex: 1, minWidth: 100 },
       { field: 'Suscriptores', type: 'string', flex: 1, minWidth: 100 },
@@ -82,10 +85,10 @@ export default function ColumnTypesGrid() {
 
 
   return (
-    <div style={{ height: 500, width: '100%' }}>
+    <div style={{ height: 800, width: '100%' }}>
       <DataGrid
         columns={columns}
-        rows={rows}
+        rows={rowss}
         localeText={esES.components.MuiDataGrid.defaultProps.localeText}
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}

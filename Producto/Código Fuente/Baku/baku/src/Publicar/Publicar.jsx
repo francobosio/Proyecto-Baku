@@ -615,7 +615,7 @@ export default function MiniDrawer() {
                                                    
                                                 </Button>
                                     }
-                                    <Tooltip title="El archivo debe ser en formato PDF" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
+                                    <Tooltip title="El archivo debe estar en formato PDF" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
                                         <InfoIcon />
                                     </Tooltip>
                                 </Grid>

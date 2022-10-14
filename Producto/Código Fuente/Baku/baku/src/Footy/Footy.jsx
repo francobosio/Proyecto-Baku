@@ -1,4 +1,4 @@
-import { Container, Typography } from '@material-ui/core'
+import { Container, Typography, Box } from '@material-ui/core'
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import logoBaku from '../Imagenes/Logo_baku_blanco.png';
@@ -45,7 +45,8 @@ function Footy() {
   const classes = useStyles();
 
   return <React.Fragment>
-    <footer>
+    <Box component="footer">
+      
       <Container maxWidth="xl" className={classes.contenedor}   >
         <Grid container spacing={3} className={classes.contenedorGrilla}>
           <Grid item xs={12} sm container >
@@ -105,7 +106,7 @@ function Footy() {
           </Grid>
         </Grid>
       </Container>
-    </footer>
+    </Box>
   </React.Fragment>
 }
 

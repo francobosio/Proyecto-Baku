@@ -82,7 +82,7 @@ export default function ColumnTypesGrid() {
     console.log(localStorage.getItem('usuario_id') + usuario)
     if(localStorage.getItem('usuario_id') === idUsuarioRow){
       console.log("entro")
-     if ( window.confirm("Al cambiar de tipo de usuario se cerrara la sesion, desea continuar?")) 
+     if ( window.confirm("Al cambiar de tipo de usuario se cerrará la sesión, desea continuar?")) 
       {
         window.location.href = "/";
       }

@@ -6,7 +6,7 @@ import ReportGmailerrorredOutlinedIcon from '@mui/icons-material/ReportGmailerro
 import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Favorito from '../Favorito/Favorito';
-
+import PersonIcon from '@mui/icons-material/Person';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import * as libroService from '../Libros/LibroService'
 import Denuncia from '../Denuncia/DialogDenuncia.jsx'
@@ -53,9 +53,9 @@ export default function Content({ movie, onClose }) {
             <div style={{ with: '5em', height: 'auto', margin: '0.3em' }}></div>
             <Favorito libroId={movie._id} />
           </div>
-          <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id}>
             <div className="content__subtitle">{movie.autor}</div>
-          </Link>
+          {/* <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id}>
+          </Link> */}
           {movie.descripcion !== "" &&
             (
               //agrandar la letra de la descripcion 
@@ -70,6 +70,9 @@ export default function Content({ movie, onClose }) {
           <Typography variant='subtitle2'sx={{color:'white' }} >
             {movie.genero.map(x => x).toString().split(', ').join(',').split(',').join(', ')}
           </Typography>
+        </Stack>
+        <Stack direction='row'>
+          <PersonIcon sx={{ paddingLeft: '5.1429em', paddingRight: '0.5em', color: '#333333' }} />
         </Stack>
         <button className="content__close" onClick={onClose} title={"Cerrar"}>
           <IconCross className="content__close__icon" />
