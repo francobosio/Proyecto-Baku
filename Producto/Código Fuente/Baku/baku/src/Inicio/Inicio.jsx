@@ -85,11 +85,14 @@ export default function Inicio() {
     const loadLibros = async () => {
         const res = await libroService.getLibrosPublicado();
         const res2 = await libroService.obtenerRanking();
+        //CREAR UN METODO QUE PERMITA OBTENER EL USUARIO DE CADA LIBRO Y ANEXARLO AL OBJETO LIBRO
+        
+        
         setlibros(res.data);
         setlibrosRankeados(res2.data);
         console.log(res.data)
-        console.log(res2.data)
     }
+
     useEffect(() => {
         loadLibros()
         window.scrollTo(0, 0)
