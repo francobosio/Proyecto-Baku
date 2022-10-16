@@ -22,9 +22,6 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
-//TIPO DE LETRA
-import TipoLetra from './TipoLetra';
-
 //ALERTA
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import Button from '@mui/material/Button'
@@ -51,11 +48,17 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     },
   });
 
-const Brillo = () => {
+//HIJO A PADRE
+interface IChildtoParentProps {
+    tipoColor1: string,
+    setTipoColor1: (arg: string) => void,
+}
+
+const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
 
     //TIPO DE LETRA
     const cbTipoColor = ['Ninguno','Negro/Blanco','Sepia']
-    const [tipoColor1, setTipoColor1] = React.useState('Ninguno'); //Después debería mantener la preferencia del usuario
+    //const [tipoColor1, setTipoColor1] = React.useState('Ninguno'); //Después debería mantener la preferencia del usuario
     
 
     const [important, setImportant] = React.useState('');
@@ -161,8 +164,8 @@ const Brillo = () => {
                 }
                 `}
             </style>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
-                <Grid item xs={4} >
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center" >
+                <Grid container item xs={12} xl={6} justifyContent="center">
                     <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
                         <InputLabel id="demo-simple-select-label">Tipo de Color</InputLabel>
                         <Select
@@ -184,7 +187,7 @@ const Brillo = () => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={4} >
+                <Grid container item xs={12} xl={6} justifyContent="center">
                     <Box sx={{ width: 200 }} >
                         <Stack spacing={1} direction="row" sx={{ mb: 1 }} alignItems="center">
                             <Typography>
@@ -206,9 +209,6 @@ const Brillo = () => {
                             <Slider disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} aria-label="Volume" value={value} max={99} onChange={handleChange} />
                         </Stack>
                     </Box>
-                </Grid>
-                <Grid item xs={4} >
-                    <TipoLetra tipoColor1={tipoColor1}/>
                 </Grid>
             </Grid>
             

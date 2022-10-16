@@ -12,6 +12,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import Typography from '@mui/material/Typography';
+
 function createData(title, dataNumber) {
     return { title, dataNumber};
 }
@@ -91,7 +93,7 @@ const Reporte = () => {
             return promedio;
         };
 
-        // Calcula la varianza (Promedio de las desviaciones elevadas al cuadrado)
+        // Calcula la varianza (Promedio de las desviaciones elevadas al cuadrado) - VARIANZA DE UNA POBLACION
         const calcularVarianza = (values) => {
             const promedio = calcularPromedio(values);
             const cuadradoDif = values.map((value) => {
@@ -105,11 +107,13 @@ const Reporte = () => {
         };
 
         // Calcula la desviación estándar (Raiz Cuadrada de la varianza - está en unidades de medida que los valores originales)
+        //DESVIACION ESTANDAR DE UNA POBLACION
         const calcularDE = (varianza) => {
             return Math.sqrt(varianza);
         };
 
         if(librosLeidosCount.length != 0){
+            console.log("🚀 ~ file: Reporte.jsx ~ line 113 ~ Reporte ~ librosLeidosCount", librosLeidosCount)
             var promLibrosLeidosXUsuario = Math.round(calcularPromedio(librosLeidosCount)*100)/100 //Redondeo a 2 decimales
             console.log("promLibrosLeidosXUsuario: ")
             console.log(promLibrosLeidosXUsuario)
@@ -128,6 +132,7 @@ const Reporte = () => {
             createData('Promedio de libros leídos por usuario', promLibrosLeidosXUsuario),
             createData('Varianza', varianza),
             createData('Desviación estándar', de),
+            createData(`LA MAYORÍA DE LOS USUARIOS ESTÁ LEYENDO ENTRE ${promLibrosLeidosXUsuario - de < 0 ? 0 : Math.round((promLibrosLeidosXUsuario - de)*1)/1} Y ${Math.round((promLibrosLeidosXUsuario + de)*1)/1} LIBROS`),
         ];
 
         return (
