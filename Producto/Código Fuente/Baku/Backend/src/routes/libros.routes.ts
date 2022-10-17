@@ -42,6 +42,6 @@ router.get('/librosFavoritos', libroCtrl.obtenerLibrosMasFavoritos)
 
  router.get('/libros/ranking', libroCtrl.obtenerRanking)
 
-router.get('/libro/narrador/:id/:currentPage/:titulo', libroCtrl.getLibroNarrador)
+router.get('/libro/narrador/:archivoTexto/:currentPage/:titulo', libroCtrl.getLibroNarrador)
  
 export default router

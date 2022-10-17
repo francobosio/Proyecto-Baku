@@ -4,7 +4,6 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Stack from '@mui/material/Stack';
-import InfoIcon from '@mui/icons-material/Info';
 import ErrorIcon from '@mui/icons-material/Error';
 
 //TOOLTIP
@@ -68,7 +67,7 @@ const TipoLetra = (props: { tipoColor1: string; }) => {
                     `
                 }
             </style>
-            <Stack spacing={1} direction="row" alignItems="center">
+            <Stack spacing={1} direction="row" alignItems="center" justifyContent="center">
                 <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
                     <InputLabel id="demo-simple-select-label">Tipo de Letra</InputLabel>
                     <Select

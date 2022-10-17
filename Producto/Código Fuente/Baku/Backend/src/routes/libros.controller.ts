@@ -92,21 +92,22 @@ export const getLibro: RequestHandler = async (req, res) => {
     const libroFound = await Libro.findById(req.params.id);
     if (!libroFound) return res.status(204).json();
     
-    //DESCARGA DEL LIBRO
-    const url2 = libroFound.archivoTexto;
-    https.get(url2, function (res) {
-        //nombre del archivo
-        const fileStream = fs.createWriteStream(`./revision/${libroFound.titulo}.pdf`);
-        res.pipe(fileStream);
-        fileStream.on('finish', function () {
-            fileStream.close();
-            console.log("El Archivo fue descargado con éxito !!");
-        }
-        )
-    })
-    //Esperar a que el archivo se descargue
-    console.log("ESPERAMOS - GETLIBRO()")
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // //DESCARGA DEL LIBRO
+    // const url2 = libroFound.archivoTexto;
+    // console.log("🚀 ~ file: libros.controller.ts ~ line 97 ~ constgetLibro:RequestHandler= ~ url2", url2)
+    // https.get(url2, function (res) {
+    //     //nombre del archivo
+    //     const fileStream = fs.createWriteStream(`./revision/${libroFound.titulo}.pdf`);
+    //     res.pipe(fileStream);
+    //     fileStream.on('finish', function () {
+    //         fileStream.close();
+    //         console.log("El Archivo fue descargado con éxito !!");
+    //     }
+    //     )
+    // })
+    // //Esperar a que el archivo se descargue
+    // console.log("ESPERAMOS - GETLIBRO()")
+    // await new Promise(resolve => setTimeout(resolve, 2000));
 
     return res.json(libroFound)
 }
@@ -323,6 +324,23 @@ export const establecerRanking = async (numero: number) => {
 export const getLibroNarrador: RequestHandler = async (req, res) => {
     
     console.log("Empieza narrador!!")
+
+    //DESCARGA DEL LIBRO
+    const url2 = req.params.archivoTexto;
+    console.log("🚀 ~ file: libros.controller.ts ~ line 330 ~ constgetLibroNarrador:RequestHandler= ~ url2", url2)
+    https.get(url2, function (res) {
+        //nombre del archivo
+        const fileStream = fs.createWriteStream(`./revision/${req.params.titulo}.pdf`);
+        res.pipe(fileStream);
+        fileStream.on('finish', function () {
+            fileStream.close();
+            console.log("El Archivo fue descargado con éxito !!");
+        }
+        )
+    })
+    //Esperar a que el archivo se descargue
+    console.log("ESPERAMOS - GETLIBRO()")
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     const array: any[] = []
 

@@ -81,7 +81,7 @@ export default function Estadistica() {
                             height: 600,
                             width: 600
                     }}>
-                        <h3 className={classes.title3}>Ranking - 10 libros más leidos</h3>
+                        <h3 className={classes.title3}>Ranking - 10 libros más leídos</h3>
                         <ColumnChart />
                     </div>
                 </div>
@@ -100,7 +100,7 @@ export default function Estadistica() {
                             height: 450,
                             width: 600
                     }}>
-                        <h3 className={classes.title3}>Libro leídos por usuario</h3>
+                        <h3 className={classes.title3}>Libros leídos por usuario</h3>
                         <Reporte />
                         {/* <ReporteFechasCopy /> */}
                     </div>

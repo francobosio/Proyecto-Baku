@@ -63,6 +63,6 @@ export const obtenerRanking = async () => {
     return await axios.get(`http://localhost:4000/libros/ranking`)
 }
 
-export const getLibroNarrador = async (id: String, currentPage: Number, titulo: String) => {
-    return await axios.get(`http://localhost:4000/libro/narrador/${id}/${currentPage}/${titulo}`)
+export const getLibroNarrador = async (archivoTexto: String, currentPage: Number, titulo: String) => {
+    return await axios.get(`http://localhost:4000/libro/narrador/${archivoTexto}/${currentPage}/${titulo}`)
 }

@@ -1,5 +1,5 @@
 import React, { JSXElementConstructor, useEffect, useState } from 'react';
-import AppBar from '../AppBar/AppBarLectura.jsx';
+import AppBarWe from '../AppBar/AppBarLectura.jsx';
 import { useParams } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
@@ -27,6 +27,9 @@ import '@react-pdf-viewer/bookmark/lib/styles/index.css';
 //BRILLO
 import Brillo from './Brillo';
 
+//TIPO DE LETRA
+import TipoLetra from './TipoLetra';
+
 //PAG ACTUAL
 import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
@@ -46,6 +49,49 @@ import highlightPluginComponent from './Highlight'
 import Narrador from './Narrador.jsx';
 
 import jumpToPagePlugin from './jumpToPagePlugin';
+
+//TABS
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import SwipeableViews from 'react-swipeable-views';
+import { useTheme } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    dir?: string;
+    index: number;
+    value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`full-width-tabpanel-${index}`}
+        aria-labelledby={`full-width-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+}
+
+function a11yProps(index: number) {
+    return {
+      id: `full-width-tab-${index}`,
+      'aria-controls': `full-width-tabpanel-${index}`,
+    };
+}
+
+//--------------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -118,11 +164,6 @@ const Lectura = () => {
     };
 
     //************************************************************************************
-  
-/*     const contador = () => {
-        console.log("Entro al contador 1")
-  
-    } */
     const contadorCerrar = () => {
         console.log("Entro al contador 2")
         
@@ -139,6 +180,7 @@ const Lectura = () => {
     };
 
 
+    //TERMINA LECTURA
     const terminaLectura = async () => {
         //Presiona el BOTON DE PAUSE del Narrador al salir
         if(habilitado){
@@ -161,6 +203,7 @@ const Lectura = () => {
         //setInitialPage(1);
     }
 
+    //COMIENZA LECTURA
     const [libro, setLibro] = useState({ archivoTexto: "https://res.cloudinary.com/bakulibros/image/upload/v1636148992/blank_dynpwv.pdf", titulo: '' });
     const [initialPage, setInitialPage] = useState<number>();
     const usuario_id = localStorage.getItem("usuario_id")!;
@@ -172,7 +215,6 @@ const Lectura = () => {
             const resPagina = await usuarioService.usuarioUltimaPagina(usuario_activo, id);
             //console.log(resPagina.data)
             setInitialPage(parseInt(resPagina.data, 10));
-            console.log("🚀 ~ file: Lectura.tsx ~ line 181 ~ comienzaLectura ~ initialPage", initialPage)
             
             const resLibro = await libroService.getLibro(id);
             setLibro(resLibro.data);
@@ -183,18 +225,17 @@ const Lectura = () => {
     const cargarUsuario = async () => {
         const usuario_activo = localStorage.getItem("usuario_activo");
         const res = await usuarioService.getUsuario(usuario_activo!);
-        console.log(res.data)
+        //console.log(res.data)
         if(res.data.tipoUsuario == 1)
         {
             
-            console.log("El USUARIO es FREE")
+            //console.log("El USUARIO es FREE")
         }
         else{
             setHabilitado(true)
-            console.log("El USUARIO es PREMIUM o ADMINISTRADOR")
+            //console.log("El USUARIO es PREMIUM o ADMINISTRADOR")
         }
     }
-
 
     useEffect(() => {
         comienzaLectura();
@@ -205,10 +246,23 @@ const Lectura = () => {
             contadorCerrar();
             setTimeout(() => {
                 handleClose();
-            }, 3000);
+            }, 10000);
         }, 1800000);
         return () => clearTimeout(t);
     }, [])
+
+    //LECTURA SE ENCARGA DE TRAER EL TEXTO DEL LIBRO Y SE LO DA AL NARRADOR
+    const [textoLibro, setTextolibro] = useState(""); //TEXTO DEL NARRADOR
+    const obtenerTextoLibro = async () => {
+        const url = encodeURIComponent(libro.archivoTexto)
+        const res = await libroService.getLibroNarrador(url, 1, libro.titulo);
+        //console.log(res.data)
+        setTextolibro(res.data.arrayLimpio)
+    }
+
+    useEffect(() => {
+        obtenerTextoLibro()
+    }, [libro])
 
     //PLUGINS
     
@@ -225,15 +279,21 @@ const Lectura = () => {
     const jumpToPagePluginInstance = jumpToPagePlugin();
     const { jumpToPage } = jumpToPagePluginInstance;
 
+    //HIJO A PADRE
+    const [tipoColor1, setTipoColor1] = React.useState<string>('Ninguno');
+    const setTipoColor1new = (name: string):void => {
+        setTipoColor1(name)
+    }
+
     return (
         <div className={classes.root}>
             { /*APPBAR*/}
-            <AppBar />
+            <AppBarWe />
 
             { /*BARRA DE HERRAMIENTAS*/}
             <Box sx={{ width: '100%', flexGrow: 1 }} style={{ paddingTop: '10px', backgroundColor: '#99cfbf' }}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
-                    <Grid item xs={1.5}>
+                    <Grid item xs={12} xl={1.5}>
                         <div style={{ 
                                         display: "flex",
                                         flexDirection: "column",
@@ -246,17 +306,22 @@ const Lectura = () => {
                             </ButtonMui>
                         </div>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={12} xl={2}>
                         <Typography variant="h6" gutterBottom component="div">
                             Título: {libro.titulo}
                         </Typography>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={12} xl={4}>
                         {habilitado &&
-                            <Brillo />
+                            <Brillo tipoColor1={tipoColor1} setTipoColor1={setTipoColor1new}/>
                         }
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={12} xl={2}>
+                        {habilitado &&
+                            <TipoLetra tipoColor1={tipoColor1}/>
+                        }
+                    </Grid>
+                    <Grid item xs={12} xl={2}>
                         {habilitado && 
                             isVisible && (
                                 <div style={{ 
@@ -264,19 +329,16 @@ const Lectura = () => {
                                         flexDirection: "column",
                                         alignItems: "center"
                                 }}>
-                                    <Narrador 
-                                        idLibro={id} 
-                                        currentPage={currentPage} 
-                                        titulo={libro.titulo}
+                                    <Narrador
+                                        currentPage = {currentPage}
+                                        textoLibro = {textoLibro}
                                         jumpToPage = {jumpToPage}
                                     />
                                 
                                 </div>
                             )
                         }
-                        
                     </Grid>
-                    
                 </Grid>
 
                 {mostrarAlerta === true &&
@@ -303,7 +365,7 @@ const Lectura = () => {
                             </DialogActions>
                         </Dialog>
                     </div>
-                }
+                } 
             </Box>
             { /*CARGA DE PLUGINS*/}
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.14.305/build/pdf.worker.min.js">

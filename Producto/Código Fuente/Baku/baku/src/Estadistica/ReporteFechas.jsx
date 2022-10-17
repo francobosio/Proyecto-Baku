@@ -139,7 +139,7 @@ const ReporteFechas = () => {
             },
             xaxis: {
                 title: {
-                    text: 'DIAS',
+                    text: 'DÍAS',
                     offsetY: -20,
                 },
                 labels: {
