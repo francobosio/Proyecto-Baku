@@ -443,7 +443,7 @@ export default function MiniDrawer() {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <MiDrawer pestaña={4} />
+            <MiDrawer pestaña={6} />
             <main className={classes.content}>
                 <AppBar />
                 <React.Fragment>
