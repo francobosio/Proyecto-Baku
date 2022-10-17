@@ -323,8 +323,6 @@ const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Bo
         renderToolbar,
         sidebarTabs: (defaultTabs) => [
             defaultTabs[0], // Bookmarks tab
-            defaultTabs[1], // Thumbnails tab
-            defaultTabs[2], // Attachments tab
             {
                 content: sidebarNotes,
                 icon: <MessageIcon />,

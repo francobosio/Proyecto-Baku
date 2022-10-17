@@ -149,11 +149,11 @@ const ColumnChart = () => {
             xaxis: {
                 title: {
                     text: 'LIBROS',
-                    offsetY: -50,
+                    offsetY: -35,
                 },
                 labels: {
                     show: true,
-                    rotate: -45,
+                    rotate: -65,
                     rotateAlways: true,
                     minHeight: 200,
                     maxHeight: 230,
