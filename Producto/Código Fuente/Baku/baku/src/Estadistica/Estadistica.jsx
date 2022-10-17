@@ -51,7 +51,7 @@ export default function Estadistica() {
         <div className={classes.root}>
             
             
-            <MiDrawer pestaña={5}/>
+            <MiDrawer pestaña={9}/>
             <main className={classes.content}>
                 <AppBar />
                 

@@ -150,7 +150,7 @@ export const buscarLibroGenero: RequestHandler = async (req, res) => {
 
 //region VECTOR MALAS PALABRAS
 const malasPalabras = [
-    "mierda", "puta", "puto", "concha", "pelotudo", "pelotuda", "boludo", "boluda", "idiota", "estupido", "estupida", "forro", "forra", "conchudo", "conchuda", "pajero", "pija", "ojete", "culo", "pete", "chota", "choto", "trolo", "tarado", "cago", "cagando", "cagon", "cagate", "bosta", "orto", "ortiva", "trola", "coger", "pajera", "mogolico", "mogolica", "subnormal", "chupala", "tragaleche", "petero", "petera", "cagar", "pingo", "mojon", "culiar", "culiado", "culiada", "culiau", "baboso", "babosa", "bobalicon", "capullo", "caraculo", "cretino", "deserebrado", "deserebrada", "donnadie", "huevon", "lameculos", "malparido", "patan", "pedorro", "pedorra", "zoquete", "hitler", "nazi"
+    "mierda", "puta", "puto", "concha","tonto","tonta","pelotudo", "pelotuda", "boludo", "boluda", "idiota", "estupido", "estupida", "forro", "forra", "conchudo", "conchuda", "pajero", "pija", "ojete", "culo", "pete", "chota", "choto", "trolo", "tarado", "cago", "cagando", "cagon", "cagate", "bosta", "orto", "ortiva", "trola", "coger", "pajera", "mogolico", "mogolica", "subnormal", "chupala", "tragaleche", "petero", "petera", "cagar", "pingo", "mojon", "culiar", "culiado", "culiada", "culiau", "baboso", "babosa", "bobalicon", "capullo", "caraculo", "cretino", "deserebrado", "deserebrada", "donnadie", "huevon", "lameculos", "malparido", "patan", "pedorro", "pedorra", "zoquete", "hitler", "nazi"
 ]
 //endregion
 

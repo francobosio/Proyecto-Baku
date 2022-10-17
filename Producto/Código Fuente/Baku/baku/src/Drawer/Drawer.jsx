@@ -24,7 +24,8 @@ import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import ReportGmailerrorredOutlinedIcon from '@mui/icons-material/ReportGmailerrorredOutlined';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
@@ -143,7 +144,7 @@ export const MiDrawer = (props) => {
                         </Tooltip>
                     </Link>
                     <Link to="/Comunidad" className={classes.link} >
-                        <ListItem button>
+                        <ListItem button selected={selectedIndex === 3}>
                             <ListItemIcon><AccountCircleIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Comunidad' style={{ color: "#FFFFFF" }} />
                         </ListItem>
@@ -151,7 +152,7 @@ export const MiDrawer = (props) => {
 
                     <Link to="/Biblioteca" className={classes.link} >
                         <Tooltip title="Biblioteca" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                        <ListItem button selected={selectedIndex === 3}>
+                        <ListItem button selected={selectedIndex === 4}>
                             <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
                         </ListItem>
@@ -159,15 +160,15 @@ export const MiDrawer = (props) => {
                     </Link>
                     <Link to="/Suscripciones"className={classes.link} >
                     <Tooltip title="Suscripciones" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                        <ListItem button selected={selectedIndex === 10}>
-                            <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                        <ListItem button selected={selectedIndex === 5}>
+                            <ListItemIcon><GroupAddIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Suscripciones' style={{ color: "#FFFFFF" }} />
                         </ListItem>
                         </Tooltip>
                     </Link>
                     <Link to="/Publicar" className={classes.link} >
                         <Tooltip title="Publicar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                        <ListItem button selected={selectedIndex === 4}>
+                        <ListItem button selected={selectedIndex === 6}>
                             <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
                         </ListItem>
@@ -175,24 +176,33 @@ export const MiDrawer = (props) => {
                     </Link>
                     {(revisar === true) ?
                         <List>
-                            <Link to="/Estadistica" className={classes.link} >
-                                <Tooltip title="Estadisticas" enterDelay={1000} leaveDelay={200} enterNextDelay={1000}arrow>
-                                <ListItem button selected={selectedIndex === 5}>
-                                    <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                    <ListItemText primary='Reporte' style={{ color: "#FFFFFF" }} />
-                                </ListItem>
-                                </Tooltip>
-                            </Link>
+                            
                             <Link to="/Revision" className={classes.link} >
                                 <Tooltip title="Revisar"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                                <ListItem button selected={selectedIndex === 6} >
+                                <ListItem button selected={selectedIndex === 7} >
                                     <ListItemIcon><RateReviewOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                     <ListItemText primary='Revisión' style={{ color: "#FFFFFF" }} />
                                 </ListItem>
                                 </Tooltip>
                             </Link>
+                            <Link to="/Reclamo" className={classes.link} >
+                                <Tooltip title="Reclamo"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                                <ListItem button selected={selectedIndex === 8} >
+                                    <ListItemIcon><ReportGmailerrorredOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                    <ListItemText primary='Reclamos' style={{ color: "#FFFFFF" }} />
+                                </ListItem>
+                                </Tooltip>
+                            </Link>
+                            <Link to="/Estadistica" className={classes.link} >
+                                <Tooltip title="Estadisticas" enterDelay={1000} leaveDelay={200} enterNextDelay={1000}arrow>
+                                <ListItem button selected={selectedIndex === 9}>
+                                    <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                    <ListItemText primary='Reporte' style={{ color: "#FFFFFF" }} />
+                                </ListItem>
+                                </Tooltip>
+                            </Link>
                             <Link to="/Ajustes" className={classes.link} >
-                                <ListItem button selected={selectedIndex === 7}>
+                                <ListItem button selected={selectedIndex === 10}>
                                     <ListItemIcon><MiscellaneousServicesIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                 <Tooltip title="Ajustes"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000}  arrow>
                                     <ListItemText primary={`Ajustes`} style={{ color: "#FFFFFF" }} />

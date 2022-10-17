@@ -21,6 +21,7 @@ import { Loading } from '../Sesión/Loading.jsx'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import Perfil from "../Sesión/Perfil.jsx";
 import Paginas from "../PaginasFooter/Paginas.jsx";
+import Reclamos from "../Reclamo/ReclamosMain.jsx";
 
 export default function Layout() {
     /* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
@@ -58,6 +59,7 @@ export default function Layout() {
                             <Route exact path="/AutorId/:Id" component={isLoading ? Loading : isAuthenticated ? AutorPorAuth0 : Home} />
                             <Route exact path="/Ayuda/:tipo" component={Paginas} />
                             <Route exact path="/Suscripciones" component={isLoading ? Loading :isAuthenticated ? Suscripciones :  Home} />
+                            <Route exact path="/Reclamo"component={isLoading ? Loading :isAuthenticated ? Reclamos :  Home} /> 
                             <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                         </Switch>
                     </div>
