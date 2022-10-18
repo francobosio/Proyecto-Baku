@@ -53,9 +53,9 @@ export default function Content({ movie, onClose }) {
             <div style={{ with: '5em', height: 'auto', margin: '0.3em' }}></div>
             <Favorito libroId={movie._id} />
           </div>
+          <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id}>
             <div className="content__subtitle">{movie.autor}</div>
-          {/* <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id}>
-          </Link> */}
+          </Link> 
           {movie.descripcion !== "" &&
             (
               //agrandar la letra de la descripcion 
