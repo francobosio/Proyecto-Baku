@@ -307,8 +307,8 @@ const Lectura = () => {
                         </div>
                     </Grid>
                     <Grid item xs={12} xl={2}>
-                        <Typography variant="h6" gutterBottom component="div">
-                            Título: {libro.titulo}
+                        <Typography variant="h5" gutterBottom component="div">
+                            {libro.titulo}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} xl={4}>

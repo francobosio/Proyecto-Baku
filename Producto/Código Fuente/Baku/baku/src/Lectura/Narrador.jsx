@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 
 var estuvoLeyendo = false
 var userCancel = false
@@ -16,12 +17,13 @@ const Narrador = (props) => {
         const { speak, cancel, speaking, voices } = useSpeechSynthesis(); //NARRADOR
         const [estadoNarrador , setEstadoNarrador] = useState("En Pausa")
         //const [value, setValue] = React.useState([]);
+        const [rate, setRate] = useState(1);
 
         useEffect(() => {
 
             if(jump){
                 const timer = setTimeout(() => {
-                    speak({ text: props.textoLibro[props.currentPage], voice: voices[0], rate: 0.64  })
+                    speak({ text: props.textoLibro[props.currentPage], voice: voices[0], rate: rate })
                     
                     jump = false
                 }, 100);
@@ -60,7 +62,7 @@ const Narrador = (props) => {
         }
 
         const hablar = () => {
-            speak({ text: props.textoLibro[props.currentPage], voice: voices[0], rate: 0.64 })
+            speak({ text: props.textoLibro[props.currentPage], voice: voices[0], rate: rate })
             setEstadoNarrador("Reproduciendo")
         }
 
@@ -70,17 +72,43 @@ const Narrador = (props) => {
             deshabilitarPlay = false
         }
 
+        const styleFlexRow = { display: 'flex', flexDirection: 'row', justifyContent: 'center' };
+        const styleContainerRatePitch = {
+            display: 'flex',
+            flexDirection: 'column',
+            margin: 5,
+        };
+
         return (
             <div id="Narrador">
-                    <Box sx={{ display: 'flex', justifyContent: 'center', border: 1, borderRadius: 1, borderColor: 'text.disabled'}}>
-                        <Box sx={{ typography: 'body1', textAlign: 'center', m: 1  }}>Narrador:</Box>
-                        <IconButton variant="text" disabled={deshabilitarPlay} onClick={hablar}>
-                            <PlayArrowIcon/>
-                        </IconButton>
-                        <IconButton className={"pause"} variant="text" onClick={cancelar}>
-                            <PauseIcon/>
-                        </IconButton>
-                        <Box sx={{ typography: 'body1', textAlign: 'center', m: 1  }}>({estadoNarrador})</Box>
+                <Box sx={{ border: 1, borderRadius: 1, borderColor: 'text.disabled', marginBottom: 1}}>
+                    <div style={styleContainerRatePitch}>
+                        <Box sx={{ typography: 'body1', textAlign: 'center', m: 0  }}>({estadoNarrador})</Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <Box sx={{ typography: 'body1', textAlign: 'center', m: 1  }}>Narrador:</Box>
+                            <IconButton variant="text" disabled={deshabilitarPlay} onClick={hablar}>
+                                <PlayArrowIcon/>
+                            </IconButton>
+                            <IconButton className={"pause"} variant="text" onClick={cancelar}>
+                                <PauseIcon/>
+                            </IconButton>
+                        </Box>
+                        <div style={styleFlexRow}>
+                            <label htmlFor="rate">Velocidad: {rate}</label>
+                        </div>
+                        <Slider 
+                            disabled={speaking} 
+                            aria-label="Velocidad"
+                            defaultValue={1} 
+                            value={rate} 
+                            min={0.5}
+                            max={2}
+                            step={0.1} 
+                            onChange={(event) => {
+                                setRate(event.target.value);
+                            }} 
+                        />
+                    </div>
                     </Box>
             </div>
         );
