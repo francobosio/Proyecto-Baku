@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import multer from '../libs/multer'
 import * as libroCtrl from './libros.controller'
+import * as libroCtrlJs from './libros.narrador.controller'
 
 const router = Router();
 
@@ -42,6 +43,6 @@ router.get('/librosFavoritos', libroCtrl.obtenerLibrosMasFavoritos)
 
  router.get('/libros/ranking', libroCtrl.obtenerRanking)
 
-router.get('/libro/narrador/:archivoTexto/:currentPage/:titulo', libroCtrl.getLibroNarrador)
+router.get('/libro/narrador/:archivoTexto/:currentPage/:titulo', libroCtrlJs.getLibroNarrador)
  
 export default router
