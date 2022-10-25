@@ -29,6 +29,10 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
+//BUTTONS
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref,
@@ -69,9 +73,10 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
     const [azul, setAzul] = React.useState<number>(0);
 
     function colores(nuevoValor: string) {
-        const r = [59,89,118,148,178,207,217,223,229,235];
-        const v = [37,55,74,92,111,129,146,164,181,198];
-        const a = [11,17,23,29,35,41,68,97,127,157];
+        const r = [29,59,89,118,148,178,207,217,223,229,235];
+        const v = [18,37,55,74,92,111,129,146,164,181,198];
+        const a = [5,11,17,23,29,35,41,68,97,127,157];
+    
         if (nuevoValor == "Sepia"){
             setRojo(r[Math.trunc(value*0.1)]);
             setVerde(v[Math.trunc(value*0.1)]);
@@ -79,15 +84,19 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
             setImportant("important");
         }
         if (nuevoValor == "Negro/Blanco"){
-            setRojo(value*0.01*255);
-            setVerde(value*0.01*255);
-            setAzul(value*0.01*255);
+            setRojo(Math.round(value*0.01*255));
+            setVerde(Math.round(value*0.01*255));
+            setAzul(Math.round(value*0.01*255));
             setImportant("important");
         }
         if (nuevoValor == "Ninguno"){
             setImportant("");
         }
     }
+
+    React.useEffect(() => {
+        colores(tipoColor1)
+    }, [value])
 
     
 
@@ -132,20 +141,18 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
             
     };
 
-    const handleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number);
-        colores(tipoColor1)
+    const resta = () => {
+        if (value > 0) {
+            setValue(value - 10);
+        }   
     };
 
-    function brilloTexto() {
-        if (value < 50)
-        {
-            return  255;
-
+    const suma = () => {
+        if (value < 100) {
+            setValue(value + 10);
         }
-        return 0;
-      }
-    
+    };
+
     return (
         <div style={{ marginLeft: '10px'}}>
             <style >
@@ -155,12 +162,12 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
                     opacity: ${tipoColor1 == "Ninguno" || tipoColor1 == ''?0:1} !${important};
                 }
                 .rpv-core__text-layer-text {
-                    color: rgb(${brilloTexto()},${brilloTexto()},${brilloTexto()}) !${important};
+                    color: rgb(${value <= 50 ? 255 : 0},${value <= 50 ? 255 : 0},${value <= 50 ? 255 : 0}) !${important};
                     opacity: ${tipoColor1 == "Ninguno" || tipoColor1 == ''?0:1} !${important};
                 }
                 
                 .rpv-core__text-layer-text::selection{
-                    color: green;
+                    color: white !${important};
                 }
                 `}
             </style>
@@ -206,7 +213,15 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
                             <Tooltip title="Brillo">
                                 <Brightness6Icon />
                             </Tooltip>
-                            <Slider disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} aria-label="Volume" value={value} max={99} onChange={handleChange} />
+                            <IconButton disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} onClick={resta}>
+                                <RemoveCircleIcon/>
+                            </IconButton>
+                            <Box sx={{ border: 1, borderRadius: 1, borderColor: 'text.disabled', typography: 'body1', textAlign: 'center', width: '100rem'  }}>
+                                {value}
+                            </Box>
+                            <IconButton disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} onClick={suma}>
+                                <AddCircleIcon/>
+                            </IconButton>
                         </Stack>
                     </Box>
                 </Grid>
