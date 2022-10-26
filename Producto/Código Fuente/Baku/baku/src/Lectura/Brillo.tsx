@@ -56,21 +56,35 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
 interface IChildtoParentProps {
     tipoColor1: string,
     setTipoColor1: (arg: string) => void,
+    value: number,
+    setValue: (arg: number) => void,
+    rojo: number,
+    setRojo: (arg: number) => void,
+    verde: number,
+    setVerde: (arg: number) => void,
+    azul: number,
+    setAzul: (arg: number) => void,
+    important: string,
+    setImportant: (arg: string) => void,
+    tipoLetra2: string,
+    scaleX: number,
+    importantTL: string,
+    important2: string,
 }
 
-const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
+const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1, value, setValue, rojo, setRojo, verde, setVerde, azul, setAzul, important, setImportant, tipoLetra2, scaleX, importantTL, important2}) => {
 
     //TIPO DE LETRA
     const cbTipoColor = ['Ninguno','Negro/Blanco','Sepia']
     //const [tipoColor1, setTipoColor1] = React.useState('Ninguno'); //Después debería mantener la preferencia del usuario
     
 
-    const [important, setImportant] = React.useState('');
-    const [value, setValue] = React.useState<number>(0);
+    //const [important, setImportant] = React.useState('');
+    //const [value, setValue] = React.useState<number>(0);
 
-    const [rojo, setRojo] = React.useState<number>(0);
-    const [verde, setVerde] = React.useState<number>(0);
-    const [azul, setAzul] = React.useState<number>(0);
+    //const [rojo, setRojo] = React.useState<number>(0);
+    //const [verde, setVerde] = React.useState<number>(0);
+    //const [azul, setAzul] = React.useState<number>(0);
 
     function colores(nuevoValor: string) {
         const r = [29,59,89,118,148,178,207,217,223,229,235];
@@ -154,7 +168,7 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
     };
 
     return (
-        <div style={{ marginLeft: '10px'}}>
+        <div style={{ marginLeft: '10px', display: 'flex', alignItems: "center" , justifyContent: "center"}}>
             <style >
                 {
                 `.rpv-core__text-layer {
@@ -164,6 +178,8 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
                 .rpv-core__text-layer-text {
                     color: rgb(${value <= 50 ? 255 : 0},${value <= 50 ? 255 : 0},${value <= 50 ? 255 : 0}) !${important};
                     opacity: ${tipoColor1 == "Ninguno" || tipoColor1 == ''?0:1} !${important};
+                    font-family: "${tipoLetra2}" !${importantTL};
+                    transform: scaleX(${scaleX}) !${important2};
                 }
                 
                 .rpv-core__text-layer-text::selection{
@@ -171,8 +187,8 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
                 }
                 `}
             </style>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center" >
-                <Grid container item xs={12} xl={6} justifyContent="center">
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center" justifyContent="center">
+                <Grid container item xs={12} md={6} xl={6} justifyContent="center">
                     <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
                         <InputLabel id="demo-simple-select-label">Tipo de Color</InputLabel>
                         <Select
@@ -194,36 +210,33 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1}) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid container item xs={12} xl={6} justifyContent="center">
-                    <Box sx={{ width: 200 }} >
-                        <Stack spacing={1} direction="row" sx={{ mb: 1 }} alignItems="center">
-                            <Typography>
-                                Brillo
-                            </Typography>
-                            <CustomTooltip title={
-                                <React.Fragment>
-                                    <b>{'Brillo se deshabilitará cuando Tipo de Color sea "Ninguno"'}</b>
-                                    <p><b>{'Las palabras resaltadas se deshabilitarán cuando Tipo de Color sea distinto de "Ninguno"'}</b></p>
-                                </React.Fragment>
-                            }>
-                                <ErrorIcon fontSize='small' color="disabled"/>
-                            </CustomTooltip>
-                        </Stack>
-                        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                            <Tooltip title="Brillo">
-                                <Brightness6Icon />
-                            </Tooltip>
-                            <IconButton disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} onClick={resta}>
-                                <RemoveCircleIcon/>
-                            </IconButton>
-                            <Box sx={{ border: 1, borderRadius: 1, borderColor: 'text.disabled', typography: 'body1', textAlign: 'center', width: '100rem'  }}>
-                                {value}
-                            </Box>
-                            <IconButton disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} onClick={suma}>
-                                <AddCircleIcon/>
-                            </IconButton>
-                        </Stack>
-                    </Box>
+                <Grid container item xs={12} md={6} xl={6} justifyContent="center">
+                    <Stack spacing={1} direction="row" alignItems="center">
+                        <CustomTooltip title={
+                            <React.Fragment>
+                                <b>{'Brillo se deshabilitará cuando Tipo de Color sea "Ninguno"'}</b>
+                                <p><b>{'Las palabras resaltadas se deshabilitarán cuando Tipo de Color sea distinto de "Ninguno"'}</b></p>
+                            </React.Fragment>
+                        }>
+                            <ErrorIcon fontSize='small' color="disabled"/>
+                        </CustomTooltip>
+                        <Box sx={{ width: 220, border: 1, borderRadius: 1, borderColor: 'text.disabled', marginBottom: 0.5}}>
+                            <Stack spacing={1} direction="row" sx={{ ml: 1 , mr: 2}} alignItems="center">
+                                <Typography>
+                                    Brillo:
+                                </Typography>
+                                <IconButton disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} onClick={resta}>
+                                    <RemoveCircleIcon/>
+                                </IconButton>
+                                <Box sx={{ border: 1, borderRadius: 1, borderColor: 'text.disabled', typography: 'body1', textAlign: 'center', width: '100rem'  }}>
+                                    {value}
+                                </Box>
+                                <IconButton disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} onClick={suma}>
+                                    <AddCircleIcon/>
+                                </IconButton>
+                            </Stack>
+                        </Box>
+                    </Stack>
                 </Grid>
             </Grid>
             
