@@ -147,7 +147,7 @@ export default function Inicio() {
         <Grid container direction="row" className={classes.root}>
                 <Grid item container direction="column" xs={1}  >
                     {/* si la pantalla es pequeña achicar el drawer  */}
-                    <MiDrawer pestaña={1} tamañoPuerto={valor} />
+                    <MiDrawer pestaña={1} />
                 </Grid>
                 <Grid item direction="column" xs={11}>
                     <Container disableGutters  maxWidth='1800px' >

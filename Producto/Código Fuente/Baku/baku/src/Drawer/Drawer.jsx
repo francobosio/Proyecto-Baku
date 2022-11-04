@@ -1,10 +1,9 @@
-import React, { useEffect,useRef} from 'react';
+import React, { useEffect} from 'react';
 import clsx from 'clsx';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -14,10 +13,8 @@ import { useLocation } from 'react-router';
 import Tooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { Container, Box } from '@mui/system';
+import { Box } from '@mui/system';
 //Iconos
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import MenuBookOutlinedIcon from '@material-ui/icons/MenuBookOutlined';
@@ -106,7 +103,6 @@ export const MiDrawer = (props) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false);
     const [selectedIndex] = React.useState(props.pestaña);
-    const elementRef = useRef(null);
     const theme = useTheme();
     const porcentajeMinAncho = "31%";
     const ocultarLogo = useMediaQuery(theme.breakpoints.down('md'));
