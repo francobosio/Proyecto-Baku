@@ -1,20 +1,16 @@
-import { Container, Typography } from '@material-ui/core'
-import React from 'react'
+import { Container, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import logoBaku from '../Imagenes/Logo_baku_blanco.png';
 import Grid from '@material-ui/core/Grid';
-
-import { Link, useParams } from "react-router-dom";
-
-import ButtonBase from '@material-ui/core/ButtonBase';
+import { Link } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
 
 //Iconos redes social
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import YouTubeIcon from '@material-ui/icons/YouTube';
-import { color } from '@mui/system';
 import Image from 'material-ui-image';
+
 const useStyles = makeStyles((theme) => ({
   contenedor: {
     background: '#4B9C8E',

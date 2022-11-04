@@ -11,9 +11,10 @@ import Estadistica from '../Estadistica/Estadistica.jsx';
 import Revision from '../Revision/Revision.jsx';
 import Buscar from '../Buscar/Buscar.jsx';
 import Biblioteca from '../Biblioteca/Biblioteca.jsx';
-import Parametros from '../Parametros/Parametros.jsx';
+import Ajustes from '../Parametros/Ajustes.jsx';
 import Resultado from '../Revision/Resultado.jsx'
-import Usuarios from '../Usuarios/Usuarios.jsx';
+import Usuarios from '../Comunidad/Usuarios.jsx';
+import Suscripciones from '../Suscripciones/Usuarios.jsx';
 import Autor from '../Autor/Autor.jsx'
 import AutorPorAuth0 from '../AutorPorAuth0/AutorPorAuth0.jsx'
 import { Loading } from '../Sesión/Loading.jsx'
@@ -21,6 +22,7 @@ import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import Perfil from "../Sesión/Perfil.jsx";
 import Paginas from "../PaginasFooter/Paginas.jsx";
 import { Grid } from '@material-ui/core';
+import Reclamos from "../Reclamo/ReclamosMain.jsx";
 
 export default function Layout() {
     /* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
@@ -45,17 +47,19 @@ export default function Layout() {
                             <Route exact path="/Lectura/:id" component={isLoading ? Loading : isAuthenticated ? Lectura : Home} />
                             <Route exact path="/Publicar" component={isLoading ? Loading : isAuthenticated ? Publicar : Home} />
                             <Route exact path="/Buscar" component={isLoading ? Loading : isAuthenticated ? Buscar : Home} />
-                            <Route exact path="/Usuarios" component={isLoading ? Loading : isAuthenticated ? Usuarios : Home} />
+                            <Route exact path="/Comunidad" component={isLoading ? Loading : isAuthenticated ? Usuarios : Home} />
                             <Route exact path="/Buscar/:busqueda" component={isLoading ? Loading : isAuthenticated ? Buscar : Home} />
                             <Route exact path="/Biblioteca" component={isLoading ? Loading : isAuthenticated ? Biblioteca : Home} />
                             <Route exact path="/Perfil" component={isLoading ? Loading : isAuthenticated ? Perfil : Home} />
                             <Route exact path="/Estadistica" component={isLoading ? Loading : isAuthenticated ? Estadistica : Home} />
                             <Route exact path="/Revision" component={isLoading ? Loading : !isAuthenticated ? Home :((localStorage.getItem('tipoUsuario') === '3') && localStorage.getItem('usuario_estado')==='Activo')? Revision : Home } />
                             <Route exact path="/Revision/:id" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Resultado :  Home} />
-                            <Route exact path="/Parametros" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Parametros :  Home} />
+                            <Route exact path="/Ajustes" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Ajustes :  Home} />
                             <Route exact path="/Autor/:libroId" component={isLoading ? Loading : isAuthenticated ? Autor : Home} />
                             <Route exact path="/AutorId/:Id" component={isLoading ? Loading : isAuthenticated ? AutorPorAuth0 : Home} />
                             <Route exact path="/Ayuda/:tipo" component={Paginas} />
+                            <Route exact path="/Suscripciones" component={isLoading ? Loading :isAuthenticated ? Suscripciones :  Home} />
+                            <Route exact path="/Reclamo"component={isLoading ? Loading :isAuthenticated ? Reclamos :  Home} /> 
                             <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                         </Switch>
                 </BrowserRouter>

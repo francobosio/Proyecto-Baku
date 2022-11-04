@@ -38,16 +38,16 @@ export default function MenuPopover({ children, sx, ...other }) {
         sx: {
           mt: 1.5,
           ml: 0.5,
-          overflow: 'inherit',
+          overflow: 'scroll',
+          backgroundColor: '#d4f7ec',
           boxShadow: 'rgba(145, 158, 171, 0.24) 0px 0px 2px 0px, rgba(145, 158, 171, 0.24) 0px 20px 40px -4px',
-          border: (theme) => `solid 1px ${theme.palette.grey[500_8]}`,
-          width: 200,
+          border: (theme) => `solid 2px ${theme.palette.grey[500]}`,
+          width: 'auto',
           ...sx
         }
       }}
       {...other}
     >
-      <ArrowStyle className="arrow" />
 
       {children}
     </Popover>

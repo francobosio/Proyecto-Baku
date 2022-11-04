@@ -10,6 +10,7 @@ import Favorito from '../Favorito/Favorito';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
+import PersonIcon from '@mui/icons-material/Person';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import * as libroService from '../Libros/LibroService'
 import Denuncia from '../Denuncia/DialogDenuncia.jsx'

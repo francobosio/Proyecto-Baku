@@ -68,10 +68,6 @@ const useStyles = makeStyles((theme) => ({
       width: '20ch',
     },
   },
-  link: {
-    color: "#000",
-    "text-decoration": "none",
-  },
   sectionDesktop: {
 
     display: 'none',
@@ -159,8 +155,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <Link className={classes.link} to="/Perfil">Perfil</Link>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/Perfil">
+        Perfil
       </MenuItem>
       <MenuItem onClick={logout}>Cerrar Sesión</MenuItem>
     </Menu>
@@ -233,7 +229,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Avatar alt={user.name} src={user.picture}></Avatar>
+              <Avatar  alt={user.name} src={user.picture} referrerPolicy="no-referrer" />
             </IconButton>
             </div>
           <div className={classes.sectionMobile}>

@@ -207,7 +207,7 @@ export default function BasicTable() {
                 <TableRow>
                   <StyledTableCell align="center" width={200} >ID</StyledTableCell>
                   <StyledTableCell align="center" width={450}>Palabra</StyledTableCell>
-                  <StyledTableCell align="center">Numero de ocurrencias</StyledTableCell>
+                  <StyledTableCell align="center">Número de ocurrencias</StyledTableCell>
                 </TableRow>
               </TableHead>
               {/* si sinMalasPalabras es true no mostrar TableBody y mostrar un nuevo componente que diga que no hay malas palabras */}

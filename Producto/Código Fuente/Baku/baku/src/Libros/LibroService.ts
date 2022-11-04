@@ -51,8 +51,8 @@ export const obtenerLibros = async () => {
     return await axios.get("http://localhost:4000/libros")
 }
 
-export const obtenerLibrosFecha = async (mes: Number, anho: Number) => {
-    return await axios.get(`http://localhost:4000/librosFecha/${mes}/${anho}`)
+export const obtenerLibrosFecha = async (fechaDesde: String, fechaHasta: String) => {
+    return await axios.get(`http://localhost:4000/librosFecha/${fechaDesde}/${fechaHasta}`)
 }
 
 export const obtenerLibrosFavoritos = async (id: String) => {
@@ -63,3 +63,6 @@ export const obtenerRanking = async () => {
     return await axios.get(`http://localhost:4000/libros/ranking`)
 }
 
+export const getLibroNarrador = async (archivoTexto: String, currentPage: Number, titulo: String) => {
+    return await axios.get(`http://localhost:4000/libro/narrador/${archivoTexto}/${currentPage}/${titulo}`)
+}

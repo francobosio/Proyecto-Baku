@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import { MiDrawer } from "../Drawer/Drawer.jsx"
-import Tabs from "./Tabs.jsx"
+import UsuariosLibros from "../Comunidad/UsuariosLibros.jsx"
 import { Container } from '@mui/material';
 import { Typography } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
@@ -31,16 +31,15 @@ export default function MiniDrawer() {
 
     return (
         <div className={classes.root}>
-            <MiDrawer pestaña={7} />
+            <MiDrawer pestaña={3} />
             <main className={classes.content}>
-                
+
                 <AppBar />
-                <Container maxWidth='xl' disableGutters fixed>
-                <br />
-                    <Typography variant='h4' className={classes.titulo}> Parámetros del sistema</Typography>
-                    <Tabs />
+                <Container maxWidth='xl' sx={{ minHeight: '70.28vh' }} disableGutters fixed>
+                    <br />
+                    <Typography variant='h4' className={classes.titulo}> Comunidad </Typography>
+                    <UsuariosLibros />
                 </Container>
-                
                 <Footy />
             </main>
         </div>

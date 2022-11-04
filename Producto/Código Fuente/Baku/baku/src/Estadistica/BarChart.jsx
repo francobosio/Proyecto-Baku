@@ -2,30 +2,30 @@ import React, { useEffect, useState, Component } from "react";
 import ReactApexChart from "react-apexcharts";
 import * as libroService from '../Libros/LibroService'
 
-const BarChart = () => {
-
+const BarChart = (props) => {
+        
         const [libros, setlibros] = useState([])
+        const [ejecuto, setEjecuto] = useState(false)
         const loadLibros = async () => {
-            const res = await libroService.obtenerLibros();
+            const fechaDesdeBack = encodeURIComponent(`${props.fechaDesde.getMonth() + 1}/${props.fechaDesde.getDate()}/${props.fechaDesde.getFullYear()}`)
+            const fechaHastaBack = encodeURIComponent(`${props.fechaHasta.getMonth() + 1}/${props.fechaHasta.getDate()}/${props.fechaHasta.getFullYear()}`)
+            const res = await libroService.obtenerLibrosFecha(fechaDesdeBack, fechaHastaBack)
             //console.log(res.data);
             setlibros(res.data);
+            setEjecuto(true)
         }
 
         //El codigo del useEffect se renderiza despues de que se haya montado el componente
         useEffect(() => {
             loadLibros()
             window.scrollTo(0, 0)
-        }, [])
+        }, [props.fechaDesde, props.fechaHasta])
 
         //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
         var isVisible = false
-        if(libros.length != 0){
+        if(ejecuto){
             isVisible = true
         }
-        //console.log("libros")
-        //console.log(libros)
-        //console.log("isVisible")
-        //console.log(isVisible)
 
     
         //Array de TODOS LOS GENEROS que hay en todos los libros
@@ -36,10 +36,10 @@ const BarChart = () => {
         //console.log(array1)
     
         //Crea un array de generos unicos
-        const unique = array1
-            .map((item) => item)
-            .filter((value, index, self) => self.indexOf(value) === index);
-        //console.log(unique);
+        // const unique = array1
+        //     .map((item) => item)
+        //     .filter((value, index, self) => self.indexOf(value) === index);
+        const unique = ['Infantil', 'Ciencia Ficción', 'Policial', 'Aventura', 'Terror', 'Fantasía', 'Poesía', 'Romántico', 'Teatro', 'Arte', 'Biografía']
     
         //Crea el array donde cada objeto es un genero (name) con su cantidad de libros (value)
         let generos = [];
@@ -68,12 +68,16 @@ const BarChart = () => {
         
         let generosCategorias = [];
         let generosData = [];
-        generos.forEach(function (elemento, indice, array) {
-            generosCategorias.push(elemento.name);
-            generosData.push(Math.round(elemento.value*100/sumall*100)/100);
-        });
-        //console.log(generosCategorias);
-        //console.log(generosData);    
+        if(libros.length != 0){
+            generos.forEach(function (elemento, indice, array) {
+                generosCategorias.push(elemento.name);
+                generosData.push(Math.round(elemento.value*100/sumall*100)/100);
+            });
+        }else{
+            generosCategorias = unique
+            generosData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        }
+           
     
         var seriesGeneros = [
             {
@@ -111,7 +115,7 @@ const BarChart = () => {
             dataLabels: {
                 enabled: true,
                 formatter: function (val) {
-                    return val + "%";
+                    return Math.round(val*100)/100 + "%";
                 },
                 offsetX: 0,
                 style: {
@@ -137,7 +141,7 @@ const BarChart = () => {
                 labels: {
                     show: true,
                     formatter: function (val) {
-                      return val + "%";
+                      return Math.round(val*100)/100 + "%";
                     }
                 },
                 
@@ -181,7 +185,11 @@ const BarChart = () => {
         }
 
         return (
-            <div id="Bar">
+            <div id="Bar" style={{ 
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center"
+            }}>
                 {isVisible && (
                     <ReactApexChart options={options2} series={seriesGeneros} type="bar" height={450} width={600}/>
                 )}

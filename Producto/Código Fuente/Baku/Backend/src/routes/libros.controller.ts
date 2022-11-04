@@ -7,6 +7,7 @@ import fs from 'fs-extra'
 import { promisify } from 'util'
 import PdfParse from "pdf-parse";
 import Usuario from "./Usuario"
+import { fileURLToPath } from "url"
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -20,12 +21,13 @@ export const createLibro: RequestHandler = async (req, res) => {
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const respuestaImg = await cloudinary.v2.uploader.upload(files.imagenPath[0].path);
     const respuestaPdf = await cloudinary.v2.uploader.upload(files.archivoTexto[0].path);
+    console.log(respuestaPdf.secure_url);
     const newLibro = {
         imagenPath: respuestaImg.url,
         public_id_imagen: respuestaImg.public_id,
         titulo,
         descripcion,
-        archivoTexto: respuestaPdf.url,
+        archivoTexto: respuestaPdf.secure_url,
         public_id_pdf: respuestaPdf.public_id,
         genero: req.body.genero,
         autor: req.body.autor,
@@ -69,6 +71,7 @@ export const getLibros: RequestHandler = async (req, res) => {
 export const getLibrosRegistrados: RequestHandler = async (req, res) => {
     try {
         const libros = await Libro.find({ estado: 'Registrado' })
+        res.json(libros);
     } catch (error) {
         res.json({ message: error })
     }
@@ -88,6 +91,24 @@ export const getLibrosPublicados: RequestHandler = async (req, res) => {
 export const getLibro: RequestHandler = async (req, res) => {
     const libroFound = await Libro.findById(req.params.id);
     if (!libroFound) return res.status(204).json();
+    
+    // //DESCARGA DEL LIBRO
+    // const url2 = libroFound.archivoTexto;
+    // console.log("🚀 ~ file: libros.controller.ts ~ line 97 ~ constgetLibro:RequestHandler= ~ url2", url2)
+    // https.get(url2, function (res) {
+    //     //nombre del archivo
+    //     const fileStream = fs.createWriteStream(`./revision/${libroFound.titulo}.pdf`);
+    //     res.pipe(fileStream);
+    //     fileStream.on('finish', function () {
+    //         fileStream.close();
+    //         console.log("El Archivo fue descargado con éxito !!");
+    //     }
+    //     )
+    // })
+    // //Esperar a que el archivo se descargue
+    // console.log("ESPERAMOS - GETLIBRO()")
+    // await new Promise(resolve => setTimeout(resolve, 2000));
+
     return res.json(libroFound)
 }
 
@@ -128,17 +149,17 @@ export const buscarLibroGenero: RequestHandler = async (req, res) => {
     res.json(libroFound);
 }
 
-//NO ABRIR 
+//region VECTOR MALAS PALABRAS
 const malasPalabras = [
-    "mierda", "puta", "puto", "concha", "pelotudo", "pelotuda", "boludo", "boluda", "idiota", "estupido", "estupida", "forro", "forra", "conchudo", "conchuda", "pajero", "pija", "ojete", "culo", "pete", "chota", "choto", "trolo", "tarado", "cago", "cagando", "cagon", "cagate", "bosta", "orto", "ortiva", "trola", "coger", "pajera", "mogolico", "mogolica", "subnormal", "chupala", "tragaleche", "petero", "petera", "cagar", "pingo", "mojon", "culiar", "culiado", "culiada", "culiau", "baboso", "babosa", "bobalicon", "capullo", "caraculo", "cretino", "deserebrado", "deserebrada", "donnadie", "huevon", "lameculos", "malparido", "patan", "pedorro", "pedorra", "zoquete", "hitler", "nazi"
+    "mierda", "puta", "puto", "concha","tonto","tonta","pelotudo", "pelotuda", "boludo", "boluda", "idiota", "estupido", "estupida", "forro", "forra", "conchudo", "conchuda", "pajero", "pija", "ojete", "culo", "pete", "chota", "choto", "trolo", "tarado", "cago", "cagando", "cagon", "cagate", "bosta", "orto", "ortiva", "trola", "coger", "pajera", "mogolico", "mogolica", "subnormal", "chupala", "tragaleche", "petero", "petera", "cagar", "pingo", "mojon", "culiar", "culiado", "culiada", "culiau", "baboso", "babosa", "bobalicon", "capullo", "caraculo", "cretino", "deserebrado", "deserebrada", "donnadie", "huevon", "lameculos", "malparido", "patan", "pedorro", "pedorra", "zoquete", "hitler", "nazi"
 ]
+//endregion
 
 export const getLibroRevision: RequestHandler = async (req, res) => {
     const libroFound = await Libro.findById(req.params.id);
     if (!libroFound) return res.status(204).json(); let sinMalasPalabras = false;
     const url = libroFound.archivoTexto;
-    const url2 = url.replace("http", "https");
-    https.get(url2, function (res) {
+    https.get(url, function (res) {
         //nombre del archivo
         const fileStream = fs.createWriteStream(`./revision/${libroFound.titulo}.pdf`);
         res.pipe(fileStream);
@@ -244,21 +265,39 @@ export const obtenerLibros: RequestHandler = async (req, res) => {
 
 //Obtener Libros con Fecha Determinada- Michael
 export const obtenerLibrosFecha: RequestHandler = async (req, res) => {
-
+    const fechaDesdeArray = req.params.fechaDesde.split('/');       
+    //console.log("🚀 ~ file: libros.controller.ts ~ line 269 ~ constobtenerLibrosFecha:RequestHandler= ~ fechaDesdeArray", fechaDesdeArray)
     //FECHA DESDE
-    const from_date = new Date(`${req.params.mes}/01/${req.params.anho}`) //MM/DD/AAAA
+    let from_date = new Date()
+    if (req.params.fechaHasta !== "sinHasta") {
+        
+        from_date = new Date(req.params.fechaDesde) //MM/DD/AAAA
+    } else {
+        from_date = new Date(`${fechaDesdeArray[0]}/01/${fechaDesdeArray[2]}`) //MM/DD/AAAA
+    }
     from_date.setUTCHours(0, 0, 0, 0) //Establecemos desde las 00 hs
+    //console.log("🚀 ~ file: libros.controller.ts ~ line 272 ~ constobtenerLibrosFecha:RequestHandler= ~ from_date", from_date)
 
 
     //FECHA HASTA
     // SI (el mes es diciembre) ENTONCES el mes siguiente es Enero SINO el mes siguiente es "mes actual + 1"
     // SI (el mes es diciembre) ENTONCES el año del mes siguiente "Enero" es "año actual + 1" SINO el año del mes siguiente es "año actual"
-    const to_date = new Date(`${parseInt(req.params.mes) == 12 ? "01" : parseInt(req.params.mes) + 1}/01/${parseInt(req.params.mes) == 12 ? parseInt(req.params.anho) + 1 : req.params.anho}`)
-    to_date.setUTCHours(0, 0, 0, 0)
+    
+    let to_date = new Date()
+    if (req.params.fechaHasta !== "sinHasta") {
+        
+        to_date = new Date(req.params.fechaHasta)
+        to_date.setUTCHours(23, 59, 59, 59)
+    } else {
+        to_date = new Date(`${parseInt(fechaDesdeArray[0]) == 12 ? "01" : parseInt(fechaDesdeArray[0]) + 1}/01/${parseInt(fechaDesdeArray[0]) == 12 ? parseInt(fechaDesdeArray[2]) + 1 : fechaDesdeArray[2]}`)
+        to_date.setUTCHours(0, 0, 0, 0)
+    }
+    
+    //console.log("🚀 ~ file: libros.controller.ts ~ line 280 ~ constobtenerLibrosFecha:RequestHandler= ~ to_date", to_date)
 
     try {
         //toISOString() transforma al formato Date de MongoBD
-        const librosFecha = await Libro.find({ createdAt: { $gte: from_date.toISOString(), $lt: to_date.toISOString() } })
+        const librosFecha = await Libro.find({ createdAt: { $gte: from_date.toISOString(), $lte: to_date.toISOString() } })
         //res.json([librosFecha, from_date.toISOString(), to_date.toISOString()]) PARA VER COMO TOMA LAS FECHAS
         res.json(librosFecha)
     } catch (error) {
@@ -298,4 +337,100 @@ export const establecerRanking = async (numero: number) => {
         for (let i = 0; i < numero; i++) {
             await Libro.findByIdAndUpdate({ _id: libros[i]._id }, { ordenRanking: (i + 1) }, { new: true })
         }
+}
+
+export const getLibroNarrador: RequestHandler = async (req, res) => {
+    
+    console.log("Empieza narrador!!")
+
+    //DESCARGA DEL LIBRO
+    const url2 = req.params.archivoTexto;
+    console.log("🚀 ~ file: libros.controller.ts ~ line 330 ~ constgetLibroNarrador:RequestHandler= ~ url2", url2)
+    https.get(url2, function (res) {
+        //nombre del archivo
+        const fileStream = fs.createWriteStream(`./revision/${req.params.titulo}.pdf`);
+        res.pipe(fileStream);
+        fileStream.on('finish', function () {
+            fileStream.close();
+            console.log("El Archivo fue descargado con éxito !!");
+        }
+        )
+    })
+    //Esperar a que el archivo se descargue
+    console.log("ESPERAMOS - GETLIBRO()")
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const array: any[] = []
+
+    function render_page(pageData: any) {
+        let render_options = {
+            //replaces all occurrences of whitespace with standard spaces (0x20). The default value is `false`.
+            normalizeWhitespace: false,
+            //do not attempt to combine same line TextItem's. The default value is `false`.
+            disableCombineTextItems: false,
+        }
+      
+        //console.log(pageData.pageNumber)
+      
+        return pageData.getTextContent(render_options)
+        .then(function(textContent: any) {
+            let lastY, text = '';
+            for (let item of textContent.items) {
+                if (lastY == item.transform[5] || !lastY){
+                    text += item.str;
+                }  
+                else{
+                    text += '\n' + item.str;
+                }    
+                lastY = item.transform[5];
+            }
+            array.push(text)
+            return text;
+        })
+    }
+      
+    let options = {
+        pagerender: render_page,
+    }
+
+
+    if (fs.existsSync(`./revision/${req.params.titulo}.pdf`)) {
+
+        //Me parece que con libroFound.archivoTexto nos ahorramos este paso...
+        const pdfFile = await fs.readFile(`./revision/${req.params.titulo}.pdf`);
+
+        PdfParse(pdfFile, options).then(function (data) {
+            let dataText = data.text;
+            //Separo en palabras el texto del pdf
+            let arrayData = data.text.split(/\t|\n|\s/);
+
+            let arrayText = arrayData.join(' ')
+
+            const arrayLimpio: any[] = []
+            array.forEach(function (elemento, indice, array) {
+                
+                //Separo en palabras el texto del pdf
+                let arrayData = elemento.split(/\t|\n|\s/);
+
+                let arrayText = arrayData.join(' ')
+                arrayLimpio.push(arrayText);
+            });
+
+            fs.unlink(`./revision/${req.params.titulo}.pdf`, (err => {
+                if (err) console.log(err);
+                else {
+                console.log(`Archivo eliminado: ${req.params.titulo}.pdf`);
+                }
+            }));
+
+            return res.json({
+                dataText,
+                arrayData,
+                arrayText,
+                array,
+                arrayLimpio
+            })
+
+        });
+    }
 }

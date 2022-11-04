@@ -12,7 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import { Link, useParams } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from "react-router-dom";
-
+import ReplyIcon from '@mui/icons-material/Reply';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import Typography from '@material-ui/core/Typography';
@@ -217,7 +217,6 @@ export default function TitlebarImageList() {
             return setError('No se encontraron resultados');
         }
     }
-
     const handleChange = (e) => {
         setError('');
         busquedaVariable = e.target.value;
@@ -275,7 +274,7 @@ export default function TitlebarImageList() {
                 <Container className={classes.contenedor2}>
                     {/* alto y ancho mas grandes */}
                    {libroBuscado.length > 0 && <IconButton size={'small'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}>
-                        <RefreshIcon sx={{ height: "auto", width: "2em", color: "#076f55", }} />
+                        <ReplyIcon sx={{ height: "auto", width: "2.5em", color: "#076f55", }} />
                     </IconButton>
                     }
                <div style={{  width: "2em" }}>
@@ -285,7 +284,7 @@ export default function TitlebarImageList() {
                         <SearchIcon />
                     </div>
                     <InputBase
-                        placeholder="Buscar"
+                        placeholder="Autor, Título, Editorial"
                         classes={{ input: classes.inputInput, }}
                         inputProps={{ 'aria-label': 'search' }}
                         onChange={(e) => handleChange(e)}
