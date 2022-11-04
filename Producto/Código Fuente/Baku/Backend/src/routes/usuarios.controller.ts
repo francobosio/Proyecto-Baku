@@ -107,12 +107,15 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
             await Libro.findByIdAndUpdate(idLibro, { $inc: { visitas: 1, visitas24Horas: 1, indicadorAS: 1 } });
         }
         // Si es el fin de la lectura elimina el libro para actualizar la lista
+        let now = new Date();
         if (finLectura) {
+            now = usuario.libros_leidos[index].creado;
             libros_leidos.splice(index, 1);
         } else {
             if (index > -1) {
                 // Si encuentra el libro ya existe y no es el fin de lectura saca la ultima pagina leida y borra el item de la lista
                 ultimaPaginaLeida = usuario.libros_leidos[index].ultima_pagina;
+                now = usuario.libros_leidos[index].creado;
                 libros_leidos.splice(index, 1); 0
             } else {
                 // si el libro no existe aun setea la ultima pagina en 0
@@ -124,7 +127,8 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
 
         const libroLeido = {
             id_libro: idLibro,
-            ultima_pagina: ultimaPaginaLeida
+            ultima_pagina: ultimaPaginaLeida,
+            creado: now
         }
         usuario.libros_leidos.push(libroLeido);
 

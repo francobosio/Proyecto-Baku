@@ -2,12 +2,12 @@ import React, { useEffect, useState, Component } from "react";
 import ReactApexChart from "react-apexcharts";
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 
-const ColumnChart = () => {
+const ColumnChart = (props) => {
 
         const [usuarios, setUsuarios] = useState([])
         const loadUsuarios = async () => {
             const res = await usuarioService.getLibrosLeidosPorUsuario();
-            //console.log(res.data);
+            //console.log("🚀 ~ file: ColumnChart.jsx ~ line 10 ~ loadUsuarios ~ res", res.data)
             setUsuarios(res.data);
             //console.log(usuarios);
         }
@@ -16,7 +16,7 @@ const ColumnChart = () => {
         useEffect(() => {
             loadUsuarios()
             //window.scrollTo(0, 0)
-        }, [])
+        }, [props.fechaDesde, props.fechaHasta])
 
         //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
         var isVisible = false
@@ -24,17 +24,23 @@ const ColumnChart = () => {
             isVisible = true
         }
 
+        usuarios.forEach(usuario => {
+            let libros_leidos = usuario.libros_leidos.filter(libro_leido => new Date(libro_leido.creado) >= props.fechaDesde && new Date(libro_leido.creado) <= props.fechaHasta );
+            usuario.libros_leidos = libros_leidos
+        })
+        //console.log("🚀 ~ file: ColumnChart.jsx ~ line 31 ~ ColumnChart ~ usuarios", usuarios)
+
         var librosLeidos_UltimaPag = []
         usuarios.forEach(usuario => {
             librosLeidos_UltimaPag = librosLeidos_UltimaPag.concat(usuario.libros_leidos)
         })
-        //console.log(librosLeidos_UltimaPag)
+        //console.log("🚀 ~ file: ColumnChart.jsx ~ line 31 ~ ColumnChart ~ librosLeidos_UltimaPag", librosLeidos_UltimaPag)
     
         var todosLibrosLeidos = []
         librosLeidos_UltimaPag.forEach(libroLeido => {
             todosLibrosLeidos = todosLibrosLeidos.concat(libroLeido.id_libro)
         })
-        //console.log(todosLibrosLeidos)
+        //console.log("🚀 ~ file: ColumnChart.jsx ~ line 34 ~ ColumnChart ~ todosLibrosLeidos", todosLibrosLeidos)
     
         var idLibrosLeidos = []
         todosLibrosLeidos.forEach(libroLeido => {

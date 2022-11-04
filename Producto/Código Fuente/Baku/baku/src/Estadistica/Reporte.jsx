@@ -54,24 +54,21 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Reporte = () => {
+const Reporte = (props) => {
 
         const classes = useStyles();
 
         const [usuarios, setUsuarios] = useState([])
         const loadUsuarios = async () => {
             const res = await usuarioService.getLeidosPorUsuario();
-            console.log("Usuarios: res.data");
-            console.log(res.data);
             setUsuarios(res.data);
-            console.log(usuarios);
         }
 
         //El codigo del useEffect se renderiza despues de que se haya montado el componente
         useEffect(() => {
             loadUsuarios()
             window.scrollTo(0, 0)
-        }, [])
+        }, [props.fechaDesde, props.fechaHasta])
 
         //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
         var isVisible = false
@@ -79,13 +76,19 @@ const Reporte = () => {
             isVisible = true
         }
 
+        //Filtramos los libros leidos según las fechas desde y hasta
+        usuarios.forEach(usuario => {
+            let libros_leidos = usuario.libros_leidos.filter(libro_leido => new Date(libro_leido.creado) >= props.fechaDesde && new Date(libro_leido.creado) <= props.fechaHasta );
+            usuario.libros_leidos = libros_leidos
+        })
+
         //Para cada usuario obtenemos la CANTIDAD DE LIBROS LEIDOS en un ARRAY
         var librosLeidosCount = []
         usuarios.forEach(usuario => {
             librosLeidosCount = librosLeidosCount.concat(usuario.libros_leidos.length) 
         })
-        console.log("librosLeidosCount: ")
-        console.log(librosLeidosCount)
+        //console.log("librosLeidosCount: ")
+        //console.log(librosLeidosCount)
 
         // Calcula el promedio de todos los números
         const calcularPromedio = (values) => {
@@ -100,8 +103,8 @@ const Reporte = () => {
                 const dif = value - promedio;
                 return dif * dif;
             });
-            console.log("cuadradoDif: ")
-            console.log(cuadradoDif)
+            //console.log("cuadradoDif: ")
+            //console.log(cuadradoDif)
             const varianza = calcularPromedio(cuadradoDif);
             return varianza;
         };
@@ -113,17 +116,17 @@ const Reporte = () => {
         };
 
         if(librosLeidosCount.length != 0){
-            console.log("🚀 ~ file: Reporte.jsx ~ line 113 ~ Reporte ~ librosLeidosCount", librosLeidosCount)
+            //console.log("🚀 ~ file: Reporte.jsx ~ line 113 ~ Reporte ~ librosLeidosCount", librosLeidosCount)
             var promLibrosLeidosXUsuario = Math.round(calcularPromedio(librosLeidosCount)*100)/100 //Redondeo a 2 decimales
-            console.log("promLibrosLeidosXUsuario: ")
-            console.log(promLibrosLeidosXUsuario)
+            //console.log("promLibrosLeidosXUsuario: ")
+            //console.log(promLibrosLeidosXUsuario)
 
             // Test
             const datosTest = [1, 4, 7, 9, 32, 48, 54, 66, 84, 91, 100, 121];
             var varianza = Math.round(calcularVarianza(librosLeidosCount)*100)/100;
             var de = Math.round(calcularDE(calcularVarianza(librosLeidosCount))*100)/100;
-            console.log(`Varianza: ${varianza}`);
-            console.log(`Desviación estándar: ${de}`);
+            //console.log(`Varianza: ${varianza}`);
+            //console.log(`Desviación estándar: ${de}`);
 
             
         }

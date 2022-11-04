@@ -265,21 +265,39 @@ export const obtenerLibros: RequestHandler = async (req, res) => {
 
 //Obtener Libros con Fecha Determinada- Michael
 export const obtenerLibrosFecha: RequestHandler = async (req, res) => {
-
+    const fechaDesdeArray = req.params.fechaDesde.split('/');       
+    //console.log("🚀 ~ file: libros.controller.ts ~ line 269 ~ constobtenerLibrosFecha:RequestHandler= ~ fechaDesdeArray", fechaDesdeArray)
     //FECHA DESDE
-    const from_date = new Date(`${req.params.mes}/01/${req.params.anho}`) //MM/DD/AAAA
+    let from_date = new Date()
+    if (req.params.fechaHasta !== "sinHasta") {
+        
+        from_date = new Date(req.params.fechaDesde) //MM/DD/AAAA
+    } else {
+        from_date = new Date(`${fechaDesdeArray[0]}/01/${fechaDesdeArray[2]}`) //MM/DD/AAAA
+    }
     from_date.setUTCHours(0, 0, 0, 0) //Establecemos desde las 00 hs
+    //console.log("🚀 ~ file: libros.controller.ts ~ line 272 ~ constobtenerLibrosFecha:RequestHandler= ~ from_date", from_date)
 
 
     //FECHA HASTA
     // SI (el mes es diciembre) ENTONCES el mes siguiente es Enero SINO el mes siguiente es "mes actual + 1"
     // SI (el mes es diciembre) ENTONCES el año del mes siguiente "Enero" es "año actual + 1" SINO el año del mes siguiente es "año actual"
-    const to_date = new Date(`${parseInt(req.params.mes) == 12 ? "01" : parseInt(req.params.mes) + 1}/01/${parseInt(req.params.mes) == 12 ? parseInt(req.params.anho) + 1 : req.params.anho}`)
-    to_date.setUTCHours(0, 0, 0, 0)
+    
+    let to_date = new Date()
+    if (req.params.fechaHasta !== "sinHasta") {
+        
+        to_date = new Date(req.params.fechaHasta)
+        to_date.setUTCHours(23, 59, 59, 59)
+    } else {
+        to_date = new Date(`${parseInt(fechaDesdeArray[0]) == 12 ? "01" : parseInt(fechaDesdeArray[0]) + 1}/01/${parseInt(fechaDesdeArray[0]) == 12 ? parseInt(fechaDesdeArray[2]) + 1 : fechaDesdeArray[2]}`)
+        to_date.setUTCHours(0, 0, 0, 0)
+    }
+    
+    //console.log("🚀 ~ file: libros.controller.ts ~ line 280 ~ constobtenerLibrosFecha:RequestHandler= ~ to_date", to_date)
 
     try {
         //toISOString() transforma al formato Date de MongoBD
-        const librosFecha = await Libro.find({ createdAt: { $gte: from_date.toISOString(), $lt: to_date.toISOString() } })
+        const librosFecha = await Libro.find({ createdAt: { $gte: from_date.toISOString(), $lte: to_date.toISOString() } })
         //res.json([librosFecha, from_date.toISOString(), to_date.toISOString()]) PARA VER COMO TOMA LAS FECHAS
         res.json(librosFecha)
     } catch (error) {
