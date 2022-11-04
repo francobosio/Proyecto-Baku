@@ -151,12 +151,12 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
                                     </div>
                                     :
                                     <Grid container spacing={0} alignItems="center" justifyContent="center">
-                                        <Grid container item xs={1} xl={1} justifyContent="center">
+                                        <Grid container item xs={1.5} xl={1} justifyContent="center">
                                             <div style={{ padding: '0px 2px' }}>
                                                 <ShowSearchPopover />
                                             </div>
                                         </Grid>
-                                        <Grid container item xs={3.5} xl={2}>
+                                        <Grid container item xs={4} xl={2}>
                                             <Stack direction="row" alignItems="center" justifyContent="center">
                                                 <div style={{ padding: '0px 2px' }}>
                                                     <ZoomOut />
@@ -169,33 +169,17 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
                                                 </div>
                                             </Stack>
                                         </Grid>
-                                        <Grid item xs={7} xl={2}>
-                                            <Stack direction="row" alignItems="center" justifyContent="center">
-                                                <div style={{ padding: '0px 2px', marginLeft: 'auto' }}>
-                                                    <GoToPreviousPage />
-                                                </div>
-                                                <div style={{ padding: '0px 6px', width: '3rem'}}>
-                                                    <CurrentPageInput />
-                                                </div>
-                                                <div style={{ padding: '0px 2px', color: `${temaElegido()}`}}>
-                                                    de <NumberOfPages />
-                                                </div>
-                                                <div style={{ padding: '0px 2px' }}>
-                                                    <GoToNextPage />
-                                                </div>
-                                            </Stack>
-                                        </Grid>
-                                        <Grid item xs={1} xl={3}>
-                                            <div style={{ padding: '0px 2px', marginLeft: 'auto' }}>
+                                        <Grid item xs={1.5} xl={3}>
+                                            <div style={{ padding: '0px 2px', display: 'flex', alignItems: "center" , justifyContent: "center"}}>
                                                 <EnterFullScreen />
                                             </div>
                                         </Grid>
-                                        <Grid item xs={1} xl={2}>
-                                            <div style={{ padding: '0px 2px' }}>
+                                        <Grid item xs={1.5} xl={2}>
+                                            <div id="ST" style={{ padding: '0px 2px', display: 'flex', alignItems: "center" , justifyContent: "center"}}>
                                                 <SwitchTheme />
                                             </div>
                                         </Grid>
-                                        <Grid item xs={4} xl={4}>
+                                        <Grid item xs={3.5} xl={4}>
                                             <Stack direction="row" alignItems="center" justifyContent="center">
                                                 {habilitado &&
                                                 <div style={{ padding: '0px 2px' }}>
@@ -212,6 +196,22 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
                                                     <SwitchScrollMode mode={ScrollMode.Wrapped} />
                                                 </div>
                                                 }
+                                            </Stack>
+                                        </Grid>
+                                        <Grid item xs={12} xl={2} justifyContent="center" alignItems="center">
+                                            <Stack direction="row" alignItems="center" justifyContent="center">
+                                                <div style={{ padding: '0px 2px' }}>
+                                                    <GoToPreviousPage />
+                                                </div>
+                                                <div style={{ padding: '0px 6px', width: '3rem'}}>
+                                                    <CurrentPageInput />
+                                                </div>
+                                                <div style={{ padding: '0px 2px', color: `${temaElegido()}`}}>
+                                                    de <NumberOfPages />
+                                                </div>
+                                                <div style={{ padding: '0px 2px' }}>
+                                                    <GoToNextPage />
+                                                </div>
                                             </Stack>
                                         </Grid>
                                     </Grid>

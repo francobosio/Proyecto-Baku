@@ -56,6 +56,12 @@ import Tab from '@mui/material/Tab';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
+import AbcIcon from '@mui/icons-material/Abc';
+import ExposureIcon from '@mui/icons-material/Exposure';
+import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+
+//RESPONSIVE
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -119,6 +125,9 @@ const useStyles = makeStyles((theme) => ({
     },
     ocultar: {
         display: "none",
+    },
+    tabs: {
+        'background': '#076F55',
     },
 }));
 
@@ -279,11 +288,79 @@ const Lectura = () => {
     const jumpToPagePluginInstance = jumpToPagePlugin();
     const { jumpToPage } = jumpToPagePluginInstance;
 
-    //HIJO A PADRE
+    //HIJO A PADRE - BRILLO
     const [tipoColor1, setTipoColor1] = React.useState<string>('Ninguno');
+    const [value, setValue] = React.useState<number>(0);
+
+    const [important, setImportant] = React.useState('');
+
+    const [rojo, setRojo] = React.useState<number>(0);
+    const [verde, setVerde] = React.useState<number>(0);
+    const [azul, setAzul] = React.useState<number>(0);
+
     const setTipoColor1new = (name: string):void => {
         setTipoColor1(name)
     }
+
+    const setValuenew = (name: number):void => {
+        setValue(name)
+    }
+
+    const setImportantnew = (name: string):void => {
+        setImportant(name)
+    }
+
+    const setRojonew = (name: number):void => {
+        setRojo(name)
+    }
+
+    const setVerdenew = (name: number):void => {
+        setVerde(name)
+    }
+    
+    const setAzulnew = (name: number):void => {
+        setAzul(name)
+    }
+
+    //HIJO A PADRE - TIPO DE LETRA
+    const [tipoLetra2, setTipoLetra2] = React.useState('Ninguno');
+    const [scaleX, setScaleX] = React.useState<number>(0);
+    const [importantTL, setImportantTL] = React.useState('');
+    const [important2, setImportant2] = React.useState('');
+
+    const setTipoLetra2new = (name: string):void => {
+        setTipoLetra2(name)
+    }
+
+    const setScaleXnew = (name: number):void => {
+        setScaleX(name)
+    }
+
+    const setImportantTLnew = (name: string):void => {
+        setImportantTL(name)
+    }
+
+    const setImportant2new = (name: string):void => {
+        setImportant2(name)
+    }
+
+    //HIJO A PADRE - NARRADOR
+    const [estadoNarrador , setEstadoNarrador] = useState("En Pausa")
+
+    //TABS
+    const theme = useTheme();
+    const [valueTab, setValueTab] = React.useState(0);
+  
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+      setValueTab(newValue);
+    };
+  
+    const handleChangeIndex = (index: number) => {
+      setValueTab(index);
+    };
+
+    //RESPONSIVE
+    const matches = useMediaQuery(theme.breakpoints.up('lg'));
 
     return (
         <div className={classes.root}>
@@ -291,6 +368,8 @@ const Lectura = () => {
             <AppBarWe />
 
             { /*BARRA DE HERRAMIENTAS*/}
+            
+            {matches ?
             <Box sx={{ width: '100%', flexGrow: 1 }} style={{ paddingTop: '10px', backgroundColor: '#99cfbf' }}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
                     <Grid item xs={12} xl={1.5}>
@@ -306,67 +385,243 @@ const Lectura = () => {
                             </ButtonMui>
                         </div>
                     </Grid>
-                    <Grid item xs={12} xl={2}>
-                        <Typography variant="h5" gutterBottom component="div">
-                            {libro.titulo}
-                        </Typography>
+                    <Grid item xs={12} xl={2} >
+                        <div style={{ 
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center"
+                        }}>
+                            <Typography variant="h6" gutterBottom component="div">
+                                {libro.titulo}
+                            </Typography>
+                        </div>
                     </Grid>
-                    <Grid item xs={12} xl={4}>
+                    <Grid item xs={12} md={6} xl={4}>
                         {habilitado &&
-                            <Brillo tipoColor1={tipoColor1} setTipoColor1={setTipoColor1new}/>
+                            <Brillo 
+                                tipoColor1={tipoColor1} 
+                                setTipoColor1={setTipoColor1new}
+                                value={value}
+                                setValue={setValuenew}
+                                important={important}
+                                setImportant={setImportantnew}
+                                rojo={rojo}
+                                setRojo={setRojonew}
+                                verde={verde}
+                                setVerde={setVerdenew}
+                                azul={azul}
+                                setAzul={setAzulnew}
+                                tipoLetra2={tipoLetra2}
+                                scaleX={scaleX}
+                                importantTL={importantTL}
+                                important2={important2}
+                            />
                         }
                     </Grid>
-                    <Grid item xs={12} xl={2}>
+                    <Grid item xs={12} md={3} xl={2}>
                         {habilitado &&
-                            <TipoLetra tipoColor1={tipoColor1}/>
+                            <TipoLetra 
+                                tipoColor1={tipoColor1}
+                                value={value}
+                                rojo={rojo}
+                                verde={verde}
+                                azul={azul}
+                                important={important}
+                                tipoLetra2={tipoLetra2}
+                                setTipoLetra2={setTipoLetra2new}
+                                scaleX={scaleX}
+                                setScaleX={setScaleXnew}
+                                importantTL={importantTL}
+                                setImportantTL={setImportantTLnew}
+                                important2={important2}
+                                setImportant2={setImportant2new}
+                            />
                         }
                     </Grid>
-                    <Grid item xs={12} xl={2}>
+                    <Grid item xs={12} md={3} xl={2}>
                         {habilitado && 
                             isVisible && (
-                                <div style={{ 
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center"
-                                }}>
                                     <Narrador
                                         currentPage = {currentPage}
                                         textoLibro = {textoLibro}
                                         jumpToPage = {jumpToPage}
+                                        tipoColor1={tipoColor1}
+                                        value={value}
+                                        rojo={rojo}
+                                        verde={verde}
+                                        azul={azul}
+                                        important={important}
+                                        tipoLetra2={tipoLetra2}
+                                        scaleX={scaleX}
+                                        importantTL={importantTL}
+                                        important2={important2}
+                                        estadoNarrador={estadoNarrador}
+                                        setEstadoNarrador={setEstadoNarrador}
                                     />
-                                
-                                </div>
                             )
                         }
                     </Grid>
                 </Grid>
-
-                {mostrarAlerta === true &&
-                    <div>
-                        <Dialog
-                            /* text in dialog with color red  */
-                            sx={{ '& .MuiDialog-paper': { bgcolor: '#ceffed' }, '& .MuiButton-root ': { color: 'black' } }}
-                            open={open}
-                            TransitionComponent={Transition}
-                            keepMounted
-                            onClose={handleClose}
-                            aria-describedby="alert-dialog-slide-description"
+            </Box>:
+            <Box sx={{ width: '100%', flexGrow: 1 }} style={{ paddingTop: '10px', backgroundColor: '#99cfbf' }}>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
+                    <Grid item xs={12} xl={1.5}>
+                        <div style={{ 
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        height: "4rem",
+                                        justifyContent: "center"
+                                }}>
+                            <ButtonMui className={classes.boton} variant="contained">
+                                <ButtonMui className={classes.link} onClick={() => { terminaLectura(); history.goBack() }}>Atrás</ButtonMui>
+                            </ButtonMui>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} xl={3}>
+                        <div style={{ 
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center"
+                        }}>
+                            <Typography variant="h5" gutterBottom component="div">
+                                {libro.titulo}
+                            </Typography>
+                        </div>
+                    </Grid>
+                </Grid>
+            
+                <Box sx={{ width: '100%' }}>
+                    <AppBar position="static">
+                        <style>
+                            {   
+                                `
+                                    .MuiTabs-indicator {
+                                        background-color: #83B7AA;
+                                    }
+                                `
+                            }
+                        </style>
+                        <Tabs
+                            className={classes.tabs}
+                            value={valueTab}
+                            onChange={handleChange}
+                            indicatorColor="primary"
+                            textColor="inherit"
+                            variant="fullWidth"
+                            aria-label="full width tabs example"
                         >
-                            <DialogTitle>ALERTA DE DESCANSO</DialogTitle>
-                            <DialogContent>
-                                <DialogContentText id="alert-dialog-slide-description">
-                                    <Typography variant="h6" gutterBottom component="div" align='center'>
-                                        Hola!, te recomendamos que descanse un poco para que puedas seguir disfrutando de la lectura.
-                                    </Typography>
-                                </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleClose} size="large" >Cerrar</Button>
-                            </DialogActions>
-                        </Dialog>
-                    </div>
-                } 
+                        <Tab icon={<ExposureIcon fontSize='medium'/>} {...a11yProps(0)} disabled={estadoNarrador == "Reproduciendo" ? true : false} wrapped/>
+                        <Tab icon={<AbcIcon fontSize='large' />} {...a11yProps(1)} disabled={estadoNarrador == "Reproduciendo" ? true : false} wrapped/>
+                        <Tab icon={<RecordVoiceOverIcon fontSize='medium' />} {...a11yProps(2)} wrapped/>
+                        </Tabs>
+                    </AppBar>
+                    <TabPanel value={valueTab} index={0}>
+                        <Grid item xs={12} xl={4}>
+                            {habilitado &&
+                                <Brillo 
+                                    tipoColor1={tipoColor1} 
+                                    setTipoColor1={setTipoColor1new}
+                                    value={value}
+                                    setValue={setValuenew}
+                                    important={important}
+                                    setImportant={setImportantnew}
+                                    rojo={rojo}
+                                    setRojo={setRojonew}
+                                    verde={verde}
+                                    setVerde={setVerdenew}
+                                    azul={azul}
+                                    setAzul={setAzulnew}
+                                    tipoLetra2={tipoLetra2}
+                                    scaleX={scaleX}
+                                    importantTL={importantTL}
+                                    important2={important2}
+                                />
+                            }
+                        </Grid>
+                    </TabPanel>
+                    <TabPanel value={valueTab} index={1}>
+                        <Grid item xs={12} xl={2}>
+                            {habilitado &&
+                                <TipoLetra 
+                                    tipoColor1={tipoColor1}
+                                    value={value}
+                                    rojo={rojo}
+                                    verde={verde}
+                                    azul={azul}
+                                    important={important}
+                                    tipoLetra2={tipoLetra2}
+                                    setTipoLetra2={setTipoLetra2new}
+                                    scaleX={scaleX}
+                                    setScaleX={setScaleXnew}
+                                    importantTL={importantTL}
+                                    setImportantTL={setImportantTLnew}
+                                    important2={important2}
+                                    setImportant2={setImportant2new}
+                                />
+                            }
+                        </Grid>
+                    </TabPanel>
+                    <TabPanel value={valueTab} index={2}>
+                        <Grid item xs={12} xl={2}>
+                            {habilitado && 
+                                isVisible && (
+                                    <div style={{ 
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center"
+                                    }}>
+                                        <Narrador
+                                            currentPage = {currentPage}
+                                            textoLibro = {textoLibro}
+                                            jumpToPage = {jumpToPage}
+                                            tipoColor1={tipoColor1}
+                                            value={value}
+                                            rojo={rojo}
+                                            verde={verde}
+                                            azul={azul}
+                                            important={important}
+                                            tipoLetra2={tipoLetra2}
+                                            scaleX={scaleX}
+                                            importantTL={importantTL}
+                                            important2={important2}
+                                            estadoNarrador={estadoNarrador}
+                                            setEstadoNarrador={setEstadoNarrador}
+                                        />
+                                    </div>
+                                )
+                            }
+                            
+                        </Grid>
+                    </TabPanel>
+                </Box>
             </Box>
+            }
+            {mostrarAlerta === true &&
+                <div>
+                    <Dialog
+                        /* text in dialog with color red  */
+                        sx={{ '& .MuiDialog-paper': { bgcolor: '#ceffed' }, '& .MuiButton-root ': { color: 'black' } }}
+                        open={open}
+                        TransitionComponent={Transition}
+                        keepMounted
+                        onClose={handleClose}
+                        aria-describedby="alert-dialog-slide-description"
+                    >
+                        <DialogTitle>ALERTA DE DESCANSO</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-slide-description">
+                                <Typography variant="h6" gutterBottom component="div" align='center'>
+                                    Hola!, te recomendamos que descanse un poco para que puedas seguir disfrutando de la lectura.
+                                </Typography>
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} size="large" >Cerrar</Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
+            } 
             { /*CARGA DE PLUGINS*/}
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.14.305/build/pdf.worker.min.js">
                 <div className={classes.viewer}>
