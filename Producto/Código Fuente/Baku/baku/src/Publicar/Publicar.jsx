@@ -458,7 +458,7 @@ export default function MiniDrawer() {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography className={classes.textoDestacado}>Portada</Typography>
+                                    <Typography className={classes.textoDestacado}>Portada *</Typography>
                                     <label htmlFor="upload-button" className={classes.centrar}>
                                         {image.preview ? (
                                             <img src={image.preview} alt="dummy" width="230" height="300" className={classes.imagen} />
@@ -484,7 +484,7 @@ export default function MiniDrawer() {
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.controlTitulo}>
-                                    <Typography className={classes.textoDestacado}>Título</Typography>
+                                    <Typography className={classes.textoDestacado}>Título *</Typography>
                                     <TextField
                                         required
                                         name="titulo"
@@ -496,7 +496,7 @@ export default function MiniDrawer() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography className={classes.textoDestacado}>Descripción</Typography>
+                                    <Typography className={classes.textoDestacado}>Descripción *</Typography>
                                     <TextField
                                         className={classes.textoMultiple}
                                         name="descripcion"
@@ -525,7 +525,7 @@ export default function MiniDrawer() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography className={classes.textoDestacado}>Género</Typography>
+                                    <Typography className={classes.textoDestacado}>Género *</Typography>
                                     <FormControl className={classes.controlCombo} error={errorSelect}>
                                         <Select
                                             labelId="demo-mutiple-chip-label"
@@ -553,6 +553,10 @@ export default function MiniDrawer() {
                                         {errorSelect && <FormHelperText>{"Se debe seleccionar al menos una categoria"}</FormHelperText>}
                                     </FormControl>
                                     <InputLabel id="demo-mutiple-chip-label"></InputLabel>
+                                    <Tooltip title="Para quitar un genero haga click encima del mismo nuevamente" placement="right" arrow sx={{marginLeft: '0.7em', fontSize: '1.5em', size: 'large' }}>
+                                        <InfoIcon />
+                                    </Tooltip>
+                                    
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControlLabel
@@ -565,9 +569,9 @@ export default function MiniDrawer() {
                                     <FormControlLabel
                                         className={classes.controlLabel}
                                         control={<Checkbox className={classes.customCheckbox} color="secondary" name="AceptaTerminosCondiciones" checked={aceptaTerminos} onChange={handleAceptaTerminoChange} />}
-                                        label={`Al subir mi libro acepto los términos y condiciones de Baku`}
+                                        label={`Al subir mi libro acepto los términos y condiciones de Baku *`}
                                     />
-                                    <Button size="small" onClick={handleClickOpen}>Ver términos y condiciones</Button>
+                                    <Button variant="outlined" size="small" onClick={handleClickOpen}>Ver términos y condiciones</Button>
                                     <div>
                                         <Dialog
                                             fullScreen={fullScreen}
@@ -589,8 +593,11 @@ export default function MiniDrawer() {
                                         </Dialog>
                                     </div>
                                 </Grid >
+                                <Grid item xs={12}>
+                                    <Typography variant='subtitle2' gutterBottom >Los campos con (*) son obligatorios</Typography>
+                                </Grid>
                                 {/* grid direction row */}
-                                <Grid container xs={6} direction="row" alignItems="center" justify="center" >
+                                <Grid container xs={6} direction="row" alignItems="center" justify="center" sx={{marginTop:'2em'}}>
                                     { archivoSubido ?
                                                 <Button component="label" startIcon={<CheckCircleTwoToneIcon />} className={classes.btnPdf2+ " " + classes.centrar} >
                                                     Libro cargado con éxito
