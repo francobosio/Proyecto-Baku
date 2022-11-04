@@ -37,7 +37,7 @@ router.get('/autor/libros/:id', libroCtrl.getLibrosAutor)
 
 router.get('/libros', libroCtrl.obtenerLibros);
 
-router.get('/librosFecha/:mes/:anho', libroCtrl.obtenerLibrosFecha)
+router.get('/librosFecha/:fechaDesde/:fechaHasta', libroCtrl.obtenerLibrosFecha)
 
 router.get('/librosFavoritos', libroCtrl.obtenerLibrosMasFavoritos)
 

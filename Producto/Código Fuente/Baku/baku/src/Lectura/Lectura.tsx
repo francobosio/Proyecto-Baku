@@ -270,7 +270,9 @@ const Lectura = () => {
     }
 
     useEffect(() => {
-        obtenerTextoLibro()
+        if (libro.titulo !== ''){
+            obtenerTextoLibro()
+        }
     }, [libro])
 
     //PLUGINS
