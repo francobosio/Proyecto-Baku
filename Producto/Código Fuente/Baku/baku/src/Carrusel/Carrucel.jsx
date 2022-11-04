@@ -11,9 +11,26 @@ import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import imgCarrusel1 from '../Imagenes/CarruselBaku1.png'
 import imgCarrusel2 from '../Imagenes/CarruselBaku2.png'
+import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+const useStyles = makeStyles((theme) => ({
+  carousel: {
+    [theme.breakpoints.up('md')]: {
+      height: '15rem',
+      maxWidth: '80rem',
+  },[theme.breakpoints.only('md')]: {
+    height: '10rem',
+    maxWidth: '60rem',
+  },[theme.breakpoints.only('sm')]: {
+      display: 'none' ,
+  },[theme.breakpoints.only('xs')]: {
+    height: '5.2rem',
+      display: 'none' ,
+  }
+  },
+}));
 
 const images = [
   {
@@ -26,7 +43,7 @@ const images = [
   }
 ];
 
-function SwipeableTextMobileStepper() {
+function SwipeableTextMobileStepper({valor}) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = images.length;
@@ -43,22 +60,8 @@ function SwipeableTextMobileStepper() {
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
-  const matcheslg = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const changeSize = () => {
-    if (matcheslg) {
-    setAlto('10rem')
-    setAncho('40rem')
-    } else {
-        setAlto('15rem')
-        setAncho('80rem')
-    }
-};
-  React.useEffect(() => {
-    changeSize()
-    }
-, [matcheslg]) 
-
+  const classes = useStyles();
   return (
     <Box sx={{ maxWidth: ancho, flexGrow: 1 }}>
         
@@ -74,12 +77,11 @@ function SwipeableTextMobileStepper() {
               <Box
                 component="img"
                 sx={{
-                  height: alto,
                   display: 'block',
-                  maxWidth: ancho,
                   overflow: 'hidden',
                   width: '100%',
                 }}
+                className={classes.carousel}
                 src={step.imgPath}
                 alt={step.label}
               />

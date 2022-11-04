@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useRef} from 'react';
 import clsx from 'clsx';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -58,8 +58,12 @@ const useStyles = makeStyles((theme) => ({
         }),
         overflowX: 'hidden',
         width: theme.spacing(7) + 1,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(7) + 1,
+        [theme.breakpoints.only('md')]: {
+            width: theme.spacing(12) ,
+        },[theme.breakpoints.only('sm')]: {
+            width: theme.spacing(9),
+        },[theme.breakpoints.only('xs')]: {
+            width: '2.8em',
         },
     },
     toolbar: {
@@ -67,12 +71,31 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'flex-end',
         padding: theme.spacing(0, 1),
+        marginBottom: theme.spacing(2),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
     },
     link: {
         color: "white",
         "text-decoration": "none",
+    },
+    ListItemIconProps: {
+        [theme.breakpoints.only('md')]: {
+            marginLeft: '31%' ,
+        },[theme.breakpoints.only('sm')]: {
+            marginLeft: '23%' ,
+        },[theme.breakpoints.only('xs')]: {
+            marginLeft: '-30%' ,
+        },
+    },
+    ListItemTextrops: {
+        [theme.breakpoints.only('md')]: {
+            display: 'none' ,
+        },[theme.breakpoints.only('sm')]: {
+            display: 'none' ,
+        },[theme.breakpoints.only('xs')]: {
+            display: 'none' ,
+        }
     },
 }));
 
@@ -83,11 +106,14 @@ export const MiDrawer = (props) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false);
     const [selectedIndex] = React.useState(props.pestaña);
-
+    const elementRef = useRef(null);
     const theme = useTheme();
+    const porcentajeMinAncho = "31%";
+    const ocultarLogo = useMediaQuery(theme.breakpoints.down('md'));
     const matches = useMediaQuery(theme.breakpoints.down('lg'));
+    const matches2 = useMediaQuery(theme.breakpoints.down('md'));
     const handleDrawerOpen = () => {
-        console.log("CAMBIO EL TAMAÑO" + matches);
+        console.log("CAMBIO EL TAMAÑO" + matches2);
         if (matches) {
             setOpen(false);
             localStorage.setItem('drawer_open', false);
@@ -96,13 +122,6 @@ export const MiDrawer = (props) => {
             localStorage.setItem('drawer_open', true);
         }
     };
-
-    const handleDrawerOpenClose = () => {
-        setOpen((data) => {
-            localStorage.setItem('drawer_open', !data)
-            return !data
-        })
-    }
 
     const handleLink = () => {
         setOpen(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false)
@@ -115,8 +134,7 @@ export const MiDrawer = (props) => {
 
     useEffect(() => {
         handleDrawerOpen()
-    }
-        , [matches])
+    }, [matches])
     //si el tipo de usuario es 1, se muestra el boton Revisar
     return (
         <Box component="div" className={classes.root}>
@@ -135,51 +153,46 @@ export const MiDrawer = (props) => {
                 }}
             >
                 <Box component="div" className={classes.toolbar}>
-                    {/* si la pantalla es XS asignar open a false */}
-
-                    <Image src={Logo} aspectRatio={2.4} color={"#4B9C8E"} />
-                    <IconButton className={classes.icono} onClick={handleDrawerOpenClose} style={{ color: "#FFFFFF" }} >
-                        {open === false ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
+                   {ocultarLogo ? null : <Image src={Logo} aspectRatio={2.4} color={"#4B9C8E"} /> } 
                 </Box>
                 <Divider />
                 <List>
                     <Link onClick={handleLink} to="/Inicio" className={classes.link} >
                         {/* Crear tooltip por debajo del cursor */}
                         <Tooltip title="Inicio" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                            <ListItem button selected={selectedIndex === 1} sx={{ minWidth: "1rem" }}>
-                                <ListItemIcon  ><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                <ListItemText primary='Inicio' style={{ color: "#FFFFFF" }} />
+                            <ListItem button selected={selectedIndex === 1} >
+                                <ListItemIcon style={{minWidth: porcentajeMinAncho }} className={classes.ListItemIconProps} ><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary='Inicio' className={classes.ListItemTextrops} style={{ color: "#FFFFFF"  }} />
                             </ListItem>
                         </Tooltip>
                     </Link>
                     <Link onClick={handleLink} to="/Buscar" className={classes.link}>
                         <Tooltip title="Buscar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                             <ListItem button selected={selectedIndex === 2}>
-                                <ListItemIcon><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                <ListItemText primary="Buscar" style={{ color: "#FFFFFF" }} />
+                                <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><SearchOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary="Buscar" className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
                             </ListItem>
-                        </Tooltip>
+                        </Tooltip> 
                     </Link>
                     <Link to="/Usuarios" className={classes.link} >
                         <ListItem button>
-                            <ListItemIcon><AccountCircleIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                            <ListItemText primary='Usuarios' style={{ color: "#FFFFFF" }} />
+                            <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><AccountCircleIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                            <ListItemText primary='Usuarios' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
                         </ListItem>
                     </Link>
                     <Link to="/Biblioteca" className={classes.link} >
                         <Tooltip title="Biblioteca" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                             <ListItem button selected={selectedIndex === 3}>
-                                <ListItemIcon><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                <ListItemText primary='Mi Biblioteca' style={{ color: "#FFFFFF" }} />
+                                <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><MenuBookOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary='Biblioteca' className={classes.ListItemTextrops} style={{ color: "#FFFFFF"}} />
                             </ListItem>
                         </Tooltip>
                     </Link>
                     <Link to="/Publicar" className={classes.link} >
                         <Tooltip title="Publicar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                             <ListItem button selected={selectedIndex === 4}>
-                                <ListItemIcon><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                <ListItemText primary='Publicar' style={{ color: "#FFFFFF" }} />
+                                <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><PublishOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary='Publicar' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
                             </ListItem>
                         </Tooltip>
                     </Link>
@@ -188,24 +201,24 @@ export const MiDrawer = (props) => {
                             <Link to="/Estadistica" className={classes.link} >
                                 <Tooltip title="Estadisticas" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                                     <ListItem button selected={selectedIndex === 5}>
-                                        <ListItemIcon><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                        <ListItemText primary='Estadísticas' style={{ color: "#FFFFFF" }} />
+                                        <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                        <ListItemText primary='Estadísticas' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
                                     </ListItem>
                                 </Tooltip>
                             </Link>
                             <Link to="/Revision" className={classes.link} >
                                 <Tooltip title="Revisar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                                     <ListItem button selected={selectedIndex === 6} >
-                                        <ListItemIcon><RateReviewOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                        <ListItemText primary='Revisión' style={{ color: "#FFFFFF" }} />
+                                        <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><RateReviewOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                        <ListItemText primary='Revisión' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
                                     </ListItem>
                                 </Tooltip>
                             </Link>
                             <Link to="/Parametros" className={classes.link} >
                                 <ListItem button selected={selectedIndex === 7}>
-                                    <ListItemIcon><MiscellaneousServicesIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                    <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><MiscellaneousServicesIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                     <Tooltip title="Parametros" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                                        <ListItemText primary={`Parámetros`} style={{ color: "#FFFFFF" }} />
+                                        <ListItemText primary={`Parámetros`} className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
                                     </Tooltip>
                                 </ListItem>
                             </Link>

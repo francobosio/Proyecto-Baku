@@ -101,14 +101,14 @@ export default function ButtonAppBar() {
   const classes = useStyles();
 
   return (
-    <Grid container direction="column" minHeight="100vh"  xl={12} lg={12} md={12} sm={12} xs={12} >
+    <Grid container direction="column" minHeight="100vh"  xs={12} >
       <Grid item xl={12}>
         {/* hacer los componentes responsivos  */}
         <AppBar position="static" className={classes.color}>
           <Toolbar>
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             </IconButton>
-            <Typography variant="h1" xs={12} sm={12} md={12} lg={12} xl={12} className={classes.title}>
+            <Typography variant="h1" xs={12}  className={classes.title}>
             </Typography>
             <Button className={classes.boton + ' ' + classes.botonVerde}>
               <Link className={classes.link} to="/">Premium</Link>
@@ -122,7 +122,7 @@ export default function ButtonAppBar() {
         <Box className={classes.divImagen} sx={{ flexGrow: 1,minHeight:'73vh',imageOrientation: 'from-image',backgroundSize: 'cover',backgroundRepeat: 'no-repeat',backgroundPosition: 'center',}}>
         <Grid container  spacing={0} direction="column" alignItems="center"  justifyContent="center" style={{ minHeight: '60vh' }} >
         {/* /* el grid item debe ocupar todo el espacio  */}
-          <Grid item  xs={9} lg={3} xl={3} justifyContent="center" alignItems="center" >
+          <Grid item  xs={9}  justifyContent="center" alignItems="center" >
             <Typography className={classes.typographyKsText}>No dejes para mañana lo que puedes leer hoy.</Typography>
             <Typography className={classes.typographyKsText}>Accedé a cientos de libros originales en forma gratuita</Typography>
             <LoginButton text="Ingresa a Baku"></LoginButton>
