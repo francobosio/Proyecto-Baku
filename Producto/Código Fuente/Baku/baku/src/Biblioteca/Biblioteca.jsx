@@ -33,7 +33,7 @@ export default function MiniDrawer() {
     return (
         <Grid container direction="row" className={classes.root}>
             <Grid item container direction="column" xs={1}>
-             <MiDrawer pestaña={3} />
+             <MiDrawer pestaña={4} />
             </Grid>
 
             <Grid item direction="column" xs={11}>
