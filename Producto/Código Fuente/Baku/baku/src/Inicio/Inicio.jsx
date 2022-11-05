@@ -10,6 +10,7 @@ import Slider from '../CarouselPrincipal';
 import SliderRanked from '../CarouselPrincipalRanked';
 import { useAuth0 } from '@auth0/auth0-react'
 import Skeleton from '@mui/material/Skeleton';
+import { Link } from 'react-router-dom';
 
 import { MiDrawer } from "../Drawer/Drawer.jsx";
 import * as libroService from '../Libros/LibroService'
@@ -186,7 +187,7 @@ export default function Inicio() {
                             <Typography className={classes.titulo}>Le recomendamos que cargue su Fecha de Nacimiento para poder acceder a nuestro catálogo completo de libros.</Typography>
                         </Grid>
                         <Grid item xs={2}>
-                            <Button className={classes.botonPerfil}>Ir a Mi Perfil</Button>
+                            <Button component={Link} to="/Perfil" className={classes.botonPerfil}>Ir a Mi Perfil</Button>
                         </Grid>
                     </Grid>
                 }
