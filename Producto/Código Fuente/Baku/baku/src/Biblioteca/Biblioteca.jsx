@@ -6,6 +6,7 @@ import { MiDrawer } from "../Drawer/Drawer.jsx"
 import Tabs from "./TabsBiblioteca.jsx"
 import { Container } from '@mui/material';
 import { Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex'
@@ -30,19 +31,28 @@ export default function MiniDrawer() {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            <MiDrawer pestaña={4} />
-            <main className={classes.content}>
+        <Grid container direction="row" className={classes.root}>
+            <Grid item container direction="column" xs={1}>
+             <MiDrawer pestaña={4} />
+            </Grid>
+
+            <Grid item direction="column" xs={11}>
+             <Container disableGutters maxWidth='1800px' >
 
                 <AppBar />
-                <Container maxWidth='xl' disableGutters fixed>
+
+                <Grid item component={'main'} className={classes.content} >
+                    <Container maxWidth='xl' disableGutters fixed>
                     <br />
                     <Typography variant='h4' className={classes.titulo}> Mi Biblioteca</Typography>
                     <Tabs />
-                </Container>
+                     </Container>
+                </Grid>
 
                 <Footy />
-            </main>
-        </div>
+             </Container>
+            </Grid>
+        </Grid>
+
     );
 }

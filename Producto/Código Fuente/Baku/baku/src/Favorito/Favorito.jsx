@@ -3,12 +3,16 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 export default function Favorito({ libroId }) {
     console.log(libroId);
     const listaLibros = (JSON.parse(localStorage.getItem("favoritos"))).data.favoritos
     const [iconoFavorito, seticonoFavorito] = useState(false)
-
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('sm'));
+    const tamaño = matches ? 35 : 25;
     const loadFavoritos = () => {
         /* console.log(libros) */
         //si libroId esta en el array de libros cabiar iconoFavorito a true
@@ -43,12 +47,12 @@ export default function Favorito({ libroId }) {
 
     return (
         (iconoFavorito === true) ?
-            <IconButton size='large' sx={{ with: '4em' }} onClick={() => eliminarFavorito(libroId)}>
-                <FavoriteIcon fontSize="large" sx={{ with: '4em', height: 'auto', color: 'whitesmoke' }} />
+            <IconButton size='large' sx={{ height: 'auto',width:'auto'}} onClick={() => eliminarFavorito(libroId)}>
+                <FavoriteIcon fontSize="large" sx={{ height: tamaño , width:'auto', color: 'whitesmoke' }} />
             </IconButton>
             :
-            <IconButton size='large' sx={{ with: '4em' }} onClick={() => agregarFavorito(libroId)}>
-                <FavoriteBorderIcon fontSize="large" sx={{ with: '4em', height: 'auto', color: 'whitesmoke' }} />
+            <IconButton size='large' onClick={() => agregarFavorito(libroId)}>
+                <FavoriteBorderIcon fontSize="large" sx={{ height: tamaño, width:'auto', color: 'whitesmoke' }} />
             </IconButton>
     );
 }

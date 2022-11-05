@@ -1,8 +1,7 @@
-import React from 'react'
 import './SliderWrapper.scss'
 
-const SliderWrapper = ({ children }) => (
-  <div className="slider-wrapper">
+const SliderWrapper = ({ children,tamaño }) => (
+  <div className="slider-wrapper" style={{paddingTop: tamaño/3 , paddingBottom: tamaño/3}}>
     {children}
   </div>
 );
