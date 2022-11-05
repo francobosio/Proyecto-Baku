@@ -105,7 +105,10 @@ export const getDenunciasxLibroxUsuario : RequestHandler = async (req, res) => {
     }
    
 ])
-res.json(lista)
+//solo usuarios en estado bloqueado o libros en estado rechazado y reclamosxUsuario mayor a 1 y reclamosxLibro mayor a 1
+const listaFiltrada = lista.filter((item) => (item.autor[0].estado === "Bloqueado" || item.libro[0].estado === "Rechazado" )&& item.reclamosxUsuario > 1 && item.reclamosxLibro > 1)
+res.json(listaFiltrada)
+/* res.json(lista) */
 }
 
 export const eliminarReclamo : RequestHandler = async (req, res) => {
