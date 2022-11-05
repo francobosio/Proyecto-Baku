@@ -4,8 +4,8 @@ export const putEnviarDenuncia = async (from: String, to: String, subject: Strin
     return await axios.put('http://localhost:4000/denuncia/enviar', { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId });
 }
 //guardar la denuncia en la base de datos
-export const postGuardarDenuncia = async (from: String, to: String, subject: String, mensajeCuerpo: String, concepto: String, autorAuth0: String, libroId: String) => {
-    return await axios.post('http://localhost:4000/denuncia/guardar', { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId });
+export const postGuardarDenuncia = async (from: String, to: String, subject: String, mensajeCuerpo: String, concepto: String, autorAuth0: String, libroId: String,reclamosxUsuario:Number,reclamosxLibro:Number) => {
+    return await axios.post('http://localhost:4000/denuncia/guardar', { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId,reclamosxUsuario,reclamosxLibro });
 }
 
 export const putContadorDenuncias = async (auth0_id: String) => {
@@ -19,4 +19,13 @@ export const putContadorDenunciasxLibro = async (libroId: String) => {
 export const getDenunciasxAutorxlibro = async () => {
     return await axios.get('http://localhost:4000/denuncia/obtenerCompleto');
 }
+
+export const putBloquearAutoryLibro= async (pAutor:String,pLibro:String) => {
+    return await axios.put('http://localhost:4000/denuncia/bloquearAutorLibro', { pAutor,pLibro });
+}
+
+export const deleteReclamo = async (id: String) => {
+    return await axios.put('http://localhost:4000/denuncia/eliminarReclamo', { id });
+}
+
 

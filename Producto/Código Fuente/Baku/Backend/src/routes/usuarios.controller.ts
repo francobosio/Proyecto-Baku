@@ -49,6 +49,13 @@ export const getUsuarioId: RequestHandler = async (req, res) => {
     return res.json(usuarioFound);
 }
 
+export const cambiarEstadoUsuario: RequestHandler = async (req, res) => {
+    const { auth0_id, estadoUsuario } = req.body;
+    const usuario = await Usuario.findOneAndUpdate({ auth0_id: auth0_id }, { estado: estadoUsuario }, { new: true }).exec();
+    res.json(usuario)
+}
+
+
 
 /* Obtiene la última página de un libro leido por un usuario o la página 0 si es la primera vez que lo lee. Recibe el id de auth0 del usaurio y el id del libro en el campo req 
 y devuelve la ultima página encontrada o 0 en el campo res */

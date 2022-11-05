@@ -368,7 +368,7 @@ export default function MiniDrawer() {
             const nuevaNotificacion = {
                 'auth0usuario': localStorage.getItem("usuario_activo"),
                 'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido:",
-                'descripcion': libro.descripcion,
+                'descripcion': libro.titulo,
                 'avatar': localStorage.getItem("avatar"),
                 'tipo': "subidaLibro",
                 'esNoleido': true,

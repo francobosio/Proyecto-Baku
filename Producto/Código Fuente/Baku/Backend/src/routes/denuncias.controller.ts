@@ -2,6 +2,7 @@ import { transporter} from '../libs/mailer'
 import { RequestHandler } from "express";
 import Denuncia from './Denuncia';
 import Usuario from './Usuario';
+import Libro from './Libro';
 
 /* from: '"Baku" <bakulibros@gmail.com>', // sender address
 to: "ariel.strasorier@gmail.com", // list of receivers
@@ -25,13 +26,18 @@ export const enviarMail : RequestHandler = async (req, res) => {
 }
 
 export const guardarDenuncia : RequestHandler = async (req, res) => {
-  const  { from, to, subject, mensajeCuerpo, concepto, autorAuth0,libroId } = req.body;
-    const denuncia = new Denuncia({from, to, subject, mensajeCuerpo, concepto, autorAuth0,libroId})
+  const  { from, to, subject, mensajeCuerpo, concepto, autorAuth0,libroId,reclamosxUsuario,reclamosxLibro} = req.body;
+    const denuncia = new Denuncia({from, to, subject, mensajeCuerpo, concepto, autorAuth0,libroId,reclamosxUsuario,reclamosxLibro})
     const savedDenuncia = await denuncia.save()
+    res.json(savedDenuncia)
+}
+
+export const bloquearAutorLibro : RequestHandler = async (req, res) => {
+    const  { autorAuth0,libroId} = req.body;
     //buscar por el campo auth0_id y actualizar el campo bloqueado
     const usuario = await Usuario.findOneAndUpdate({auth0_id: autorAuth0}, {estado: "Bloqueado"}, {new: true}).exec();
-    console.log(usuario)
-    res.json(savedDenuncia)
+    const libro = await Libro.findOneAndUpdate({_id: libroId}, {estado: "Rechazado"}, {new: true}).exec();
+    res.json({ message: 'Autor y Libro bloqueados' })
 }
 
 //contar cuantas denuncias tiene un usuario en la base de datos
@@ -100,4 +106,10 @@ export const getDenunciasxLibroxUsuario : RequestHandler = async (req, res) => {
    
 ])
 res.json(lista)
+}
+
+export const eliminarReclamo : RequestHandler = async (req, res) => {
+    const  { id } = req.body;
+    await Denuncia.findByIdAndDelete(id)
+    res.json({ message: 'Denuncia eliminada' })
 }

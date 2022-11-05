@@ -14,6 +14,10 @@ export const createUsuario = async (usuarioData: {}) => {
     return await axios.post('http://localhost:4000/usuarios/', usuarioData)
 }
 
+export const putCambiarEstadoUsuario = async (auth0_id: String, estadoUsuario: string) => {
+    return await axios.put(`http://localhost:4000/usuarios/cambiarEstadoUsuario`, { auth0_id, estadoUsuario})
+}
+
 export const usuarioLibroCargado = async (usuarioLibroData: {}) => {
     return await axios.put('http://localhost:4000/usuarios/libroSubido/', usuarioLibroData)
 }
