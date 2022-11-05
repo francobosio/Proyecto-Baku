@@ -256,6 +256,7 @@ export default function MiniDrawer() {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [abrirDialog, setabrirDialog] = React.useState(false);
+    const [pdfTitle, setPdfTitle] = useState("");
 
     const handleCloseDialog = () => {
         setabrirDialog(false);
@@ -309,6 +310,7 @@ export default function MiniDrawer() {
         console.log(e.target.files[0].type )
         if  (e.target.files[0].type === "application/pdf") {
             if (e.target.files.length) {
+                setPdfTitle(e.target.files[0].name)
                 setPdf(e.target.files[0])
             }
             console.log(e.target.files[0])
@@ -388,6 +390,7 @@ export default function MiniDrawer() {
         setAptoTodoPublicos(false);
         setLibro({});
         setPdf("");
+        setPdfTitle("");
         setImage({ preview: "", raw: "" });
         setCategoriaLibro([]);
         setErrorSelect(null);
@@ -590,6 +593,7 @@ export default function MiniDrawer() {
                                     </div>
                                 </Grid >
                                 {/* grid direction row */}
+
                                 <Grid container xs={6} direction="row" alignItems="center" justify="center" >
                                     { archivoSubido ?
                                                 <Button component="label" startIcon={<CheckCircleTwoToneIcon />} className={classes.btnPdf2+ " " + classes.centrar} >
@@ -618,6 +622,13 @@ export default function MiniDrawer() {
                                     <Tooltip title="El archivo debe estar en formato PDF" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
                                         <InfoIcon />
                                     </Tooltip>
+                                    {pdfTitle !== "" ? 
+                                        <Grid container xs={12} direction="row" alignItems="center" justify="center" >
+                                            <Typography className={classes.texto}>Libro: {pdfTitle}</Typography>
+                                        </Grid>
+                                        :
+                                        null
+                                    }
                                 </Grid>
 
                                 <Grid item xs={12} style={{ marginTop: "1rem" }}>

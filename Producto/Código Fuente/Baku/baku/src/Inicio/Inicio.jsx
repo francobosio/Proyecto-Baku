@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 'react-material-ui-carousel';
 import { Typography } from '@material-ui/core';
@@ -59,7 +61,22 @@ const useStyles = makeStyles((theme) => ({
     link: {
         color: "white",
         "text-decoration": "none",
+    },
+    alerta: {
+        background: '#ffd04e',
+        padding: "1.5rem",
+        gridGap: 0,
+    },
+    botonPerfil: {
+        'background-color': '#4B9C8E',
+        'borderRadius': '5rem',
+        width: '15rem',
+        '&:hover': {
+        'background': '#076F55',
+        'color': '#FFFFFF',
     }
+    }
+
 }));
 
 const imagenesCarrusel = [
@@ -73,21 +90,23 @@ function Item(props) {
     )
 }
 export default function Inicio() {
-    const [libros, setlibros] = useState([])
-    const [librosGenero, setLibrosGenero] = useState([])
-    const [librosFavoritos, setLibrosFavoritos] = useState([])
-    const [favoritosComponente, setFavoritosComponente] = useState([])
-    const [flagScroll, setFlagScroll] = useState(true)
-    const [librosRankeados, setlibrosRankeados] = useState([])
-    const [flagActualizar, setFlagActualizar] = useState(true)
-    const [numeroRandom, setNumeroRandom] = useState(Math.random())
+    const [libros, setlibros] = useState([]);
+    const [librosGenero, setLibrosGenero] = useState([]);
+    const [librosFavoritos, setLibrosFavoritos] = useState([]);
+    const [favoritosComponente, setFavoritosComponente] = useState([]);
+    const [flagScroll, setFlagScroll] = useState(true);
+    const [librosRankeados, setlibrosRankeados] = useState([]);
+    const [flagActualizar, setFlagActualizar] = useState(true);
+    const [numeroRandom, setNumeroRandom] = useState(Math.random());
+    const [tieneFecha, setTieneFecha] = useState(true);
+
+    let usuario = null;
+    
     /* Carga todos los libros desde la base de datos y los guarda en la variable libros como un array */
     const loadLibros = async () => {
         const res = await libroService.getLibrosPublicado();
         const res2 = await libroService.obtenerRanking();
         //CREAR UN METODO QUE PERMITA OBTENER EL USUARIO DE CADA LIBRO Y ANEXARLO AL OBJETO LIBRO
-        
-        
         setlibros(res.data);
         setlibrosRankeados(res2.data);
         console.log(res.data)
@@ -99,7 +118,7 @@ export default function Inicio() {
     }, [])
 
     const loadUsuario = async () => {
-        const res = await usuarioService.getUsuario(user.sub);
+        const res = await usuarioService.getUsuario(user.sub)
         let usuario = res.data;
 
         if (usuario === null || usuario === undefined) {
@@ -109,7 +128,7 @@ export default function Inicio() {
                 'nombre': user.given_name ? user.given_name : user.nickname,
                 'tipo': '1',
                 'avatar': user.picture,
-                'usuario': user.nickname?user.nickname:'Invitado'+Math.floor(Math.random() * 100),
+                'usuario': user.nickname ? user.nickname : 'Invitado'+ Math.floor(Math.random() * 100),
                 'correo_electronico': user.email
             }
             const res = await usuarioService.createUsuario(usuarioData)
@@ -121,6 +140,10 @@ export default function Inicio() {
         localStorage.setItem("tipoUsuario", usuario.tipoUsuario)
         localStorage.setItem("usuario", usuario.usuario)
         localStorage.setItem("avatar", usuario.avatar)
+        localStorage.setItem("fechaNacimiento", usuario.fecha_nacimiento)
+        if(!usuario.fecha_nacimiento){
+            setTieneFecha(false)
+        }
         //Para favoritos
         const favoritos = await usuarioService.obtenerFavoritos(usuario.auth0_id);
         localStorage.setItem("favoritos", JSON.stringify(favoritos))
@@ -155,6 +178,19 @@ export default function Inicio() {
             <MiDrawer pestaña={1} />
             <main className={classes.content}>
                 <AppBar />
+
+                {tieneFecha ? 
+                    null :
+                    <Grid container spacing={4}  align = "center" justify = "center" alignItems = "center" className={classes.alerta}>
+                        <Grid item xs={5} >
+                            <Typography className={classes.titulo}>Le recomendamos que cargue su Fecha de Nacimiento para poder acceder a nuestro catálogo completo de libros.</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button className={classes.botonPerfil}>Ir a Mi Perfil</Button>
+                        </Grid>
+                    </Grid>
+                }
+
                 <Carousel className={classes.carousel}  >
                     {
                         imagenesCarrusel.map((item) => { return <Item key={item.id} item={item.img} /> })
