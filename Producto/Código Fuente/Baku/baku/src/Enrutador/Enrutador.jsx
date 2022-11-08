@@ -21,6 +21,7 @@ import { Loading } from '../Sesión/Loading.jsx'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import Perfil from "../Sesión/Perfil.jsx";
 import Paginas from "../PaginasFooter/Paginas.jsx";
+import { Grid } from '@material-ui/core';
 import Reclamos from "../Reclamo/ReclamosMain.jsx";
 
 export default function Layout() {
@@ -36,9 +37,8 @@ export default function Layout() {
     );
     return (
         <ThemeProvider theme={themeWithLocale}>
-            <div>
+            <Grid container direction="column" minHeight="100vh" >
                 <BrowserRouter>
-                    <div>
                         {/* Mediante un switch se configura cada ruta con el componente correspondiente, mediante ternarios verifico si la pagina esta cargando y si el 
                         usuario esta logueado */}
                         <Switch>
@@ -62,9 +62,8 @@ export default function Layout() {
                             <Route exact path="/Reclamo"component={isLoading ? Loading :isAuthenticated ? Reclamos :  Home} /> 
                             <Route render={() => <h4>Ups! No se encontro la pagina!</h4>} />
                         </Switch>
-                    </div>
                 </BrowserRouter>
-            </div>
+            </Grid>
         </ThemeProvider>
     );
 }

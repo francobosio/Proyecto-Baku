@@ -86,7 +86,7 @@ export default function ConfirmationDialogRaw(props) {
     console.log("Contador de denuncias del autor:" + contadorDenunciasTotalAutor.data);
     console.log("Contador de denuncias del libro:" + contadorDenucniasxLibroAutor.data);
     if (contadorDenunciasTotalAutor.data >= 5 || contadorDenucniasxLibroAutor.data >= 5) {
-     await denunciaService.putEnviarDenuncia(from,to,subject,mensajeCuerpo,concepto,pAutor,pLibro);
+    await denunciaService.putEnviarDenuncia(from,to,subject,mensajeCuerpo,concepto,pAutor,pLibro);
     await denunciaService.postGuardarDenuncia(from,to,subject,mensajeCuerpo,concepto,pAutor,pLibro);  
   };
 
