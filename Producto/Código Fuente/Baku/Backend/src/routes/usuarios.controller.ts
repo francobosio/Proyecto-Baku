@@ -187,10 +187,10 @@ export const putTipoUsuario: RequestHandler = async (req, res) => {
 }
 
 export const putUsuario: RequestHandler = async (req, res) => {
-    let { id, apellido, nombre, fecha_nacimiento } = req.body;
+    let { id, apellido, nombre, usuario, fecha_nacimiento } = req.body;
     fecha_nacimiento = fecha_nacimiento != undefined ? fecha_nacimiento : null;
-    console.log({ id, apellido, nombre, fecha_nacimiento })
-    const usuario = await Usuario.findByIdAndUpdate(id, { apellido, nombre, fecha_nacimiento }, { new: true })
+    console.log({ id, apellido, usuario, nombre, fecha_nacimiento })
+    const user = await Usuario.findByIdAndUpdate(id, { apellido, nombre, fecha_nacimiento, usuario }, { new: true })
 
     if (!usuario) {
         return res.json({
@@ -199,7 +199,7 @@ export const putUsuario: RequestHandler = async (req, res) => {
     }
     return res.json({
         message: "Usuario modificado con éxito !!!",
-        usuario
+        user
     });
 }
 
