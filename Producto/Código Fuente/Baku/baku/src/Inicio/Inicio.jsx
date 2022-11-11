@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { Typography } from '@material-ui/core';
@@ -88,13 +87,7 @@ export default function Inicio() {
     const theme = useTheme();
     const valor = theme.breakpoints.values[useWidth()];
     const width = calculo(valor);
-    const [libros, setlibros] = useState([])
-    const [librosGenero, setLibrosGenero] = useState([])
-    const [librosFavoritos, setLibrosFavoritos] = useState([])
-    const [flagScroll, setFlagScroll] = useState(true)
-    const [librosRankeados, setlibrosRankeados] = useState([])
-    const [flagActualizar, setFlagActualizar] = useState(true)
-    const [numeroRandom, setNumeroRandom] = useState(Math.random())
+
     const [libros, setlibros] = useState([]);
     const [librosGenero, setLibrosGenero] = useState([]);
     const [librosFavoritos, setLibrosFavoritos] = useState([]);
