@@ -256,6 +256,7 @@ export default function MiniDrawer() {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [abrirDialog, setabrirDialog] = React.useState(false);
+    const [pdfTitle, setPdfTitle] = useState("");
 
     const handleCloseDialog = () => {
         setabrirDialog(false);
@@ -309,6 +310,7 @@ export default function MiniDrawer() {
         console.log(e.target.files[0].type )
         if  (e.target.files[0].type === "application/pdf") {
             if (e.target.files.length) {
+                setPdfTitle(e.target.files[0].name)
                 setPdf(e.target.files[0])
             }
             console.log(e.target.files[0])
@@ -388,6 +390,7 @@ export default function MiniDrawer() {
         setAptoTodoPublicos(false);
         setLibro({});
         setPdf("");
+        setPdfTitle("");
         setImage({ preview: "", raw: "" });
         setCategoriaLibro([]);
         setErrorSelect(null);
@@ -458,7 +461,7 @@ export default function MiniDrawer() {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography className={classes.textoDestacado}>Portada</Typography>
+                                    <Typography className={classes.textoDestacado}>Portada *</Typography>
                                     <label htmlFor="upload-button" className={classes.centrar}>
                                         {image.preview ? (
                                             <img src={image.preview} alt="dummy" width="230" height="300" className={classes.imagen} />
@@ -484,7 +487,7 @@ export default function MiniDrawer() {
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.controlTitulo}>
-                                    <Typography className={classes.textoDestacado}>Título</Typography>
+                                    <Typography className={classes.textoDestacado}>Título *</Typography>
                                     <TextField
                                         required
                                         name="titulo"
@@ -496,7 +499,7 @@ export default function MiniDrawer() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography className={classes.textoDestacado}>Descripción</Typography>
+                                    <Typography className={classes.textoDestacado}>Descripción *</Typography>
                                     <TextField
                                         className={classes.textoMultiple}
                                         name="descripcion"
@@ -525,7 +528,7 @@ export default function MiniDrawer() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography className={classes.textoDestacado}>Género</Typography>
+                                    <Typography className={classes.textoDestacado}>Género *</Typography>
                                     <FormControl className={classes.controlCombo} error={errorSelect}>
                                         <Select
                                             labelId="demo-mutiple-chip-label"
@@ -553,6 +556,10 @@ export default function MiniDrawer() {
                                         {errorSelect && <FormHelperText>{"Se debe seleccionar al menos una categoria"}</FormHelperText>}
                                     </FormControl>
                                     <InputLabel id="demo-mutiple-chip-label"></InputLabel>
+                                    <Tooltip title="Para quitar un genero haga click encima del mismo nuevamente" placement="right" arrow sx={{marginLeft: '0.7em', fontSize: '1.5em', size: 'large' }}>
+                                        <InfoIcon />
+                                    </Tooltip>
+                                    
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControlLabel
@@ -565,9 +572,9 @@ export default function MiniDrawer() {
                                     <FormControlLabel
                                         className={classes.controlLabel}
                                         control={<Checkbox className={classes.customCheckbox} color="secondary" name="AceptaTerminosCondiciones" checked={aceptaTerminos} onChange={handleAceptaTerminoChange} />}
-                                        label={`Al subir mi libro acepto los términos y condiciones de Baku`}
+                                        label={`Al subir mi libro acepto los términos y condiciones de Baku *`}
                                     />
-                                    <Button size="small" onClick={handleClickOpen}>Ver términos y condiciones</Button>
+                                    <Button variant="outlined" size="small" onClick={handleClickOpen}>Ver términos y condiciones</Button>
                                     <div>
                                         <Dialog
                                             fullScreen={fullScreen}
@@ -589,8 +596,12 @@ export default function MiniDrawer() {
                                         </Dialog>
                                     </div>
                                 </Grid >
+                                <Grid item xs={12}>
+                                    <Typography variant='subtitle2' gutterBottom >Los campos con (*) son obligatorios</Typography>
+                                </Grid>
                                 {/* grid direction row */}
-                                <Grid container xs={6} direction="row" alignItems="center" justify="center" >
+
+                                <Grid container xs={6} direction="row" alignItems="center" justify="center" sx={{marginTop:'2em'}}>
                                     { archivoSubido ?
                                                 <Button component="label" startIcon={<CheckCircleTwoToneIcon />} className={classes.btnPdf2+ " " + classes.centrar} >
                                                     Libro cargado con éxito
@@ -618,6 +629,13 @@ export default function MiniDrawer() {
                                     <Tooltip title="El archivo debe estar en formato PDF" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
                                         <InfoIcon />
                                     </Tooltip>
+                                    {pdfTitle !== "" ? 
+                                        <Grid container xs={12} direction="row" alignItems="center" justify="center" >
+                                            <Typography className={classes.texto}>Libro: {pdfTitle}</Typography>
+                                        </Grid>
+                                        :
+                                        null
+                                    }
                                 </Grid>
 
                                 <Grid item xs={12} style={{ marginTop: "1rem" }}>

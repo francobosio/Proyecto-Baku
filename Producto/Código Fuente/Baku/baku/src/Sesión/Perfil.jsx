@@ -14,7 +14,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import esLocale from 'date-fns/locale/es';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Dialog, DialogActions, DialogContent, DialogContentText, FormControl, FormControlLabel} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, FormControlLabel} from "@mui/material";
 import 'date-fns';
 
 import * as usuarioService from './Usuarios/UsuarioService';
@@ -96,6 +96,7 @@ export default function Perfil() {
   const [locale] = React.useState("es");
   const [flagNombreEnabled, setFlagNombreEnabled] = React.useState(false);
   const [flagApellidoEnabled, setFlagApellidoEnabled] = React.useState(false);
+  const [flagAliasEnabled, setFlagAliasEnabled] = React.useState(false);
   const [flagPermanenciaLibros, setFlagPermanenciaLibros] = React.useState(false);
 
   const { user, logout } = useAuth0();
@@ -105,6 +106,7 @@ export default function Perfil() {
   const inputNombre = useRef();
   const inputApellido = useRef();
   const inputEmail = useRef();
+  const inputAlias = useRef();
 
   let usuario = {};
 
@@ -119,6 +121,7 @@ export default function Perfil() {
       inputNombre.current.value = usuario.nombre;
       inputApellido.current.value = usuario.apellido;
       inputEmail.current.value = usuario.correo_electronico;
+      inputAlias.current.value = usuario.usuario ? usuario.usuario : 'Invitado';
       if (usuario.fecha_nacimiento != null) {
         setSelectedDate(Date.parse(usuario.fecha_nacimiento));
       }
@@ -142,6 +145,11 @@ export default function Perfil() {
     setFlagNombreEnabled(true);
   }
 
+  const handleAliasEnable = () => {
+    inputAlias.current.disabled = false;
+    setFlagAliasEnabled(true);
+  }
+
   const handlePermanenciaLibros = e => {
     setFlagPermanenciaLibros(e.target.checked);
   }
@@ -149,6 +157,7 @@ export default function Perfil() {
   const saveChanges = () => {
     const nuevoNombre = inputNombre.current.value;
     const nuevoApellido = inputApellido.current.value;
+    const nuevoAlias = inputAlias.current.value;
     const selectedDateFormat = new Date(selectedDate);
     const todayDate = new Date(Date.now());
 
@@ -156,6 +165,7 @@ export default function Perfil() {
       'id': userDB._id,
       'apellido': nuevoApellido != '' ? nuevoApellido : userDB.apellido,
       'nombre': nuevoNombre != '' ? nuevoNombre : userDB.nombre,
+      'usuario': nuevoAlias != '' ? nuevoAlias : userDB.usuario,
       'fecha_nacimiento': selectedDateFormat.toDateString() != todayDate.toDateString() ? selectedDateFormat : userDB.fecha_nacimiento,
     };
 
@@ -229,6 +239,22 @@ export default function Perfil() {
                 </IconButton>
               </Grid>
 
+              <Grid item xs={3}>
+                <Typography className={classes.texto}>Alias:</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  className={flagAliasEnabled ? classes.textFieldEnabled : ''}
+                  name="alias"
+                  disabled
+                  inputRef={inputAlias}
+                />
+              </Grid>
+              <Grid item xs={5}>
+                <IconButton onClick={handleAliasEnable}>
+                  <EditIcon />
+                </IconButton>
+              </Grid>
 
               <Grid item xs={3}>
                 <Typography className={classes.texto}>Email:</Typography>
@@ -285,7 +311,7 @@ export default function Perfil() {
               </Dialog>
             </div>
             <Grid container spacing={10}>
-              <Grid spacing={10} item xs={6}>
+              <Grid item xs={6}>
                 <Button className={classes.botonGuardar} onClick={saveChanges}>Guardar Cambios</Button>
               </Grid>
               <Grid item xs={6}>
