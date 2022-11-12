@@ -40,6 +40,7 @@ export default function ColumnTypesGrid() {
 
   React.useEffect(() => {
     loadDenuncias();
+    console.log("Hola entro")
   }, []);
   
   const loadDenuncias= async () => {
@@ -72,7 +73,7 @@ export default function ColumnTypesGrid() {
       //convertir fecha a formato dd/mm/aaaa
       Fecha: row.createdAt.split("T")[0].split("-").reverse().join("/"),
     }));
-    console.log(rows2);
+    console.log("aca "+rows2);
     setRows(rows2);
   }
 
