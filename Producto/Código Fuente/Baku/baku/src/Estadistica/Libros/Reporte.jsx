@@ -1,7 +1,5 @@
-import React, { useEffect, useState, Component } from "react";
-import ReactApexChart from "react-apexcharts";
-import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
-import { makeStyles } from '@material-ui/core/styles';
+import { useEffect, useState} from "react";
+import * as usuarioService from '../../Sesión/Usuarios/UsuarioService'
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -11,8 +9,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
-import Typography from '@mui/material/Typography';
 
 function createData(title, dataNumber) {
     return { title, dataNumber};
@@ -39,24 +35,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-const useStyles = makeStyles((theme) => ({
-    title3: {
-        paddingTop: '30px',
-        margin: '0',
-        fontSize: '30px',
-        color: '#333',
-    },
-    title2: {
-        paddingTop: '5px',
-        margin: '0',
-        fontSize: '30px',
-        color: '#333',
-    }
-}));
-
 const Reporte = (props) => {
-
-        const classes = useStyles();
 
         const [usuarios, setUsuarios] = useState([])
         const loadUsuarios = async () => {
@@ -72,7 +51,7 @@ const Reporte = (props) => {
 
         //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
         var isVisible = false
-        if(usuarios.length != 0){
+        if(usuarios.length !== 0){
             isVisible = true
         }
 
@@ -115,14 +94,14 @@ const Reporte = (props) => {
             return Math.sqrt(varianza);
         };
 
-        if(librosLeidosCount.length != 0){
+        if(librosLeidosCount.length !== 0){
             //console.log("🚀 ~ file: Reporte.jsx ~ line 113 ~ Reporte ~ librosLeidosCount", librosLeidosCount)
             var promLibrosLeidosXUsuario = Math.round(calcularPromedio(librosLeidosCount)*100)/100 //Redondeo a 2 decimales
             //console.log("promLibrosLeidosXUsuario: ")
             //console.log(promLibrosLeidosXUsuario)
 
             // Test
-            const datosTest = [1, 4, 7, 9, 32, 48, 54, 66, 84, 91, 100, 121];
+            //const datosTest = [1, 4, 7, 9, 32, 48, 54, 66, 84, 91, 100, 121];
             var varianza = Math.round(calcularVarianza(librosLeidosCount)*100)/100;
             var de = Math.round(calcularDE(calcularVarianza(librosLeidosCount))*100)/100;
             //console.log(`Varianza: ${varianza}`);
@@ -144,10 +123,9 @@ const Reporte = (props) => {
                     <div style={{ 
                             display: "flex",
                             flexDirection: "column",
-                            alignItems: "center"
+                            alignItems: "center",
+                            marginTop: "5.44rem"
                     }}>
-                        <p></p>
-                        <p></p>
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 550 }} aria-label="simple table">
                                 <TableHead>
