@@ -47,23 +47,32 @@ export default function Content({ movie, onClose, tamaño }) {
       setValue(newValue);
     }
   };
+  //si movie.alias es null, mostrar un nombre por defecto (ej: "Anónimo")
+  if (movie.alias == null) {
+    movie.alias = "USUARIO PROVISORIO"
+  }
+
   return (
     <Container maxWidth={false} style={{ left: (tamaño / 9), top: -20 }} className="content">
-      <div className="content__area" onMouseLeave={onClose}>
+      <div className="content__area" /* onMouseLeave={onClose} */>
         <div className="content__area__container" >
           <div style={{ flexDirection: 'row', display: 'flex', alignContent: 'center', alignItems: 'center', marginLeft: margenTitulo }}>
             {!matches ? <Favorito libroId={movie._id} /> : null}
             <div className="content__title" style={{ fontSize: tamaño / 4.5 }}>{movie.titulo}</div>
             {matches ? <Favorito libroId={movie._id} /> : null}
           </div>
-          <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id}>
-            <div className="content__subtitle" style={{ fontSize: (tamaño / 6.3) }}>{movie.autor}</div>
-          </Link>
+          <div className="content__subtitle2" style={{ fontSize: (tamaño / 6.3) }}>{movie.autor}</div>
           {movie.descripcion !== "" &&
             (
               <TextField className="content__description" inputProps={{ style: { fontSize: (Math.sqrt(tamaño) * 1.5), whiteSpace: 'normal', color: 'white', lineHeight: '1em', textAlign: 'justify' } }} multiline value={movie.descripcion} readOnly />
             )}
         </div>
+        <Stack direction='row' sx={{ marginBottom: '0.7em' }}>
+          <PersonIcon sx={{ paddingLeft: '1.35em', paddingRight: '0.4em', color: '#333333', fontSize: (Math.sqrt(tamaño) * 2.5) }} />
+          <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id}>
+            <div className="content__subtitle" style={{ fontSize: (tamaño / 8) }}>{movie.alias} </div>
+          </Link>
+        </Stack>
         <Stack direction='row'>
           <Typography variant='subtitle2' sx={{ paddingLeft: '3.1429em', paddingRight: '0.5em', marginBottom: '0.7em', color: '#333333' }}>
             Género:
@@ -95,7 +104,7 @@ export default function Content({ movie, onClose, tamaño }) {
           </button>
         </Stack>
       </div>
-    </Container>
+    </Container >
   )
 };
 

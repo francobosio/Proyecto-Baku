@@ -30,6 +30,7 @@ export const getUsuario: RequestHandler = async (req, res) => {
     const auth0id = req.params.auth0id
     const queryUsuario = { auth0_id: auth0id }
     const usuarioFound = await Usuario.findOne(queryUsuario).exec();
+    console.log(usuarioFound);
     if (!usuarioFound) {
         return res.json(null);
     }
@@ -38,7 +39,6 @@ export const getUsuario: RequestHandler = async (req, res) => {
 
 //buscar usuario por id
 export const getUsuarioId: RequestHandler = async (req, res) => {
-    console.log("aca entra " + req.params.id)
     const id = req.params.id
     const queryUsuario = { _id: id }
     const usuarioFound = await Usuario.findOne(queryUsuario).exec();
@@ -199,11 +199,14 @@ export const putUsuario: RequestHandler = async (req, res) => {
     console.log({ id, apellido, usuario, nombre, fecha_nacimiento })
     const user = await Usuario.findByIdAndUpdate(id, { apellido, nombre, fecha_nacimiento, usuario }, { new: true })
 
-    if (!usuario) {
+    if (!user) {
         return res.json({
             message: "Usuario no existe"
         });
     }
+    //cambiar el alias del usuario en todos los libros que haya publicado 
+    const userIdAuth0 = user.auth0_id;
+    await Libro.updateMany({ usuario:userIdAuth0 }, { alias: usuario });
     return res.json({
         message: "Usuario modificado con éxito !!!",
         user

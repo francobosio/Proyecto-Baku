@@ -4,10 +4,8 @@ import Libro from './Libro'
 import config from '../config'
 import https from 'https'
 import fs from 'fs-extra'
-import { promisify } from 'util'
 import PdfParse from "pdf-parse";
 import Usuario from "./Usuario"
-import { fileURLToPath } from "url"
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -21,7 +19,6 @@ export const createLibro: RequestHandler = async (req, res) => {
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const respuestaImg = await cloudinary.v2.uploader.upload(files.imagenPath[0].path);
     const respuestaPdf = await cloudinary.v2.uploader.upload(files.archivoTexto[0].path);
-    console.log(respuestaPdf.secure_url);
     const newLibro = {
         imagenPath: respuestaImg.url,
         public_id_imagen: respuestaImg.public_id,
@@ -40,7 +37,6 @@ export const createLibro: RequestHandler = async (req, res) => {
         visitas24Horas: 0,
     };
     const libro = new Libro(newLibro);
-    console.log(libro)
     await libro.save();
     fs.unlink(files.imagenPath[0].path);
     fs.unlink(files.archivoTexto[0].path);
@@ -83,6 +79,15 @@ export const getLibrosPublicados: RequestHandler = async (req, res) => {
             res.json(libros);
         }
      catch (error) {
+        res.json({ message: error })
+    }
+}
+
+export const getLibrosPublicadosMenorEdad: RequestHandler = async (req, res) => {
+    try {
+        const libros = await Libro.find({ estado: 'Publicado', aptoTodoPublico: true})
+        res.json(libros);
+    } catch (error) {
         res.json({ message: error })
     }
 }
@@ -132,17 +137,14 @@ export const updateLibro: RequestHandler = async (req, res) => {
 }
 
 export const buscarLibro: RequestHandler = async (req, res) => {
-    console.log(req.params)
     const busqueda = req.params.buscar;
     const valor = "\"" + `${busqueda}` + "\"";
-    console.log(valor);
     const libroFound = await Libro.find({ $text: { $search: valor, $caseSensitive: false, $diacriticSensitive: false }, estado: "Publicado" });
     if (!libroFound) return res.status(204).json();
     res.json(libroFound);
 }
 
 export const buscarLibroGenero: RequestHandler = async (req, res) => {
-    console.log(req.params)
     const genero = req.params.genero;
     const libroFound = await Libro.find({ genero: genero, estado: "Publicado" });
     if (!libroFound) return res.status(204).json();
@@ -157,7 +159,8 @@ const malasPalabras = [
 
 export const getLibroRevision: RequestHandler = async (req, res) => {
     const libroFound = await Libro.findById(req.params.id);
-    if (!libroFound) return res.status(204).json(); let sinMalasPalabras = false;
+    if (!libroFound) return res.status(204).json(); 
+    let sinMalasPalabras = false;
     const url = libroFound.archivoTexto;
     https.get(url, function (res) {
         //nombre del archivo
@@ -210,7 +213,7 @@ export const getLibroRevision: RequestHandler = async (req, res) => {
         if (arrayDataMatchCountArray.length === 0) {
             sinMalasPalabras = true;
         }
-
+        
         return res.json({
             libroFound,
             arrayDataMatchCountArray,
@@ -219,6 +222,10 @@ export const getLibroRevision: RequestHandler = async (req, res) => {
         })
 
     });
+    if  (!sinMalasPalabras) {
+        await Libro.findByIdAndUpdate(req.params.id, { aptoTodoPublico: false }, { new: true })
+    }   
+
 }
 
 //actualizar el estado de libro dependiendo el parametro que se le pase en el body 

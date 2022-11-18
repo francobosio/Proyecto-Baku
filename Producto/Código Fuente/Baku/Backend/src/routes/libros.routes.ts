@@ -13,6 +13,8 @@ router.get('/librosRegistrados', libroCtrl.getLibrosRegistrados);
 
 router.get('/librosPublicados', libroCtrl.getLibrosPublicados);
 
+router.get('/librosPublicados/menorEdad', libroCtrl.getLibrosPublicadosMenorEdad);
+
 router.get('/libro/:id', libroCtrl.getLibro)
 
 router.get('/libro/revision/:id', libroCtrl.getLibroRevision)

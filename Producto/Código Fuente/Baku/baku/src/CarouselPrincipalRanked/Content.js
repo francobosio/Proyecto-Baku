@@ -10,6 +10,7 @@ import Favorito from '../Favorito/Favorito';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
+import PersonIcon from '@mui/icons-material/Person';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import * as libroService from '../Libros/LibroService'
 import Denuncia from '../Denuncia/DialogDenuncia.jsx'
@@ -32,7 +33,7 @@ const AutorSeleccionado = async (libroId) => {
 //al hacer click en el boton invocar al componente Denuncia y pasarle el id del libro
 
 
-export default function Content({ movie, onClose, tamaño}) {
+export default function Content({ movie, onClose, tamaño }) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   let [open, setOpen] = React.useState(false);
@@ -46,43 +47,52 @@ export default function Content({ movie, onClose, tamaño}) {
       setValue(newValue);
     }
   };
+
+  if (movie.alias == null) {
+    movie.alias = "USUARIO PROVISORIO"
+  }
+
   return (
     <Container maxWidth={false} style={{ left: (tamaño / 9), top: -20 }} className="content">
-      <div className="content__area" onMouseLeave={onClose} >
-        <div className="content__area__container">
-        <div style={{ flexDirection: 'row', display: 'flex', alignContent: 'center', alignItems: 'center', marginLeft: margenTitulo }}>
-        {!matches ? <Favorito libroId={movie._id} /> : null}
-            <div className="content__title">{movie.titulo}</div>
+      <div className="content__area" >
+        <div className="content__area__container" >
+          <div style={{ flexDirection: 'row', display: 'flex', alignContent: 'center', alignItems: 'center', marginLeft: margenTitulo }}>
+            {!matches ? <Favorito libroId={movie._id} /> : null}
+            <div className="content__title" style={{ fontSize: tamaño / 4.5 }}>{movie.titulo}</div>
             {matches ? <Favorito libroId={movie._id} /> : null}
           </div>
-          <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id}>
-          <div className="content__subtitle" style={{ fontSize: (tamaño / 6.3) }}>{movie.autor}</div>
-          </Link>
+          <div className="content__subtitle2" style={{ fontSize: (tamaño / 6.3) }}>{movie.autor}</div>
           {movie.descripcion !== "" &&
             (
               <TextField className="content__description" inputProps={{ style: { fontSize: (Math.sqrt(tamaño) * 1.5), whiteSpace: 'normal', color: 'white', lineHeight: '1em', textAlign: 'justify' } }} multiline value={movie.descripcion} readOnly />
             )}
         </div>
+        <Stack direction='row' sx={{ marginBottom: '0.7em' }}>
+          <PersonIcon sx={{ paddingLeft: '1.35em', paddingRight: '0.4em', color: '#333333', fontSize: (Math.sqrt(tamaño) * 2.5) }} />
+          <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id}>
+            <div className="content__subtitle" style={{ fontSize: (tamaño / 8) }}>{movie.alias} </div>
+          </Link>
+        </Stack>
         <Stack direction='row'>
         <Typography variant='subtitle2' sx={{ paddingLeft: '3.1429em', paddingRight: '0.5em', marginBottom: '0.7em', color: '#333333' }}>
-            Género:
-          </Typography>
-          <Typography variant='subtitle2'sx={{color:'white' }} >
+          Género:
+        </Typography>
+          <Typography variant='subtitle2' sx={{ color: 'white' }} >
             {movie.genero.map(x => x).toString().split(', ').join(',').split(',').join(', ')}
           </Typography>
         </Stack>
         <Stack direction='row'>
-        <button className="content__close" onClick={onClose} title={"Cerrar"}>
-          <IconCross className="content__close__icon" />
-        </button>
+          <button className="content__close" onClick={onClose} title={"Cerrar"}>
+            <IconCross className="content__close__icon" />
+          </button>
           <button className="content__read" onClick={onClose} title={"Leer este libro"}>
             <Link onClick={() => { LibroLeido(movie._id) }} to={"/Lectura/" + movie._id} >
               <AutoStoriesOutlinedIcon style={{ fontSize: tamañoLectu }} className="content__read-button" />
             </Link>
           </button>
-        <button className="content__denuncia" onClick={() => setOpen(!open)} title={"Denunciar este libro"}>
-        <ReportGmailerrorredOutlinedIcon style={{ fontSize: tamañoDenuncia, cursor: "pointer" }} className="content__denuncia-button" />
-        <Denuncia
+          <button className="content__denuncia" onClick={() => setOpen(!open)} title={"Denunciar este libro"}>
+            <ReportGmailerrorredOutlinedIcon style={{ fontSize: tamañoDenuncia, cursor: "pointer" }} className="content__denuncia-button" />
+            <Denuncia
               id="ringtone-menu"
               keepMounted
               open={open}

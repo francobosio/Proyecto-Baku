@@ -346,6 +346,7 @@ export default function MiniDrawer() {
         if (validate()) {
             e.preventDefault();
             const usuario_auth0Id = localStorage.getItem("usuario_activo")
+            const alias = localStorage.getItem("alias")
             const avatar = localStorage.getItem("avatar")
             const formData = new FormData();    //formdata object
             formData.append("imagenPath", image.raw);
@@ -361,6 +362,7 @@ export default function MiniDrawer() {
             formData.append("editorial", libro.editorial)
             formData.append("autor", libro.autor)
             formData.append("usuario", usuario_auth0Id)
+            formData.append("alias", alias)
             formData.append("avatar", avatar)
             const res = await libroServices.createLibro(formData);
             const idData = {
