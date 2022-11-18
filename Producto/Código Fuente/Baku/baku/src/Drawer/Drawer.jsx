@@ -108,9 +108,7 @@ export const MiDrawer = (props) => {
     const porcentajeMinAncho = "31%";
     const ocultarLogo = useMediaQuery(theme.breakpoints.down('md'));
     const matches = useMediaQuery(theme.breakpoints.down('lg'));
-    const matches2 = useMediaQuery(theme.breakpoints.down('md'));
     const handleDrawerOpen = () => {
-        console.log("CAMBIO EL TAMAÑO" + matches2);
         if (matches) {
             setOpen(false);
             localStorage.setItem('drawer_open', false);
@@ -172,12 +170,13 @@ export const MiDrawer = (props) => {
                         </Tooltip> 
                     </Link>
                     <Link to="/Comunidad" className={classes.link} >
+                    <Tooltip title="Comunidad" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                         <ListItem button selected={selectedIndex === 3}>
                         <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><AccountCircleIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                             <ListItemText primary='Comunidad' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
                         </ListItem>
+                        </Tooltip>
                     </Link>
-
                     <Link to="/Biblioteca" className={classes.link} >
                         <Tooltip title="Biblioteca" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                             <ListItem button selected={selectedIndex === 4}>
@@ -205,7 +204,7 @@ export const MiDrawer = (props) => {
                     {(revisar === true) ?
                         <List>
                             <Link to="/Revision" className={classes.link} >
-                                <Tooltip title="Revisar"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                                <Tooltip title="Revision"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                                 <ListItem button selected={selectedIndex === 7} >
                                     <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><RateReviewOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                     <ListItemText primary='Revisión' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
@@ -224,7 +223,7 @@ export const MiDrawer = (props) => {
                                 <Tooltip title="Estadisticas" enterDelay={1000} leaveDelay={200} enterNextDelay={1000}arrow>
                                 <ListItem button selected={selectedIndex === 9}>
                                     <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                    <ListItemText primary='Reporte' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
+                                    <ListItemText primary='Reportes' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
                                 </ListItem>
                                 </Tooltip>
                             </Link>

@@ -39,7 +39,7 @@ export default function ColumnTypesGrid() {
             Nombre: row.nombre,
             ID: row.id,
             //agregar hora y fecha
-            "Fecha de creacion": row.createdAt.split("T")[0].split("-").reverse().join("/") + " " + row.createdAt.split("T")[1].split(".")[0],
+            "Fecha de creación": row.createdAt.split("T")[0].split("-").reverse().join("/") + " " + row.createdAt.split("T")[1].split(".")[0],
         }));
         setRows(rows);
     }
@@ -107,7 +107,7 @@ export default function ColumnTypesGrid() {
         () => [
             { field: 'Nombre', type: 'string', flex: 1, minWidth: 100, },
             { field: 'ID', type: 'string', flex: 0.7, minWidth: 100 },
-            { field: 'Fecha de creacion', type: 'string', flex: 1, minWidth: 100 },
+            { field: 'Fecha de creación', type: 'string', flex: 1, minWidth: 100 },
             {
                 field: 'actions',
                 type: 'actions',

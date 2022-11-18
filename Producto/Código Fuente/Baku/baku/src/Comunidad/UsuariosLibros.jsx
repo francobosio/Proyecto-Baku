@@ -70,10 +70,7 @@ export default function ColumnTypesGrid() {
           <Link class="content__link"  to={`/AutorId/` +  params.row.id} >
           <GridActionsCellItem
             icon={<SearchIcon fontSize="large"  sx={{ color:'black' }} />}
-            label="Ir a perfil"
-            /* onClick={()=>console.log(params)} */
-            //abrir el dialog en el boton toggle admin
-            />
+            label="Ir a perfil" />
             </Link> 
             ,
         ],

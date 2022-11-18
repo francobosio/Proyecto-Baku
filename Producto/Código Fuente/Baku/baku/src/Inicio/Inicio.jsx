@@ -47,37 +47,30 @@ const useStyles = makeStyles((theme) => ({
         'borderRadius': '5rem',
         width: '15rem',
         '&:hover': {
-        'background': '#076F55',
-        'color': '#FFFFFF',
-    }
+            'background': '#076F55',
+            'color': '#FFFFFF',
+        }
     }
 
 }));
 
- function useWidth() {
+function useWidth() {
     const theme = useTheme();
     const keys = [...theme.breakpoints.keys].reverse();
     return (
-      keys.reduce((output, key) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const matches = useMediaQuery(theme.breakpoints.up(key));
-        return !output && matches ? key : output;
-      }, null) || 'xs'
+        keys.reduce((output, key) => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const matches = useMediaQuery(theme.breakpoints.up(key));
+            return !output && matches ? key : output;
+        }, null) || 'xs'
     );
-  }
-  
-/* function MyComponent() {
-    const theme = useTheme();
-    const width = theme.breakpoints.values[useWidth()];
-    const sigla = useWidth();
-    return <Typography>{`       width: ${width} sigla :${sigla}`}</Typography>;
-  }  */
+}
 
 const calculo = (width) => {
     if (width > 600) {
         const ancho = width / 16;
         return ancho
-    }else if (width <= 600) {
+    } else if (width <= 600) {
         const ancho = 40;
         return ancho
     }
@@ -87,38 +80,40 @@ export default function Inicio() {
     const theme = useTheme();
     const valor = theme.breakpoints.values[useWidth()];
     const width = calculo(valor);
-
     const [libros, setlibros] = useState([]);
+    const [fechanacimiento, setFechanacimiento] = useState(new Date());
     const [librosGenero, setLibrosGenero] = useState([]);
     const [librosFavoritos, setLibrosFavoritos] = useState([]);
-    const [favoritosComponente, setFavoritosComponente] = useState([]);
     const [flagScroll, setFlagScroll] = useState(true);
     const [librosRankeados, setlibrosRankeados] = useState([]);
     const [flagActualizar, setFlagActualizar] = useState(true);
     const [numeroRandom, setNumeroRandom] = useState(Math.random());
     const [tieneFecha, setTieneFecha] = useState(true);
+    const [flagEsMenorEdad, setFlagEsMenorEdad] = useState(false);
 
     let usuario = null;
-    
+
     /* Carga todos los libros desde la base de datos y los guarda en la variable libros como un array */
     const loadLibros = async () => {
         const res = await libroService.getLibrosPublicado();
         const res2 = await libroService.obtenerRanking();
-        //CREAR UN METODO QUE PERMITA OBTENER EL USUARIO DE CADA LIBRO Y ANEXARLO AL OBJETO LIBRO
         setlibros(res.data);
         setlibrosRankeados(res2.data);
-        console.log(res.data)
+        if (flagEsMenorEdad) {
+            setlibros(res.data.filter(libro => libro.aptoTodoPublico === true));
+            setlibrosRankeados([]);
+        }
     }
 
     useEffect(() => {
         loadLibros()
         window.scrollTo(0, 0)
-    }, [])
+    }, [flagEsMenorEdad])
 
     const loadUsuario = async () => {
+        console.log(user.sub)
         const res = await usuarioService.getUsuario(user.sub)
-        let usuario = res.data;
-
+        usuario = res.data;
         if (usuario === null || usuario === undefined) {
             const usuarioData = {
                 'auth0_id': user.sub,
@@ -126,20 +121,25 @@ export default function Inicio() {
                 'nombre': user.given_name ? user.given_name : user.nickname,
                 'tipo': '1',
                 'avatar': user.picture,
-                'usuario': user.nickname ? user.nickname : 'Invitado'+ Math.floor(Math.random() * 100),
+                'usuario': user.nickname ? user.nickname : 'Invitado' + Math.floor(Math.random() * 10000),
                 'correo_electronico': user.email
             }
             const res = await usuarioService.createUsuario(usuarioData)
-            usuario = res.data.usuario
+            usuario = res.data.usuario 
         }
-        localStorage.setItem('usuario_estado', usuario.estado)
+        localStorage.setItem("usuario_estado", usuario.estado)
         localStorage.setItem("usuario_activo", usuario.auth0_id)
+        localStorage.setItem("alias", usuario.usuario)
         localStorage.setItem("usuario_id", usuario._id)
         localStorage.setItem("tipoUsuario", usuario.tipoUsuario)
         localStorage.setItem("usuario", usuario.usuario)
         localStorage.setItem("avatar", usuario.avatar)
-        localStorage.setItem("fechaNacimiento", usuario.fecha_nacimiento)
-        if(!usuario.fecha_nacimiento){
+        localStorage.setItem("fechaNacimiento", new Date(usuario.fecha_nacimiento))
+        if (calcularEdad(usuario.fecha_nacimiento) < 18) {
+            setFlagEsMenorEdad(true)
+        }
+        else { setFlagEsMenorEdad(false) }
+        if (!usuario.fecha_nacimiento) {
             setTieneFecha(false)
         }
         //Para favoritos
@@ -151,16 +151,28 @@ export default function Inicio() {
             window.alert("Su cuenta se encuentra inactiva, consulte con el administrador")
             window.location.href = "/";
         }
+
     }
+
     useEffect(() => {
         loadUsuario()
     }, [])
+
+    function calcularEdad(fecha) {
+        var hoy = new Date();
+        var cumpleanos = new Date(fecha);
+        var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+        var m = hoy.getMonth() - cumpleanos.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+            edad--;
+        }
+        return edad;
+    }
 
     window.onscroll = async function () {
         var y = window.scrollY;
         if (y > 900 && flagScroll === true) {
             setFlagScroll(false);
-            console.log("Se disparo el scroll")
             const res2 = await libroService.buscarLibroGenero("Terror");
             const res3 = await libroService.obtenerLibrosFavoritos();
             setLibrosGenero(res2.data);
@@ -173,47 +185,45 @@ export default function Inicio() {
 
     return (
         <Grid container direction="row" className={classes.root}>
-                <Grid item container direction="column" xs={1}  >
-                    {/* si la pantalla es pequeña achicar el drawer  */}
-                    <MiDrawer pestaña={1} />
-                </Grid>
-                <Grid item direction="column" xs={11}>
-                    <Container disableGutters  maxWidth='1800px' >
+            <Grid item container direction="column" xs={1}  >
+                {/* si la pantalla es pequeña achicar el drawer  */}
+                <MiDrawer pestaña={1} />
+            </Grid>
+            <Grid item direction="column" xs={11}>
+                <Container disableGutters maxWidth='1800px' >
                     <Grid item >
                         <AppBar />
 
-                {tieneFecha ? 
-                    null :
-                    <Grid container spacing={4}  align = "center" justify = "center" alignItems = "center" className={classes.alerta}>
-                        <Grid item xs={5} >
-                            <Typography className={classes.titulo}>Le recomendamos que cargue su Fecha de Nacimiento para poder acceder a nuestro catálogo completo de libros.</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button component={Link} to="/Perfil" className={classes.botonPerfil}>Ir a Mi Perfil</Button>
-                        </Grid>
-                    </Grid>
-                }
-
+                        {tieneFecha ?
+                            null :
+                            <Grid container spacing={4} align="center" justify="center" alignItems="center" className={classes.alerta}>
+                                <Grid item xs={5} >
+                                    <Typography className={classes.titulo}>Le recomendamos que cargue su Fecha de Nacimiento para poder acceder a nuestro catálogo completo de libros.</Typography>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <Button component={Link} to="/Perfil" className={classes.botonPerfil}>Ir a Mi Perfil</Button>
+                                </Grid>
+                            </Grid>
+                        }
                     </Grid>
                     <Grid item container alignItems="center" justifyContent="center" className={classes.carousel}  >
-                    <Box px={4}>
-                        <Carrucel valor={valor} />
-                    </Box>
+                        <Box px={4}>
+                            <Carrucel valor={valor} />
+                        </Box>
                     </Grid>
                     <Grid item component={'main'}  >
                         <Box px={4}>
                             {/* <MyComponent /> */}
                             <Typography variant='h4' className={classes.titulo} >Subidos recientemente</Typography>
-                            {libros.length > 0 ? (
+                            {(libros.length > 0 && fechanacimiento !== 0) ? (
                                 <Slider >
-                                    {console.log(width)}
                                     {libros.map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).reverse()}
                                 </Slider>) : (
                                 <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
                             }
-                             <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
+                            <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
                             {libros.length > 0 ? (
                                 //ordenar por cantidad de visitas 
                                 <Slider className={classes.slider}>
@@ -233,16 +243,17 @@ export default function Inicio() {
                             ) : (
                                 <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
                             }
-                       <Typography variant='h4' className={classes.titulo} >Ranking</Typography>
+                            {flagEsMenorEdad ? null : <Typography variant='h4' className={classes.titulo} >Ranking</Typography>}
+
                             {librosRankeados.length > 0 ? (
                                 <SliderRanked className={classes.slider}>
                                     {librosRankeados.map(movie => (
-                                        <SliderRanked.Item movie={movie}tamaño={width}  key={movie._id}></SliderRanked.Item>
+                                        <SliderRanked.Item movie={movie} tamaño={width} key={movie._id}></SliderRanked.Item>
                                     )).reverse()}
                                 </SliderRanked>
                             ) : (
-                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
-                            } 
+                                null)
+                            }
                             <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                             {libros.length > 0 ? (
                                 <Slider className={classes.slider}>
@@ -269,14 +280,14 @@ export default function Inicio() {
                                     )).sort(() => Math.random() - 0.5)}
                                 </Slider>) : (
                                 <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
-                            } 
+                            }
                         </Box>
-                        </Grid>
+                    </Grid>
                     <Grid item >
                         <Footy />
                     </Grid>
-                    </Container>
-                </Grid>
+                </Container>
+            </Grid>
         </Grid>
     );
 }

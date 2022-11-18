@@ -155,6 +155,10 @@ export default function Perfil() {
   }
 
   const saveChanges = () => {
+    localStorage.setItem("fechaNacimiento",new Date(selectedDate));
+    setFlagNombreEnabled(false);
+    setFlagApellidoEnabled(false);
+    setFlagAliasEnabled(false);
     const nuevoNombre = inputNombre.current.value;
     const nuevoApellido = inputApellido.current.value;
     const nuevoAlias = inputAlias.current.value;
@@ -170,6 +174,7 @@ export default function Perfil() {
     };
 
     const res = usuarioService.modificarUsuario(usuarioData);
+
   }
 
   const [open, setOpen] = React.useState(false);
