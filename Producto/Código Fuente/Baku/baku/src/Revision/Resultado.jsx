@@ -22,6 +22,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
+import * as notificacionService from '../Notificacion/NotificacionService'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -136,13 +138,18 @@ export default function BasicTable() {
   const [abrirDialog, setabrirDialog] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [autorAth0, setAutorAth0] = useState("")
+  const [libro, setLibro] = useState("")
 
   const loadLibros = async () => {
     const res = await libroService.getLibroRevisar(id);
     //guardar el libro en el estado sincrono
+
     setarrayPalbras(res.data.arrayDataMatchCountArray);
     setlibroRevisar(res.data.libroFound);
     setSinMalasPalabras(res.data.sinMalasPalabras)
+    setLibro(res.data)
+    setAutorAth0(res.data.libroFound.usuario)
   }
 
   useEffect(() => {
@@ -178,10 +185,27 @@ export default function BasicTable() {
   const handleCloseDialog = () => {
     setabrirDialog(false);
   };
-  const handleCloseDialogAceptarPublicar = () => {
+  const handleCloseDialogAceptarPublicar = async () => {
     libroService.putCambiarEstado(id, "Publicado");
+        const idData = {
+            'auth0id': autorAth0,
+            'idLibro': id
+        };
+        console.log(autorAth0)
+        const nuevaNotificacion = {
+            'auth0usuario': autorAth0,
+            'titulo': "El usuario " + localStorage.getItem("alias") + " ha subido:",
+            'descripcion': libro.libroFound.titulo,
+            'avatar': localStorage.getItem("avatar"),
+            'tipo': "subidaLibro",
+            'esNoleido': true,
+            'id_libro': id,
+        }
+        setabrirDialog(false);
+        await usuarioService.usuarioLibroCargado(idData);
+        await notificacionService.createNotificacion(nuevaNotificacion);
     history.push('/Revision');
-    setabrirDialog(false);
+    
   };
   const handleCloseDialogAceptarRechazar = () => {
     libroService.putCambiarEstado(id, "Rechazado");

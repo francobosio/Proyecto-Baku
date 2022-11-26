@@ -234,9 +234,10 @@ export default function ColumnTypesGrid() {
           </DialogTitle>
           <DialogContent>
             <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <FormControl sx={{ m: 1, minWidth: 140 }}>
                 <Select
                   native
+                  style={{ width: 220 }}
                   onChange={handleSeleccionado}
                   input={<OutlinedInput name="age" id="outlined-age-native-simple" />}>
                   <option disabled selected value={""}>Seleccione un Estado</option>
@@ -268,12 +269,13 @@ export default function ColumnTypesGrid() {
           aria-labelledby="responsive-dialog-title"
         >
           <DialogTitle id="responsive-dialog-title">
-            Modificar Estado Usuario
+            Modificar Estado del Usuario
           </DialogTitle>
           <DialogContent>
             <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
               <FormControl sx={{ m: 1, minWidth: 120 }}>
                 <Select
+                style={{ width: 220 }}
                   native
                   onChange={handleSeleccionadoEstadoUsuario}
                   input={<OutlinedInput name="estadoUsuario" id="outlined-age-native-simple2" />}>

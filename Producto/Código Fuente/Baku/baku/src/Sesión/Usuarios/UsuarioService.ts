@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const getUsuario = async (auth0id: String) => {
     const usuario = await axios.get('http://localhost:4000/usuarios/' + auth0id)
-    console.log(usuario.data)
     return usuario
 }
 
