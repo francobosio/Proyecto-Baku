@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export const getUsuario = async (id: String) => {
-    const usuario = await axios.get('http://localhost:4000/usuarios/' + id)
+export const getUsuario = async (auth0id: String) => {
+    const usuario = await axios.get('http://localhost:4000/usuarios/' + auth0id)
+    console.log(usuario.data)
     return usuario
 }
 
@@ -10,8 +11,11 @@ export const getUsuariosPorId = async (id: String) => {
 }
 
 export const createUsuario = async (usuarioData: {}) => {
-
     return await axios.post('http://localhost:4000/usuarios/', usuarioData)
+}
+
+export const putCambiarEstadoUsuario = async (auth0_id: String, estadoUsuario: string) => {
+    return await axios.put(`http://localhost:4000/usuarios/cambiarEstadoUsuario`, { auth0_id, estadoUsuario})
 }
 
 export const usuarioLibroCargado = async (usuarioLibroData: {}) => {

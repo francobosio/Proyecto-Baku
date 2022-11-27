@@ -3,10 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import { MiDrawer } from "../Drawer/Drawer.jsx"
-import Tabs from "./TabsBiblioteca.jsx"
+import Suscripciones from "../Suscripciones/Suscripciones.jsx"
 import { Container } from '@mui/material';
 import { Typography } from '@material-ui/core';
-import { Grid } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex'
@@ -27,33 +26,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 export default function MiniDrawer() {
     const classes = useStyles();
 
     return (
-        <Grid container direction="row" className={classes.root}>
-            <Grid item container direction="column" xs={1}>
-             <MiDrawer pestaña={4} />
-            </Grid>
-
-            <Grid item direction="column" xs={11}>
-             <Container disableGutters maxWidth='1800px' >
-
+        <div className={classes.root}>
+            <MiDrawer pestaña={5} />
+            <main className={classes.content}>
+                
                 <AppBar />
-
-                <Grid item component={'main'} className={classes.content} >
-                    <Container maxWidth='xl' disableGutters fixed>
-                    <br />
-                    <Typography variant='h4' className={classes.titulo}> Mi Biblioteca</Typography>
-                    <Tabs />
-                     </Container>
-                </Grid>
-
+                <Container maxWidth='xl' sx={{minHeight: '70.28vh'}} disableGutters fixed>
+                <br />
+                    <Typography variant='h4' className={classes.titulo}> Suscripciones </Typography>
+                    <Suscripciones/>
+                </Container>
+                
                 <Footy />
-             </Container>
-            </Grid>
-        </Grid>
-
+            </main>
+        </div>
     );
 }

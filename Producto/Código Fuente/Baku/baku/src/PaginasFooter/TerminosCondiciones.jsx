@@ -77,7 +77,7 @@ export default function Ayuda() {
                                         <br />
                                         Baku es un espacio para encontrar tu comunidad y los libros que te importan. Tenemos una política de tolerancia cero para cualquier forma de contenido inapropiado o que infrinja derechos de autor.
                                         <br />
-                                        Las decisiones de Baku son definitivas. Nos reservamos el derecho de eliminar cualquier contenido o cuentas que violen las políticas de Baku. No transferimos ni restauramos contenido / cuentas que se han eliminado por violar las pautas de Baku.
+                                        Las decisiones de Baku son definitivas. Nos reservamos el derecho de eliminar cualquier contenido o cuentas que violen las políticas de Baku. Si no está de acuerdo con nuestras políticas, no utilice los Servicios de Baku.
                                         <br />
                                         <br />
                                         <b>¡Gracias por elegir Baku y ayudarnos a crear una comunidad de lectura más segura!</b></p>

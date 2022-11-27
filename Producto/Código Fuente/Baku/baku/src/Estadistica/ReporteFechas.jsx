@@ -2,15 +2,12 @@ import React, { useEffect, useState, Component } from "react";
 import ReactApexChart from "react-apexcharts";
 import * as libroService from '../Libros/LibroService'
 import { makeStyles } from '@material-ui/core/styles';
+//FECHAS
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 import esLocale from 'date-fns/locale/es';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,10 +38,9 @@ const ReporteFechas = () => {
         const [ejecuto, setEjecuto] = useState(false)
 
         const loadLibros = async () => {
-            console.log("LoadLibros")
-            const res = await libroService.obtenerLibrosFecha(value.getMonth() + 1, value.getFullYear())
-            console.log("ARRAY FECHAS")
-            console.log(res.data)
+            const valueBack = encodeURIComponent(`${value.getMonth() + 1}/${value.getDate()}/${value.getFullYear()}`)
+            const res = await libroService.obtenerLibrosFecha(valueBack, "sinHasta")
+            //console.log("🚀 ~ file: ReporteFechas.jsx ~ line 43 ~ loadLibros ~ res", res.data)
             setlibros(res.data)
             setEjecuto(true)
         }
@@ -61,9 +57,10 @@ const ReporteFechas = () => {
                 (_, i) => new Date(anho, mes - 1, i + 1)
         );
         var todosDiasMes = obtenerTodosDiasDelMes(value.getMonth()  + 1 , value.getFullYear())
+        //Array Contador - lleno de Ceros 
         var arrayContador = Array.apply(null, Array(todosDiasMes.length)).map(Number.prototype.valueOf,0);
-        console.log("arrayContadorConCeros") 
-        console.log(arrayContador)
+        //console.log("arrayContadorConCeros") 
+        //console.log(arrayContador)
         var isVisible = false
         if(ejecuto){
             isVisible = true
@@ -73,12 +70,12 @@ const ReporteFechas = () => {
         if(libros.length != 0){
 
             libros.forEach(libro => {
-                console.log("Dia")
+                //console.log("Dia")
                 var date = new Date(libro.createdAt).getUTCDate();
                 arrayContador[date-1] += 1
             })
-            console.log("arrayContadorLleno") 
-            console.log(arrayContador)
+            // console.log("arrayContadorLleno") 
+            // console.log(arrayContador)
         }
             
             
@@ -139,7 +136,7 @@ const ReporteFechas = () => {
             },
             xaxis: {
                 title: {
-                    text: 'DIAS',
+                    text: 'DÍAS',
                     offsetY: -20,
                 },
                 labels: {

@@ -58,7 +58,7 @@ export default function ConfirmationDialogRaw(props) {
   };
 
   const handleClose = () => {
-    if (open===false) {setOpen2(true);}else {setOpen2(false);}
+    if (open === false) { setOpen2(true); } else { setOpen2(false); }
     setCerrar(false);
     inputDenuncia.current.value = "";
   };
@@ -66,31 +66,29 @@ export default function ConfirmationDialogRaw(props) {
   const handleAceptar = async () => {
     setCerrar(false);
     inputDenuncia.current.value = "";
-    const contadorDenunciasTotalAutor = await denunciaService.putContadorDenuncias(pAutor);
-    const contadorDenucniasxLibroAutor = await denunciaService.putContadorDenunciasxLibro(pLibro);
+    let contadorDenunciasTotalAutor = await denunciaService.putContadorDenuncias(pAutor);
+    let contadorDenucniasxLibroAutor = await denunciaService.putContadorDenunciasxLibro(pLibro);
     const autorAuth0 = await usuarioService.getUsuario(pAutor);
-    console.log("Libro: ", pLibro);
-    console.log("autorAuth0: ", autorAuth0.data);
     var from = 'Baku <bakulibros@gmail.com>';
     var to = autorAuth0.data.correo_electronico;
-    console.log("to: ", to);
-    var subject = 'Libro bloqueado';
-    var mensajeCuerpo = 'Hola buenos dias!, le queriamos comentar que su libro fue denunciado en varias ocaciones por cautela a sido bloqueado contacte a un administrador si esto es un error gracias';
+    var subject = 'Cuenta y Libro bloqueado';
+    var mensajeCuerpo = `Hola ${autorAuth0.data.nombre} ${autorAuth0.data.apellido}, le queriamos notificar que su libro fue reclamado en varias ocaciones por lo tanto a sido bloqueado contacte a un administrador si esto es un error gracias`;
     var concepto = value;
     if (value === 'Otros:') {
-      //obtener el valor del radio button seleccionado
       concepto = cuadroTexto;
     }
-    console.log(concepto)
     setCerrar(false);
-    console.log("Contador de denuncias del autor:" + contadorDenunciasTotalAutor.data);
-    console.log("Contador de denuncias del libro:" + contadorDenucniasxLibroAutor.data);
-    if (contadorDenunciasTotalAutor.data >= 5 || contadorDenucniasxLibroAutor.data >= 5) {
-     await denunciaService.putEnviarDenuncia(from,to,subject,mensajeCuerpo,concepto,pAutor,pLibro);
-    await denunciaService.postGuardarDenuncia(from,to,subject,mensajeCuerpo,concepto,pAutor,pLibro);  
-  };
+    const contadorAutor = parseInt(contadorDenunciasTotalAutor.data) + 1;
+    const contadorLibro = parseInt(contadorDenucniasxLibroAutor.data) + 1;
+    await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro);
+    if (contadorAutor >= 2 || contadorLibro >= 2) {
+      console.log("bloquear" + contadorAutor+ " "+contadorLibro)
+      await denunciaService.putBloquearAutoryLibro(pAutor, pLibro);
+      console.log("datos"+pAutor+" "+pLibro)
+      await denunciaService.putEnviarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro);
+    }
+  }
 
-  } 
   const handleInputChange = event => {
     setCuadroTexto(event.target.value);
   }

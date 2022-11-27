@@ -34,6 +34,10 @@ export const getLibroRevisar = async (id: String) => {
 export const getLibrosPublicado = async (id: String) => {
     return await axios.get(`http://localhost:4000/librosPublicados`)
 }
+
+export const getLibrosMenorEdad = async (id: String) => {
+    return await axios.get(`http://localhost:4000/librosPublicados/menorEdad`)
+}
 //los parametros id y estado se envian en el body del put 
 export const putCambiarEstado = async (id: String, estado: string) => {
     return await axios.put(`http://localhost:4000/libro/cambiarEstado`, { id, estado })
@@ -51,8 +55,8 @@ export const obtenerLibros = async () => {
     return await axios.get("http://localhost:4000/libros")
 }
 
-export const obtenerLibrosFecha = async (mes: Number, anho: Number) => {
-    return await axios.get(`http://localhost:4000/librosFecha/${mes}/${anho}`)
+export const obtenerLibrosFecha = async (fechaDesde: String, fechaHasta: String) => {
+    return await axios.get(`http://localhost:4000/librosFecha/${fechaDesde}/${fechaHasta}`)
 }
 
 export const obtenerLibrosFavoritos = async (id: String) => {
@@ -63,3 +67,6 @@ export const obtenerRanking = async () => {
     return await axios.get(`http://localhost:4000/libros/ranking`)
 }
 
+export const getLibroNarrador = async (archivoTexto: String, currentPage: Number, titulo: String) => {
+    return await axios.get(`http://localhost:4000/libro/narrador/${archivoTexto}/${currentPage}/${titulo}`)
+}

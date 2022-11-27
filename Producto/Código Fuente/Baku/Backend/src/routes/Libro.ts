@@ -34,6 +34,10 @@ const libroSchema = new Schema({
         type: String,
         trim:true
     },
+    alias:{
+        type: String,
+        trim:true
+    },
     genero:{
         type: [String],
         trim: true,
@@ -88,6 +92,8 @@ interface ILibro extends Document {
     public_id_pdf: string;
     editorial: string;
     autor: string;
+    usuario: string;
+    alias: string;
     genero: string;
     aptoTodoPublico: boolean;
     aceptaTerminos: boolean;

@@ -25,7 +25,6 @@ export default function ColumnTypesGrid() {
       id: row._id,
       auth0_id: row.auth0_id,
       Usuario: row.usuario!==undefined?row.usuario:"Invitado",
-      Tipo: row.tipoUsuario[0].nombre,
       Cantidaddepublicaciones: row.libros_publicados!==undefined?row.libros_publicados.length:0,
       Suscriptores: row.suscriptores.length,
       Creado: row.createdAt
@@ -39,7 +38,6 @@ export default function ColumnTypesGrid() {
       id: row.id,
       auth0Id: row.auth0_id,
       Usuario: row.Usuario,
-      Tipo: row.Tipo,
       "Cantidad de publicaciones": row.Cantidaddepublicaciones,
       Suscriptores: row.Suscriptores,
       //convertir fecha a formato dd/mm/aaaa
@@ -53,7 +51,6 @@ export default function ColumnTypesGrid() {
   const columns = React.useMemo(
     () => [
       { field: 'Usuario', type: 'string', flex: 1, minWidth: 100, },
-      { field: 'Tipo', type: 'string', flex:1, minWidth: 100 },
       { field: 'Creado', type: 'string', flex: 1, minWidth: 100 },
       { field: 'Cantidad de publicaciones', type: 'string', flex: 1, minWidth: 100 },
       { field: 'Suscriptores', type: 'string', flex: 1, minWidth: 100 },

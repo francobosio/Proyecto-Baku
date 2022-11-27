@@ -30,6 +30,7 @@ export const getUsuario: RequestHandler = async (req, res) => {
     const auth0id = req.params.auth0id
     const queryUsuario = { auth0_id: auth0id }
     const usuarioFound = await Usuario.findOne(queryUsuario).exec();
+    console.log(usuarioFound);
     if (!usuarioFound) {
         return res.json(null);
     }
@@ -38,7 +39,6 @@ export const getUsuario: RequestHandler = async (req, res) => {
 
 //buscar usuario por id
 export const getUsuarioId: RequestHandler = async (req, res) => {
-    console.log("aca entra " + req.params.id)
     const id = req.params.id
     const queryUsuario = { _id: id }
     const usuarioFound = await Usuario.findOne(queryUsuario).exec();
@@ -48,6 +48,13 @@ export const getUsuarioId: RequestHandler = async (req, res) => {
     }
     return res.json(usuarioFound);
 }
+
+export const cambiarEstadoUsuario: RequestHandler = async (req, res) => {
+    const { auth0_id, estadoUsuario } = req.body;
+    const usuario = await Usuario.findOneAndUpdate({ auth0_id: auth0_id }, { estado: estadoUsuario }, { new: true }).exec();
+    res.json(usuario)
+}
+
 
 
 /* Obtiene la última página de un libro leido por un usuario o la página 0 si es la primera vez que lo lee. Recibe el id de auth0 del usaurio y el id del libro en el campo req 
@@ -107,12 +114,15 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
             await Libro.findByIdAndUpdate(idLibro, { $inc: { visitas: 1, visitas24Horas: 1, indicadorAS: 1 } });
         }
         // Si es el fin de la lectura elimina el libro para actualizar la lista
+        let now = new Date();
         if (finLectura) {
+            now = usuario.libros_leidos[index].creado;
             libros_leidos.splice(index, 1);
         } else {
             if (index > -1) {
                 // Si encuentra el libro ya existe y no es el fin de lectura saca la ultima pagina leida y borra el item de la lista
                 ultimaPaginaLeida = usuario.libros_leidos[index].ultima_pagina;
+                now = usuario.libros_leidos[index].creado;
                 libros_leidos.splice(index, 1); 0
             } else {
                 // si el libro no existe aun setea la ultima pagina en 0
@@ -124,7 +134,8 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
 
         const libroLeido = {
             id_libro: idLibro,
-            ultima_pagina: ultimaPaginaLeida
+            ultima_pagina: ultimaPaginaLeida,
+            creado: now
         }
         usuario.libros_leidos.push(libroLeido);
 
@@ -183,19 +194,22 @@ export const putTipoUsuario: RequestHandler = async (req, res) => {
 }
 
 export const putUsuario: RequestHandler = async (req, res) => {
-    let { id, apellido, nombre, fecha_nacimiento } = req.body;
+    let { id, apellido, nombre, usuario, fecha_nacimiento } = req.body;
     fecha_nacimiento = fecha_nacimiento != undefined ? fecha_nacimiento : null;
-    console.log({ id, apellido, nombre, fecha_nacimiento })
-    const usuario = await Usuario.findByIdAndUpdate(id, { apellido, nombre, fecha_nacimiento }, { new: true })
+    console.log({ id, apellido, usuario, nombre, fecha_nacimiento })
+    const user = await Usuario.findByIdAndUpdate(id, { apellido, nombre, fecha_nacimiento, usuario }, { new: true })
 
-    if (!usuario) {
+    if (!user) {
         return res.json({
             message: "Usuario no existe"
         });
     }
+    //cambiar el alias del usuario en todos los libros que haya publicado 
+    const userIdAuth0 = user.auth0_id;
+    await Libro.updateMany({ usuario:userIdAuth0 }, { alias: usuario });
     return res.json({
         message: "Usuario modificado con éxito !!!",
-        usuario
+        user
     });
 }
 

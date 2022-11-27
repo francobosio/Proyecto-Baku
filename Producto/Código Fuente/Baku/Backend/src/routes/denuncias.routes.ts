@@ -14,4 +14,8 @@ router.put('/denuncia/contadorxlibro', denunciaCtrl.putContadorDenunciasxLibro )
 
 router.get('/denuncia/obtenerCompleto', denunciaCtrl.getDenunciasxLibroxUsuario);
 
+router.put('/denuncia/bloquearAutorLibro', denunciaCtrl.bloquearAutorLibro);
+
+router.put('/denuncia/eliminarReclamo', denunciaCtrl.eliminarReclamo);
+
 export default router

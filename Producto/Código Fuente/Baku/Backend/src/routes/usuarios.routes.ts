@@ -9,6 +9,8 @@ router.get('/usuarios/:auth0id', usuarioCtrl.getUsuario)
 
 router.get('/usuarios2/:id', usuarioCtrl.getUsuarioId)
 
+router.put('/usuarios/cambiarEstadoUsuario', usuarioCtrl.cambiarEstadoUsuario)
+
 router.get('/usuario/ultimaPagina/:auth0id/:idLibro', usuarioCtrl.getUltimaPagina)
 
 router.put('/usuarios/libroSubido', usuarioCtrl.putLibroPublicado)

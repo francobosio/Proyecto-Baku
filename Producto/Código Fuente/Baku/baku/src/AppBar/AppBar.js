@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
-      display: 'block',
+      display: 'flex',
     },
   },
   search: {
@@ -68,10 +68,6 @@ const useStyles = makeStyles((theme) => ({
       width: '20ch',
     },
   },
-  link: {
-    color: "#000",
-    "text-decoration": "none",
-  },
   sectionDesktop: {
 
     display: 'none',
@@ -83,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#EABE3F",
     color: "white",
     'borderRadius': '5rem',
-    "margin-right": "30px",
+    "margin-right": "1px",
     '&:hover': {
       'background': '#E5A65E',
       'color': '#FFFFFF',
@@ -159,8 +155,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <Link className={classes.link} to="/Perfil">Perfil</Link>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/Perfil">
+        Perfil
       </MenuItem>
       <MenuItem onClick={logout}>Cerrar Sesión</MenuItem>
     </Menu>
@@ -179,10 +175,7 @@ export default function PrimarySearchAppBar() {
     >
       
       <MenuItem>
-     {/*  {(buscarNotificaciones() !== "undefined")?
-        <Notifications notificacion={buscarNotificaciones()}  />
-        : null
-      } */}
+      {valor ? <Notifications notificacion={valor}  /> : null }
         <p>Notificaciones</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>

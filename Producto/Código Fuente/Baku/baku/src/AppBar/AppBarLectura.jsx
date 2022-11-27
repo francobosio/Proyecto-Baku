@@ -106,10 +106,6 @@ const useStyles = makeStyles((theme) => ({
     'color': '#FFFFFF',
     'borderRadius': '5rem',
   },
-  link: {
-    color: "white",
-    "text-decoration": "none",
-  },
   botonVerde: {
     'background-color': '#4B9C8E',
     '&:hover': {
@@ -172,8 +168,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <Link to="/Perfil">Perfil</Link>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/Perfil">
+        Perfil
       </MenuItem>
       <MenuItem onClick={logout}>Cerrar Sesión</MenuItem>
     </Menu>
@@ -208,7 +204,7 @@ export default function PrimarySearchAppBar() {
         >
           <AccountCircle />
         </IconButton>
-        <p>Perfil</p>
+        <p></p>
       </MenuItem>
     </Menu>
   );

@@ -38,17 +38,17 @@ const SliderRanked = ({ children, activeSlide }) => {
 
   return (
     <Slider2Context.Provider value={contextValue2}>
-      <SliderWrapper>
+      <SliderWrapper tamaño={width}>
         <div
           className={cx('slider', { 'slider--open': currentSlide != null })}
         >
           <div ref={containerRef} className="slider__container" {...slideProps}>{children}</div>
         </div>
-        {hasPrev && <SlideButton onClick={handlePrev} type="prev" />}
-        {hasNext && <SlideButton onClick={handleNext} type="next" />}
+        {hasPrev && <SlideButton onClick={handlePrev} type="prev" tamaño={width} />}
+        {hasNext && <SlideButton onClick={handleNext} type="next" tamaño={width}/>}
       </SliderWrapper>
       <Collapse in={currentSlide}>
-      {currentSlide && <Content movie={currentSlide} onClose={handleClose} />}
+      {currentSlide && <Content movie={currentSlide} onClose={handleClose} tamaño={width}/>}
       </Collapse>
     </Slider2Context.Provider>
 

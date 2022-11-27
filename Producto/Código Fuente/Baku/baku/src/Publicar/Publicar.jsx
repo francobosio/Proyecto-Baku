@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, FormHelperText, Typography } from '@material-ui/core';
+import { Container, FormHelperText, Tooltip, Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import Grid from '@material-ui/core/Grid';
@@ -23,6 +23,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
+import InfoIcon from '@mui/icons-material/Info';
 
 import * as libroServices from '../Libros/LibroService.ts';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
@@ -101,6 +103,14 @@ const useStyles = makeStyles((theme) => ({
     },
     btnPdf: {
         'background-color': '#4B9C8E',
+        'width': '25rem',
+        '&:hover': {
+            'background': '#076F55',
+            'color': '#FFFFFF',
+        }
+    },
+    btnPdf2: {
+        'background-color': 'green',
         'width': '25rem',
         '&:hover': {
             'background': '#076F55',
@@ -235,6 +245,7 @@ export default function MiniDrawer() {
     const [categoriaLibro, setCategoriaLibro] = useState([]);
     const [image, setImage] = useState({ preview: "", raw: "" });
     const [pdf, setPdf] = useState("");
+    const [archivoSubido, setarchivoSubido] = useState(false);
     const [libro, setLibro] = useState({ titulo: "", descripcion: "" });
     const [aceptaTerminos, setAceptaTerminos] = useState(false)
     const [aptoTodoPublico, setAptoTodoPublicos] = useState(false)
@@ -244,6 +255,12 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const [abrirDialog, setabrirDialog] = React.useState(false);
+    const [pdfTitle, setPdfTitle] = useState("");
+
+    const handleCloseDialog = () => {
+        setabrirDialog(false);
+      };
 
     // Estas variables son para el control de los errores en el form
     const [errorTitulo, setErrorTitulo] = useState(null);
@@ -257,7 +274,7 @@ export default function MiniDrawer() {
     const alert = useAlert();
 
     /* metodo para deshabilitar los géneros que tengan conflictos entre si */
-   
+
     const handleSelectChange = (event) => {
         categorias.map((value) => (
             value.disabled = false
@@ -290,8 +307,22 @@ export default function MiniDrawer() {
     };
 
     const handlePdfChange = e => {
-        if (e.target.files.length) {
-            setPdf(e.target.files[0])
+        console.log(e.target.files[0].type )
+        if  (e.target.files[0].type === "application/pdf") {
+            if (e.target.files.length) {
+                setPdfTitle(e.target.files[0].name)
+                setPdf(e.target.files[0])
+            }
+            console.log(e.target.files[0])
+            /* si se selecciono un archivo cambiar el boton */
+            if (e.target.files[0]) {
+                setarchivoSubido(true)
+            } else {
+                setarchivoSubido(false)
+            }
+        } else {
+            setarchivoSubido(false)
+            alert.error("Eror al subir el archivo, solo se permiten archivos PDF")
         }
     };
 
@@ -311,9 +342,11 @@ export default function MiniDrawer() {
     /* Método para realizar la carga de un nuevo libro a la base de datos. Primero valida los campos, luego sin son válidos crea un archivo que contiene todos los campos del
     libro y los manda a la BD. luego recibe por parámetro el id del libro y se le asigna ese id a los libros publicados del usuario */
     const handleSubmit = async e => {
+        setabrirDialog(false)
         if (validate()) {
             e.preventDefault();
             const usuario_auth0Id = localStorage.getItem("usuario_activo")
+            const alias = localStorage.getItem("alias")
             const avatar = localStorage.getItem("avatar")
             const formData = new FormData();    //formdata object
             formData.append("imagenPath", image.raw);
@@ -329,6 +362,7 @@ export default function MiniDrawer() {
             formData.append("editorial", libro.editorial)
             formData.append("autor", libro.autor)
             formData.append("usuario", usuario_auth0Id)
+            formData.append("alias", alias)
             formData.append("avatar", avatar)
             const res = await libroServices.createLibro(formData);
             const idData = {
@@ -338,7 +372,7 @@ export default function MiniDrawer() {
             const nuevaNotificacion = {
                 'auth0usuario': localStorage.getItem("usuario_activo"),
                 'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido:",
-                'descripcion': libro.descripcion,
+                'descripcion': libro.titulo,
                 'avatar': localStorage.getItem("avatar"),
                 'tipo': "subidaLibro",
                 'esNoleido': true,
@@ -353,10 +387,12 @@ export default function MiniDrawer() {
 
     /* Método para resetear todos los campos del formulario. Se ejecuta al cargar un nuevo libro */
     const resetForm = () => {
+        setarchivoSubido(false);
         setAceptaTerminos(false);
         setAptoTodoPublicos(false);
         setLibro({});
         setPdf("");
+        setPdfTitle("");
         setImage({ preview: "", raw: "" });
         setCategoriaLibro([]);
         setErrorSelect(null);
@@ -412,7 +448,7 @@ export default function MiniDrawer() {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <MiDrawer pestaña={4}/>
+            <MiDrawer pestaña={6} />
             <main className={classes.content}>
                 <AppBar />
                 <React.Fragment>
@@ -427,7 +463,7 @@ export default function MiniDrawer() {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography className={classes.textoDestacado}>Portada</Typography>
+                                    <Typography className={classes.textoDestacado}>Portada *</Typography>
                                     <label htmlFor="upload-button" className={classes.centrar}>
                                         {image.preview ? (
                                             <img src={image.preview} alt="dummy" width="230" height="300" className={classes.imagen} />
@@ -453,7 +489,7 @@ export default function MiniDrawer() {
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.controlTitulo}>
-                                    <Typography className={classes.textoDestacado}>Título</Typography>
+                                    <Typography className={classes.textoDestacado}>Título *</Typography>
                                     <TextField
                                         required
                                         name="titulo"
@@ -465,7 +501,7 @@ export default function MiniDrawer() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography className={classes.textoDestacado}>Descripción</Typography>
+                                    <Typography className={classes.textoDestacado}>Descripción *</Typography>
                                     <TextField
                                         className={classes.textoMultiple}
                                         name="descripcion"
@@ -494,7 +530,7 @@ export default function MiniDrawer() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography className={classes.textoDestacado}>Género</Typography>
+                                    <Typography className={classes.textoDestacado}>Género *</Typography>
                                     <FormControl className={classes.controlCombo} error={errorSelect}>
                                         <Select
                                             labelId="demo-mutiple-chip-label"
@@ -522,6 +558,10 @@ export default function MiniDrawer() {
                                         {errorSelect && <FormHelperText>{"Se debe seleccionar al menos una categoria"}</FormHelperText>}
                                     </FormControl>
                                     <InputLabel id="demo-mutiple-chip-label"></InputLabel>
+                                    <Tooltip title="Para quitar un genero haga click encima del mismo nuevamente" placement="right" arrow sx={{marginLeft: '0.7em', fontSize: '1.5em', size: 'large' }}>
+                                        <InfoIcon />
+                                    </Tooltip>
+                                    
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControlLabel
@@ -534,9 +574,9 @@ export default function MiniDrawer() {
                                     <FormControlLabel
                                         className={classes.controlLabel}
                                         control={<Checkbox className={classes.customCheckbox} color="secondary" name="AceptaTerminosCondiciones" checked={aceptaTerminos} onChange={handleAceptaTerminoChange} />}
-                                        label={`Al subir mi libro acepto los términos y condiciones de Baku`}
+                                        label={`Al subir mi libro acepto los términos y condiciones de Baku *`}
                                     />
-                                    <Button size="small" onClick={handleClickOpen}>Ver términos y condiciones</Button>
+                                    <Button variant="outlined" size="small" onClick={handleClickOpen}>Ver términos y condiciones</Button>
                                     <div>
                                         <Dialog
                                             fullScreen={fullScreen}
@@ -558,22 +598,70 @@ export default function MiniDrawer() {
                                         </Dialog>
                                     </div>
                                 </Grid >
-                                <Grid item xs={12} >
-                                    <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}> Subí el contenido de tu libro
-                                        <input
-                                            type="file"
-                                            name="archivoTexto"
-                                            onChange={handlePdfChange}
-                                            hidden
-                                            accept=".pdf"
-                                        />
-                                    </Button>
+                                <Grid item xs={12}>
+                                    <Typography variant='subtitle2' gutterBottom >Los campos con (*) son obligatorios</Typography>
+                                </Grid>
+                                {/* grid direction row */}
+
+                                <Grid container xs={6} direction="row" alignItems="center" justify="center" sx={{marginTop:'2em'}}>
+                                    { archivoSubido ?
+                                                <Button component="label" startIcon={<CheckCircleTwoToneIcon />} className={classes.btnPdf2+ " " + classes.centrar} >
+                                                    Libro cargado con éxito
+                                                    <input
+                                                        type="file"
+                                                        name="archivoTexto"
+                                                        onChange={handlePdfChange}
+                                                        hidden
+                                                        accept=".pdf"
+                                                    />
+                                                </Button>
+                                                :
+                                                <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}>
+                                                    Subí el contenido de tu libro
+                                                    <input
+                                                        type="file"
+                                                        name="archivoTexto"
+                                                        onChange={handlePdfChange}
+                                                        hidden
+                                                        accept=".pdf"
+                                                    />
+                                                   
+                                                </Button>
+                                    }
+                                    <Tooltip title="El archivo debe estar en formato PDF" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
+                                        <InfoIcon />
+                                    </Tooltip>
+                                    {pdfTitle !== "" ? 
+                                        <Grid container xs={12} direction="row" alignItems="center" justify="center" >
+                                            <Typography className={classes.texto}>Libro: {pdfTitle}</Typography>
+                                        </Grid>
+                                        :
+                                        null
+                                    }
                                 </Grid>
 
                                 <Grid item xs={12} style={{ marginTop: "1rem" }}>
-                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={handleSubmit} variant="contained" disabled={(bloquearPublicar)}>Publicar</Button>
+                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={()=>setabrirDialog(true)} variant="contained" disabled={(bloquearPublicar)}>Publicar</Button>
                                 </Grid>
                                 <Grid item xs={12} >
+                                     {/* CODIGO PARA EL DIALOG */}
+                                    {abrirDialog && <Dialog
+                                    fullScreen={fullScreen}
+                                    open={abrirDialog}
+                                    onClose={handleCloseDialog}
+                                    aria-labelledby="responsive-dialog-title"
+                                    >
+                                    <DialogTitle id="responsive-dialog-title">¿Esta seguro que desea publicar el libro?</DialogTitle>
+                                    <DialogActions>
+                                        <Button autoFocus onClick={handleCloseDialog} color="primary">
+                                        Cancelar
+                                        </Button>
+                                        <Button onClick={handleSubmit} color="primary" autoFocus>
+                                        Aceptar
+                                        </Button>
+                                    </DialogActions>
+                                    </Dialog>
+                                    }
                                     <br />
                                 </Grid>
                             </Grid>

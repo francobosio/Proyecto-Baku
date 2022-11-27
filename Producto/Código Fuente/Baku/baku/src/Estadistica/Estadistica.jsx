@@ -11,6 +11,18 @@ import ColumnChart from './ColumnChart.jsx';
 import Reporte from './Reporte';
 import ReporteFechas from './ReporteFechas';
 
+//FECHAS
+import TextField from '@mui/material/TextField';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import DateFnsUtils from '@date-io/date-fns';
+import esLocale from 'date-fns/locale/es';
+
+const localeMap = {
+    es: esLocale
+  }
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -29,6 +41,8 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '30px',
         color: '#333',
         paddingBottom: '0.5em',
+        width: "100%",
+        textAlign: "center"
     },
     title2: {
         paddingTop: '5px',
@@ -47,15 +61,55 @@ export default function Estadistica() {
         return this.filter((arrayElement) => arrayElement == value).length;
     };
 
+    const [locale] = React.useState("es");
+    const [fechaDesde, setFechaDesde] = React.useState(new Date( new Date().getFullYear(), new Date().getMonth(), 1));
+    const [fechaHasta, setFechaHasta] = React.useState(new Date());
+
     return (
         <div className={classes.root}>
             
             
-            <MiDrawer pestaña={5}/>
+            <MiDrawer pestaña={9}/>
             <main className={classes.content}>
                 <AppBar />
                 
-                <h1 className="title">Reporte de Estadísticas</h1>
+                <h1 className="title">REPORTE DE ESTADÍSTICAS</h1>
+                <div className="filtros" 
+                    style={{ 
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "100%"
+                }}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns} utils={DateFnsUtils} locale={localeMap[locale]}>
+                        <DatePicker
+                            views={['year', 'month', 'day']}
+                            label="Fecha Desde"
+                            minDate={new Date('2022-10-02')}
+                            maxDate={new Date()}
+                            disableFuture={true}
+                            value={fechaDesde}
+                            onChange={(newValue) => {
+                                setFechaDesde(newValue);
+                            }}
+                            renderInput={(params) => <TextField {...params} helperText={null} />}
+                        />
+                    </LocalizationProvider>
+                    <div style={{ width: "1rem" }}></div>
+                    <LocalizationProvider dateAdapter={AdapterDateFns} utils={DateFnsUtils} locale={localeMap[locale]}>
+                        <DatePicker
+                            views={['year', 'month', 'day']}
+                            label="Fecha Hasta"
+                            minDate={fechaDesde}
+                            maxDate={new Date()}
+                            disableFuture={true}
+                            value={fechaHasta}
+                            onChange={(newValue) => {
+                                setFechaHasta(newValue);
+                            }}
+                            renderInput={(params) => <TextField {...params} helperText={null} />}
+                        />
+                    </LocalizationProvider>
+                </div>
                 <div className="chartsA" 
                     style={{ 
                         display: "flex",
@@ -68,21 +122,28 @@ export default function Estadistica() {
                             flexDirection: "column",
                             alignItems: "center"
                     }}>
-                        <Paper variant="outlined" elevation={7} sx={{backgroundColor:"#4b9c8e",padding:"2em"}} >
-                        <h3 className={classes.title3}>Porcentaje de libros por género</h3>
-                        <BarChart />
-                         </Paper>
+                        {/* <Paper variant="outlined" elevation={7} sx={{backgroundColor:"#4b9c8e",padding:"2em"}} > */}
+                        <h3 className={classes.title3}>Porcentaje del total de libros <br></br> publicados por género</h3>
+                        
+                        <BarChart 
+                            fechaDesde={fechaDesde}
+                            fechaHasta={fechaHasta}
+                        />
+                         {/* </Paper> */}
                     </div>
                     <div className="chart2" 
                         style={{ 
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            height: 450,
+                            height: 600,
                             width: 600
                     }}>
-                        <h3 className={classes.title3}>Ranking - 10 libros más leidos</h3>
-                        <ColumnChart />
+                        <h3 className={classes.title3}>Ranking - 10 libros más leídos</h3>
+                        <ColumnChart 
+                            fechaDesde={fechaDesde}
+                            fechaHasta={fechaHasta}
+                        />
                     </div>
                 </div>
                 <div className="chartsB" 
@@ -96,11 +157,15 @@ export default function Estadistica() {
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            justifyContent: "center",
+                            justifyContent: "flex-start",
                             height: 450,
                             width: 600
                     }}>
-                        <Reporte />
+                        <h3 className={classes.title3}>Libros leídos por usuario</h3>
+                        <Reporte 
+                            fechaDesde={fechaDesde}
+                            fechaHasta={fechaHasta}
+                        />
                         {/* <ReporteFechasCopy /> */}
                     </div>
                     <div className="chart4" 
