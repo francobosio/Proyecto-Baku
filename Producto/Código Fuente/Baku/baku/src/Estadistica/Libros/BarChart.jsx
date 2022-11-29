@@ -1,6 +1,7 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState} from "react";
 import ReactApexChart from "react-apexcharts";
-import * as libroService from '../Libros/LibroService'
+import { Box } from "@mui/system";
+import * as libroService from '../../Libros/LibroService'
 
 const BarChart = (props) => {
         
@@ -19,12 +20,21 @@ const BarChart = (props) => {
         useEffect(() => {
             loadLibros()
             window.scrollTo(0, 0)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [props.fechaDesde, props.fechaHasta])
 
         //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
         var isVisible = false
+        let avisoVisible = false
         if(ejecuto){
-            isVisible = true
+            if(libros.length !== 0){
+                isVisible = true
+                avisoVisible = false
+            }
+            else {
+                isVisible = false
+                avisoVisible = true
+            }
         }
 
     
@@ -68,7 +78,7 @@ const BarChart = (props) => {
         
         let generosCategorias = [];
         let generosData = [];
-        if(libros.length != 0){
+        if(libros.length !== 0){
             generos.forEach(function (elemento, indice, array) {
                 generosCategorias.push(elemento.name);
                 generosData.push(Math.round(elemento.value*100/sumall*100)/100);
@@ -137,6 +147,7 @@ const BarChart = (props) => {
             xaxis: {
                 title: {
                     text: 'PORCENTAJE DE LIBROS',
+                    offsetY: 15,
                 },
                 labels: {
                     show: true,
@@ -185,13 +196,33 @@ const BarChart = (props) => {
         }
 
         return (
-            <div id="Bar" style={{ 
+            <div id="Bar" style={{
+                height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center"
+                alignItems: "center",
+                justifyContent: "center"
             }}>
                 {isVisible && (
                     <ReactApexChart options={options2} series={seriesGeneros} type="bar" height={450} width={600}/>
+                )}
+                {avisoVisible && (
+                    <Box sx={{ 
+                            width: "75%",
+                            m: 2,
+                            p: 1,  
+                            border: 2, 
+                            borderRadius: 1, 
+                            borderColor: 'red',
+                            typography: 'body1', 
+                            textAlign: 'center',
+                            color: 'red',
+                            fontStyle: 'italic',
+                            fontWeight: 'bold',
+                            marginBottom: "3.75rem"
+                        }}>
+                        NO EXISTEN DATOS PARA EL RANGO DE FECHA SELECCIONADO
+                    </Box>
                 )}
             </div>
         );
