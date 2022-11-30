@@ -126,9 +126,9 @@ export default function Inicio() {
                 'correo_electronico': user.email
             }
             const res = await usuarioService.createUsuario(usuarioData)
-            usuario = res.data.usuario 
+            usuario = res.data.usuario
         }
-        console.log("el nickname es"+user.nickname)
+        console.log("el nickname es" + user.nickname)
         localStorage.setItem("usuario_estado", usuario.estado)
         localStorage.setItem("usuario_activo", usuario.auth0_id)
         localStorage.setItem("alias", usuario.usuario)

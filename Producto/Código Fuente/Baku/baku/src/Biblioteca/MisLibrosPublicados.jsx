@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import Skeleton from '@mui/material/Skeleton';
+import { Box, Stack } from '@mui/system';
 import { Link } from "react-router-dom";
-import {  ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles,Grid } from '@material-ui/core';
+import { ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Grid } from '@material-ui/core';
 
 import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
@@ -93,7 +95,7 @@ export default function TitlebarImageList() {
             'idLibro': libroId,
             'finLectura': false,
         }
-         await usuarioService.usuarioLibroLeido(libroData);
+        await usuarioService.usuarioLibroLeido(libroData);
     }
 
 
@@ -110,14 +112,24 @@ export default function TitlebarImageList() {
                                         <ImageListItemBar
                                             title={item.titulo}
                                             position='bottom'
+                                            subtitle={item.alias}
                                             actionIcon={
-                                                <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
-                                                    <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
-                                                        <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
-                                                    </Link>
-                                                </IconButton>
+                                                <Stack direction="row" spacing={-2}>
+                                                    <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
+                                                        <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
+                                                            <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
+                                                        </Link>
+                                                    </IconButton>
+                                                    <IconButton aria-label={`star ${item.titulo}`} style={{ color: "black" }}>
+                                                        <Link  >
+                                                            <DeleteForeverOutlinedIcon fontSize="large" className={classes.icono} />
+                                                        </Link>
+                                                    </IconButton>
+                                                </Stack>
                                             }
-                                        />
+                                        >
+
+                                        </ImageListItemBar>
                                     </ImageListItem>
                                 ) : (
                                     null
