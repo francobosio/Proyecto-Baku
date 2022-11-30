@@ -1,4 +1,3 @@
-import { Console } from "console";
 import { RequestHandler } from "express";
 import Notificacion from "./Notificacion";
 import Usuario from "./Usuario";

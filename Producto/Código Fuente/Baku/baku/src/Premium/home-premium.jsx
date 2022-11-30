@@ -69,7 +69,7 @@ const modelosSuscripcion = [
         descripcion: "Esta suscripcion esta muy buena porque",
         precio: "500 ARS",
         disabled: false,
-        link_pago: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c93808483727f9e0183771907b40192"
+        link_pago: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c93808484a6818e0184c063326b164b"
     },
     {   
         id: 2,
@@ -81,7 +81,7 @@ const modelosSuscripcion = [
     }
 ];
 
-export default function HomeSuscripcion() {
+export default function HomePremium() {
     const classes = useStyles();
 
     return (

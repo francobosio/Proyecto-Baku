@@ -6,6 +6,7 @@ import AppBar from '../AppBar/AppBar.js';
 import Footy from "../Footy/Footy";
 import { Redirect } from "react-router-dom";
 import { Container } from "@mui/system";
+import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,18 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ResultadoCobro() {
-    const [procesando, setProcesando] = useState(true)
-    const [resultText, setResultText] = useState("Estamos procesando tu pago");
     const classes = useStyles();
 
+    const search = useLocation().search;
+    const preapproval_id = new URLSearchParams(search).get('preapproval_id');
+
     const procesarPago = async () => {
-        setTimeout(() => {
-            setResultText("Tu pago ha sido procesado correctamente")
-            setProcesando(false);
-            setTimeout(() => {
-                <Redirect to="/home"></Redirect>
-            }, 2000)
-        },3000)
+        console.log(preapproval_id);
       }
       useEffect(()=>{
         procesarPago();
@@ -50,8 +46,9 @@ export default function ResultadoCobro() {
             <div className={classes.main}>
                 <AppBar />
                 <Container className={classes.contenedor}>
-                    <Typography className={classes.texto}>{resultText}</Typography>
-                    <Typography hidden={procesando} className={classes.texto}>Redirigiendo a tu página de inicio...</Typography>
+                    <Typography className={classes.texto}>Tu pago ha sido realizado con éxito</Typography>
+                    <Typography className={classes.texto}>En los próximos minutos estarermos verificando el cobro y te habilitaremos las funciones Premium</Typography>
+                    <Typography className={classes.texto}>Redirigiendo a tu página de inicio...</Typography>
                 </Container>
                 <Footy />
             </div>
