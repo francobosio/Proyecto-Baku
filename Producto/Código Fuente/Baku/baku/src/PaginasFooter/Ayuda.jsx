@@ -225,6 +225,22 @@ export default function Ayuda() {
                         </Grid>
                     </SubCard>
                 </Grid>
+                <Grid item xs={12} sm={12}>
+                    <SubCard title="¿Puedo eliminar mi cuenta en Baku?">
+                        <Grid container direction="column" spacing={1}>
+                            <Grid item>
+                                <MuiTypography variant="subtitle1" gutterBottom>
+                                Sí, el usuario es libre de eliminar la cuenta que posee en Baku, lo cual luego de confirmarlo resultará en el borrado de todos sus datos de nuestra base de datos, por lo que si desea ingresar nuevamente a nuestra plataforma, tendrá que volver a crearse una cuenta.
+                            </MuiTypography>
+                            </Grid>
+                        </Grid>
+                    </SubCard>
+                </Grid>
+
+                
+
+
+
             </Grid>
             <Divider
                 sx={{

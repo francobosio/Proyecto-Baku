@@ -114,6 +114,7 @@ export default function Inicio() {
         console.log(user.sub)
         const res = await usuarioService.getUsuario(user.sub)
         usuario = res.data;
+        console.log(usuario)
         if (usuario === null || usuario === undefined) {
             const usuarioData = {
                 'auth0_id': user.sub,
@@ -125,8 +126,9 @@ export default function Inicio() {
                 'correo_electronico': user.email
             }
             const res = await usuarioService.createUsuario(usuarioData)
-            usuario = res.data.usuario 
+            usuario = res.data.usuario
         }
+        console.log("el nickname es" + user.nickname)
         localStorage.setItem("usuario_estado", usuario.estado)
         localStorage.setItem("usuario_activo", usuario.auth0_id)
         localStorage.setItem("alias", usuario.usuario)
@@ -146,7 +148,7 @@ export default function Inicio() {
         const favoritos = await usuarioService.obtenerFavoritos(usuario.auth0_id);
         localStorage.setItem("favoritos", JSON.stringify(favoritos))
         //----------------------------------------------------------------------------------------------
-        if (usuario.estado === 'Inactivo') {
+        if (usuario.estado === 'Bloqueado') {
             //no mostrar el componente de inicio 
             window.alert("Su cuenta se encuentra inactiva, consulte con el administrador")
             window.location.href = "/";

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useEffect} from 'react';
 import IconCross from '../Icons/IconCross';
 import './Content.scss';
 import { Container } from '@material-ui/core';

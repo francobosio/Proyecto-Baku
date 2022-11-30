@@ -365,7 +365,7 @@ export default function MiniDrawer() {
             formData.append("alias", alias)
             formData.append("avatar", avatar)
             const res = await libroServices.createLibro(formData);
-            const idData = {
+/*             const idData = {
                 'auth0id': usuario_auth0Id,
                 'idLibro': res.data.libro._id
             };
@@ -379,7 +379,7 @@ export default function MiniDrawer() {
                 'id_libro': res.data.libro._id,
             }
             await usuarioService.usuarioLibroCargado(idData);
-            await notificacionService.createNotificacion(nuevaNotificacion);
+            await notificacionService.createNotificacion(nuevaNotificacion); */
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
         }
