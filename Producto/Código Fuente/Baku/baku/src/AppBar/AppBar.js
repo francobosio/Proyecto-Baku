@@ -214,7 +214,9 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.grow} />
           <div>
-            <Button className={classes.btnSuscripcion} variant="contained">Suscribirse</Button>
+            <Button className={classes.btnSuscripcion} component={Link} to="/premium" variant="contained">
+                Premium
+            </Button>
           </div>
           <div className={classes.sectionDesktop}>
             {valor ? <Notifications notificacion={valor}  /> : null }
