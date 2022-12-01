@@ -83,6 +83,8 @@ export default function ColumnTypesGrid() {
         setOpenCreate(false);
         setValido(false);
         setOpenDelete(false);
+        setEsEdicion(false);
+        setUpdateValues({'titulo':'', 'descripcion':'','precio':'','url':''})
     };
 
     const handleEscritura = () => {
@@ -98,7 +100,7 @@ export default function ColumnTypesGrid() {
     const eliminarPlan = async (id) => {
         console.log(id)
         const res = await planPremiumService.eliminarPlanPremium(id);
-        if (res.status == 200){
+        if (res.status === 200){
             setRows((prevRows) => prevRows.filter((row) => row.id !== id));
         }
     }
@@ -191,7 +193,7 @@ export default function ColumnTypesGrid() {
                             type="text"
                             fullWidth
                             inputRef={inputTitulo}
-                            defaultValue={esEdicion ? updateValues.titulo : ''}
+                            defaultValue={updateValues.titulo}
                             variant="standard"
                             onChange={handleEscritura}
                         />
@@ -204,7 +206,7 @@ export default function ColumnTypesGrid() {
                             rows={3}
                             type="text"
                             inputRef={inputDescripcion}
-                            defaultValue={esEdicion ? updateValues.descripcion : ''}
+                            defaultValue={updateValues.descripcion}
                             fullWidth
                             variant="standard"
                             onChange={handleEscritura}
@@ -216,7 +218,7 @@ export default function ColumnTypesGrid() {
                             label="Precio del plan"
                             type="number"
                             inputRef={inputPrecio}
-                            defaultValue={esEdicion ? updateValues.precio : ''}
+                            defaultValue={updateValues.precio}
                             fullWidth
                             variant="standard"
                             onChange={handleEscritura}
@@ -228,7 +230,7 @@ export default function ColumnTypesGrid() {
                             label="Url de mercado pago"
                             type="text"
                             inputRef={inputUrl}
-                            defaultValue={esEdicion ? updateValues.url : ''}
+                            defaultValue={updateValues.url}
                             fullWidth
                             variant="standard"
                             onChange={handleEscritura}
