@@ -9,6 +9,10 @@ const premiumSchema = new Schema({
         type: String,
         required: true,
     },
+    precio: {
+        type: Number,
+        required: true
+    },
     urlCobro: {
         type: String
     },

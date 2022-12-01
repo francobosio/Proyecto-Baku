@@ -7,6 +7,8 @@ router.get('/premiumPlans', premiumCtrl.getPlans);
 
 router.post('/premiumPlan', premiumCtrl.createPlan);
 
-router.put('/premiumPlan/:id', premiumCtrl.updatePlan);
+router.put('/premiumPlan/update/:id', premiumCtrl.updatePlan);
+
+router.delete('/premiumPlan/delete/:id', premiumCtrl.deletePlan);
 
 export default router

@@ -1,8 +1,9 @@
+import React from "react";
 import { makeStyles, Grid, Button, InputLabel } from "@material-ui/core";
 import { MiDrawer } from "../Drawer/Drawer";
 import AppBar from '../AppBar/AppBar.js';
 import Footy from "../Footy/Footy";
-import { Link } from "@mui/material";
+import * as planPremiumService from '../Premium/premiumService.ts';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,27 +63,15 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const modelosSuscripcion = [
-    {
-        id: 1,
-        nombre: "Suscripcion Prémium",
-        descripcion: "Esta suscripcion esta muy buena porque",
-        precio: "500 ARS",
-        disabled: false,
-        link_pago: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c93808484a6818e0184c063326b164b"
-    },
-    {   
-        id: 2,
-        nombre: "Suscripcion Familiar",
-        descripcion: "Descripcion",
-        precio: "700 ARS",
-        disabled: true,
-        link_pago: ""
-    }
-];
-
 export default function HomePremium() {
     const classes = useStyles();
+    const [planesPremium, setPlanesPremium] = React.useState([]);
+    
+    React.useEffect(async() => {
+        const res = await planPremiumService.getPlanesPremium();
+        setPlanesPremium(res.data);
+    }, [])
+
 
     return (
         <div className={classes.root}>
@@ -90,11 +79,11 @@ export default function HomePremium() {
             <div className={classes.main}>
                 <AppBar />
                 <Grid className={classes.contenedor} container spacing={3}>
-                    {modelosSuscripcion.map((modelo) => {
+                    {planesPremium.map((modelo) => {
                         return (
                             <Grid className={classes.celda} item xs={4}>
                                 <div className={classes.suscriptionBox}>
-                                    <InputLabel className={classes.titulo}>{modelo.nombre}</InputLabel>
+                                    <InputLabel className={classes.titulo}>{modelo.titulo}</InputLabel>
                                     <InputLabel className={classes.descripcion}>{modelo.descripcion}</InputLabel>
                                     <Grid container>
                                         <Grid item xs={3}>
@@ -104,7 +93,7 @@ export default function HomePremium() {
                                             <InputLabel className={classes.precio}>{modelo.precio}</InputLabel>
                                         </Grid>
                                     </Grid>
-                                    <Button className={classes.boton} href={modelo.link_pago} variant="contained" disabled={modelo.disabled}>
+                                    <Button className={classes.boton} href={modelo.urlCobro} variant="contained" disabled={modelo.disabled}>
                                         Suscribirme
                                     </Button>
                                 </div>
