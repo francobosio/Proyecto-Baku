@@ -77,9 +77,6 @@ const TipoLetra = (props: { tipoColor1: string; value: number; rojo: number; ver
                 }
             </style>
             <Stack spacing={1} direction="row" alignItems="center" justifyContent="center">
-                <CustomTooltip title='Tipo de Letra se deshabilitará cuando Tipo de Color sea "Ninguno"'>
-                    <ErrorIcon fontSize='small' color="disabled"/>
-                </CustomTooltip>
                 <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
                     <InputLabel id="demo-simple-select-label">Tipo de Letra</InputLabel>
                     <Select
@@ -101,6 +98,9 @@ const TipoLetra = (props: { tipoColor1: string; value: number; rojo: number; ver
                         ))}
                     </Select>
                 </FormControl>
+                <CustomTooltip title='Tipo de Letra se deshabilitará cuando Tipo de Color sea "Ninguno"'>
+                    <ErrorIcon fontSize='small' color="disabled"/>
+                </CustomTooltip>
             </Stack>
             
         </div>

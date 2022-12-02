@@ -1,0 +1,17 @@
+@media (min-width:1536px){
+    .box-narrador {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width:1536px){
+    .box-narrador {
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width:1200px){
+    .box-narrador {
+        margin-bottom: 0rem;
+    }
+}
