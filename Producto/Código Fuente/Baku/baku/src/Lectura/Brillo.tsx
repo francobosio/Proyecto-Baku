@@ -7,9 +7,6 @@ import Box from '@mui/material/Box';
 
 //Slider
 import Stack from '@mui/material/Stack';
-import Slider from '@mui/material/Slider';
-import Brightness6Icon from '@mui/icons-material/Brightness6';
-import InfoIcon from '@mui/icons-material/Info';
 import ErrorIcon from '@mui/icons-material/Error';
 
 //TOOLTIP
@@ -24,7 +21,6 @@ import FormControl from '@mui/material/FormControl';
 
 //ALERTA
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -91,19 +87,19 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1, value
         const v = [18,37,55,74,92,111,129,146,164,181,198];
         const a = [5,11,17,23,29,35,41,68,97,127,157];
     
-        if (nuevoValor == "Sepia"){
+        if (nuevoValor === "Sepia"){
             setRojo(r[Math.trunc(value*0.1)]);
             setVerde(v[Math.trunc(value*0.1)]);
             setAzul(a[Math.trunc(value*0.1)]);
             setImportant("important");
         }
-        if (nuevoValor == "Negro/Blanco"){
+        if (nuevoValor === "Negro/Blanco"){
             setRojo(Math.round(value*0.01*255));
             setVerde(Math.round(value*0.01*255));
             setAzul(Math.round(value*0.01*255));
             setImportant("important");
         }
-        if (nuevoValor == "Ninguno"){
+        if (nuevoValor === "Ninguno"){
             setImportant("");
         }
     }
@@ -145,7 +141,7 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1, value
     const handleChangeSelect = (event: SelectChangeEvent) => {
         setTipoColor1(event.target.value as string);
         colores(event.target.value as string)
-        if(event.target.value != "Ninguno")
+        if(event.target.value !== "Ninguno")
         {
             handleClick({
                 vertical: 'bottom',
@@ -173,11 +169,11 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1, value
                 {
                 `.rpv-core__text-layer {
                     background-color: rgb(${rojo},${verde},${azul}) !${important};
-                    opacity: ${tipoColor1 == "Ninguno" || tipoColor1 == ''?0:1} !${important};
+                    opacity: ${tipoColor1 === "Ninguno" || tipoColor1 === ''?0:1} !${important};
                 }
                 .rpv-core__text-layer-text {
                     color: rgb(${value <= 50 ? 255 : 0},${value <= 50 ? 255 : 0},${value <= 50 ? 255 : 0}) !${important};
-                    opacity: ${tipoColor1 == "Ninguno" || tipoColor1 == ''?0:1} !${important};
+                    opacity: ${tipoColor1 === "Ninguno" || tipoColor1 === ''?0:1} !${important};
                     font-family: "${tipoLetra2}" !${importantTL};
                     transform: scaleX(${scaleX}) !${important2};
                 }
@@ -212,6 +208,22 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1, value
                 </Grid>
                 <Grid container item xs={12} md={6} xl={6} justifyContent="center">
                     <Stack spacing={1} direction="row" alignItems="center">
+                        <Box sx={{ width: 220, borderBottom: 1, borderColor: 'text.disabled', marginBottom: 0.5}}>
+                            <Stack spacing={1} direction="row" sx={{ ml: 1 , mr: 2}} alignItems="center">
+                                <Typography>
+                                    Brillo:
+                                </Typography>
+                                <IconButton disabled={tipoColor1 === "Ninguno" || tipoColor1 === ''?true:false} onClick={resta}>
+                                    <RemoveCircleIcon/>
+                                </IconButton>
+                                <Box sx={{ border: 1, borderRadius: 1, borderColor: 'text.disabled', typography: 'body1', textAlign: 'center', width: '100rem'  }}>
+                                    {value}
+                                </Box>
+                                <IconButton disabled={tipoColor1 === "Ninguno" || tipoColor1 === ''?true:false} onClick={suma}>
+                                    <AddCircleIcon/>
+                                </IconButton>
+                            </Stack>
+                        </Box>
                         <CustomTooltip title={
                             <React.Fragment>
                                 <b>{'Brillo se deshabilitará cuando Tipo de Color sea "Ninguno"'}</b>
@@ -220,22 +232,6 @@ const Brillo: React.FC<IChildtoParentProps> = ({tipoColor1, setTipoColor1, value
                         }>
                             <ErrorIcon fontSize='small' color="disabled"/>
                         </CustomTooltip>
-                        <Box sx={{ width: 220, border: 1, borderRadius: 1, borderColor: 'text.disabled', marginBottom: 0.5}}>
-                            <Stack spacing={1} direction="row" sx={{ ml: 1 , mr: 2}} alignItems="center">
-                                <Typography>
-                                    Brillo:
-                                </Typography>
-                                <IconButton disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} onClick={resta}>
-                                    <RemoveCircleIcon/>
-                                </IconButton>
-                                <Box sx={{ border: 1, borderRadius: 1, borderColor: 'text.disabled', typography: 'body1', textAlign: 'center', width: '100rem'  }}>
-                                    {value}
-                                </Box>
-                                <IconButton disabled={tipoColor1 == "Ninguno" || tipoColor1 == ''?true:false} onClick={suma}>
-                                    <AddCircleIcon/>
-                                </IconButton>
-                            </Stack>
-                        </Box>
                     </Stack>
                 </Grid>
             </Grid>

@@ -5,6 +5,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import './lectura.css'
 
 var estuvoLeyendo = false
 var userCancel = false
@@ -116,7 +117,7 @@ const Narrador = (props) => {
                         `
                     }
                 </style>
-                <Box sx={{ width: 275, border: 1, borderRadius: 1, borderColor: 'text.disabled', marginBottom: 1.75}}>
+                <Box className="box-narrador" sx={{ width: 275, borderBottom: 1, borderColor: 'text.disabled'}}>
                     <div style={styleContainerRatePitch}>
                         {/* <Box sx={{ typography: 'body1', textAlign: 'center', m: 0  }}>({props.estadoNarrador})</Box> */}
                         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
