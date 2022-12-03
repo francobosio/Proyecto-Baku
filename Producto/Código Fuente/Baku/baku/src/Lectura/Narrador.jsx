@@ -5,6 +5,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import './lectura.css'
 
 var estuvoLeyendo = false
 var userCancel = false
@@ -25,15 +26,16 @@ const Narrador = (props) => {
         useEffect(() => {
 
             if(jump){
-                const timer = setTimeout(() => {
-                    speak({ text: props.textoLibro[props.currentPage], voice: voices[0], rate: rate })
-                    
-                    jump = false
-                }, 100);
-                return () => clearTimeout(timer);
+                let voice = voices.filter(voice => voice.voiceURI === 'Microsoft Helena - Spanish (Spain)')
+                if (voice.length === 0)
+                {
+                    voice = voices.filter(voice => voice.lang === 'es-ES')
+                }
+                speak({ text: props.textoLibro, voice: voice[0], rate: rate })
+                jump = false
             }
             
-        }, [props.currentPage])
+        }, [props.textoLibro])
 
         if (speaking){
             estuvoLeyendo = true
@@ -52,10 +54,10 @@ const Narrador = (props) => {
             userCancel = false
         }
 
-        if(props.currentPage == props.textoLibro.length - 1)
-        {
-            userCancel = true
-        }
+        // if(props.currentPage == props.textoLibro.length - 1)
+        // {
+        //     userCancel = true
+        // }
 
         const cancelar = () => {
             setPlay(true);
@@ -69,17 +71,21 @@ const Narrador = (props) => {
         const hablar = () => {
             setPlay(false);
             setPause(true);
-            speak({ text: props.textoLibro[props.currentPage], voice: voices[0], rate: rate })
+            let voice = voices.filter(voice => voice.voiceURI === 'Microsoft Helena - Spanish (Spain)')
+            if (voice.length === 0)
+            {
+                voice = voices.filter(voice => voice.lang === 'es-ES')
+            }
+            speak({ text: props.textoLibro, voice: voice[0], rate: rate })
             props.setEstadoNarrador("Reproduciendo")
         }
 
         //SE AGREGA PARA QUE ESPERE A QUE SE ELIMINE EL LIBRO Y SE CARGUE EL TEXTO EN VALUE
-        var deshabilitarPlay = true
-        if(props.textoLibro.length != 0){
-            deshabilitarPlay = false
-        }
+        // var deshabilitarPlay = true
+        // if(props.textoLibro.length != 0){
+        //     deshabilitarPlay = false
+        // }
 
-        const styleFlexRow = { display: 'flex', flexDirection: 'row', justifyContent: 'center' };
         const styleContainerRatePitch = {
             display: 'flex',
             flexDirection: 'row',
@@ -97,11 +103,11 @@ const Narrador = (props) => {
                         `
                             .rpv-core__text-layer {
                                 background-color: rgb(${props.rojo},${props.verde},${props.azul}) !${props.important};
-                                opacity: ${props.tipoColor1 == "Ninguno" || props.tipoColor1 == ''?0:1} !${props.important};
+                                opacity: ${props.tipoColor1 === "Ninguno" || props.tipoColor1 === ''?0:1} !${props.important};
                             }
                             .rpv-core__text-layer-text {
                                 color: rgb(${props.value <= 50 ? 255 : 0},${props.value <= 50 ? 255 : 0},${props.value <= 50 ? 255 : 0}) !${props.important};
-                                opacity: ${props.tipoColor1 == "Ninguno" || props.tipoColor1 == ''?0:1} !${props.important};
+                                opacity: ${props.tipoColor1 === "Ninguno" || props.tipoColor1 === ''?0:1} !${props.important};
                                 font-family: "${props.tipoLetra2}" !${props.importantTL};
                                 transform: scaleX(${props.scaleX}) !${props.important2};
                             }
@@ -111,12 +117,12 @@ const Narrador = (props) => {
                         `
                     }
                 </style>
-                <Box sx={{ width: 275, border: 1, borderRadius: 1, borderColor: 'text.disabled', marginBottom: 1.75}}>
+                <Box className="box-narrador" sx={{ width: 275, borderBottom: 1, borderColor: 'text.disabled'}}>
                     <div style={styleContainerRatePitch}>
                         {/* <Box sx={{ typography: 'body1', textAlign: 'center', m: 0  }}>({props.estadoNarrador})</Box> */}
                         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <Box sx={{ typography: 'body1', textAlign: 'center', m: 0  }}>Narrador:</Box>
-                            <IconButton variant="text" disabled={deshabilitarPlay} onClick={hablar} color={play ? "default" : "primary"}>
+                            <IconButton id="miBoton" variant="text" onClick={hablar} color={play ? "default" : "primary"}>
                                 <PlayArrowIcon/>
                             </IconButton>
                             <IconButton className={"pause"} variant="text" onClick={cancelar} color={pause ?"default" : "primary"}>

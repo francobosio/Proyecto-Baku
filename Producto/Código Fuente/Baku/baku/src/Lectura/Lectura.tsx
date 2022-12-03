@@ -1,4 +1,4 @@
-import React, { JSXElementConstructor, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBarWe from '../AppBar/AppBarLectura.jsx';
 import { useParams } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
@@ -53,7 +53,6 @@ import jumpToPagePlugin from './jumpToPagePlugin';
 //TABS
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import AbcIcon from '@mui/icons-material/Abc';
@@ -62,6 +61,26 @@ import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 
 //RESPONSIVE
 import useMediaQuery from '@mui/material/useMediaQuery';
+
+//NUEVA OBTENCION DE TEXTO
+import ReaderPlugin from "./ReaderPlugin"
+
+//ALERTA
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+export interface State extends SnackbarOrigin {
+  openAlert: boolean;
+}
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -102,6 +121,7 @@ function a11yProps(index: number) {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        position: "relative"
     },
     boton: {
         'font-weight': 'bold',
@@ -122,6 +142,9 @@ const useStyles = makeStyles((theme) => ({
     viewer: {
         border: '1px solid rgba(0, 0, 0, 0.3)',
         height: '100vh',
+        width: "100%",
+        position: "absolute",
+
     },
     ocultar: {
         display: "none",
@@ -166,10 +189,39 @@ const Lectura = () => {
 
     //PAGINA ACTUAL
     const [currentPage, setCurrentPage] = React.useState(0)
+
+    const [texto, setTexto] = React.useState("")
+
+    const readerPluginInstance = ReaderPlugin();
+    const { setPaginaActual, store} = readerPluginInstance;
+
     const handlePageChange = (e: PageChangeEvent) => {
         localStorage.setItem('current-page', `${e.currentPage}`);
         setCurrentPage(e.currentPage)
+        setPaginaActual(e.currentPage);
     };
+
+    const handlePlay = () => {
+        const paginaActual = store.get("paginaActual");
+        const rawText = store.get("rawText");
+        if (!rawText.has(paginaActual)) {
+          return;
+        }
+    
+        const pageText = rawText.get(paginaActual);
+        setTexto(pageText)
+    };
+
+    const boton = document.querySelector("#miBoton");
+    // Agregar listener
+    boton?.addEventListener("click", function(evento){
+        // Aquí todo el código que se ejecuta cuando se da click al botón
+        handlePlay();
+    });
+
+    useEffect(() => {
+        handlePlay()
+    }, [currentPage])
 
     //************************************************************************************
     const contadorCerrar = () => {
@@ -256,22 +308,59 @@ const Lectura = () => {
         const res = await libroService.getLibroNarrador(url, 1, libro.titulo);
         setTextolibro(res.data.arrayLimpio)
     }
+    // //LECTURA SE ENCARGA DE TRAER EL TEXTO DEL LIBRO Y SE LO DA AL NARRADOR
+    // const [textoLibro, setTextolibro] = useState(""); //TEXTO DEL NARRADOR
+    // const obtenerTextoLibro = async () => {
+    //     const url = encodeURIComponent(libro.archivoTexto)
+    //     const res = await libroService.getLibroNarrador(url, 1, libro.titulo);
+    //     //console.log(res.data)
+    //     setTextolibro(res.data.arrayLimpio)
+    // }
 
-    useEffect(() => {
-        if (libro.titulo !== ''){
-            obtenerTextoLibro()
-        }
-    }, [libro])
+    // useEffect(() => {
+    //     if (libro.titulo !== ''){
+    //         obtenerTextoLibro()
+    //     }
+    // }, [libro])
+
+    //ALERT
+    const [state, setState] = React.useState<State>({
+        openAlert: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
+    const { vertical, horizontal, openAlert } = state;
+
+    const handleClickAlert = (newState: SnackbarOrigin) => {
+        setState({ openAlert: true, ...newState });
+    };
+
+    const handleCloseAlert = () => {
+        setState({ ...state, openAlert: false });
+    };
+
+    const action = (
+        <React.Fragment>
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleCloseAlert}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </React.Fragment>
+    );
 
     //PLUGINS
     
-    const object = highlightPluginComponent(id, usuario_id, habilitado)
+    const object = highlightPluginComponent(id, usuario_id, habilitado, handleClickAlert)
     const highlightPluginInstance = object.highlightPluginInstance
     const defaultLayoutPluginInstance = object.defaultLayoutPluginInstance
     const handleDocumentLoad = object.handleDocumentLoad
 
     var isVisible = false
-    if(libro.titulo != ""){
+    if(libro.titulo !== ""){
         isVisible = true
     }
 
@@ -344,13 +433,11 @@ const Lectura = () => {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       setValueTab(newValue);
     };
-  
-    const handleChangeIndex = (index: number) => {
-      setValueTab(index);
-    };
 
     //RESPONSIVE
     const matches = useMediaQuery(theme.breakpoints.up('lg'));
+
+    
 
     return (
         <div className={classes.root}>
@@ -433,7 +520,7 @@ const Lectura = () => {
                             isVisible && (
                                     <Narrador
                                         currentPage = {currentPage}
-                                        textoLibro = {textoLibro}
+                                        textoLibro = {texto}
                                         jumpToPage = {jumpToPage}
                                         tipoColor1={tipoColor1}
                                         value={value}
@@ -487,7 +574,16 @@ const Lectura = () => {
                             {   
                                 `
                                     .MuiTabs-indicator {
+                                        background-color: #076F55;
+                                    }
+                                    .css-1f7dap9-MuiButtonBase-root-MuiTab-root.Mui-selected {
+                                        opacity: 1;
                                         background-color: #83B7AA;
+                                        color: #076F55;
+                                        font-weight: bold;
+                                    }
+                                    .css-1f7dap9-MuiButtonBase-root-MuiTab-root {
+                                        font-size: 1rem !important
                                     }
                                 `
                             }
@@ -501,8 +597,8 @@ const Lectura = () => {
                             variant="fullWidth"
                             aria-label="full width tabs example"
                         >
-                        <Tab icon={<ExposureIcon fontSize='medium'/>} {...a11yProps(0)} disabled={estadoNarrador == "Reproduciendo" ? true : false} wrapped/>
-                        <Tab icon={<AbcIcon fontSize='large' />} {...a11yProps(1)} disabled={estadoNarrador == "Reproduciendo" ? true : false} wrapped/>
+                        <Tab icon={<ExposureIcon fontSize='medium'/>} {...a11yProps(0)} disabled={estadoNarrador === "Reproduciendo" ? true : false} wrapped/>
+                        <Tab icon={<AbcIcon fontSize='large' />} {...a11yProps(1)} disabled={estadoNarrador === "Reproduciendo" ? true : false} wrapped/>
                         <Tab icon={<RecordVoiceOverIcon fontSize='medium' />} {...a11yProps(2)} wrapped/>
                         </Tabs>
                     </AppBar>
@@ -563,7 +659,7 @@ const Lectura = () => {
                                     }}>
                                         <Narrador
                                             currentPage = {currentPage}
-                                            textoLibro = {textoLibro}
+                                            textoLibro = {texto}
                                             jumpToPage = {jumpToPage}
                                             tipoColor1={tipoColor1}
                                             value={value}
@@ -613,24 +709,39 @@ const Lectura = () => {
                 </div>
             } 
             { /*CARGA DE PLUGINS*/}
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.14.305/build/pdf.worker.min.js">
+            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.1.81/build/pdf.worker.min.js">
                 <div className={classes.viewer}>
                     <Viewer
                         fileUrl={libro.archivoTexto}
                         defaultScale={SpecialZoomLevel.PageFit}
                         theme={currentTheme} onSwitchTheme={handleSwitchTheme}
-                        initialPage={initialPage! - 1} onPageChange={handlePageChange}
+                        initialPage={initialPage} onPageChange={handlePageChange}
                         localization={es_ES as unknown as LocalizationMap}
                         plugins={[
                             highlightPluginInstance,
                             defaultLayoutPluginInstance,
-                            jumpToPagePluginInstance
+                            jumpToPagePluginInstance,
+                            readerPluginInstance
                         ]}
                         onDocumentLoad={handleDocumentLoad}
 
                     >{currentTheme}</Viewer>
                 </div>
             </Worker>
+            {tipoColor1 !== "Ninguno" &&
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={openAlert}
+                    onClose={handleCloseAlert}
+                    key={vertical + horizontal}
+                    autoHideDuration={4000}
+                    action={action}
+                >
+                    <Alert onClose={handleCloseAlert} severity="info" sx={{ width: '100%' }}>
+                        Los Marcadores se visualizarán cuando Tipo de Color sea Ninguno
+                    </Alert>
+                </Snackbar>
+            }
         </div>
     )
 };

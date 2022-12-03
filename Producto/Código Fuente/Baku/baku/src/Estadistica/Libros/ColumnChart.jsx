@@ -1,6 +1,7 @@
-import React, { useEffect, useState, Component } from "react";
+import { Box } from "@mui/system";
+import React, { useEffect, useState} from "react";
 import ReactApexChart from "react-apexcharts";
-import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
+import * as usuarioService from '../../Sesión/Usuarios/UsuarioService'
 
 const ColumnChart = (props) => {
 
@@ -15,12 +16,6 @@ const ColumnChart = (props) => {
             loadUsuarios()
             //window.scrollTo(0, 0)
         }, [props.fechaDesde, props.fechaHasta])
-
-        //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
-        var isVisible = false
-        if(usuarios.length != 0){
-            isVisible = true
-        }
 
         usuarios.forEach(usuario => {
             let libros_leidos = usuario.libros_leidos.filter(libro_leido => new Date(libro_leido.creado) >= props.fechaDesde && new Date(libro_leido.creado) <= props.fechaHasta );
@@ -67,11 +62,16 @@ const ColumnChart = (props) => {
         //LOS 10 LIBROS MAS LEIDOS
         const librosLeidos10 = librosLeidos.slice(0, 10)
         
+        //Agrego esta variable que verifica si exite un valor para el filtro seleccionado
+        let existenciaDatos = 0
         let librosCategorias = [];
         let librosData = [];
         librosLeidos10.forEach(function (elemento, indice, array) {
             librosCategorias.push(elemento.name);
             librosData.push(elemento.value);
+            if (elemento.value > existenciaDatos){
+                existenciaDatos = elemento.value
+            }
         });
 
         //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
@@ -155,7 +155,7 @@ const ColumnChart = (props) => {
             xaxis: {
                 title: {
                     text: 'LIBROS',
-                    offsetY: -35,
+                    offsetY: -20,
                 },
                 labels: {
                     show: true,
@@ -197,9 +197,34 @@ const ColumnChart = (props) => {
         }
 
         return (
-            <div id="Bar">
+            <div id="column" style={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center"
+            }}>
                 {isVisible && (
-                    <ReactApexChart options={options} series={seriesLibros} type="bar" height={550} width={600}/>
+                    <div style={{marginTop: "3.5rem"}}>
+                        <ReactApexChart options={options} series={seriesLibros} type="bar" height={550} width={600}/>
+                    </div>
+                )}
+                {avisoVisible && (
+                    <Box sx={{ 
+                            width: "75%",
+                            m: 2,
+                            p: 1,  
+                            border: 2, 
+                            borderRadius: 1, 
+                            borderColor: 'red',
+                            typography: 'body1', 
+                            textAlign: 'center',
+                            color: 'red',
+                            fontStyle: 'italic',
+                            fontWeight: 'bold'
+                        }}>
+                        NO EXISTEN DATOS PARA EL RANGO DE FECHA SELECCIONADO
+                    </Box>
                 )}
             </div>
         );

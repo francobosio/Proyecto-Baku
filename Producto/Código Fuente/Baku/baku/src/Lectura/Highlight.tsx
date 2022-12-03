@@ -19,6 +19,7 @@ import {
 } from '@react-pdf-viewer/highlight';
 
 import DeleteIcon from '@mui/icons-material/Delete';
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 
 interface Note {
     // El identificador único generados
@@ -31,7 +32,7 @@ interface Note {
     quote: string;
 }
 
-const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Boolean) => {
+const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Boolean, handleClickAlert: any) => {
 
     const [notes, setNotes] = React.useState<Note[]>([]); //Array "notes"
 
@@ -248,6 +249,7 @@ const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Bo
                         padding: '8px',
                         display: 'flex',
                         justifyContent: 'space-between' }}>
+                            <ReportGmailerrorredIcon/>
                             Los Marcadores se visualizarán cuando Tipo de Color sea Ninguno
                         </div>}
 
@@ -259,6 +261,7 @@ const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Bo
                 };
                 return (
                     <div
+                    onClick={() => handleClickAlert({vertical: 'bottom', horizontal: 'right',})}
                     style={{
                         borderBottom: '1px solid rgba(0, 0, 0, .3)',
                         cursor: 'pointer',

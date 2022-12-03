@@ -22,7 +22,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-
+import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
+import * as notificacionService from '../Notificacion/NotificacionService'
+import Footy from '../Footy/Footy.jsx';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -57,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
   boton: {
     'font-weight': 'bold',
-    'margin': '0',
+
     'display': 'flex',
     'color': '#FFFFFF',
     'fontSize': '1rem',
@@ -70,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
   fondo: {
     // ocupar toda la pantalla
-    minHeight: '90vh',
+    minHeight: '95vh',
     width: '100vh',
   },
   stack: {
@@ -84,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
   //elementos alineados por la mitad del contenedor 
   contenedorLibro: {
     'display': 'flex',
-    'justifyContent': 'center',
+    justifyContent: 'space-around',
     'alignItems': 'center',
   },
 
@@ -98,7 +100,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 18,
-
   },
   //hide border of table
   border: 'none',
@@ -111,19 +112,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 }));
 
-//creat new component 
-//create new component React to show "no results" if sinMalasPalabras is true 
-function SinMalasPalabras() {
-  const classes = useStyles();
-  return (
-    <Container className={classes.sinMalasPalabrasCss}>
-      <Typography variant="h5" component="h2" className={classes.sinMalasPalabrasCss}>
-        No se encontraron malas palabras
-      </Typography>
-    </Container>
-  )
-}
-
 export default function BasicTable() {
   let history = useHistory();
   let idTabla = 0;
@@ -135,14 +123,18 @@ export default function BasicTable() {
   const [textoDialog, settextoDiaglo] = useState("");
   const [abrirDialog, setabrirDialog] = React.useState(false);
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [autorAth0, setAutorAth0] = useState("")
+  const [libro, setLibro] = useState("")
 
   const loadLibros = async () => {
     const res = await libroService.getLibroRevisar(id);
     //guardar el libro en el estado sincrono
+
     setarrayPalbras(res.data.arrayDataMatchCountArray);
     setlibroRevisar(res.data.libroFound);
     setSinMalasPalabras(res.data.sinMalasPalabras)
+    setLibro(res.data)
+    setAutorAth0(res.data.libroFound.usuario)
   }
 
   useEffect(() => {
@@ -160,7 +152,7 @@ export default function BasicTable() {
     const classes = useStyles();
     return (
       <Container >
-        <Stack spacing={40} direction='row' className={classes.contenedorLibro} >
+        <Stack spacing={0} direction='row' className={classes.contenedorLibro} >
           <Typography variant="h5" component="h2" className={classes.sinMalasPalabrasCss}>
             {libroRevisar.titulo}
           </Typography>
@@ -168,7 +160,7 @@ export default function BasicTable() {
             alt="Portada"
             variant="rounded"
             src={libroRevisar.imagenPath}
-            sx={{ width: '10%', height: '20%' }}
+            sx={{ width: '15%', height: '10%' }}
           />
         </Stack>
       </Container>
@@ -178,26 +170,27 @@ export default function BasicTable() {
   const handleCloseDialog = () => {
     setabrirDialog(false);
   };
-  const handleCloseDialogAceptarPublicar = () => {
+  const handleCloseDialogAceptarPublicar = async () => {
     libroService.putCambiarEstado(id, "Publicado");
-        const idData = {
-            'auth0id': autorAth0,
-            'idLibro': id
-        };
-        const nuevaNotificacion = {
-            'auth0usuario': autorAth0,
-            'titulo': "El usuario " + localStorage.getItem("alias") + " ha subido:",
-            'descripcion': libro.libroFound.titulo,
-            'avatar': localStorage.getItem("avatar"),
-            'tipo': "subidaLibro",
-            'esNoleido': true,
-            'id_libro': id,
-        }
-        setabrirDialog(false);
-        await usuarioService.usuarioLibroCargado(idData);
-        await notificacionService.createNotificacion(nuevaNotificacion);
-    history.push('/Revision');
+    const idData = {
+      'auth0id': autorAth0,
+      'idLibro': id
+    };
+    console.log(autorAth0)
+    const nuevaNotificacion = {
+      'auth0usuario': autorAth0,
+      'titulo': "El usuario " + localStorage.getItem("alias") + " ha subido:",
+      'descripcion': libro.libroFound.titulo,
+      'avatar': localStorage.getItem("avatar"),
+      'tipo': "subidaLibro",
+      'esNoleido': true,
+      'id_libro': id,
+    }
     setabrirDialog(false);
+    await usuarioService.usuarioLibroCargado(idData);
+    await notificacionService.createNotificacion(nuevaNotificacion);
+    history.push('/Revision');
+
   };
   const handleCloseDialogAceptarRechazar = () => {
     libroService.putCambiarEstado(id, "Rechazado");
@@ -210,15 +203,21 @@ export default function BasicTable() {
       <AppBarLectura />
       <br></br>
       <br></br>
-      <Container maxWidth="lg" className={classes.fondo}>
-        <Typography variant='h4' className={classes.titulo} >Revisión de malas palabras </Typography>
+      <Container maxWidth="xl" className={classes.fondo}>
+        <Typography variant='h4' className={classes.titulo} sx={{ marginTop: '1em', fontWeight: 'bold' }} >Revisión de malas palabras </Typography>
         {(libroRevisar.titulo === "") ? <CircularProgress className={classes.CircularProgress} /> : <LibroRevisar />}
 
         <br></br>
-        {sinMalasPalabras ? <SinMalasPalabras className={classes.sinMalasPalabrasCss} /> :
+        {sinMalasPalabras ?
+          <Container sx={{ backgroundColor: '#499b8d'}}>
+            <Typography variant="h5" component="h2" className={classes.sinMalasPalabrasCss} sx={{ backgroundColor: '#499b8d',marginTop: '3em', marginBottom: '3em', fontWeight: 'bold' }}>
+              No se encontraron malas palabras
+            </Typography>
+          </Container>
+          :
           <TableContainer component={Paper} className={classes.root}>
 
-            <Table sx={{ minWidth: 650 }} aria-label="simple table" className={classes.root}>
+            <Table  aria-label="simple table" className={classes.root}>
               <TableHead>
                 <TableRow>
                   <StyledTableCell align="center" width={200} >ID</StyledTableCell>
@@ -252,7 +251,11 @@ export default function BasicTable() {
           </TableContainer>
 
         }
-        <Stack direction="row" spacing={6} justifyContent="flex-end" className={classes.stack}>
+        <Stack direction="row" spacing={6} justifyContent="center" sx={{ marginBottom: "4em", marginTop: "2.5em" }} className={classes.stack}>
+        <Button className={classes.boton} onClick={() => {
+           history.push('/Revision');
+          }}>
+            Cancelar</Button>
           <Button className={classes.boton} onClick={() => {
             setabrirDialog(true)
             settextoDiaglo("¿Está seguro que quiere RECHAZAR este libro?")
@@ -267,7 +270,6 @@ export default function BasicTable() {
         </Stack>
         {/* CODIGO PARA EL DIALOG */}
         {abrirDialog && <Dialog
-          fullScreen={fullScreen}
           open={abrirDialog}
           onClose={handleCloseDialog}
           aria-labelledby="responsive-dialog-title"

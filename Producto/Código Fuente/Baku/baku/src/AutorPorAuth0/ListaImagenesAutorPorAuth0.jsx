@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
     suscriptores:
     {
-        color:"#606060"
+        color: "#606060"
     },
     icono: {
         width: "1.7em",
@@ -81,7 +81,8 @@ export default function TitlebarImageList() {
     const [autor, setAutor] = useState('')
     const [suscriptores, setSuscriptores] = useState(0)
     const { Id } = useParams();
-    
+    const [flagEsperaMensaje, setFlagEsperaMensaje] = useState(false)
+
     const loadLibros = async () => {
         const autorRes = await usuarioService.getUsuariosPorId(Id)
         const autor = autorRes.data
@@ -92,8 +93,8 @@ export default function TitlebarImageList() {
             setNombre('Suscripto')
             setFlagBoton(true)
         }
-        else { 
-            setNombre('Suscribirse') 
+        else {
+            setNombre('Suscribirse')
             setFlagBoton(false)
         }
         const libros = await libroService.buscarLibros(autor._id)
@@ -104,6 +105,7 @@ export default function TitlebarImageList() {
     }
     useEffect(() => {
         window.scrollTo(0, 0)
+        esperar()
         loadLibros()
     }, [])
 
@@ -156,7 +158,33 @@ export default function TitlebarImageList() {
             )
         }
     }
+    //funcion que espera 3 segundos y si no hay libros muestra un mensaje de que no hay libros 
+    const esperar = () => {
+        setTimeout(() => {
+            setFlagEsperaMensaje(true)
+        }, 2000)
+    }
+    //componente que espera 3 segundos y si no hay libros muestra un mensaje de que no hay libros
+    const Esperar = () => {
+        if (flagEsperaMensaje) {
+            return (
+                <div>
+                    <Typography variant="h5" className={classes.titulo}>No hay libros disponibles</Typography>
+                </div>
+            )
+        }
+        else {
+            return (
+                <div>
+                    <Typography variant="h5" className={classes.titulo}>Cargando...</Typography>
+                </div>
+            )
+        }
+    }
 
+
+
+    console.log(libros.length)
     return (
         <Container className={classes.root} maxWidth="xl">
             {libros.length > 0 ?
@@ -188,12 +216,14 @@ export default function TitlebarImageList() {
                                         }
                                     />
                                 </ImageListItem>
-                            )
-                            )}
+                            ))}
                         </ImageList>
+
                     </Grid>
-                ) : (
-                    <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'100vh'} />
+                ) : (<Grid className={classes.fondo} xs={6}>
+                    <br />
+                    <Esperar />
+                </Grid>
                 )
             }
         </Container>

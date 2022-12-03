@@ -3,7 +3,6 @@ const backend = process.env.REACT_APP_BACKEND_URL;
 
 export const getUsuario = async (auth0id: String) => {
     const usuario = await axios.get(`${backend}/usuarios/${auth0id}`)
-    console.log(usuario.data)
     return usuario
 }
 

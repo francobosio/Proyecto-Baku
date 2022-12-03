@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
-import Skeleton from '@mui/material/Skeleton';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import { Box, Stack } from '@mui/system';
 import { Link } from "react-router-dom";
-import {  ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles,Grid } from '@material-ui/core';
+import { ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Grid, Container } from '@material-ui/core';
 
 import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
@@ -16,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
         'background': '#99cfbf',
     },
     imageList: {
-        width: "100%",
         "margin-bottom": "10px !important",
     },
     titulo: {
@@ -59,16 +64,18 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     fondo: {
-        'minHeight': '100vh',
+        'minHeight': '95vh',
         'minWidth': ' 95vh'
     }
 }));
 
-export default function TitlebarImageList() {
+export default function TitlebarImageList({columnas,altura,anchoImageList}) {
 
     const classes = useStyles();
     const [libros, setlibros] = useState([])
     const [librosPublicados, setLibrosPublicados] = useState([])
+    const [open, setOpen] = useState(false);
+    const [idLibro, setIdLibro] = useState(0);
 
     /* Carga los libros leidos y publicados del usuario y luego los guarda en 2 vectores para poder mostrarlos */
     const loadLibros = async () => {
@@ -93,31 +100,51 @@ export default function TitlebarImageList() {
             'idLibro': libroId,
             'finLectura': false,
         }
-         await usuarioService.usuarioLibroLeido(libroData);
+        await usuarioService.usuarioLibroLeido(libroData);
     }
 
+    const EliminarLibro = async (libroId) => {
+        const libroNuevosPublicados = librosPublicados.filter(libro => libro.id_libro !== libroId)
+        setLibrosPublicados(libroNuevosPublicados)
+        setOpen(false);
+        await libroService.deleteLibro(libroId);
+    }
+    const handleClickOpen = (id) => {
+        setIdLibro(id)
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
-        <div style={{ height: 'auto', width: '100%' }}>
+        <Container style={{ minHeight:'28.47em' }}>
             <Grid container spacing={1}>
-                <Grid className={classes.fondo} item xs={12}>
                     {libros.length > 0 ? (
-                        <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={25}>
+                        <ImageList rowHeight={300} className={classes.imageList} style={{width:anchoImageList,justifyContent:'initial'}} gap={15}>
                             {libros.map((item) => (
                                 (((librosPublicados.findIndex(x => x.id_libro == item._id)) > -1) ? (
-                                    <ImageListItem key={item._id} style={{ width: "16.8rem", height: "23.5rem" }} >
-                                        <img src={item.imagenPath} alt={item.titulo} />
+                                    <ImageListItem key={item._id} style={{ width: altura/6.6, height: altura/4 }} >
+                                        <img src={item.imagenPath} alt={item.titulo} style={{ objectFit: 'cover' }}/>
                                         <ImageListItemBar
                                             title={item.titulo}
                                             position='bottom'
                                             actionIcon={
-                                                <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
-                                                    <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
-                                                        <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
-                                                    </Link>
-                                                </IconButton>
+                                                <Stack direction="row" spacing={-2}>
+                                                    <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
+                                                        <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
+                                                            <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
+                                                        </Link>
+                                                    </IconButton>
+                                                    <IconButton aria-label={`star ${item.titulo}`} style={{ color: "black" }}>
+                                                        <Link onClick={() => { handleClickOpen(item._id) }}>
+                                                            <DeleteForeverOutlinedIcon fontSize="large" className={classes.icono} />
+                                                        </Link>
+                                                    </IconButton>
+                                                </Stack>
                                             }
-                                        />
+                                        >
+                                        </ImageListItemBar>
                                     </ImageListItem>
                                 ) : (
                                     null
@@ -125,10 +152,26 @@ export default function TitlebarImageList() {
                             ))}
                         </ImageList>
                     ) : (
-                        null
+                        //fondo sin nada para que no se vea tan vacio
+                        <div className={classes.fondo}></div>
                     )}
-                </Grid>
             </Grid>
-        </div>
+            <Dialog
+                open={open}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <DialogTitle >
+                    ¿Está seguro que desea eliminar este libro?
+                </DialogTitle>
+                <DialogActions>
+                    <Button autoFocus onClick={handleClose}>
+                        Cancelar
+                    </Button>
+                    <Button onClick={() => { EliminarLibro(idLibro) }}>
+                        Aceptar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </Container>
     );
 }

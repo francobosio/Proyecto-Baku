@@ -26,8 +26,10 @@ const DonutChart = (props) => {
             isVisible = true
         }
 
+        let usuariosfecha = usuarios.filter(usuario => new Date(usuario.createdAt) >= props.fechaDesde && new Date(usuario.createdAt) <= props.fechaHasta );
+
         let count_free_premium = [0, 0]
-        usuarios.forEach(usuario => {
+        usuariosfecha.forEach(usuario => {
             if (parseInt(usuario.tipoUsuario[0].id) === 2) {
                 count_free_premium[0] += 1
             } 

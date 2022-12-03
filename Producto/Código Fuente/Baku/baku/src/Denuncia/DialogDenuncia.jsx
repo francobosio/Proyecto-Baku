@@ -76,6 +76,7 @@ export default function ConfirmationDialogRaw(props) {
     setCerrar(false);
     const contadorAutor = parseInt(contadorDenunciasTotalAutor.data) + 1;
     const contadorLibro = parseInt(contadorDenucniasxLibroAutor.data) + 1;
+    setNuevoModal(true);
     await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro);
     if (contadorAutor >= 2 || contadorLibro >= 2) {
       await denunciaService.putBloquearAutoryLibro(pAutor, pLibro);
@@ -91,14 +92,19 @@ export default function ConfirmationDialogRaw(props) {
     setValue(event.target.value);
   };
 
+  const handleCerrar = () => {
+    setNuevoModal(false);
+    }
+
   return (
-    <Dialog
+    <div><Dialog
       sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 800 } }}
       maxWidth="lg"
       TransitionProps={{ onEntering: handleEntering }}
       open={open2}
       {...other}
     >
+
       <DialogTitle>Denunciar este libro</DialogTitle>
       <DialogContent dividers>
         <RadioGroup
@@ -113,8 +119,7 @@ export default function ConfirmationDialogRaw(props) {
               value={option}
               key={option}
               control={<Radio />}
-              label={option}
-            />
+              label={option} />
           ))}
         </RadioGroup>
         <TextField
@@ -128,18 +133,31 @@ export default function ConfirmationDialogRaw(props) {
           sx={{ "marginTop": "1rem" }}
           rows={4}
           rowsMax={4}
-          fullWidth
-        />
+          fullWidth />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancelar</Button>
         <Button onClick={handleAceptar}>Confirmar</Button>
         {/*  <Button autoFocus onClick={() => this.setState({ open: !open })}>
-          Cancel
-        </Button>
-        <Button onClick={() => this.setState({ open: !open })}>Ok</Button> */}
+      Cancel
+      </Button>
+    <Button onClick={() => this.setState({ open: !open })}>Ok</Button> */}
       </DialogActions>
     </Dialog>
+    
+    <Dialog
+      sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 700, backgroundColor:'edf7ed'} }}
+      maxWidth="lg"
+      TransitionProps={{ onEntering: handleEntering }}
+      open={nuevoModal}
+      {...other}
+    >
+        <DialogTitle>Gracias. Su reclamo fue procesado y se lo analizará a la brevedad.</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleCerrar}>Confirmar</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }
 

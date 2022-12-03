@@ -116,7 +116,9 @@ export const getLibro: RequestHandler = async (req, res) => {
 }
 
 export const deleteLibro: RequestHandler = async (req, res) => {
-    const libroFound = await Libro.findByIdAndDelete(req.params.id);
+    const { id } = req.body;
+    console.log(id)
+    const libroFound = await Libro.findByIdAndDelete(id);
     if (!libroFound) return res.status(204).json();
     if (libroFound) {
         await cloudinary.v2.uploader.destroy(libroFound.public_id_imagen);

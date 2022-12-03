@@ -4,14 +4,11 @@ import * as usuarioService from '../Sesión/Usuarios/UsuarioService.ts';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
+import { Container } from '@material-ui/core';
 
 export default function ColumnTypesGrid() {
   const [rows, setRows] = React.useState("");
-
   const [pageSize, setPageSize] = React.useState(5);
-
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   React.useEffect(() => {
     loadUsuarios();
@@ -39,7 +36,7 @@ export default function ColumnTypesGrid() {
       "Cantidad de publicaciones": row.Cantidaddepublicaciones,
       Suscriptores: row.Suscriptores,
       //convertir fecha a formato dd/mm/aaaa
-      Creado: row.Creado.split("T")[0].split("-").reverse().join("/"),
+      "Fecha de creación": row.Creado.split("T")[0].split("-").reverse().join("/"),
     }));
     setRows(rows2);
   }
@@ -48,7 +45,7 @@ export default function ColumnTypesGrid() {
   const columns = React.useMemo(
     () => [
       { field: 'Usuario', type: 'string', flex: 1, minWidth: 100, },
-      { field: 'Creado', type: 'string', flex: 1, minWidth: 100 },
+      { field: 'Fecha de creación', type: 'string', flex: 1, minWidth: 100 },
       { field: 'Cantidad de publicaciones', type: 'string', flex: 1, minWidth: 100 },
       { field: 'Suscriptores', type: 'string', flex: 1, minWidth: 100 },
       {
@@ -71,14 +68,13 @@ export default function ColumnTypesGrid() {
     [],
   );
 
-
-
   return (
-    <div style={{ height: 500, width: '100%' }}>
+    <Container fixed >
       <DataGrid
         columns={columns}
         rows={rows}
         localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        sx={{ minHeight: '35rem',marginBottom:'2rem' }}
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[5, 10, 20]}
@@ -86,7 +82,7 @@ export default function ColumnTypesGrid() {
 
         pagination
       />
-    </div>
+    </Container>
 
   );
 }

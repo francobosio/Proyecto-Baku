@@ -5,6 +5,10 @@ export const getLibros = async () => {
     return await axios.get(`${backend}/libros`);
 }
 
+export const deleteLibro = async (id: string) => {
+    return await axios.post("http://localhost:4000/libros/eliminar", {id} );
+}
+
 const config = {
     headers: { "content-type": "multipart/form-data" }
 }

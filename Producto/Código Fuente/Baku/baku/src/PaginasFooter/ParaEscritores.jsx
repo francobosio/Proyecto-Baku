@@ -147,7 +147,65 @@ export default function ParaEscritores() {
                         </Grid>
                     </SubCard>
                 </Grid>
+                <Grid item xs={12} sm={12}>
+                    <SubCard title="¿Cuándo se bloquea un usuario en Baku?">
+                        <Grid container direction="column" spacing={1}>
+                            <Grid item>
+                                <MuiTypography variant="subtitle1" gutterBottom>
+                                Si un usuario acumula 10 (diez) reclamos en total, el usuario será bloqueado de Baku, impidiendo su ingreso a la plataforma por acumulación de infracciones a los Términos y Condiciones establecidos y acordados.
+                            </MuiTypography>
+                            </Grid>
+                        </Grid>
+                    </SubCard>
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <SubCard title="¿Se puede desbloquear un usuario en Baku?">
+                        <Grid container direction="column" spacing={1}>
+                            <Grid item>
+                                <MuiTypography variant="subtitle1" gutterBottom>
+                                Si por una situación excepcional, un usuario fue bloqueado y se considera que las infracciones acumuladas no son lo suficientemente válidas según el criterio de los administradores, el usuario podrá ser desbloqueado y volver a estar habilitado en el sistema.
+                                </MuiTypography>
+                            </Grid>
+                        </Grid>
+                    </SubCard>
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <SubCard title="¿Cuándo un libro es rechazado en Baku?">
+                        <Grid container direction="column" spacing={1}>
+                            <Grid item>
+                                <MuiTypography variant="subtitle1" gutterBottom>
+                                Un libro puede ser rechazado por dos motivos: en primer lugar, cuando el libro al ser publicado en Baku pasa por el proceso de Revisión y es rechazado por los administradores de Baku en base a su criterio por incumplir los Términos y Condiciones. En segundo lugar, cuando una vez publicado el libro, se han acumulado 10 (diez) reclamos en total por parte de diferentes usuarios de la plataforma que han considerado que ese libro infringe los términos y condiciones de Baku, lo cual derivará en el rechazo del libro y la eliminación de su contenido del sistema.
+                                </MuiTypography>
+                            </Grid>
+                        </Grid>
+                    </SubCard>
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <SubCard title="¿Qué ocurre con los libros que publiqué cuando elimino mi cuenta de Baku?">
+                        <Grid container direction="column" spacing={1}>
+                            <Grid item>
+                                <MuiTypography variant="subtitle1" gutterBottom>
+                                Al eliminar su cuenta en Baku, se le consultará qué desea hacer con los libros que haya publicado si este fuera el caso. Se ofrecerán dos opciones: eliminar todos los libros publicados para lo cual no hay vuelta atrás y el contenido se perderá definitivamente, o que su cuenta sea eliminada pero que los libros se conserven publicados en la plataforma. En este último caso, al confirmarlo, usted da por hecho que los derechos de los libros sean automáticamente transferidos a Baku, quien será el dueño de los mismos de ahora en adelante y podrá disponer de ellos libremente.
+                                </MuiTypography>
+                            </Grid>
+                        </Grid>
+                    </SubCard>
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <SubCard title="¿Qué ocurre con los libros que publiqué cuando mi cuenta fue bloqueada?">
+                        <Grid container direction="column" spacing={1}>
+                            <Grid item>
+                                <MuiTypography variant="subtitle1" gutterBottom>
+                                Al bloquearse su cuenta en Baku, los demás libros que hayan sido publicados desde su cuenta permanecerán en la plataforma ya que se considera que si no fueron motivo de algún reclamo, pueden seguir siendo accesibles para el público que desee leerlos. Como se especificó anteriormente, usted podrá ponerse en contacto con Baku mediante nuestras redes sociales (cuyos links se encuentran al pie de página) para aquellos casos excepcionales en los que los administradores podrán analizar reclamos que no se consideren lo suficientemente válidos, y pueda resultar en el desbloqueo y recupero de su cuenta si así se lo decide.
+                                </MuiTypography>
+                            </Grid>
+                        </Grid>
+                    </SubCard>
+                </Grid>
             </Grid>
+            
+
+
             <Divider
                 sx={{
                     marginTop: '1em',

@@ -1,5 +1,7 @@
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import Image from 'material-ui-image';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +14,6 @@ import "typeface-kaushan-script";
 import Footy from '../Footy/Footy';
 import { LoginButton } from "../Sesión/LoginMetodo"
 import { Grid } from '@material-ui/core';
-import Image from 'material-ui-image';
 import imagenFondo from '../Imagenes/book_fantasy_5k.jpg';
 import logoBaku from '../Imagenes/Logo_Baku_Negro_sin_fondo.png';
 import {Box } from '@mui/system';
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   typographyKsTitle: {
     'font-size': '1rem',
+    'justify-content': 'center',
     fontFamily: [
       'Kaushan Script',
     ].join(','),
@@ -50,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
   typographyKsText: {
     'font-size': '1rem',
+    'justify-content': 'center',
     fontFamily: [
       'Kaushan Script',
     ].join(','),
@@ -94,7 +97,13 @@ const useStyles = makeStyles((theme) => ({
   divImagen: {
     backgroundImage: `url(${imagenFondo})`,
     'background-size': '100vh'
-  }
+  },
+  logo: {
+    backgroundImage: `url(${logoBaku})`,
+    'background-size': 'cover',
+    backgrountPosition: 'center',
+    backgroundColor: 'transparent',
+  },
 }));
 
 export default function ButtonAppBar() {
@@ -118,15 +127,19 @@ export default function ButtonAppBar() {
           </Toolbar>
         </AppBar>
       </Grid>
-      <Grid item  justifyContent="center" >
-        <Box className={classes.divImagen} sx={{ flexGrow: 1,minHeight:'73vh',imageOrientation: 'from-image',backgroundSize: 'cover',backgroundRepeat: 'no-repeat',backgroundPosition: 'center',}}>
-        <Grid container  spacing={0} direction="column" alignItems="center"  justifyContent="center" style={{ minHeight: '60vh' }} >
+      <Grid item container justifyContent="center" alignItems="center"  >
+        <Box className={classes.divImagen} sx={{display: 'flex',flexGrow: 1,minHeight:'70vh',imageOrientation: 'from-image',backgroundSize: 'cover',backgroundRepeat: 'no-repeat',backgroundPosition: 'center',}}>
+        <Grid container  spacing={0} direction="column" alignItems="center"  justifyContent="center"  style={{ minHeight: '70vh',display: 'flex',marginBottom: '2rem'}} >
         {/* /* el grid item debe ocupar todo el espacio  */}
-          <Grid item  xs={9}  justifyContent="center" alignItems="center" >
+         <Grid  item  xs={10}  justify="center" alignItems="center" direction="column" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+          <Grid item  xs={4}  justify="center" alignItems="center" direction="column" style={{ minHeight: '30%',minWidth:'100%',flexGrow:1, flex:1, }} >
+            <Image src={logoBaku} responsive aspectRatio={2.8} style={{backgroundColor: 'transparent',}}/>
+          </Grid>
             <Typography className={classes.typographyKsText}>No dejes para mañana lo que puedes leer hoy.</Typography>
             <Typography className={classes.typographyKsText}>Accedé a cientos de libros originales en forma gratuita</Typography>
-            <LoginButton text="Ingresa a Baku"></LoginButton>
-          </Grid>
+            <LoginButton text="Ingresa a Baku" sx={{marginBottom: '2rem'}}>
+            </LoginButton>
+          </Grid> 
         </Grid>
         </Box>
       </Grid>

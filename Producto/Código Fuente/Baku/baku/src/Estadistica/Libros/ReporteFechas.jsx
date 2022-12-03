@@ -1,7 +1,6 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState} from "react";
 import ReactApexChart from "react-apexcharts";
-import * as libroService from '../Libros/LibroService'
-import { makeStyles } from '@material-ui/core/styles';
+import * as libroService from '../../Libros/LibroService'
 //FECHAS
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -10,28 +9,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import DateFnsUtils from '@date-io/date-fns';
 import esLocale from 'date-fns/locale/es';
 
-const useStyles = makeStyles((theme) => ({
-    title3: {
-        paddingTop: '30px',
-        margin: '0',
-        fontSize: '30px',
-        color: '#333',
-    },
-    title2: {
-        paddingTop: '5px',
-        margin: '0',
-        fontSize: '30px',
-        color: '#333',
-    }
-}));
-
 const localeMap = {
     es: esLocale
   }
 
 const ReporteFechas = () => {
 
-        const classes = useStyles();
         const [locale] = React.useState("es");
         const [value, setValue] = React.useState(new Date());
         const [libros, setlibros] = useState([])
@@ -48,6 +31,7 @@ const ReporteFechas = () => {
         useEffect(() => {
             loadLibros()
             //window.scrollTo(0, 0)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [value])
 
         const obtenerTodosDiasDelMes = (mes, anho) =>
@@ -64,7 +48,7 @@ const ReporteFechas = () => {
         }
 
         //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
-        if(libros.length != 0){
+        if(libros.length !== 0){
 
             libros.forEach(libro => {
                 var date = new Date(libro.createdAt).getUTCDate();
@@ -75,21 +59,21 @@ const ReporteFechas = () => {
             
         let dias = Array.from({length: todosDiasMes.length}, (_, i) => i + 1);
         //TEST
-        let miarray = Array.from({length: todosDiasMes.length}, () => Math.floor(Math.random() * 10));
+        //let miarray = Array.from({length: todosDiasMes.length}, () => Math.floor(Math.random() * 10));
 
 
         //APEXCHART
 
         var seriesLibros = [
             {
-                name: 'Cantidad de Libros Pudblicados',
+                name: 'Cantidad de Libros Publicados',
                 data: arrayContador
             }
         ];
         
         //OPCIONES DEL GRÁFICO
 
-        const colors = ["#FFC300","#FF5733","#C70039","#900C3F","#581845","#3D3D6B","#2A7B9B","#00BAAD","#57C785","#ADD45C","#ADD45C"]
+        //const colors = ["#FFC300","#FF5733","#C70039","#900C3F","#581845","#3D3D6B","#2A7B9B","#00BAAD","#57C785","#ADD45C","#ADD45C"]
     
         var options= {
             chart: {
@@ -163,7 +147,7 @@ const ReporteFechas = () => {
                 flexDirection: "column",
                 alignItems: "center"
             }}>
-                <LocalizationProvider dateAdapter={AdapterDateFns} utils={DateFnsUtils} locale={localeMap[locale]}>
+                <LocalizationProvider dateAdapter={AdapterDateFns} utils={DateFnsUtils} adapterLocale={localeMap[locale]}>
                     <DatePicker
                         views={['year', 'month']}
                         label="Mes y Año"
