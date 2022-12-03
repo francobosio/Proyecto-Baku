@@ -37,7 +37,6 @@ const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Bo
     const [notes, setNotes] = React.useState<Note[]>([]); //Array "notes"
 
     const obtenerNotasPorUsuarioLibro = async () => {
-        //console.log(usuario_id, id)
         const res = await lecturaService.obtenerNotaPorUsuarioLibro(usuario_id, id)
         const notesArray = res.data.respuesta.filter(function(props: { usuario?: String; id_libro?: String; createdAt?: String; updatedAt?: String;}) {
             delete props.usuario;
@@ -46,7 +45,6 @@ const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Bo
             delete props.updatedAt;
             return true;
         });
-        //console.log(notesArray )
         setNotes(notesArray)
     }
 
@@ -124,10 +122,8 @@ const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Bo
                     const res = await lecturaService.guardarNota(note.content, note.highlightAreas, note.quote, usuario, id)
                     //Cambio el ID de la nota por el id que se crea en mongo
                     note._id = res.data.marcador._id
-                    console.log(note)
                     //Agrega la nota al Array "notes"
                     setNotes(notes.concat([note]));
-                    console.log(notes)
                     //Abre la pestaña de las notas
                     activateTab(3);
                     // //Una vez agregada la nota, cierra el form:
@@ -192,12 +188,9 @@ const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Bo
             notesContainer.scrollTop = noteEle.getBoundingClientRect().top;
         }
     };
-    //console.log(notes)
     // Listing all highlights on page is simple as following:
     const renderHighlights = (props: RenderHighlightsProps) => (
         <div>
-            {/* {console.log('185 - notas:')}
-            {console.log(notes)}  */}
             {/*Usa cada una de las notas en el Array "notes"*/}
             {notes.map((note) => (
                     <React.Fragment key={note._id}>
@@ -259,8 +252,6 @@ const HighlightPluginComponent = (id: String, usuario_id: String, habilitado: Bo
                             <ReportGmailerrorredIcon/>
                             Los Marcadores se visualizarán cuando Tipo de Color sea Ninguno
                         </div>}
-
-            {/*console.log('339 - notas:'+ notes)*/}
             {notes.map((note) => {
                 const deleteNote = () => {
                     lecturaService.eliminarNota(note._id);
