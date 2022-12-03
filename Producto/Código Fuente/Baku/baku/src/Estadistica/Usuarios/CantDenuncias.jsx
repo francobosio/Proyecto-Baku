@@ -34,7 +34,7 @@ const CantDenuncias = (props) => {
     
         var series = [
             {
-                name: "Cantidad de Denuncias",
+                name: "Cantidad de Reclamos",
                 data: trigoSeries(30, 10)
             },
         ]
@@ -86,7 +86,7 @@ const CantDenuncias = (props) => {
             },
             yaxis: {
                 title: {
-                    text: 'CANTIDAD DE DENUNCIAS'
+                    text: 'CANTIDAD DE RECLAMOS'
                 },
                 tickAmount: 2,
                 labels: {
