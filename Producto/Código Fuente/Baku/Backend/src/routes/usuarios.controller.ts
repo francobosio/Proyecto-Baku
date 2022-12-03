@@ -18,7 +18,6 @@ export const createUsuario: RequestHandler = async (req, res) => {
     };
 
     const usuario = new Usuario(newUsuario);
-    console.log(usuario);
     await usuario.save();
     return res.json({
         usuario
@@ -42,7 +41,6 @@ export const getUsuarioId: RequestHandler = async (req, res) => {
     const id = req.params.id
     const queryUsuario = { _id: id }
     const usuarioFound = await Usuario.findOne(queryUsuario).exec();
-    console.log("RESULTADO" + usuarioFound)
     if (!usuarioFound) {
         return res.json(null);
     }
@@ -76,7 +74,6 @@ export const getUltimaPagina: RequestHandler = async (req, res) => {
         }
         return res.json(ultimaPagina);
     } else {
-        console.log(usuario)
         return res.json({
             message: "El usuario no existe"
         });
@@ -108,7 +105,6 @@ export const putLibroLeido: RequestHandler = async (req, res) => {
         const libros_leidos = usuario.libros_leidos;
         // Busca en la lista el libro cuyo que coincida con el id pasado por parametro. Si no encuentra nada devuelve -1.
         const index = libros_leidos.findIndex(x => x.id_libro === idLibro);
-        console.log(index)
         if (index > -1) {
             //aumentar en 1 el campo visitas del libro
             await Libro.findByIdAndUpdate(idLibro, { $inc: { visitas: 1, visitas24Horas: 1, indicadorAS: 1 } });
@@ -196,7 +192,6 @@ export const putTipoUsuario: RequestHandler = async (req, res) => {
 export const putUsuario: RequestHandler = async (req, res) => {
     let { id, apellido, nombre, usuario, fecha_nacimiento } = req.body;
     fecha_nacimiento = fecha_nacimiento != undefined ? fecha_nacimiento : null;
-    console.log({ id, apellido, usuario, nombre, fecha_nacimiento })
     const user = await Usuario.findByIdAndUpdate(id, { apellido, nombre, fecha_nacimiento, usuario }, { new: true })
 
     if (!user) {
@@ -250,7 +245,6 @@ export const putSuscribir: RequestHandler = async (req, res) => {
     if (usuario != undefined) {
         usuario.suscriptores.push({ usuario_id: usuario_id });
         await usuario.save();
-        console.log("Suscripto con éxito");
         return res.json({
             message: "Usuario suscripto con éxito !!!"
         });
@@ -265,7 +259,6 @@ export const putDesuscribir: RequestHandler = async (req, res) => {
         const index = usuario.suscriptores.findIndex(x => x === usuario_id);
         usuario.suscriptores.splice(index, 1);
         await usuario.save();
-        console.log("Desuscrito con éxito");
         return res.json({
             message: "Usuario desuscrito con éxito !!!"
         });
@@ -278,7 +271,6 @@ export const buscarNombreSuscripcion: RequestHandler = async (req, res) => {
     const usuario = await Usuario.findById(autor).exec();
     if (usuario != undefined) {
         const estaSuscripto = usuario.suscriptores.map(x => x.usuario_id).includes(usuario_id);
-        console.log(estaSuscripto)
         return res.json({
             estaSuscripto
         });
@@ -343,7 +335,6 @@ export const bloquearUsuario: RequestHandler = async (req, res) => {
 
 export const obtenerFavoritos: RequestHandler = async (req, res) => {
     const { usuarioAuth0 } = req.body;
-    console.log(usuarioAuth0)
     const usuario = await Usuario.findOne({ auth0_id: usuarioAuth0 }).exec();
     if (usuario != undefined || usuario != null) {
         return res.json({
@@ -357,7 +348,6 @@ export const obtenerFavoritos: RequestHandler = async (req, res) => {
 
 export const agregarFavorito: RequestHandler = async (req, res) => {
     const { usuarioAuth0, idLibro } = req.body;
-    console.log(usuarioAuth0, idLibro);
     const usuario = await Usuario.findOne({ auth0_id: usuarioAuth0 }).exec();
     //sumar 1 al contador de favoritos
     await Libro.findByIdAndUpdate(idLibro, { $inc: { favoritos: 1, indicadorAS: 1 } });
@@ -393,7 +383,6 @@ export const eliminarFavorito: RequestHandler = async (req, res) => {
 //obtener la cantidad de suscriptores de un usuario
 export const getSuscripciones: RequestHandler = async (req, res) => {
     let auth0id = req.params.auth0id;
-    console.log(auth0id);
     const usuario = await Usuario.findOne({ auth0_id: auth0id }).exec();
     if (usuario != undefined) {
         return res.json({
@@ -408,7 +397,6 @@ export const getSuscripciones: RequestHandler = async (req, res) => {
 //obtener los usuarios a los cuales me suscribo usuario.id usuario_id
 export const getUsuariosSuscriptos: RequestHandler = async (req, res) => {
     const { usuarioAuth0 } = req.body;
-    console.log(usuarioAuth0);
     //buscar el usuario por el auth0_id y obtener los usuarios a los cuales me suscribo
     const usuario = await Usuario.findOne({ auth0_id: usuarioAuth0 }).exec();
     if (usuario != undefined) {

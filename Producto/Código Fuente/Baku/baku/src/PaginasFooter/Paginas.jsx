@@ -61,7 +61,6 @@ export default function MiniDrawer() {
     const { tipo } = useParams();
 
     const functionWithSwitch = (tipo) => {
-        console.log(tipo);
         switch (tipo) {
             case '1':
                 return <ParaEscritores />
@@ -76,7 +75,7 @@ export default function MiniDrawer() {
                 return <TerminosCondiciones />
                 
             default:
-                return console.log("No se encontro el tipo de pagina")
+                return null;
         }
     }
 

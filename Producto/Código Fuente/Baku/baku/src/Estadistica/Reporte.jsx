@@ -87,8 +87,6 @@ const Reporte = (props) => {
         usuarios.forEach(usuario => {
             librosLeidosCount = librosLeidosCount.concat(usuario.libros_leidos.length) 
         })
-        //console.log("librosLeidosCount: ")
-        //console.log(librosLeidosCount)
 
         // Calcula el promedio de todos los números
         const calcularPromedio = (values) => {
@@ -103,8 +101,6 @@ const Reporte = (props) => {
                 const dif = value - promedio;
                 return dif * dif;
             });
-            //console.log("cuadradoDif: ")
-            //console.log(cuadradoDif)
             const varianza = calcularPromedio(cuadradoDif);
             return varianza;
         };
@@ -115,20 +111,13 @@ const Reporte = (props) => {
             return Math.sqrt(varianza);
         };
 
-        if(librosLeidosCount.length != 0){
-            //console.log("🚀 ~ file: Reporte.jsx ~ line 113 ~ Reporte ~ librosLeidosCount", librosLeidosCount)
+        if(librosLeidosCount.length !== 0){
             var promLibrosLeidosXUsuario = Math.round(calcularPromedio(librosLeidosCount)*100)/100 //Redondeo a 2 decimales
-            //console.log("promLibrosLeidosXUsuario: ")
-            //console.log(promLibrosLeidosXUsuario)
 
             // Test
             const datosTest = [1, 4, 7, 9, 32, 48, 54, 66, 84, 91, 100, 121];
             var varianza = Math.round(calcularVarianza(librosLeidosCount)*100)/100;
-            var de = Math.round(calcularDE(calcularVarianza(librosLeidosCount))*100)/100;
-            //console.log(`Varianza: ${varianza}`);
-            //console.log(`Desviación estándar: ${de}`);
-
-            
+            var de = Math.round(calcularDE(calcularVarianza(librosLeidosCount))*100)/100;   
         }
 
         const rows = [

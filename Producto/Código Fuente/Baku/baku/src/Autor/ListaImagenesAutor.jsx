@@ -112,15 +112,12 @@ export default function TitlebarImageList() {
     //al hacer click en el boton cambiar el nombre Suscribirse por Desuscribirse y viceversa 
     const suscripcion = async () => {
         const autor2 = autor._id
-        console.log(usuario_id)
-        console.log(autor2)
         if (nombre === 'Suscribirse') {
             setNombre('Suscripto')
             setSuscriptores(suscriptores + 1)
             const res = await usuarioService.suscribirUsuario(usuario_id, autor2)
 
         } else {
-            console.log("estoy en desuscribirse")
             setNombre('Suscribirse')
             setSuscriptores(suscriptores - 1)
             const res = await usuarioService.desuscribirUsuario(usuario_id, autor2)
@@ -136,7 +133,6 @@ export default function TitlebarImageList() {
             'finLectura': false,
         }
         const res = await usuarioService.usuarioLibroLeido(libroData);
-        console.log(res);
     }
 
     return (

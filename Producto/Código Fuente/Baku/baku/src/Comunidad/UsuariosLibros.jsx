@@ -46,9 +46,8 @@ export default function ColumnTypesGrid() {
       Creado: row.Creado.split("T")[0].split("-").reverse().join("/"),
     }));
     //filtrar los usuarios que son tipo 3 (Administrador)
-    var localTipoUsuario=localStorage.getItem("tipoUsuario");
-    (localTipoUsuario === "1" || localTipoUsuario==="2") ?  setRows(rows2.filter(row => row.Tipo !== "Administrador")):setRows(rows2);
-    console.log(rowss)
+    var localTipoUsuario = localStorage.getItem("tipoUsuario");
+    (localTipoUsuario === "1" || localTipoUsuario === "2") ? setRows(rows2.filter(row => row.Tipo !== "Administrador")) : setRows(rows2);
   }
 
   //al selececionar le boton asignar se guarda el id del usuario seleccionado en la variable usuario 

@@ -40,7 +40,6 @@ export default function ColumnTypesGrid() {
 
   React.useEffect(() => {
     loadDenuncias();
-    console.log("Hola entro")
   }, []);
   
   const loadDenuncias= async () => {
@@ -73,12 +72,10 @@ export default function ColumnTypesGrid() {
       //convertir fecha a formato dd/mm/aaaa
       Fecha: row.createdAt.split("T")[0].split("-").reverse().join("/"),
     }));
-    console.log("aca "+rows2);
     setRows(rows2);
   }
 
   const handleClickOpen = (idLibro,idUsuario) => {
-    console.log(idLibro)
     setOpen(true);
     setIdLibro(idLibro);
     setidUsuarioRow(idUsuario);
@@ -92,7 +89,6 @@ export default function ColumnTypesGrid() {
       return row;
     }))
     setOpen(false);
-    console.log(idLibro,denuncia);
     await libroService.putCambiarEstado(idLibro,denuncia);
     
   }
@@ -105,7 +101,6 @@ export default function ColumnTypesGrid() {
 
   const handleSeleccionado = (event) => {
     setDenuncia(event.target.value);
-    console.log(event.target.value);
     setSeleccionado(false);
   }
 

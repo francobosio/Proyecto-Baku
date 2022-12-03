@@ -24,14 +24,12 @@ app.set('port', config.PORT);
 
 cron.schedule('0 19 * * * *',  () => {
   let tiempo = new Date().getFullYear()+'-'+new Date().getMonth()+'-'+new Date().getDate()+' '+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds();
-  console.log('Se ejecuto eliminarVisitas24Hr '+ tiempo)
   eliminarVisitas24Hr()
 } )
 
 cron.schedule('0 8 * * * *',  () => {
 
   let tiempo = new Date().getFullYear()+'-'+new Date().getMonth()+'-'+new Date().getDate()+' '+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds();
-  console.log('Se ejecuto establecerRanking '+ tiempo)
   establecerRanking(8);
 } )
 

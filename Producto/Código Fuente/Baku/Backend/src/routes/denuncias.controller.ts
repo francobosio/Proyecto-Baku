@@ -12,8 +12,7 @@ html: "<b> Hola buenos dias su libro fue denunciado </b>", // html body */
 
 export const enviarMail: RequestHandler = async (req, res) => {
     const { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId } = req.body;
-    /* console.log(from, to, subject, mensajeCuerpo, concepto, autorAuth0,libroId)
-      await transporter.sendMail({
+    /*await transporter.sendMail({
           from: from, // sender address
           to: to, // list of receivers
           subject: subject, // Subject line

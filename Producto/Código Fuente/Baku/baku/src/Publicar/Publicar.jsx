@@ -280,7 +280,6 @@ export default function MiniDrawer() {
             value.disabled = false
         ))
         if (event.target.value.length > 0) {
-            console.log(event.target.value)
             for (let i = 0; i < event.target.value.length; i++) {
                 const nombre = event.target.value[i].nombre;
                 for (let j = 0; j < conflictos[nombre].length; j++) {
@@ -307,13 +306,11 @@ export default function MiniDrawer() {
     };
 
     const handlePdfChange = e => {
-        console.log(e.target.files[0].type )
         if  (e.target.files[0].type === "application/pdf") {
             if (e.target.files.length) {
                 setPdfTitle(e.target.files[0].name)
                 setPdf(e.target.files[0])
             }
-            console.log(e.target.files[0])
             /* si se selecciono un archivo cambiar el boton */
             if (e.target.files[0]) {
                 setarchivoSubido(true)

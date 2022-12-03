@@ -35,6 +35,7 @@ export default function ResultadoCobro() {
 
     const procesarPago = async () => {
         console.log(preapproval_id);
+        
       }
       useEffect(()=>{
         procesarPago();

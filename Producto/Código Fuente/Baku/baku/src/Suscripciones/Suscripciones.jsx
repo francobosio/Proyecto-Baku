@@ -20,7 +20,6 @@ export default function ColumnTypesGrid() {
   const loadUsuarios = async () => {
     const res = await usuarioService.obtenerUsuariosSuscriptos(localStorage.getItem("usuario_activo"));
     //cada objeto agregarlo al array
-    console.log(res.data)
     const rows = res.data.map(row => ({
       id: row._id,
       auth0_id: row.auth0_id,
@@ -32,7 +31,6 @@ export default function ColumnTypesGrid() {
     ));
     //if rows contiene un objeto con el tipo de usuario "Administrador" entonces eliminarlo del array 
    /*  let rows3 = rows.filter(row => row.Tipo !== "Administrador"); */
-    /* console.log(rows) */
     //eliminar los arrays de rows 
     const rows2 = rows.map(row => ({
       id: row.id,
@@ -44,7 +42,6 @@ export default function ColumnTypesGrid() {
       Creado: row.Creado.split("T")[0].split("-").reverse().join("/"),
     }));
     setRows(rows2);
-   /*  console.log(rows) */
   }
   //al selececionar le boton asignar se guarda el id del usuario seleccionado en la variable usuario 
 
@@ -63,7 +60,7 @@ export default function ColumnTypesGrid() {
           <GridActionsCellItem
             icon={<SearchIcon fontSize="large"  sx={{ color:'black' }} />}
             label="Ir a perfil"
-             onClick={()=>console.log(params)} 
+            onClick={()=>console.log(params)} 
             //abrir el dialog en el boton toggle admin
             />
            /*  </Link>  */

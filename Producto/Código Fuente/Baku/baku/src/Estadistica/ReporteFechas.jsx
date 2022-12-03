@@ -40,7 +40,6 @@ const ReporteFechas = () => {
         const loadLibros = async () => {
             const valueBack = encodeURIComponent(`${value.getMonth() + 1}/${value.getDate()}/${value.getFullYear()}`)
             const res = await libroService.obtenerLibrosFecha(valueBack, "sinHasta")
-            //console.log("🚀 ~ file: ReporteFechas.jsx ~ line 43 ~ loadLibros ~ res", res.data)
             setlibros(res.data)
             setEjecuto(true)
         }
@@ -59,8 +58,6 @@ const ReporteFechas = () => {
         var todosDiasMes = obtenerTodosDiasDelMes(value.getMonth()  + 1 , value.getFullYear())
         //Array Contador - lleno de Ceros 
         var arrayContador = Array.apply(null, Array(todosDiasMes.length)).map(Number.prototype.valueOf,0);
-        //console.log("arrayContadorConCeros") 
-        //console.log(arrayContador)
         var isVisible = false
         if(ejecuto){
             isVisible = true
@@ -70,12 +67,9 @@ const ReporteFechas = () => {
         if(libros.length != 0){
 
             libros.forEach(libro => {
-                //console.log("Dia")
                 var date = new Date(libro.createdAt).getUTCDate();
                 arrayContador[date-1] += 1
             })
-            // console.log("arrayContadorLleno") 
-            // console.log(arrayContador)
         }
             
             

@@ -55,8 +55,6 @@ export default function ColumnTypesGrid() {
       }
       arrayUsuarios.push(objetoUsuario);
     })
-    setRows(arrayUsuarios);
-    console.log(arrayUsuarios);
   }
   
 
@@ -75,13 +73,9 @@ export default function ColumnTypesGrid() {
       return row;
     }))
     setOpen(false);
-    console.log(idUsuarioRow)
-    console.log(usuario)
     localStorage.setItem("tipoUsuario", idUsuarioRow);
     await usuarioService.asignarTipoUsuario(idUsuarioRow, usuario);
-    console.log(localStorage.getItem('usuario_id') + usuario)
     if(localStorage.getItem('usuario_id') === idUsuarioRow){
-      console.log("entro")
      if ( window.confirm("Al cambiar de tipo de usuario se cerrará la sesión, desea continuar?")) 
       {
         window.location.href = "/";
@@ -97,7 +91,6 @@ export default function ColumnTypesGrid() {
 
   const handleSeleccionado = (event) => {
     setUsuario(event.target.value);
-    console.log(event.target.value);
     setSeleccionado(false);
   }
 

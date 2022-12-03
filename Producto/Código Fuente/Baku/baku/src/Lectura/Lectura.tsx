@@ -168,14 +168,11 @@ const Lectura = () => {
     const [currentPage, setCurrentPage] = React.useState(0)
     const handlePageChange = (e: PageChangeEvent) => {
         localStorage.setItem('current-page', `${e.currentPage}`);
-        //console.log('Pagina Actual: ' + e.currentPage)
         setCurrentPage(e.currentPage)
     };
 
     //************************************************************************************
     const contadorCerrar = () => {
-        console.log("Entro al contador 2")
-        
     }
 
     const [open, setOpen] = React.useState(false);
@@ -200,7 +197,6 @@ const Lectura = () => {
                 
         const usuario_activo = localStorage.getItem("usuario_activo");
         const paginaActual = localStorage.getItem('current-page');
-        console.log("🚀 ~ file: Lectura.tsx ~ line 154 ~ terminaLectura ~ paginaActual", paginaActual)
         
         const libroData = {
             'auth0id': usuario_activo,
@@ -222,7 +218,6 @@ const Lectura = () => {
         const usuario_activo = localStorage.getItem("usuario_activo")
         if (usuario_activo != null) {
             const resPagina = await usuarioService.usuarioUltimaPagina(usuario_activo, id);
-            //console.log(resPagina.data)
             setInitialPage(parseInt(resPagina.data, 10));
             
             const resLibro = await libroService.getLibro(id);
@@ -234,15 +229,9 @@ const Lectura = () => {
     const cargarUsuario = async () => {
         const usuario_activo = localStorage.getItem("usuario_activo");
         const res = await usuarioService.getUsuario(usuario_activo!);
-        //console.log(res.data)
-        if(res.data.tipoUsuario == 1)
+        if(res.data.tipoUsuario != 1)
         {
-            
-            //console.log("El USUARIO es FREE")
-        }
-        else{
             setHabilitado(true)
-            //console.log("El USUARIO es PREMIUM o ADMINISTRADOR")
         }
     }
 
@@ -265,7 +254,6 @@ const Lectura = () => {
     const obtenerTextoLibro = async () => {
         const url = encodeURIComponent(libro.archivoTexto)
         const res = await libroService.getLibroNarrador(url, 1, libro.titulo);
-        //console.log(res.data)
         setTextolibro(res.data.arrayLimpio)
     }
 

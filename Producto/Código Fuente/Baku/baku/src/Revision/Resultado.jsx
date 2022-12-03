@@ -180,6 +180,22 @@ export default function BasicTable() {
   };
   const handleCloseDialogAceptarPublicar = () => {
     libroService.putCambiarEstado(id, "Publicado");
+        const idData = {
+            'auth0id': autorAth0,
+            'idLibro': id
+        };
+        const nuevaNotificacion = {
+            'auth0usuario': autorAth0,
+            'titulo': "El usuario " + localStorage.getItem("alias") + " ha subido:",
+            'descripcion': libro.libroFound.titulo,
+            'avatar': localStorage.getItem("avatar"),
+            'tipo': "subidaLibro",
+            'esNoleido': true,
+            'id_libro': id,
+        }
+        setabrirDialog(false);
+        await usuarioService.usuarioLibroCargado(idData);
+        await notificacionService.createNotificacion(nuevaNotificacion);
     history.push('/Revision');
     setabrirDialog(false);
   };

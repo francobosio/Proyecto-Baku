@@ -211,7 +211,6 @@ export default function TitlebarImageList() {
         }
         const res = await libroService.buscarLibro(busquedaVariable);
         setLibroBuscado(res.data, setError(''));
-        console.log(res);
 
         if (!res.data.length) {
             return setError('No se encontraron resultados');
@@ -233,7 +232,6 @@ export default function TitlebarImageList() {
         setEstado(true);
         const res = await libroService.buscarLibroGenero(nombre);
         setLibroBuscado(res.data, setError(''));
-        console.log(res);
     }
     const cargaIncial = async () => {
         setLibroBuscado(0);
@@ -241,7 +239,6 @@ export default function TitlebarImageList() {
             setEstado(true);
             const res = await libroService.buscarLibro(busqueda);
             setLibroBuscado(res.data, setError(''));
-            console.log(res);
             if (!res.data.length) {
                 return setError('No se encontraron resultados');
             }
@@ -290,7 +287,6 @@ export default function TitlebarImageList() {
                         onChange={(e) => handleChange(e)}
                         onKeyPress={(e) => {
                             if (e.key === 'Enter') {
-                                console.log('Enter clicked!!!');
                                 handleSubmit(e);
                             }
                         }}

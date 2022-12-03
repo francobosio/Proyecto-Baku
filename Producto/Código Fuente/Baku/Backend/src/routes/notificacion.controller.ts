@@ -19,9 +19,6 @@ export const createNotificacion: RequestHandler = async (req, res) => {
            const res = await Usuario.findOneAndUpdate({ _id: suscriptor.usuario_id }, { $push: { mensajes: notificacion } }).exec();
         })
     }
-    else {
-        console.log("No existe el usuario o No tiene suscriptores");
-    }
     res.json({ notificacion, author });
 }
 

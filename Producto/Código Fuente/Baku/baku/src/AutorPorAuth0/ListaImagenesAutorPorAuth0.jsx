@@ -83,10 +83,8 @@ export default function TitlebarImageList() {
     const { Id } = useParams();
     
     const loadLibros = async () => {
-        console.log(Id)
         const autorRes = await usuarioService.getUsuariosPorId(Id)
         const autor = autorRes.data
-        console.log(autor)
         //usar el setAutor sincrono para que no se pierda el valor
         setAutor(autor)
         const buscarNombreSuscripcion = await usuarioService.buscarNombreSuscripcion(usuario_id, autor._id)
@@ -102,7 +100,6 @@ export default function TitlebarImageList() {
         const suscriptores = await usuarioService.obtenerSuscripciones(autor.auth0_id)
         setSuscriptores(suscriptores.data.suscriptores)
         //guardar el libro en el estado sincrono
-        console.log(libros.data)
         setlibros(libros.data)
     }
     useEffect(() => {
@@ -114,15 +111,12 @@ export default function TitlebarImageList() {
     //al hacer click en el boton cambiar el nombre Suscribirse por Desuscribirse y viceversa 
     const suscripcion = async () => {
         const autor2 = autor._id
-        console.log(usuario_id)
-        console.log(autor2)
         if (nombre === 'Suscribirse') {
             setNombre('Suscripto')
             setSuscriptores(suscriptores + 1)
             const res = await usuarioService.suscribirUsuario(usuario_id, autor2)
 
         } else {
-            console.log("estoy en desuscribirse")
             setNombre('Suscribirse')
             setSuscriptores(suscriptores - 1)
             const res = await usuarioService.desuscribirUsuario(usuario_id, autor2)
@@ -138,7 +132,29 @@ export default function TitlebarImageList() {
             'finLectura': false,
         }
         const res = await usuarioService.usuarioLibroLeido(libroData);
-        console.log(res);
+    }
+    //funcion que espera 3 segundos y si no hay libros muestra un mensaje de que no hay libros 
+    const esperar = () => {
+        setTimeout(() => {
+            setFlagEsperaMensaje(true)
+        }, 2000)
+    }
+    //componente que espera 3 segundos y si no hay libros muestra un mensaje de que no hay libros
+    const Esperar = () => {
+        if (flagEsperaMensaje) {
+            return (
+                <div>
+                    <Typography variant="h5" className={classes.titulo}>No hay libros disponibles</Typography>
+                </div>
+            )
+        }
+        else {
+            return (
+                <div>
+                    <Typography variant="h5" className={classes.titulo}>Cargando...</Typography>
+                </div>
+            )
+        }
     }
 
     return (

@@ -27,14 +27,9 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
     const cargarUsuario = async () => {
         const usuario_activo = localStorage.getItem("usuario_activo");
         const res = await usuarioService.getUsuario(usuario_activo!);
-        //console.log(res.data)
-        if(res.data.tipoUsuario == 1)
+        if(res.data.tipoUsuario != 1)
         {
-            //console.log("El USUARIO es FREE")
-        }
-        else{
             setHabilitado(true)
-            //console.log("El USUARIO es PREMIUM o ADMINISTRADOR")
         }
     }
 

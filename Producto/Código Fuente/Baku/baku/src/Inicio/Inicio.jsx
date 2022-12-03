@@ -111,7 +111,6 @@ export default function Inicio() {
     }, [flagEsMenorEdad])
 
     const loadUsuario = async () => {
-        console.log(user.sub)
         const res = await usuarioService.getUsuario(user.sub)
         usuario = res.data;
         if (usuario === null || usuario === undefined) {

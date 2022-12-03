@@ -7,9 +7,7 @@ const ColumnChart = (props) => {
         const [usuarios, setUsuarios] = useState([])
         const loadUsuarios = async () => {
             const res = await usuarioService.getLibrosLeidosPorUsuario();
-            //console.log("🚀 ~ file: ColumnChart.jsx ~ line 10 ~ loadUsuarios ~ res", res.data)
             setUsuarios(res.data);
-            //console.log(usuarios);
         }
 
         //El codigo del useEffect se renderiza despues de que se haya montado el componente
@@ -28,29 +26,24 @@ const ColumnChart = (props) => {
             let libros_leidos = usuario.libros_leidos.filter(libro_leido => new Date(libro_leido.creado) >= props.fechaDesde && new Date(libro_leido.creado) <= props.fechaHasta );
             usuario.libros_leidos = libros_leidos
         })
-        //console.log("🚀 ~ file: ColumnChart.jsx ~ line 31 ~ ColumnChart ~ usuarios", usuarios)
 
         var librosLeidos_UltimaPag = []
         usuarios.forEach(usuario => {
             librosLeidos_UltimaPag = librosLeidos_UltimaPag.concat(usuario.libros_leidos)
         })
-        //console.log("🚀 ~ file: ColumnChart.jsx ~ line 31 ~ ColumnChart ~ librosLeidos_UltimaPag", librosLeidos_UltimaPag)
     
         var todosLibrosLeidos = []
         librosLeidos_UltimaPag.forEach(libroLeido => {
             todosLibrosLeidos = todosLibrosLeidos.concat(libroLeido.id_libro)
         })
-        //console.log("🚀 ~ file: ColumnChart.jsx ~ line 34 ~ ColumnChart ~ todosLibrosLeidos", todosLibrosLeidos)
-    
+
         var idLibrosLeidos = []
         todosLibrosLeidos.forEach(libroLeido => {
             idLibrosLeidos = idLibrosLeidos.concat(libroLeido._id)
         })
-        //console.log(idLibrosLeidos)
     
         const map = new Map(todosLibrosLeidos.map(pos => [pos._id, pos]));
         const uniqueLibrosLeidos = [...map.values()];
-        //console.log(uniqueLibrosLeidos);
     
         let librosLeidos = [];
         uniqueLibrosLeidos.forEach(function (elemento, indice, array) {
@@ -73,8 +66,6 @@ const ColumnChart = (props) => {
           });
         //LOS 10 LIBROS MAS LEIDOS
         const librosLeidos10 = librosLeidos.slice(0, 10)
-        //console.log("librosLeidos10:");
-        //console.log(librosLeidos10);
         
         let librosCategorias = [];
         let librosData = [];
@@ -82,9 +73,18 @@ const ColumnChart = (props) => {
             librosCategorias.push(elemento.name);
             librosData.push(elemento.value);
         });
-        //console.log(librosCategorias);
-        //console.log(librosData);    
-    
+
+        //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
+        let isVisible = false
+        let avisoVisible = false
+        if(usuarios.length !== 0){
+            isVisible = true
+            if (existenciaDatos === 0) {
+                isVisible = false
+                avisoVisible = true
+            } 
+        }
+
         var seriesLibros = [
             {
                 name: 'Cantidad de Lecturas',

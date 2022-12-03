@@ -10,7 +10,6 @@ const BarChart = (props) => {
             const fechaDesdeBack = encodeURIComponent(`${props.fechaDesde.getMonth() + 1}/${props.fechaDesde.getDate()}/${props.fechaDesde.getFullYear()}`)
             const fechaHastaBack = encodeURIComponent(`${props.fechaHasta.getMonth() + 1}/${props.fechaHasta.getDate()}/${props.fechaHasta.getFullYear()}`)
             const res = await libroService.obtenerLibrosFecha(fechaDesdeBack, fechaHastaBack)
-            //console.log(res.data);
             setlibros(res.data);
             setEjecuto(true)
         }
@@ -33,7 +32,6 @@ const BarChart = (props) => {
         libros.forEach(libro => {
             array1 = array1.concat(libro.genero)
         })
-        //console.log(array1)
     
         //Crea un array de generos unicos
         // const unique = array1
@@ -61,8 +59,6 @@ const BarChart = (props) => {
             // a must be equal to b
             return 0;
           });
-        
-        //console.log(generos);
     
         const sumall = generos.map(item => item.value).reduce((prev, curr) => prev + curr, 0);
         
