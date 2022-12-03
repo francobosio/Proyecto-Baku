@@ -123,13 +123,15 @@ function NotificationItem({ notification, id }) {
     </ListItemButton>
   );
 }
-
+let bandera = true;
 export default function NotificationsPopover(propNotificacion) {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(propNotificacion.notificacion);
-  // activar useEffect cada vez que se abre el popover de notificaciones 
 
+  const [abrir, setAbrir] = useState(propNotificacion.abrirMobile);
+  console.log("esta es abrir "+abrir)
+  // activar useEffect cada vez que se abre el popover de notificaciones 
 
   const totalUnRead = notifications.filter((item) => item.esNoleido === true).length;
 
@@ -161,7 +163,7 @@ export default function NotificationsPopover(propNotificacion) {
 
   return (
     <>
-      <IconButton
+      {!abrir?<IconButton
         ref={anchorRef}
        
         onClick={handleOpen}
@@ -175,7 +177,30 @@ export default function NotificationsPopover(propNotificacion) {
           {/* Quitar animacion  */}
           <NotificationsIcon sx={{ width: '1.4em', height: '1.4em' }} />
         </Badge>
-      </IconButton>
+      </IconButton>:
+      <Button
+        ref={anchorRef}
+        disableRipple={true}
+        disableTouchRipple={true}
+        disableFocusRipple={true}
+        onClick={handleOpen}
+        sx={{
+          ...(open && {
+            bgcolor: (theme) => alpha(theme.palette.grey[900], 0.01)
+          }),
+          backgroundColor: 'transparent',
+          color: '#2c2c2c',
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
+          right: '6px',
+        }}
+      >
+        <Badge badgeContent={totalUnRead} color="error">
+          {/* Quitar animacion  */}
+          Notificaciones
+        </Badge>
+      </Button>}
 
       <MenuPopover
         open={open}
