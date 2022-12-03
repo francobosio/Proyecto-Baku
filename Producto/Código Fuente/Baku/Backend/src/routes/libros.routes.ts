@@ -21,7 +21,7 @@ router.get('/libro/revision/:id', libroCtrl.getLibroRevision)
 
 router.post('/libros', camposArchivo, libroCtrl.createLibro)
 
-router.get('/libros/delete/:id', libroCtrl.deleteLibro)
+router.post('/libros/eliminar', libroCtrl.deleteLibro)
 
 router.put('/libros/:id', libroCtrl.updateLibro)
 
@@ -33,7 +33,6 @@ router.get('/libros/buscar/genero/:genero', libroCtrl.buscarLibroGenero)
 router.put('/libro/cambiarEstado', libroCtrl.updateLibroEstado)
 
 router.get('/autor/:libroId', libroCtrl.getBuscarAutor)
-
 
 router.get('/autor/libros/:id', libroCtrl.getLibrosAutor)
 

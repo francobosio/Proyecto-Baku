@@ -11,8 +11,6 @@ const useStyles = makeStyles((theme) => ({
   //la ventada ocupe todo el ancho de la pantalla
     root: {
         maxWidth: '500vh',
-        
-
     },
 }));
 

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
-import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
 import { Container, Button, ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Typography, Grid } from '@material-ui/core';
 
@@ -16,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
         'background': '#99cfbf',
     },
     imageList: {
-        width: "100%",
         "margin-bottom": "10px !important",
     },
     titulo: {
@@ -58,14 +56,14 @@ const useStyles = makeStyles((theme) => ({
             'color': '#FFFFFF',
         },
     },
+    
     fondo: {
-        'minHeight': '100vh',
+        'minHeight': '95vh',
         'minWidth': ' 95vh'
     }
 }));
 
-export default function TitlebarImageList() {
-
+export default function TitlebarImageList({columnas,altura,anchoImageList}) {
     const classes = useStyles();
     const [libros, setlibros] = useState([])
     const [librosLeidos, setLibrosLeidos] = useState([])
@@ -100,13 +98,12 @@ export default function TitlebarImageList() {
     }
 
     return (
-        <div style={{ height: 'auto', width: '100%' }}>
-                <Grid container spacing={1}>
-                    <Grid className={classes.fondo} item xs={12}>
+        <Container style={{ minHeight:'28.47em' }}>
+                <Grid container spacing={1} >
                         {libros.length > 0 ? (
-                            <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={20}>
+                            <ImageList rowHeight={300} className={classes.imageList} style={{width:anchoImageList,justifyContent:'initial'}} gap={15}>
                                 {libros.map((item) => ((((librosLeidos.findIndex(x => x.id_libro == item._id)) > -1) ? (
-                                        <ImageListItem key={item._id} style={{ width: "16.8rem", height: "23.5rem" }} >
+                                        <ImageListItem key={item._id} cols={columnas} style={{ width: altura/6.6, height: altura/4 }} >
                                             <img src={item.imagenPath} alt={item.titulo} />
                                             <ImageListItemBar
                                                 title={item.titulo}
@@ -125,13 +122,11 @@ export default function TitlebarImageList() {
                                     )
                                 ))
                                 )}
-
                             </ImageList>
                         ) : (
-                            null
+                            <div className={classes.fondo}></div>
                         )}
-                    </Grid>
                 </Grid>
-            </div>
+            </Container>
     );
 }

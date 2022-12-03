@@ -14,7 +14,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import esLocale from 'date-fns/locale/es';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Dialog, DialogActions, DialogContent, DialogContentText, FormControlLabel} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, FormControlLabel } from "@mui/material";
 import 'date-fns';
 
 import * as usuarioService from './Usuarios/UsuarioService';
@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "1rem",
   },
   fondo: {
-    width: "60rem",
     backgroundColor: "#7ec2ae",
     minHeight: "75vh",
   },
@@ -53,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
   titulo: {
     fontWeight: "bold",
     fontSize: "2rem",
+    marginLeft: "5rem",
     padding: "1rem 0 0 1rem",
   },
   texto: {
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   botonGuardar: {
     'background-color': '#4B9C8E',
     'borderRadius': '5rem',
-    width: '15rem',
+    width: '11rem',
     '&:hover': {
       'background': '#076F55',
       'color': '#FFFFFF',
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     'color': '#FFFFFF',
     'background-color': '#922c2c',
     'borderRadius': '5rem',
-    width: '15rem',
+    width: '11rem',
     '&:hover': {
       'background': '#580000',
       'color': '#FFFFFF',
@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   datePicker: {
+    "margin-top": '0',
     "paddingBottom": '10%',
   },
   customCheckbox: {
@@ -155,7 +156,7 @@ export default function Perfil() {
   }
 
   const saveChanges = () => {
-    localStorage.setItem("fechaNacimiento",new Date(selectedDate));
+    localStorage.setItem("fechaNacimiento", new Date(selectedDate));
     setFlagNombreEnabled(false);
     setFlagApellidoEnabled(false);
     setFlagAliasEnabled(false);
@@ -194,138 +195,140 @@ export default function Perfil() {
   }
 
   return (
-    <div className={classes.root}>
-      <MiDrawer />
-      {userDB != null ? (
-        <div className={classes.content}>
-          <AppBar />
-          <Typography className={classes.titulo}>Tu Perfil</Typography>
-          <Container className={classes.fondo}>
-            <Grid container spacing={2} className={classes.grid}>
-              <Grid item xs={10}>
-                <img
-                  alt="complex"
-                  src={user.picture}
-                  className={classes.img}
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                <Typography className={classes.texto}>Nombre:</Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  className={flagNombreEnabled ? classes.textFieldEnabled : ''}
-                  name="nombre"
-                  disabled
-                  inputRef={inputNombre}
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <IconButton onClick={handleNombreEnable}>
-                  <EditIcon />
-                </IconButton>
-              </Grid>
-
-              <Grid item xs={3}>
-                <Typography className={classes.texto}>Apellido:</Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  className={flagApellidoEnabled ? classes.textFieldEnabled : ''}
-                  name="apellido"
-                  disabled
-                  inputRef={inputApellido}
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <IconButton onClick={handleApellidoEnable}>
-                  <EditIcon />
-                </IconButton>
-              </Grid>
-
-              <Grid item xs={3}>
-                <Typography className={classes.texto}>Alias:</Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  className={flagAliasEnabled ? classes.textFieldEnabled : ''}
-                  name="alias"
-                  disabled
-                  inputRef={inputAlias}
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <IconButton onClick={handleAliasEnable}>
-                  <EditIcon />
-                </IconButton>
-              </Grid>
-
-              <Grid item xs={3}>
-                <Typography className={classes.texto}>Email:</Typography>
-              </Grid>
-              <Grid item xs={9}>
-                <TextField
-                  name="email"
-                  disabled
-                  inputRef={inputEmail}
-                />
-              </Grid>
-
-
-              <Grid item xs={3}>
-                <Typography className={classes.texto}>Fecha de Nacimiento:</Typography>
-              </Grid>
-              <Grid className={classes.datePicker} item xs={4}>
-                <MuiPickersUtilsProvider className={classes.datePicker} utils={DateFnsUtils} locale={localeMap[locale]}>
-                  <KeyboardDatePicker
-                    margin="normal"
-                    id="fechaNacimiento"
-                    label="Fecha de Nacimiento"
-                    format="dd/MM/yyyy"
-                    disableFuture={true}
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
+    <Grid container direction="row" className={classes.root}>
+      <Grid item container direction="column" xs={1}  >
+        <MiDrawer />
+        </Grid>
+        {userDB != null ? (
+          <Grid item container direction="column" xs={11}>
+            <AppBar />
+            <Typography className={classes.titulo}>Tu Perfil</Typography>
+            <Container fixed className={classes.fondo}>
+              <Grid container spacing={2} className={classes.grid}>
+                <Grid item xs={10}>
+                  <img
+                    alt="complex"
+                    src={user.picture}
+                    className={classes.img}
                   />
-                </MuiPickersUtilsProvider>
+                </Grid>
+
+                <Grid item xs={3}>
+                  <Typography className={classes.texto}>Nombre:</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    className={flagNombreEnabled ? classes.textFieldEnabled : ''}
+                    name="nombre"
+                    disabled
+                    inputRef={inputNombre}
+                  />
+                </Grid>
+                <Grid item xs={5}>
+                  <IconButton onClick={handleNombreEnable}>
+                    <EditIcon />
+                  </IconButton>
+                </Grid>
+
+                <Grid item xs={3}>
+                  <Typography className={classes.texto}>Apellido:</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    className={flagApellidoEnabled ? classes.textFieldEnabled : ''}
+                    name="apellido"
+                    disabled
+                    inputRef={inputApellido}
+                  />
+                </Grid>
+                <Grid item xs={5}>
+                  <IconButton onClick={handleApellidoEnable}>
+                    <EditIcon />
+                  </IconButton>
+                </Grid>
+
+                <Grid item xs={3}>
+                  <Typography className={classes.texto}>Alias:</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    className={flagAliasEnabled ? classes.textFieldEnabled : ''}
+                    name="alias"
+                    disabled
+                    inputRef={inputAlias}
+                  />
+                </Grid>
+                <Grid item xs={5}>
+                  <IconButton onClick={handleAliasEnable}>
+                    <EditIcon />
+                  </IconButton>
+                </Grid>
+
+                <Grid item xs={3}>
+                  <Typography className={classes.texto}>Email:</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <TextField
+                    name="email"
+                    disabled
+                    inputRef={inputEmail}
+                  />
+                </Grid>
+
+              
+                <Grid item xs={5} sm={3}>
+                  <Typography className={classes.texto}>Fecha de Nacimiento:</Typography>
+                </Grid>
+                <Grid className={classes.datePicker} item xs={7} sm={4} md={3}>
+                  <MuiPickersUtilsProvider className={classes.datePicker} utils={DateFnsUtils} locale={localeMap[locale]}>
+                    <KeyboardDatePicker
+                      margin="normal"
+                      id="fechaNacimiento"
+                      label="Fecha de Nacimiento"
+                      format="dd/MM/yyyy"
+                      disableFuture={true}
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </Grid>
               </Grid>
-            </Grid>
-            <div>
-              <Dialog
-                open={open}
-                onClose={handleClose}>
-                <DialogContent>
-                  <DialogContentText>
-                    ¿Está seguro de que quiere eliminar su cuenta?, esta decisión no puede revertirse!
-                  </DialogContentText>
-                    
-                  <FormControlLabel 
-                          className={classes.controlLabel}
-                          control={<Checkbox className={classes.customCheckbox} color="secondary" name="permanenciaLibros" onChange={handlePermanenciaLibros} />}
-                          label="Acepto que mis obras permanezcan en la aplicación luego de borrada mi cuenta"/>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose}>Cancelar</Button>
-                  <Button type="Button" onClick={deleteUser} autoFocus>
-                    Eliminar
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </div>
-            <Grid container spacing={10}>
-              <Grid item xs={6}>
-                <Button className={classes.botonGuardar} onClick={saveChanges}>Guardar Cambios</Button>
+              <div>
+                <Dialog
+                  open={open}
+                  onClose={handleClose}>
+                  <DialogContent>
+                    <DialogContentText>
+                      ¿Está seguro de que quiere eliminar su cuenta?, esta decisión no puede revertirse!
+                    </DialogContentText>
+
+                    <FormControlLabel
+                      className={classes.controlLabel}
+                      control={<Checkbox className={classes.customCheckbox} color="secondary" name="permanenciaLibros" onChange={handlePermanenciaLibros} />}
+                      label="Acepto que mis obras permanezcan en la aplicación luego de borrada mi cuenta" />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose}>Cancelar</Button>
+                    <Button type="Button" onClick={deleteUser} autoFocus>
+                      Eliminar
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </div>
+              <Grid container spacing={0} style={{marginBottom:"1em"}} >
+                <Grid item xs={6} style={{justifyContent:"center",display:"flex"}}>
+                  <Button className={classes.botonGuardar} onClick={saveChanges}>Guardar Cambios</Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button className={classes.botonEliminar} onClick={openDeleteDialog}>Eliminar mi Cuenta</Button>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <Button className={classes.botonEliminar} onClick={openDeleteDialog}>Eliminar mi Cuenta</Button>
-              </Grid>
-            </Grid>
-          </Container>
-          <Footy />
-        </div>) : null}
-    </div>
+            </Container>
+            <Footy />
+            </Grid>) : null}
+    </Grid>
   );
 }
