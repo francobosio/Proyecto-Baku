@@ -7,7 +7,6 @@ export const createMarcador: RequestHandler = async (req, res) => {
     const {usuario,libro,HighlightArea,content,quote,startPageIndex,startOffset,startDivIndex,endPageIndex,endOffset,endDivIndex} = req.body;
     const newMarcador = { usuario,libro,HighlightArea,content,quote,startPageIndex,startOffset,startDivIndex,endPageIndex,endOffset,endDivIndex };
     const marcador = new Marcador(newMarcador);
-    console.log(newMarcador);
     await marcador.save();
     return res.json({
         marcador
@@ -33,7 +32,6 @@ export const obtenerNotaPorUsuarioLibro: RequestHandler = async (req,res) =>{
     const idUsuarioActual = req.params.idUsuarioActual;
     const idLibroALeer = req.params.idLibroALeer;
    const respuesta = await Marcador.find({usuario:idUsuarioActual,id_libro:idLibroALeer })
-   console.log("aca"+respuesta)
     return  res.json({respuesta})
 }
 
