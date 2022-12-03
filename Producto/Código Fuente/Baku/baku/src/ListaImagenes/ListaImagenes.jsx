@@ -312,27 +312,6 @@ export default function TitlebarImageList() {
 
             <Grid className={classes.grid}>
                 <Container className={classes.contenedor2}>
-                    {/* alto y ancho mas grandes */}
-                   {libroBuscado.length > 0 && <IconButton size={'small'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}>
-                        <ReplyIcon sx={{ height: "auto", width: "2.5em", color: "#076f55", }} />
-                    </IconButton>
-                    }
-               <div style={{  width: "2em" }}>
-                </div>
-                <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon />
-                    </div>
-                    <InputBase
-                        placeholder="Autor, Título, Editorial"
-                        classes={{ input: classes.inputInput, }}
-                        inputProps={{ 'aria-label': 'search' }}
-                        onChange={(e) => handleChange(e)}
-                        onKeyPress={(e) => {
-                            if (e.key === 'Enter') {
-                                handleSubmit(e);
-                            }
-                        }}
 
                     <Container fixed className={classes.search}>
                         {libroBuscado.length > 0 && <IconButton size={'large'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}
