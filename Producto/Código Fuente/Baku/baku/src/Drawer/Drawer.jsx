@@ -212,7 +212,7 @@ export const MiDrawer = (props) => {
                                 </Tooltip>
                             </Link>
                             <Link to="/Reclamo" className={classes.link} >
-                                <Tooltip title="Reclamo"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                                <Tooltip title="Reclamos"  enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                                 <ListItem button selected={selectedIndex === 8} >
                                     <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><ReportGmailerrorredOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                     <ListItemText primary='Reclamos' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
@@ -220,7 +220,7 @@ export const MiDrawer = (props) => {
                                 </Tooltip>
                             </Link>
                             <Link to="/Estadistica" className={classes.link} >
-                                <Tooltip title="Estadisticas" enterDelay={1000} leaveDelay={200} enterNextDelay={1000}arrow>
+                                <Tooltip title="Reportes" enterDelay={1000} leaveDelay={200} enterNextDelay={1000}arrow>
                                 <ListItem button selected={selectedIndex === 9}>
                                     <ListItemIcon style={{minWidth: porcentajeMinAncho}} className={classes.ListItemIconProps}><StackedBarChartIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                     <ListItemText primary='Reportes' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />

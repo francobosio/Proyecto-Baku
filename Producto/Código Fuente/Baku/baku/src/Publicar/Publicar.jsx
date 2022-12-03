@@ -17,6 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import { useAlert } from 'react-alert';
+import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -103,18 +104,25 @@ const useStyles = makeStyles((theme) => ({
     },
     btnPdf: {
         'background-color': '#4B9C8E',
-        'width': '25rem',
+        'width': '30em',
         '&:hover': {
             'background': '#076F55',
             'color': '#FFFFFF',
+        },
+        [theme.breakpoints.down('sm')]: {
+            'width': '19em',
         }
+
     },
     btnPdf2: {
-        'background-color': 'green',
-        'width': '25rem',
+        'background-color': '#4B9C8E',
+        'width': '30em',
         '&:hover': {
             'background': '#076F55',
             'color': '#FFFFFF',
+        },
+        [theme.breakpoints.down('sm')]: {
+            'width': '19em',
         }
     },
     customCheckbox: {
@@ -145,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
         '& .MuiInputBase-input': {
             'backgroundColor': '#fff',
             'borderRadius': '0.2rem',
-            minWidth: '20rem',
+            minWidth: '16rem',
             maxWidth: '35rem',
         },
         '& .MuiChip-root': {
@@ -165,8 +173,7 @@ const useStyles = makeStyles((theme) => ({
     },
     centrar: {
         display: 'flex',
-        justifyContent: 'center',
-        margin: '0 auto',
+        justifyContent: 'left',
     },
     imagen: {
         paddingBottom: '1rem'
@@ -176,11 +183,14 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#7ec2ae',
         "margin-bottom": "40px",
         "margin-top": "20px",
+        [theme.breakpoints.only('xs')]: {
+            maxWidth: '23em',
+            minWidth: '23em',
+        },
     },
     textoMultiple: {
         '& .MuiTextField-root': {
             margin: theme.spacing(0),
-            width: '35rem',
             'backgroundColor': '#fff',
             'borderRadius': '0.2rem',
         },
@@ -189,7 +199,6 @@ const useStyles = makeStyles((theme) => ({
             'backgroundColor': '#fff',
             'borderRadius': '0.2rem',
             margin: theme.spacing(0),
-            width: '35rem',
         }
     },
     chips: {
@@ -209,6 +218,17 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .MuiInputBase-input': {
             width: '20rem',
+            'color': '#000',
+        },
+    },
+
+    controlCombo2: {
+        '& .MuiTextField-root': {
+            'backgroundColor': '#FFF',
+            'borderRadius': '0.2rem',
+        },
+        '& .MuiInputBase-input': {
+            width: '17.7rem',
             'color': '#000',
         },
     },
@@ -257,10 +277,16 @@ export default function MiniDrawer() {
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [abrirDialog, setabrirDialog] = React.useState(false);
     const [pdfTitle, setPdfTitle] = useState("");
-
+    let tamaño;
+    let ocultar = false;
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { tamaño = 100; ocultar = true }
+    if (useMediaQuery(theme.breakpoints.only('sm'))) { tamaño = 150; ocultar = true }
+    if (useMediaQuery(theme.breakpoints.only('md'))) { tamaño = 300; ocultar = false }
+    if (useMediaQuery(theme.breakpoints.only('lg'))) { tamaño = 600; ocultar = false }
+    if (useMediaQuery(theme.breakpoints.only('xl'))) { tamaño = 900; ocultar = false }
     const handleCloseDialog = () => {
         setabrirDialog(false);
-      };
+    };
 
     // Estas variables son para el control de los errores en el form
     const [errorTitulo, setErrorTitulo] = useState(null);
@@ -307,8 +333,8 @@ export default function MiniDrawer() {
     };
 
     const handlePdfChange = e => {
-        console.log(e.target.files[0].type )
-        if  (e.target.files[0].type === "application/pdf") {
+        console.log(e.target.files[0].type)
+        if (e.target.files[0].type === "application/pdf") {
             if (e.target.files.length) {
                 setPdfTitle(e.target.files[0].name)
                 setPdf(e.target.files[0])
@@ -365,21 +391,21 @@ export default function MiniDrawer() {
             formData.append("alias", alias)
             formData.append("avatar", avatar)
             const res = await libroServices.createLibro(formData);
-/*             const idData = {
-                'auth0id': usuario_auth0Id,
-                'idLibro': res.data.libro._id
-            };
-            const nuevaNotificacion = {
-                'auth0usuario': localStorage.getItem("usuario_activo"),
-                'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido:",
-                'descripcion': libro.titulo,
-                'avatar': localStorage.getItem("avatar"),
-                'tipo': "subidaLibro",
-                'esNoleido': true,
-                'id_libro': res.data.libro._id,
-            }
-            await usuarioService.usuarioLibroCargado(idData);
-            await notificacionService.createNotificacion(nuevaNotificacion); */
+            /*             const idData = {
+                            'auth0id': usuario_auth0Id,
+                            'idLibro': res.data.libro._id
+                        };
+                        const nuevaNotificacion = {
+                            'auth0usuario': localStorage.getItem("usuario_activo"),
+                            'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido:",
+                            'descripcion': libro.titulo,
+                            'avatar': localStorage.getItem("avatar"),
+                            'tipo': "subidaLibro",
+                            'esNoleido': true,
+                            'id_libro': res.data.libro._id,
+                        }
+                        await usuarioService.usuarioLibroCargado(idData);
+                        await notificacionService.createNotificacion(nuevaNotificacion); */
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
         }
@@ -446,23 +472,26 @@ export default function MiniDrawer() {
     }
 
     const classes = useStyles();
+
+
+
     return (
-        <div className={classes.root}>
-            <MiDrawer pestaña={6} />
-            <main className={classes.content}>
+        <Grid container direction="row" className={classes.root}>
+            <Grid item container direction="column" xs={1}  >
+                <MiDrawer pestaña={6} />
+            </Grid>
+            <Grid item container direction="column" xs={11}>
                 <AppBar />
-                <React.Fragment>
-                    <Container className={classes.fondo}>
+                <Grid item component={'main'}  >
+                    <Container fixed className={classes.fondo}>
                         <FormControl onSubmit={handleSubmit} >
                             <Grid container spacing={1} className={classes.centrar}>
-                                <Grid item xs={12}>
-                                </Grid>
                                 <Grid item xs={12} className={classes.centrar}>
                                     <Typography className={classes.titulo} variant="h4" gutterBottom >
                                         Publicá tu libro
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography className={classes.textoDestacado}>Portada *</Typography>
                                     <label htmlFor="upload-button" className={classes.centrar}>
                                         {image.preview ? (
@@ -476,9 +505,7 @@ export default function MiniDrawer() {
                                             </>
                                         )}
                                     </label>
-                                    <Grid item xs={12} >
-                                    </Grid>
-                                    <Button component="label" startIcon={<UploadIcon />} className={classes.btnArchivo + " " + classes.centrar}> Subí tu Portada
+                                    <Button component="label" startIcon={<UploadIcon />} style={{ justifyContent: "center", alignSelf: "center" }} className={classes.btnArchivo + " " + classes.centrar}> Subí tu Portada
                                         <input
                                             type="file"
                                             name="imagenPath"
@@ -500,13 +527,14 @@ export default function MiniDrawer() {
                                         helperText={errorTitulo && "El libro debe tener un titulo"}
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={10} style={{ width: tamaño }} >
                                     <Typography className={classes.textoDestacado}>Descripción *</Typography>
                                     <TextField
                                         className={classes.textoMultiple}
+                                        fullWidth
                                         name="descripcion"
                                         inputRef={inputDescripcion}
-                                        rows={8}
+                                        rows={7}
                                         multiline
                                         onChange={handleInputChange}
                                     />
@@ -529,39 +557,47 @@ export default function MiniDrawer() {
                                         onChange={handleInputChange}
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <Typography className={classes.textoDestacado}>Género *</Typography>
-                                    <FormControl className={classes.controlCombo} error={errorSelect}>
-                                        <Select
-                                            labelId="demo-mutiple-chip-label"
-                                            id="demo-mutiple-chip"
-                                            name="genero"
-                                            multiple
-                                            inputRef={inputCombo}
-                                            value={categoriaLibro}
-                                            onChange={handleSelectChange}
-                                            input={<Input id="select-multiple-chip" />}
-                                            renderValue={(selected) => (
-                                                <div className={classes.chips}>
-                                                    {selected.map((value) => (
-                                                        <Chip key={value.nombre} label={value.nombre} className={classes.chip} />
-                                                    ))}
-                                                </div>
-                                            )}
-                                        >
-                                            {categorias.map((categoria) => (
-                                                <MenuItem key={categoria.nombre} value={categoria} disabled={categoria.disabled}>
-                                                    {categoria.nombre}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                        {errorSelect && <FormHelperText>{"Se debe seleccionar al menos una categoria"}</FormHelperText>}
-                                    </FormControl>
-                                    <InputLabel id="demo-mutiple-chip-label"></InputLabel>
-                                    <Tooltip title="Para quitar un genero haga click encima del mismo nuevamente" placement="right" arrow sx={{marginLeft: '0.7em', fontSize: '1.5em', size: 'large' }}>
-                                        <InfoIcon />
-                                    </Tooltip>
-                                    
+                                <Grid item xs={12} >
+                                    {ocultar ?
+                                        <Stack spacing={2} direction="row" alignItems="center" className={classes.controlEditorial}>
+                                            <Typography className={classes.textoDestacado}>Género *</Typography>
+                                            <Tooltip title="Para quitar un genero haga click encima del mismo nuevamente" placement="right" arrow sx={{ marginLeft: '0.7em', fontSize: '1.5em', size: 'large' }}>
+                                                <InfoIcon />
+                                            </Tooltip>
+                                        </Stack> :
+                                        <Typography className={classes.textoDestacado}>Género *</Typography>}
+                                    <Stack spacing={2} direction="row" alignItems="center" className={classes.controlCombo2}>
+                                        <FormControl className={classes.controlCombo} error={errorSelect} >
+                                            <Select
+                                                labelId="demo-mutiple-chip-label"
+                                                id="demo-mutiple-chip"
+                                                name="genero"
+                                                multiple
+                                                inputRef={inputCombo}
+                                                value={categoriaLibro}
+                                                onChange={handleSelectChange}
+                                                input={<Input id="select-multiple-chip" />}
+                                                renderValue={(selected) => (
+                                                    <div className={classes.chips}>
+                                                        {selected.map((value) => (
+                                                            <Chip key={value.nombre} label={value.nombre} className={classes.chip} />
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            >
+                                                {categorias.map((categoria) => (
+                                                    <MenuItem key={categoria.nombre} value={categoria} disabled={categoria.disabled}>
+                                                        {categoria.nombre}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                            {errorSelect && <FormHelperText>{"Se debe seleccionar al menos una categoria"}</FormHelperText>}
+                                        </FormControl>
+                                        <InputLabel style={{ minWidth: '23rem' }} id="demo-mutiple-chip-label"></InputLabel>
+                                        {!ocultar ? <Tooltip title="Para quitar un genero haga click encima del mismo nuevamente" placement="right" arrow sx={{ marginLeft: '0.7em', fontSize: '1.5em', size: 'large' }}>
+                                            <InfoIcon />
+                                        </Tooltip> : null}
+                                    </Stack>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControlLabel
@@ -603,35 +639,37 @@ export default function MiniDrawer() {
                                 </Grid>
                                 {/* grid direction row */}
 
-                                <Grid container xs={6} direction="row" alignItems="center" justify="center" sx={{marginTop:'2em'}}>
-                                    { archivoSubido ?
-                                                <Button component="label" startIcon={<CheckCircleTwoToneIcon />} className={classes.btnPdf2+ " " + classes.centrar} >
-                                                    Libro cargado con éxito
-                                                    <input
-                                                        type="file"
-                                                        name="archivoTexto"
-                                                        onChange={handlePdfChange}
-                                                        hidden
-                                                        accept=".pdf"
-                                                    />
-                                                </Button>
-                                                :
-                                                <Button component="label" startIcon={<UploadIcon />} className={classes.btnPdf + " " + classes.centrar}>
-                                                    Subí el contenido de tu libro
-                                                    <input
-                                                        type="file"
-                                                        name="archivoTexto"
-                                                        onChange={handlePdfChange}
-                                                        hidden
-                                                        accept=".pdf"
-                                                    />
-                                                   
-                                                </Button>
+                                <Grid container xs={12} direction="row" alignItems="center" justify="center" sx={{ marginTop: '2em' }} >
+                                    {archivoSubido ?
+                                        <Button component="label" style={{ justifyContent: "center" }} startIcon={<CheckCircleTwoToneIcon />} className={classes.btnPdf2 + " " + classes.centrar} >
+                                            Libro cargado con éxito
+                                            <input
+                                                type="file"
+                                                name="archivoTexto"
+                                                onChange={handlePdfChange}
+                                                hidden
+                                                accept=".pdf"
+                                            />
+                                        </Button>
+                                        :
+                                        <Stack spacing={1} direction="row" alignItems="center" sx={{ left: '8em' }} >
+                                            <Button component="label" startIcon={<UploadIcon />} style={{ justifyContent: "center" }} className={classes.btnPdf + " " + classes.centrar}>
+                                                Subí el contenido de tu libro
+                                                <input
+                                                    type="file"
+                                                    name="archivoTexto"
+                                                    onChange={handlePdfChange}
+                                                    hidden
+                                                    accept=".pdf"
+                                                />
+                                            </Button>
+                                            <Tooltip title="El archivo debe estar en formato PDF" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
+                                                <InfoIcon />
+                                            </Tooltip>
+                                        </Stack>
                                     }
-                                    <Tooltip title="El archivo debe estar en formato PDF" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
-                                        <InfoIcon />
-                                    </Tooltip>
-                                    {pdfTitle !== "" ? 
+
+                                    {pdfTitle !== "" ?
                                         <Grid container xs={12} direction="row" alignItems="center" justify="center" >
                                             <Typography className={classes.texto}>Libro: {pdfTitle}</Typography>
                                         </Grid>
@@ -640,38 +678,35 @@ export default function MiniDrawer() {
                                     }
                                 </Grid>
 
-                                <Grid item xs={12} style={{ marginTop: "1rem" }}>
-                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={()=>setabrirDialog(true)} variant="contained" disabled={(bloquearPublicar)}>Publicar</Button>
+                                <Grid item xs={12} style={{ marginTop: "1rem", justifyContent: "center", display: "flex" }}>
+                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={() => setabrirDialog(true)} variant="contained" disabled={(bloquearPublicar)}>Publicar</Button>
                                 </Grid>
                                 <Grid item xs={12} >
-                                     {/* CODIGO PARA EL DIALOG */}
+                                    {/* CODIGO PARA EL DIALOG */}
                                     {abrirDialog && <Dialog
-                                    fullScreen={fullScreen}
-                                    open={abrirDialog}
-                                    onClose={handleCloseDialog}
-                                    aria-labelledby="responsive-dialog-title"
+                                        open={abrirDialog}
+                                        onClose={handleCloseDialog}
+                                        aria-labelledby="responsive-dialog-title"
                                     >
-                                    <DialogTitle id="responsive-dialog-title">¿Esta seguro que desea publicar el libro?</DialogTitle>
-                                    <DialogActions>
-                                        <Button autoFocus onClick={handleCloseDialog} color="primary">
-                                        Cancelar
-                                        </Button>
-                                        <Button onClick={handleSubmit} color="primary" autoFocus>
-                                        Aceptar
-                                        </Button>
-                                    </DialogActions>
+                                        <DialogTitle id="responsive-dialog-title">¿Esta seguro que desea publicar el libro?</DialogTitle>
+                                        <DialogActions>
+                                            <Button autoFocus onClick={handleCloseDialog} color="primary">
+                                                Cancelar
+                                            </Button>
+                                            <Button onClick={handleSubmit} color="primary" autoFocus>
+                                                Aceptar
+                                            </Button>
+                                        </DialogActions>
                                     </Dialog>
                                     }
                                     <br />
                                 </Grid>
                             </Grid>
-
                         </FormControl>
                     </Container>
-                </React.Fragment>
-                <Footy />
-            </main>
-
-        </div >
+                    <Footy />
+                </Grid>
+            </Grid>
+        </Grid >
     );
 }

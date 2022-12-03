@@ -34,24 +34,21 @@ export default function MiniDrawer() {
     return (
         <Grid container direction="row" className={classes.root}>
             <Grid item container direction="column" xs={1}>
-             <MiDrawer pestaña={4} />
+                <MiDrawer pestaña={4} />
             </Grid>
 
             <Grid item direction="column" xs={11}>
-             <Container disableGutters maxWidth='1800px' >
-
-                <AppBar />
-
-                <Grid item component={'main'} className={classes.content} >
-                    <Container maxWidth='xl' disableGutters fixed>
-                    <br />
-                    <Typography variant='h4' className={classes.titulo}> Mi Biblioteca</Typography>
-                    <Tabs />
-                     </Container>
-                </Grid>
-
-                <Footy />
-             </Container>
+                <Container disableGutters maxWidth='1800px' >
+                    <AppBar />
+                    <Grid item component={'main'} className={classes.content} >
+                        <Container maxWidth='xl' fixed>
+                            <br />
+                            <Typography variant='h4' className={classes.titulo}> Mi Biblioteca</Typography>
+                            <Tabs />
+                        </Container>
+                    </Grid>
+                    <Footy />
+                </Container>
             </Grid>
         </Grid>
 

@@ -123,12 +123,12 @@ export default function ColumnTypesGrid() {
 
   const columns = React.useMemo(
     () => [
-      { field: 'Nombre', type: 'string',flex:1 , minWidth: 100,},
-      { field: 'Apellido', type: 'string',flex:1 , minWidth: 100 },
-      { field: 'Tipo', type: 'string',flex:1 , minWidth: 100 },
+      { field: 'Nombre', type: 'string',flex:1 , minWidth: 20,},
+      { field: 'Apellido', type: 'string',flex:1 , minWidth: 20 },
+      { field: 'Tipo', type: 'string',flex:1 , minWidth: 20 },
       { field: 'actions',
         type: 'actions',
-        flex:0.6 , minWidth: 50,
+        flex:0.7 , minWidth: 20,
         getActions: (params) => [
           <GridActionsCellItem
             icon={<DeleteIcon />}

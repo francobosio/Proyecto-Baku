@@ -1,4 +1,3 @@
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
@@ -8,6 +7,8 @@ import Ayuda from './Ayuda.jsx';
 import ParaEscritores from './ParaEscritores.jsx';
 import ReglasParaPublicar from './ReglasParaPublicar.jsx';
 import TerminosCondiciones from './TerminosCondiciones.jsx';
+import { Container } from '@mui/material';
+import { Grid } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -65,29 +66,39 @@ export default function MiniDrawer() {
         switch (tipo) {
             case '1':
                 return <ParaEscritores />
-        
+
             case '2':
                 return <Ayuda />
-            
+
             case '3':
                 return <ReglasParaPublicar />
-            
+
             case '4':
                 return <TerminosCondiciones />
-                
+
             default:
                 return console.log("No se encontro el tipo de pagina")
         }
     }
 
     return (
-        <div className={classes.root}>
-            <MiDrawer />
-            <main className={classes.content}>
-                <AppBar />
-                {functionWithSwitch(tipo)}
-                <Footy />
-            </main>
-        </div>
+        <Grid container direction="row" className={classes.root} >
+            <Grid item container direction="column" xs={1}>
+                <MiDrawer />
+            </Grid>
+            <Grid item direction="column" xs={11}>
+                <Container disableGutters maxWidth='1800px' >
+                    <AppBar />
+                    <Grid item component={'main'} className={classes.content}  style={{marginBottom: '3em'}} >
+                        <Container maxWidth='xl' fixed>
+                            <br />
+                            {functionWithSwitch(tipo)}
+                        </Container>
+                    </Grid>
+                    <Footy />
+                </Container>
+            </Grid>
+        </Grid>
+
     );
 }

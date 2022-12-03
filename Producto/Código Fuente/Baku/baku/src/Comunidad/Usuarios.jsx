@@ -6,6 +6,8 @@ import { MiDrawer } from "../Drawer/Drawer.jsx"
 import UsuariosLibros from "../Comunidad/UsuariosLibros.jsx"
 import { Container } from '@mui/material';
 import { Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex'
@@ -14,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     titulo: {
         "font": "200% sans-serif",
         "margin-top": "1rem",
-        "marginBottom": "1rem",
+        "marginBottom": "2rem",
         'font-weight': 'bold',
         "padding-left": "0",
         color: "black",
@@ -30,18 +32,23 @@ export default function MiniDrawer() {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            <MiDrawer pestaña={3} />
-            <main className={classes.content}>
-
-                <AppBar />
-                <Container maxWidth='xl' sx={{ minHeight: '70.28vh' }} disableGutters fixed>
-                    <br />
-                    <Typography variant='h4' className={classes.titulo}> Comunidad </Typography>
-                    <UsuariosLibros />
+        <Grid container direction="row" className={classes.root}>
+            <Grid item container direction="column" xs={1}  >
+                <MiDrawer pestaña={3} />
+            </Grid>
+            <Grid item direction="column" xs={11}>
+                <Container disableGutters maxWidth='1800px' >
+                    <AppBar />
+                    <Grid item component={'main'} className={classes.content} >
+                        <Container maxWidth='xl' sx={{ minHeight: '70.28vh' }} fixed>
+                            <br />
+                            <Typography variant='h4' className={classes.titulo}> Comunidad </Typography>
+                            <UsuariosLibros />
+                        </Container>
+                    </Grid>
+                    <Footy />
                 </Container>
-                <Footy />
-            </main>
-        </div>
+            </Grid>
+        </Grid>
     );
 }

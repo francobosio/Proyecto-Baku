@@ -15,6 +15,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar'
 import { useHistory } from "react-router-dom";
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts'
 
 
@@ -105,6 +106,7 @@ export default function PrimarySearchAppBar() {
   const [valor, setValor] = React.useState("");
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  let flagNotificacion;
   let history = useHistory();
   
   const buscarNotificaciones = async () => {
@@ -174,21 +176,13 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       
-      <MenuItem>
-      {valor ? <Notifications notificacion={valor}  /> : null }
-        <p>Notificaciones</p>
+      <MenuItem   >
+      {valor ? <Notifications abrirMobile={true} notificacion={valor}  /> : null }
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Perfil</p>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/Perfil">
+       <p>Perfil </p> 
       </MenuItem>
+      <MenuItem onClick={logout}>  <p>Cerrar Sesión </p> </MenuItem>
     </Menu>
   );
   return (
@@ -220,7 +214,6 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.sectionDesktop}>
             {valor ? <Notifications notificacion={valor}  /> : null }
-
           </div>
           <div className={classes.sectionDesktop}>
           <IconButton

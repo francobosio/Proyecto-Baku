@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import SpellcheckOutlinedIcon from '@mui/icons-material/SpellcheckOutlined';
-import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
 import { Container, ImageList, ImageListItem, ImageListItemBar, IconButton, makeStyles, Typography, Grid } from '@material-ui/core';
-
 import * as libroService from '../Libros/LibroService';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Box from '@mui/material/Box';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
-        'background': '#99cfbf',
-    },
     imageList: {
-        width: "100%",
         "margin-bottom": "10px !important",
     },
     titulo: {
@@ -35,13 +28,9 @@ const useStyles = makeStyles((theme) => ({
             transition: 'transform 0.3s ease-in-out , color linear 0.4s',
             transform: 'scale(1.3)',
             color: '#99cfbf',
-            
+
         },
     },
-    barra: {
-        //si se activa el hover del hijo oscurecer el fondo
-        
-        },
     boton: {
         'font-weight': 'bold',
         'margin': '0',
@@ -55,16 +44,11 @@ const useStyles = makeStyles((theme) => ({
             'color': '#FFFFFF',
         },
     },
-    fondo: {
-        'minHeight': '100vh',
-        'minWidth': ' 95vh'
-    }
-    ,
     botonAnimado: {
         //mover a la izquierda el icono 
 
         'margin-right': '40px'
-        
+
     },
 
 }));
@@ -74,7 +58,15 @@ export default function TitlebarImageList() {
     const classes = useStyles();
     const [libros, setlibros] = useState([])
     const [libroSeleccionado] = useState(true)
-
+    const theme = useTheme();
+    let banderaTab = false;
+    let anchoImageList = 0;
+    let altura;
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; banderaTab = true; anchoImageList = 360 }
+    if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; banderaTab = true; anchoImageList = "120%" }
+    if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; banderaTab = true; anchoImageList = "85%" }
+    if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; banderaTab = false; anchoImageList = "95%" }
+    if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; banderaTab = false; anchoImageList = "100%" }
     const loadLibros = async () => {
         const res = await libroService.getLibroRegistrado();
         setlibros(res.data);
@@ -86,47 +78,37 @@ export default function TitlebarImageList() {
 
 
     return (
-        <Container className={classes.root} maxWidth="xl">
-            <div className={classes.root}>
-                <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                        <Typography className={classes.titulo}> Revisión de libros</Typography>
-                    </Grid>
+        <Box sx={{ p: 3 }}>
+            <Container style={{ minHeight: '28.47em' }}>
+                <Grid container spacing={1}  >
+                    {(libroSeleccionado && libros.length) > 0 ?
+                        (
+                            <ImageList rowHeight={300} className={classes.imageList} style={{ width: anchoImageList, justifyContent: 'initial' }} gap={15}>
+                                {libros.map((item) => (
+                                    <ImageListItem key={item._id} style={{ width: altura / 6.6, height: altura / 4 }} >
+                                        <img src={item.imagenPath} alt={item.titulo} />
+                                        <ImageListItemBar
+                                            title="Revisar libro"
+                                            position='bottom'
+                                            /* Iconos */
+                                            actionIcon={
+                                                <IconButton className='botonAnimado' aria-label={`info about ${item.titulo}`} title={"Revisar este libro"}>
+                                                    <Link to={"/Revision/" + item._id} >
+                                                        <SpellcheckOutlinedIcon fontSize='large' className={classes.icono} />
+                                                    </Link>
+                                                </IconButton>
+                                            }
+                                        />
+                                    </ImageListItem>
+                                ))}
 
-                    {/* Aca englobo la lista de libros a revisar */}
-                    <Grid className={classes.fondo} item xs={12}>
-                        {(libroSeleccionado && libros.length) > 0 ?
-                            (
-                                <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={20}>
-                                    {libros.map((item) => (
-                                        <ImageListItem key={item._id} style={{ width: "16.8rem", height: "23.5rem" }} >
-                                            <img src={item.imagenPath} alt={item.titulo} />
-
-                                            <ImageListItemBar
-                                                title="Revisar libro"
-                                                position='bottom'
-                                                /* Iconos */
-                                                actionIcon={
-                                                    <IconButton className='botonAnimado' aria-label={`info about ${item.titulo}`} title={"Revisar este libro"}>
-                                                        <Link to={"/Revision/" + item._id} >
-                                                            <SpellcheckOutlinedIcon fontSize='large' className={classes.icono} />
-                                                        </Link>
-                                                    </IconButton>
-                                                }
-                                                className={classes.barra}
-                                            />
-                                        </ImageListItem>
-                                    ))}
-
-                                </ImageList>
-                            ) : (
-                                null
-                            )
-                        }
-                    </Grid>
-
+                            </ImageList>
+                        ) : (
+                            null
+                        )
+                    }
                 </Grid>
-            </div>
-        </Container>
+            </Container>
+        </Box>
     );
 }

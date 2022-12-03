@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
         'background': '#99cfbf',
     },
     imageList: {
-        width: "100%",
         "margin-bottom": "10px !important",
     },
     titulo: {
@@ -64,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function TitlebarImageList() {
+export default function TitlebarImageList({columnas,altura,anchoImageList}) {
 
     const classes = useStyles();
     const [libros, setlibros] = useState([])
@@ -97,13 +96,12 @@ export default function TitlebarImageList() {
     }
 
     return (
-        <div style={{ height: 'auto', width: '100%' }}>
+        <Container style={{ minHeight:'28.47em' }}>
                 <Grid container spacing={1}>
-                    <Grid className={classes.fondo} item xs={12}>
                         {libros.length > 0 ? (
-                            <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={20}>
+                            <ImageList rowHeight={300} className={classes.imageList} style={{width:anchoImageList,justifyContent:'initial'}} gap={15}>
                                 {libros.map((item) => ((((librosFavoritos.findIndex(x => x.id_libro == item._id)) > -1) ? (
-                                        <ImageListItem key={item._id} style={{ width: "16.8rem", height: "23.5rem" }} >
+                                        <ImageListItem key={item._id} cols={columnas} style={{ width: altura/6.6, height: altura/4 }} >
                                             <img src={item.imagenPath} alt={item.titulo} />
                                             <ImageListItemBar
                                                 title={item.titulo}
@@ -125,10 +123,9 @@ export default function TitlebarImageList() {
 
                             </ImageList>
                         ) : (
-                            null
+                            <div className={classes.fondo}></div>
                         )}
-                    </Grid>
                 </Grid>
-            </div>
+            </Container>
     );
 }

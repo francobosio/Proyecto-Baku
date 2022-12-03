@@ -5,6 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
+import { Container } from '@material-ui/core';
 
 export default function ColumnTypesGrid() {
   const [rowss, setRows] = React.useState("");
@@ -12,7 +13,6 @@ export default function ColumnTypesGrid() {
   const [pageSize, setPageSize] = React.useState(5);
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   React.useEffect(() => {
     loadUsuarios();
@@ -43,7 +43,7 @@ export default function ColumnTypesGrid() {
       "Cantidad de publicaciones": row.Cantidaddepublicaciones,
       Suscriptores: row.Suscriptores,
       //convertir fecha a formato dd/mm/aaaa
-      Creado: row.Creado.split("T")[0].split("-").reverse().join("/"),
+      "Fecha de creación": row.Creado.split("T")[0].split("-").reverse().join("/"),
     }));
     //filtrar los usuarios que son tipo 3 (Administrador)
     var localTipoUsuario = localStorage.getItem("tipoUsuario");
@@ -59,7 +59,7 @@ export default function ColumnTypesGrid() {
     () => [
       { field: 'Usuario', type: 'string', flex: 1, minWidth: 100, },
       { field: 'Tipo', type: 'string', flex: 1, minWidth: 100, },
-      { field: 'Creado', type: 'string', flex: 1, minWidth: 100 },
+      { field: 'Fecha de creación', type: 'string', flex: 1, minWidth: 100 },
       { field: 'Cantidad de publicaciones', type: 'string', flex: 1, minWidth: 100 },
       { field: 'Suscriptores', type: 'string', flex: 1, minWidth: 100 },
       {
@@ -79,14 +79,13 @@ export default function ColumnTypesGrid() {
     [],
   );
 
-
-
   return (
-    <div style={{ height: '32rem', width: '100%' }}>
+    <Container fixed >
       <DataGrid
         columns={columns}
         rows={rowss}
         localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+        sx={{ minHeight: '35rem',marginBottom:'2rem' }}
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[5, 10, 20]}
@@ -94,7 +93,7 @@ export default function ColumnTypesGrid() {
 
         pagination
       />
-    </div>
+    </Container>
 
   );
 }
