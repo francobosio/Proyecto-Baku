@@ -29,7 +29,6 @@ export const getUsuario: RequestHandler = async (req, res) => {
     const auth0id = req.params.auth0id
     const queryUsuario = { auth0_id: auth0id }
     const usuarioFound = await Usuario.findOne(queryUsuario).exec();
-    console.log(usuarioFound);
     if (!usuarioFound) {
         return res.json(null);
     }

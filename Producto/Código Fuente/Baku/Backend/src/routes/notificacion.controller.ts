@@ -7,7 +7,6 @@ const ObjectId = mongoose.Types.ObjectId;
 export const createNotificacion: RequestHandler = async (req, res) => {
     const { auth0usuario, titulo, descripcion, tipo, esNoleido, id_libro, avatar } = req.body
     const newNotificacion = { titulo, descripcion, tipo, esNoleido, id_libro, avatar };
-    console.log(newNotificacion);
     const notificacion = new Notificacion(newNotificacion);
     await notificacion.save();
     //busco el usuario que sube la obra
@@ -47,11 +46,9 @@ export const marcarTodasComoLeidas: RequestHandler = async (req, res) => {
 
 export const notificacionLeida: RequestHandler = async (req, res) => {
     const { usuario_id, notificacion_id } = req.body;
-    console.log(usuario_id, notificacion_id);
     const valor = await Usuario.findOneAndUpdate({auth0_id: usuario_id },
     { $set: { 'mensajes.$[element].esNoleido': false} },
     { arrayFilters: [{ "element._id" :{$eq: notificacion_id }}] }).exec();
-    console.log(valor);
     return res.json({
         message: "Notificacion marcada como leida"
     });
