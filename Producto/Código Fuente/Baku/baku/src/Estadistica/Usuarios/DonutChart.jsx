@@ -10,7 +10,7 @@ const DonutChart = (props) => {
         const [usuarios, setUsuarios] = useState([])
         const loadUsuarios = async () => {
             const res = await usuarioService.obtenerTodosUsuarios();
-            //console.log("🚀 ~ file: DonutChart.jsx ~ line 13 ~ loadUsuarios ~ res.data", res.data)
+            console.log("🚀 ~ file: DonutChart.jsx ~ line 13 ~ loadUsuarios ~ res.data", res.data)
             setUsuarios(res.data);
             setEjecuto(true)
         }
@@ -27,8 +27,11 @@ const DonutChart = (props) => {
             isVisible = true
         }
 
+        let usuariosfecha = usuarios.filter(usuario => new Date(usuario.createdAt) >= props.fechaDesde && new Date(usuario.createdAt) <= props.fechaHasta );
+        console.log("🚀 ~ file: DonutChart.jsx:31 ~ DonutChart ~ usuariosfecha", usuariosfecha)
+
         let count_free_premium = [0, 0]
-        usuarios.forEach(usuario => {
+        usuariosfecha.forEach(usuario => {
             if (parseInt(usuario.tipoUsuario[0].id) === 2) {
                 count_free_premium[0] += 1
             } 

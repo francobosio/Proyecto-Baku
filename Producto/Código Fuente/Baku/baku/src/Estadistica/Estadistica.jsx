@@ -31,6 +31,9 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
+//GRID
+import Grid from '@mui/material/Grid';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -223,35 +226,41 @@ export default function Estadistica() {
                                 justifyContent: "space-around",
 
                         }}>
-                            <div className="chart1" 
-                                style={{ 
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center"
-                            }}>
-                                {/* <Paper variant="outlined" elevation={7} sx={{backgroundColor:"#4b9c8e",padding:"2em"}} > */}
-                                <h3 className={classes.title3}>Porcentaje del total de libros <br/> publicados por género</h3>
-                                
-                                <BarChart 
-                                    fechaDesde={fechaDesde}
-                                    fechaHasta={fechaHasta}
-                                />
-                                {/* </Paper> */}
-                            </div>
-                            <div className="chart2" 
-                                style={{ 
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    height: 600,
-                                    width: 600
-                            }}>
-                                <h3 className={classes.title3}>Ranking - 10 libros más leídos</h3>
-                                <ColumnChart 
-                                    fechaDesde={fechaDesde}
-                                    fechaHasta={fechaHasta}
-                                />
-                            </div>
+                            <Grid container alignItems="center">
+                                <Grid container item xs={12} lg={6} justifyContent="center" alignItems="center">
+                                    <div className="chart1" 
+                                        style={{ 
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center"
+                                    }}>
+                                        {/* <Paper variant="outlined" elevation={7} sx={{backgroundColor:"#4b9c8e",padding:"2em"}} > */}
+                                        <h3 className={classes.title3}>Porcentaje del total de libros <br/> publicados por género</h3>
+                                        
+                                        <BarChart 
+                                            fechaDesde={fechaDesde}
+                                            fechaHasta={fechaHasta}
+                                        />
+                                        {/* </Paper> */}
+                                    </div>
+                                </Grid>
+                                <Grid container item xs={12} lg={6} justifyContent="center" alignItems="center">
+                                    <div className="chart2" 
+                                        style={{ 
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            height: 600,
+                                            width: 600
+                                        }}>
+                                        <h3 className={classes.title3}>Ranking - 10 libros más leídos</h3>
+                                        <ColumnChart 
+                                            fechaDesde={fechaDesde}
+                                            fechaHasta={fechaHasta}
+                                            />
+                                    </div>
+                                </Grid>
+                            </Grid>
                         </div>
                         <div className="chartsB" 
                             style={{ 
@@ -259,39 +268,80 @@ export default function Estadistica() {
                                 justifyContent: "space-around",
                                 marginTop: "4rem"
                         }}>
-                            <div className="chart3" 
-                                style={{ 
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    justifyContent: "flex-start",
-                                    height: 450,
-                                    width: 600
-                            }}>
-                                <h3 className={classes.title3}>Libros leídos por usuario</h3>
-                                <Reporte 
-                                    fechaDesde={fechaDesde}
-                                    fechaHasta={fechaHasta}
-                                />
-                                {/* <ReporteFechasCopy /> */}
-                            </div>
-                            <div className="chart4" 
-                                style={{ 
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    justifyContent: "flex-start",
-                                    height: 600,
-                                    width: 600
-                            }}>
-                                <h3 className={classes.title3}>Cantidad de Libros Publicados por Día</h3>
-                        
-                                <ReporteFechas />
-                            </div>
+                            <Grid container alignItems="flex-start">
+                                <Grid container item xs={12} lg={6} justifyContent="center" alignItems="center">
+                                    <div className="chart3" 
+                                        style={{ 
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            justifyContent: "flex-start",
+                                            height: 450,
+                                            width: 600
+                                    }}>
+                                        <h3 className={classes.title3}>Libros leídos por usuario</h3>
+                                        <Reporte 
+                                            fechaDesde={fechaDesde}
+                                            fechaHasta={fechaHasta}
+                                        />
+                                    </div>
+                                </Grid>
+                                <Grid container item xs={12} lg={6} justifyContent="center" alignItems="center">
+                                    <div className="chart4" 
+                                        style={{ 
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            justifyContent: "flex-start",
+                                            height: 600,
+                                            width: 600
+                                    }}>
+                                        <h3 className={classes.title3}>Cantidad de Libros Publicados por Día</h3>
+                                
+                                        <ReporteFechas />
+                                    </div>
+                                </Grid>
+                            </Grid>
                         </div>
                     </TabPanel>
                     <TabPanel value={valueTab} index={1}>
                         <h1 className="title">REPORTE DE ESTADÍSTICAS DE USUARIOS</h1>
+                        <div className="filtros" 
+                            style={{ 
+                                display: "flex",
+                                justifyContent: "center",
+                                width: "100%"
+                        }}>
+                            <LocalizationProvider dateAdapter={AdapterDateFns} utils={DateFnsUtils} adapterLocale={localeMap[locale]}>
+                                <DatePicker
+                                    views={['year', 'month', 'day']}
+                                    label="Fecha Desde"
+                                    minDate={new Date('2022-06-02')}
+                                    maxDate={new Date()}
+                                    disableFuture={true}
+                                    value={fechaDesde}
+                                    onChange={(newValue) => {
+                                        setFechaDesde(newValue);
+                                    }}
+                                    renderInput={(params) => <TextField {...params} helperText={null} />}
+                                />
+                            </LocalizationProvider>
+                            <div style={{ width: "1rem" }}></div>
+                            <LocalizationProvider dateAdapter={AdapterDateFns} utils={DateFnsUtils} adapterLocale={localeMap[locale]}>
+                                <DatePicker
+                                    views={['year', 'month', 'day']}
+                                    label="Fecha Hasta"
+                                    minDate={fechaDesde}
+                                    maxDate={new Date()}
+                                    disableFuture={true}
+                                    value={fechaHasta}
+                                    onChange={(newValue) => {
+                                        setFechaHasta(newValue);
+                                    }}
+                                    renderInput={(params) => <TextField {...params} helperText={null} />}
+                                />
+                            </LocalizationProvider>
+                        </div>s
                         <div className="chartsC" 
                             style={{ 
                                 display: "flex",
@@ -308,7 +358,10 @@ export default function Estadistica() {
                                     width: 600
                             }}>
                                 <h3 className={classes.title3}>Porcentaje de Usuarios Premium <br/> y Usuarios Free</h3>
-                                <DonutChart/>
+                                <DonutChart 
+                                    fechaDesde={fechaDesde}
+                                    fechaHasta={fechaHasta}
+                                />
                             </div>
                             <div className="chart2" 
                                 style={{ 
@@ -352,7 +405,7 @@ export default function Estadistica() {
                                     height: 600,
                                     width: 600
                             }}>
-                                <h3 className={classes.title3}>Cantidad de denuncias de los <br/> últimos 30 días</h3>
+                                <h3 className={classes.title3}>Cantidad de reclamos de los <br/> últimos 30 días</h3>
                                 <CantDenuncias/>
                             </div>
                         </div>

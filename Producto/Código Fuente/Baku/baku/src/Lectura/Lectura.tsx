@@ -65,6 +65,23 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 //NUEVA OBTENCION DE TEXTO
 import ReaderPlugin from "./ReaderPlugin"
 
+//ALERTA
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+export interface State extends SnackbarOrigin {
+  openAlert: boolean;
+}
+
 interface TabPanelProps {
     children?: React.ReactNode;
     dir?: string;
@@ -310,9 +327,38 @@ const Lectura = () => {
     //     }
     // }, [libro])
 
+    //ALERT
+    const [state, setState] = React.useState<State>({
+        openAlert: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
+    const { vertical, horizontal, openAlert } = state;
+
+    const handleClickAlert = (newState: SnackbarOrigin) => {
+        setState({ openAlert: true, ...newState });
+    };
+
+    const handleCloseAlert = () => {
+        setState({ ...state, openAlert: false });
+    };
+
+    const action = (
+        <React.Fragment>
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleCloseAlert}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </React.Fragment>
+    );
+
     //PLUGINS
     
-    const object = highlightPluginComponent(id, usuario_id, habilitado)
+    const object = highlightPluginComponent(id, usuario_id, habilitado, handleClickAlert)
     const highlightPluginInstance = object.highlightPluginInstance
     const defaultLayoutPluginInstance = object.defaultLayoutPluginInstance
     const handleDocumentLoad = object.handleDocumentLoad
@@ -394,6 +440,8 @@ const Lectura = () => {
 
     //RESPONSIVE
     const matches = useMediaQuery(theme.breakpoints.up('lg'));
+
+    
 
     return (
         <div className={classes.root}>
@@ -530,7 +578,16 @@ const Lectura = () => {
                             {   
                                 `
                                     .MuiTabs-indicator {
+                                        background-color: #076F55;
+                                    }
+                                    .css-1f7dap9-MuiButtonBase-root-MuiTab-root.Mui-selected {
+                                        opacity: 1;
                                         background-color: #83B7AA;
+                                        color: #076F55;
+                                        font-weight: bold;
+                                    }
+                                    .css-1f7dap9-MuiButtonBase-root-MuiTab-root {
+                                        font-size: 1rem !important
                                     }
                                 `
                             }
@@ -675,6 +732,20 @@ const Lectura = () => {
                     >{currentTheme}</Viewer>
                 </div>
             </Worker>
+            {tipoColor1 !== "Ninguno" &&
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={openAlert}
+                    onClose={handleCloseAlert}
+                    key={vertical + horizontal}
+                    autoHideDuration={4000}
+                    action={action}
+                >
+                    <Alert onClose={handleCloseAlert} severity="info" sx={{ width: '100%' }}>
+                        Los Marcadores se visualizarán cuando Tipo de Color sea Ninguno
+                    </Alert>
+                </Snackbar>
+            }
         </div>
     )
 };

@@ -19,3 +19,10 @@
     margin: 5px;
     display: inline-block;
   }
+
+/* .gridWe {
+  display: grid;
+  gap: 28rem;
+  grid-auto-rows: 22rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+} */
