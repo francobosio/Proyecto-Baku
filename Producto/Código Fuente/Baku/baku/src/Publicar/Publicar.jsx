@@ -493,9 +493,9 @@ export default function MiniDrawer() {
                                 </Grid>
                                 <Grid item xs={12} style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography className={classes.textoDestacado}>Portada *</Typography>
-                                    <label htmlFor="upload-button" className={classes.centrar}>
+                                    <label htmlFor="upload-button" className={classes.centrar} style={{ justifyContent: "center", alignSelf: "center",display:"flex" }}>
                                         {image.preview ? (
-                                            <img src={image.preview} alt="dummy" width="230" height="300" className={classes.imagen} />
+                                            <img src={image.preview} alt="dummy" width="215" height="300" className={classes.imagen} />
                                         ) : (
                                             <>
                                                 <span className="fa-stack fa-2x mt-3 mb-2">
@@ -679,7 +679,9 @@ export default function MiniDrawer() {
                                 </Grid>
 
                                 <Grid item xs={12} style={{ marginTop: "1rem", justifyContent: "center", display: "flex" }}>
-                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={() => setabrirDialog(true)} variant="contained" disabled={(bloquearPublicar)}>Publicar</Button>
+                                    <Button className={classes.btnPublicar + " " + classes.centrar} style={{ marginTop: "1rem", justifyContent: "center", display: "flex" }} onClick={() => setabrirDialog(true)} variant="contained" disabled={(bloquearPublicar)}>
+                                        Publicar
+                                    </Button>
                                 </Grid>
                                 <Grid item xs={12} >
                                     {/* CODIGO PARA EL DIALOG */}
@@ -688,7 +690,7 @@ export default function MiniDrawer() {
                                         onClose={handleCloseDialog}
                                         aria-labelledby="responsive-dialog-title"
                                     >
-                                        <DialogTitle id="responsive-dialog-title">¿Esta seguro que desea publicar el libro?</DialogTitle>
+                                        <DialogTitle id="responsive-dialog-title">¿Está seguro que desea publicar el libro?</DialogTitle>
                                         <DialogActions>
                                             <Button autoFocus onClick={handleCloseDialog} color="primary">
                                                 Cancelar
