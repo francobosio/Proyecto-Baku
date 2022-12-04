@@ -21,7 +21,7 @@ const DonutChart = (props) => {
             window.scrollTo(0, 0)
         }, [])
         
-        let usuariosfecha = usuarios.filter(usuario => new Date(usuario.createdAt) >= props.fechaDesde && new Date(usuario.createdAt) <= props.fechaHasta );
+        let usuariosfecha = usuarios.filter(usuario => new Date(usuario.createdAt) >= props.fechaDesde && new Date(usuario.createdAt) <= props.fechaHasta && usuario.tipoUsuario[0].id !== '3');
 
         //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
         var isVisible = false

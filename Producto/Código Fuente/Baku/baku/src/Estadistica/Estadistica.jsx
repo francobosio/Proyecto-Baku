@@ -135,6 +135,10 @@ export default function Estadistica() {
         setValueTab(newValue);
     };
 
+    const onKeyDown = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div className={classes.root}>
             <MiDrawer pestaña={9}/>
@@ -189,13 +193,13 @@ export default function Estadistica() {
                                     views={['year', 'month', 'day']}
                                     label="Fecha Desde"
                                     minDate={new Date('2022-10-02')}
-                                    maxDate={new Date()}
+                                    maxDate={fechaHasta}
                                     disableFuture={true}
                                     value={fechaDesde}
                                     onChange={(newValue) => {
                                         setFechaDesde(newValue);
                                     }}
-                                    renderInput={(params) => <TextField {...params} helperText={null} />}
+                                    renderInput={(params) => <TextField {...params} onKeyDown={onKeyDown} helperText={null} />}
                                 />
                             </LocalizationProvider>
                             <div style={{ width: "1rem" }}></div>
@@ -210,7 +214,7 @@ export default function Estadistica() {
                                     onChange={(newValue) => {
                                         setFechaHasta(newValue);
                                     }}
-                                    renderInput={(params) => <TextField {...params} helperText={null} />}
+                                    renderInput={(params) => <TextField {...params} onKeyDown={onKeyDown} helperText={null} />}
                                 />
                             </LocalizationProvider>
                         </div>
@@ -302,13 +306,13 @@ export default function Estadistica() {
                                     views={['year', 'month', 'day']}
                                     label="Fecha Desde"
                                     minDate={new Date('2022-06-02')}
-                                    maxDate={new Date()}
+                                    maxDate={fechaHasta}
                                     disableFuture={true}
                                     value={fechaDesde}
                                     onChange={(newValue) => {
                                         setFechaDesde(newValue);
                                     }}
-                                    renderInput={(params) => <TextField {...params} helperText={null} />}
+                                    renderInput={(params) => <TextField {...params} onKeyDown={onKeyDown} helperText={null} />}
                                 />
                             </LocalizationProvider>
                             <div style={{ width: "1rem" }}></div>
@@ -323,7 +327,7 @@ export default function Estadistica() {
                                     onChange={(newValue) => {
                                         setFechaHasta(newValue);
                                     }}
-                                    renderInput={(params) => <TextField {...params} helperText={null} />}
+                                    renderInput={(params) => <TextField {...params} onKeyDown={onKeyDown} helperText={null} />}
                                 />
                             </LocalizationProvider>
                         </div>
