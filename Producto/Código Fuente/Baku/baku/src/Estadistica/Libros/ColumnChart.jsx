@@ -8,9 +8,7 @@ const ColumnChart = (props) => {
         const [usuarios, setUsuarios] = useState([])
         const loadUsuarios = async () => {
             const res = await usuarioService.getLibrosLeidosPorUsuario();
-            //console.log("🚀 ~ file: ColumnChart.jsx ~ line 10 ~ loadUsuarios ~ res", res.data)
             setUsuarios(res.data);
-            //console.log(usuarios);
         }
 
         //El codigo del useEffect se renderiza despues de que se haya montado el componente
@@ -23,29 +21,24 @@ const ColumnChart = (props) => {
             let libros_leidos = usuario.libros_leidos.filter(libro_leido => new Date(libro_leido.creado) >= props.fechaDesde && new Date(libro_leido.creado) <= props.fechaHasta );
             usuario.libros_leidos = libros_leidos
         })
-        //console.log("🚀 ~ file: ColumnChart.jsx ~ line 31 ~ ColumnChart ~ usuarios", usuarios)
 
         var librosLeidos_UltimaPag = []
         usuarios.forEach(usuario => {
             librosLeidos_UltimaPag = librosLeidos_UltimaPag.concat(usuario.libros_leidos)
         })
-        //console.log("🚀 ~ file: ColumnChart.jsx ~ line 31 ~ ColumnChart ~ librosLeidos_UltimaPag", librosLeidos_UltimaPag)
     
         var todosLibrosLeidos = []
         librosLeidos_UltimaPag.forEach(libroLeido => {
             todosLibrosLeidos = todosLibrosLeidos.concat(libroLeido.id_libro)
         })
-        //console.log("🚀 ~ file: ColumnChart.jsx ~ line 34 ~ ColumnChart ~ todosLibrosLeidos", todosLibrosLeidos)
     
         var idLibrosLeidos = []
         todosLibrosLeidos.forEach(libroLeido => {
             idLibrosLeidos = idLibrosLeidos.concat(libroLeido._id)
         })
-        //console.log(idLibrosLeidos)
     
         const map = new Map(todosLibrosLeidos.map(pos => [pos._id, pos]));
         const uniqueLibrosLeidos = [...map.values()];
-        //console.log(uniqueLibrosLeidos);
     
         let librosLeidos = [];
         uniqueLibrosLeidos.forEach(function (elemento, indice, array) {
@@ -68,8 +61,6 @@ const ColumnChart = (props) => {
           });
         //LOS 10 LIBROS MAS LEIDOS
         const librosLeidos10 = librosLeidos.slice(0, 10)
-        //console.log("librosLeidos10:");
-        //console.log(librosLeidos10);
         
         //Agrego esta variable que verifica si exite un valor para el filtro seleccionado
         let existenciaDatos = 0
@@ -82,8 +73,6 @@ const ColumnChart = (props) => {
                 existenciaDatos = elemento.value
             }
         });
-        //console.log(librosCategorias);
-        //console.log(librosData);
 
         //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
         let isVisible = false
@@ -146,6 +135,7 @@ const ColumnChart = (props) => {
             },
             dataLabels: {
                 enabled: true,
+                offsetX: 0,
                 offsetY: -20,
                 style: {
                     fontSize: '12px',
@@ -204,7 +194,55 @@ const ColumnChart = (props) => {
                 opacityTo: 0.85,
                 stops: [50, 0, 100]
                 },
-            }
+            },
+            responsive: [
+              {
+                breakpoint: 730,
+                options: {
+                    chart: {
+                        height: 365,
+                        width: 320
+                    },
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 7,
+                        }
+                    },
+                    dataLabels: {
+                        style: {
+                            fontSize: '11px',
+                        }
+                    },
+                    xaxis: {
+                        title: {
+                            text: 'LIBROS',
+                            offsetY: -10,
+                            style: {
+                                textAnchor: 'middle',
+                                dominantBaseline: 'auto',
+                                fontWeight: '900',
+                                fill: 'rgb(55, 61, 63)',
+                                fontSize: '11px',
+                            }
+                        },
+                        labels: {
+                            minHeight: 20,
+                            style: {
+                                fontSize: '11px',
+                            }
+                        },
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'LECTURAS',
+                            style: {
+                                fontSize: '11px',
+                            }
+                        },
+                    }
+                }
+              }
+            ]
         }
 
         return (

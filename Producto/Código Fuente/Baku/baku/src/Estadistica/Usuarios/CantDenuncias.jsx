@@ -34,7 +34,7 @@ const CantDenuncias = (props) => {
     
         var series = [
             {
-                name: "Cantidad de Denuncias",
+                name: "Cantidad de Reclamos",
                 data: trigoSeries(30, 10)
             },
         ]
@@ -86,7 +86,7 @@ const CantDenuncias = (props) => {
             },
             yaxis: {
                 title: {
-                    text: 'CANTIDAD DE DENUNCIAS'
+                    text: 'CANTIDAD DE RECLAMOS'
                 },
                 tickAmount: 2,
                 labels: {
@@ -107,8 +107,52 @@ const CantDenuncias = (props) => {
                 offsetY: -20,
                 offsetX: -30
             },
-
-        
+            responsive: [
+                {
+                  breakpoint: 730,
+                  options: {
+                      chart: {
+                          height: 290,
+                          width: 320
+                      },
+                      xaxis: {
+                          title: {
+                              text: 'DÍAS',
+                              style: {
+                                  fontSize: '11px',
+                              }
+                          },
+                          labels: {
+                                rotate: -65,
+                                rotateAlways: true,
+                                style: {
+                                    fontSize: '9px',
+                                }
+                          },
+                      },
+                      yaxis: {
+                          title: {
+                              text: 'CANTIDAD DE RECLAMOS',
+                              style: {
+                                  fontSize: '11px',
+                              }
+                          },
+                          tickAmount: 2,
+                          labels: {
+                              show: true
+                          },
+                          axisBorder: {
+                              show: true,
+                          },
+                          axisTicks: {
+                              show: false
+                          },
+                          min: 0,
+                          max: maxArray(series[0].data) + 10
+                      },
+                  }
+                }
+            ]
         }
 
         return (
