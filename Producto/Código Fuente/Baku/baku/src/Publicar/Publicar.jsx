@@ -390,7 +390,7 @@ export default function MiniDrawer() {
             formData.append("usuario", usuario_auth0Id)
             formData.append("alias", alias)
             formData.append("avatar", avatar)
-            const res = await libroServices.createLibro(formData);
+            await libroServices.createLibro(formData);
             /*             const idData = {
                             'auth0id': usuario_auth0Id,
                             'idLibro': res.data.libro._id

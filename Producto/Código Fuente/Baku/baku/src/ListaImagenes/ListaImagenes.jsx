@@ -138,7 +138,6 @@ const useStyles = makeStyles((theme) => ({
     },
     contenedor2: {
         display: 'flex',
-        height: "5rem",
         width: "75rem",
         'flex-direction': 'row',
         'align-items': 'center',
@@ -240,11 +239,13 @@ export default function TitlebarImageList() {
     const valor = theme.breakpoints.values[useWidth()];
     let columnas = 5;
     let distanciReturn = 430;
-    if (useMediaQuery(theme.breakpoints.only('xs'))) { columnas = 2; distanciReturn = 89 }
-    if (useMediaQuery(theme.breakpoints.only('sm'))) { columnas = 3; distanciReturn = 150 }
-    if (useMediaQuery(theme.breakpoints.only('md'))) { columnas = 4; distanciReturn = 220 }
-    if (useMediaQuery(theme.breakpoints.only('lg'))) { columnas = 5; distanciReturn = 380 }
-    if (useMediaQuery(theme.breakpoints.only('xl'))) { columnas = 5; distanciReturn = 430 }
+    let tamañoReturn,flagReturn=false; ;
+    let PaddingTitulo;
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { columnas = 2; distanciReturn = 89 ;flagReturn=false;tamañoReturn='1.5em';PaddingTitulo='1.9em' }
+    if (useMediaQuery(theme.breakpoints.only('sm'))) { columnas = 3; distanciReturn = 150;flagReturn=false;}
+    if (useMediaQuery(theme.breakpoints.only('md'))) { columnas = 4; distanciReturn = 220;flagReturn=true;}
+    if (useMediaQuery(theme.breakpoints.only('lg'))) { columnas = 5; distanciReturn = 380;flagReturn=true;}
+    if (useMediaQuery(theme.breakpoints.only('xl'))) { columnas = 5; distanciReturn = 430;flagReturn=true;}
     const width = calculo(valor);
     const handleSubmit = async (e) => {
         setEstado(true);
@@ -315,13 +316,17 @@ export default function TitlebarImageList() {
 
             <Grid className={classes.grid}>
                 <Container className={classes.contenedor2}>
-
-                    <Container fixed className={classes.search}>
-                        {libroBuscado.length > 0 && <IconButton size={'large'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}
+                    {libroBuscado.length > 0 && !flagReturn&&<Container style={{display:'flex',marginBottom:'-40px'}}>
+                            <IconButton  disableRipple={false} disableFocusRipple={true} onClick={BotonReset} style={{left:'22em'}}>
+                                <ReplyIcon sx={{ fontSize: "2em", height:"1.1em", color: "#111111" }} />
+                            </IconButton>
+                    </Container>}
+                    <Container fixed className={classes.search} style={{ marginRight: 'auto' }}>
+                        {libroBuscado.length > 0 && (flagReturn) && <IconButton size={'large'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}
                             style={{ left: (-distanciReturn), marginRight: -84.3 }}>
                             <ReplyIcon sx={{ fontSize: "2.5em", height: "auto", color: "#076f55" }} />
                         </IconButton>
-                        }
+                        } 
                         <SearchIcon className={classes.searchIcon} />
                         <InputBase
                             placeholder="Autor, Título, Editorial"
@@ -336,8 +341,8 @@ export default function TitlebarImageList() {
                             }}
                             autoFocus
                         />
+                        
                     </Container>
-
                 </Container>
                 <Typography variant="h5" className={classes.title}>
                     {error ? error : ''}
@@ -346,15 +351,13 @@ export default function TitlebarImageList() {
                     <Container fixed className={classes.contenedor3} sx={{ marginLeft: '2.5em' }}>
                         <ImageList rowHeight={width / 4.1} style={{ width: (width * 1.5) }} cols={columnas} gap={20}>
                             <ImageListItem key="Subheader" cols={columnas} style={{ height: 'auto' }}>
-                                <ListSubheader component="div" className={classes.titulo}>Resultado</ListSubheader>
+                                <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft:PaddingTitulo }}>Resultado</ListSubheader>
                             </ImageListItem>
                             {libroBuscado.map((item) => (
                                 <ImageListItem key={item.id} >
-                                    {/* la imagen cubra todo  */}
                                     <img src={item.imagenPath} alt={item.titulo} style={{ objectFit: 'cover' }} />
                                     <ImageListItemBar
                                         title={item.titulo}
-                                        //subtitle={<span>por: {item.autor}</span>}
                                         position='bottom'
                                         actionIcon={
                                             <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
@@ -370,8 +373,8 @@ export default function TitlebarImageList() {
                     </Container>
                     :
                     <Container className={classes.contenedor} fixed >
-                        <Container>
-                            <ListSubheader component="div" className={classes.titulo}>Explorar todo</ListSubheader>
+                        <Container >
+                            <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft:PaddingTitulo }}>Explorar todo</ListSubheader>
                             <br />
                         </Container>
                         <Container className={classes.contenedor} fixed>

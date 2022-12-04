@@ -35,6 +35,7 @@ export const createLibro: RequestHandler = async (req, res) => {
         estado: req.body.estado,
         visitas: 0,
         visitas24Horas: 0,
+        alias: req.body.alias,
     };
     const libro = new Libro(newLibro);
     await libro.save();

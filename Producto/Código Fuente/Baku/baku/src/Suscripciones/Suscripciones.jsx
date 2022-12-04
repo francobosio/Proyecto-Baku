@@ -5,7 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import { Container } from '@material-ui/core';
-
+import { Link } from 'react-router-dom';
 export default function ColumnTypesGrid() {
   const [rows, setRows] = React.useState("");
   const [pageSize, setPageSize] = React.useState(5);
@@ -56,14 +56,15 @@ export default function ColumnTypesGrid() {
         type: 'actions',
         flex: 0.4, minWidth: 30,
         getActions: (params) => [
-          /* <Link class="content__link"  to={`/AutorId/` +  params.row.id} > */
+          
+          <Link class="content__link"  to={`/AutorId/` +  params.row.id} >
           <GridActionsCellItem
             icon={<SearchIcon fontSize="large"  sx={{ color:'black' }} />}
             label="Ir a perfil"
              onClick={()=>console.log(params)} 
             //abrir el dialog en el boton toggle admin
             />
-           /*  </Link>  */
+           </Link>  
             ,
         ],
       },

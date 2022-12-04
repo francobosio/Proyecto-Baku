@@ -79,6 +79,9 @@ export default function ColumnTypesGrid() {
     [],
   );
 
+  //agregar a columns una columna nueva con el estado de la suscripcion 
+ // columns.push({ field: 'Estado de suscripción', type: 'string', flex: 1, minWidth: 100, });
+
   return (
     <Container fixed >
       <DataGrid
