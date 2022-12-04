@@ -67,15 +67,16 @@ export default function TitlebarImageList() {
     if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; banderaTab = true; anchoImageList = "85%" }
     if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; banderaTab = false; anchoImageList = "95%" }
     if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; banderaTab = false; anchoImageList = "100%" }
+    
     const loadLibros = async () => {
         const res = await libroService.getLibroRegistrado();
         setlibros(res.data);
     }
+
     useEffect(() => {
         window.scrollTo(0, 0)
         loadLibros()
     }, [])
-
 
     return (
         <Box sx={{ p: 3 }}>

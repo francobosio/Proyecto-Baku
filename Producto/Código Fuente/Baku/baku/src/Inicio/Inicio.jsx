@@ -33,19 +33,18 @@ const useStyles = makeStyles((theme) => ({
         'font-weight': 'bold',
         'color': '#000',
         [theme.breakpoints.down('sm')]: {
-            fontSize: "1rem",
+            fontSize: "0.8em",
             marginLeft: 10
         }
     },
     alerta: {
         background: '#ffd04e',
         padding: "1.5rem",
-        gridGap: 0,
     },
     botonPerfil: {
         'background-color': '#4B9C8E',
         'borderRadius': '5rem',
-        width: '15rem',
+        width: '11rem',
         '&:hover': {
             'background': '#076F55',
             'color': '#FFFFFF',
@@ -195,19 +194,22 @@ export default function Inicio() {
                 <Container disableGutters maxWidth='1800px' >
                     <Grid item >
                         <AppBar />
+                    </Grid>
 
-                        {tieneFecha ?
+                    <Grid item direction="row" >
+                    {tieneFecha ?
                             null :
-                            <Grid container spacing={4} align="center" justify="center" alignItems="center" className={classes.alerta}>
-                                <Grid item xs={5} >
+                            <Grid container spacing={0} align="center" justify="left" alignItems="center" className={classes.alerta}>
+                                <Grid item xs={5} md={6}>
                                     <Typography className={classes.titulo}>Le recomendamos que cargue su Fecha de Nacimiento para poder acceder a nuestro catálogo completo de libros.</Typography>
                                 </Grid>
-                                <Grid item xs={2}>
+                                <Grid item xs={7} md={6} sx={{justifyContent: 'center',display: 'flex'}}>
                                     <Button component={Link} to="/Perfil" className={classes.botonPerfil}>Ir a Mi Perfil</Button>
                                 </Grid>
                             </Grid>
                         }
-                    </Grid>
+                    </Grid >
+
                     <Grid item container alignItems="center" justifyContent="center" className={classes.carousel}  >
                         <Box px={4}>
                             <Carrucel valor={valor} />
@@ -263,7 +265,7 @@ export default function Inicio() {
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => numeroRandom - 0.5)}
                                 </Slider>) : (
-                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'80.5vw'} height={'30vh'} />)
                             }
                             <Typography variant='h4' className={classes.titulo}>Para una noche de terror</Typography>
                             {librosGenero.length > 0 ? (
@@ -272,7 +274,7 @@ export default function Inicio() {
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => Math.random() - 0.5)}
                                 </Slider>) : (
-                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'80.5vw'} height={'30vh'} />)
                             }
                             <Typography variant='h4' className={classes.titulo}>Más favoritos por la comunidad</Typography>
                             {librosFavoritos.length > 0 ? (
@@ -281,7 +283,7 @@ export default function Inicio() {
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => Math.random() - 0.5)}
                                 </Slider>) : (
-                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'80.5vw'} height={'30vh'} />)
                             }
                         </Box>
                     </Grid>

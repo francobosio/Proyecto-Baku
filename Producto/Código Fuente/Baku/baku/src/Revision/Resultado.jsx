@@ -129,7 +129,6 @@ export default function BasicTable() {
   const loadLibros = async () => {
     const res = await libroService.getLibroRevisar(id);
     //guardar el libro en el estado sincrono
-
     setarrayPalbras(res.data.arrayDataMatchCountArray);
     setlibroRevisar(res.data.libroFound);
     setSinMalasPalabras(res.data.sinMalasPalabras)
@@ -171,7 +170,7 @@ export default function BasicTable() {
     setabrirDialog(false);
   };
   const handleCloseDialogAceptarPublicar = async () => {
-    libroService.putCambiarEstado(id, "Publicado");
+    const aliasAutor = libroService.putCambiarEstado(id, "Publicado");
     const idData = {
       'auth0id': autorAth0,
       'idLibro': id
@@ -179,7 +178,7 @@ export default function BasicTable() {
     console.log(autorAth0)
     const nuevaNotificacion = {
       'auth0usuario': autorAth0,
-      'titulo': "El usuario " + localStorage.getItem("alias") + " ha subido:",
+      'titulo': "El usuario " + libro.libroFound.alias + " ha subido:",
       'descripcion': libro.libroFound.titulo,
       'avatar': localStorage.getItem("avatar"),
       'tipo': "subidaLibro",

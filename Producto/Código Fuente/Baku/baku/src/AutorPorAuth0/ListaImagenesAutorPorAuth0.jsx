@@ -16,12 +16,11 @@ const useStyles = makeStyles((theme) => ({
         'background': '#99cfbf',
     },
     imageList: {
-        width: "100%",
         "margin-bottom": "10px !important",
     },
     titulo: {
         "font": "200% sans-serif",
-        "margin-top": "1rem",
+        "margin-top": "2rem",
         "marginBottom": "0",
         'font-weight': 'bold',
         "padding-left": "0",
@@ -74,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TitlebarImageList() {
 
     const usuario_id = localStorage.getItem('usuario_id')
+    const aliasUsuarioActual = localStorage.getItem('alias')
     const classes = useStyles();
     const [libros, setlibros] = useState([])
     const [nombre, setNombre] = useState('Cargando...')
@@ -82,15 +82,19 @@ export default function TitlebarImageList() {
     const [suscriptores, setSuscriptores] = useState(0)
     const { Id } = useParams();
     const [flagEsperaMensaje, setFlagEsperaMensaje] = useState(false)
+    const [flagBotonSuscripcion, setflagBotonSuscripcion] = useState(true)
 
     const loadLibros = async () => {
-        console.log(Id)
         const autorRes = await usuarioService.getUsuariosPorId(Id)
         const autor = autorRes.data
-        console.log(autor)
         //usar el setAutor sincrono para que no se pierda el valor
         setAutor(autor)
         const buscarNombreSuscripcion = await usuarioService.buscarNombreSuscripcion(usuario_id, autor._id)
+        console.log(usuario_id , autor._id)
+        if  (aliasUsuarioActual!= null && autor._id != null && usuario_id === autor._id)
+        {
+            setflagBotonSuscripcion(false)
+        }
         if (buscarNombreSuscripcion.data.estaSuscripto) {
             setNombre('Suscripto')
             setFlagBoton(true)
@@ -121,13 +125,13 @@ export default function TitlebarImageList() {
         if (nombre === 'Suscribirse') {
             setNombre('Suscripto')
             setSuscriptores(suscriptores + 1)
-            const res = await usuarioService.suscribirUsuario(usuario_id, autor2)
+            await usuarioService.suscribirUsuario(usuario_id, autor2)
 
         } else {
             console.log("estoy en desuscribirse")
             setNombre('Suscribirse')
             setSuscriptores(suscriptores - 1)
-            const res = await usuarioService.desuscribirUsuario(usuario_id, autor2)
+            await usuarioService.desuscribirUsuario(usuario_id, autor2)
             window.alert('Se ha anulado su suscripción')
         }
     }
@@ -153,7 +157,7 @@ export default function TitlebarImageList() {
         if (flagEsperaMensaje) {
             return (
                 <div>
-                    <Typography variant="h5" className={classes.titulo}>No hay libros disponibles</Typography>
+                    <Typography variant="h5" className={classes.titulo}>El usuario no posee libros publicados</Typography>
                 </div>
             )
         }
@@ -166,22 +170,22 @@ export default function TitlebarImageList() {
         }
     }
 
-
-
-    console.log(libros.length)
     return (
-        <Container className={classes.root} maxWidth="xl">
+        <Container style={{ minHeight:'28.47em' }} >
+            <Grid container spacing={1} >
             {libros.length > 0 ?
                 (
                     <Grid className={classes.fondo} xs={12}>
                         <Grid item direction='row' xs={12} container  >
                             <Grid item xs={2}>
-                                <Typography className={classes.titulo}>{libros[0].autor}</Typography>
+                                <Typography className={classes.titulo}>{libros[0].alias}</Typography>
                                 <Typography className={classes.suscriptores} variant="subtitle1" >{suscriptores} suscriptores</Typography>
                             </Grid>
-                            <Grid item xs={1} className={classes.alinearCentro}>
+                        {flagBotonSuscripcion ? <Grid item xs={1} className={classes.alinearCentro}>
                                 <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
-                            </Grid>
+                                </Grid> :
+                            null
+                        }
                         </Grid>
                         <br />
                         <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={20}>
@@ -202,14 +206,24 @@ export default function TitlebarImageList() {
                                 </ImageListItem>
                             ))}
                         </ImageList>
-
                     </Grid>
                 ) : (<Grid className={classes.fondo} xs={6}>
-                    <br />
+                    <Grid item direction='row' xs={12} container  >
+                            <Grid item xs={2}>
+                                <Typography className={classes.titulo}>{autor.alias}</Typography>
+                                <Typography className={classes.suscriptores} variant="subtitle1" >{suscriptores} suscriptores</Typography>
+                            </Grid>
+                        {flagBotonSuscripcion ? <Grid item xs={1} className={classes.alinearCentro}>
+                                <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
+                            </Grid> :
+                            null
+                        }
+                        </Grid>
                     <Esperar />
                 </Grid>
                 )
             }
+            </Grid>
         </Container>
     );
 }
