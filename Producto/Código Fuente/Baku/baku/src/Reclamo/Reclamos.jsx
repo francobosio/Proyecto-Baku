@@ -65,7 +65,8 @@ export default function ColumnTypesGrid() {
       reclamosxLibro: row.reclamosxLibro,
       createdAt: row.createdAt,
     }));
-    //eliminar los arrays de rows 
+    // modificar el campo createdAt 3 horas atras
+
     const rows2 = rows.map(row => ({
       id: row.id,
       idLibro: row.idLibro[0],
@@ -74,12 +75,12 @@ export default function ColumnTypesGrid() {
       Apellido: row.apellido[0],
       "Estado Usuario": row.estado[0],
       Titulo: row.libroTitulo[0],
-      "Estado del Libro": row.libroEstado[0],
-      Denuncia: row.concepto,
+      "Estado Libro": row.libroEstado[0],
+      Reclamo: row.concepto,
       "Cant. Reclamos Usuario": row.reclamosxUsuario,
       "Cant. Reclamos Libro": row.reclamosxLibro,
       //convertir fecha a formato dd/mm/aaaa
-      Fecha: row.createdAt.split("T")[0].split("-").reverse().join("/"),
+      Creación: row.createdAt,
     }));
     setRows(rows2);
   }
@@ -103,7 +104,7 @@ export default function ColumnTypesGrid() {
   const handleClickAsignar = async () => {
     setRows(rows.map(row => {
       if (row.idLibro === idLibro) {
-        row['Estado del Libro'] = denuncia;
+        row['Estado Libro'] = denuncia;
       }
       return row;
     }))
@@ -161,8 +162,8 @@ export default function ColumnTypesGrid() {
 
   const columns = React.useMemo(
     () => [
-      { field: 'Nombre', type: 'string', flex: 0.7, minWidth: 85, },
-      { field: 'Apellido', type: 'string', flex: 0.7, minWidth: 100 },
+      { field: 'Nombre', type: 'string', flex: 0.65, minWidth: 85, },
+      { field: 'Apellido', type: 'string', flex: 0.65, minWidth: 90 },
       { field: 'Estado Usuario', type: 'string', flex: 0.8, minWidth: 100 },
       { field: 'actions2',
         type: 'actions',
@@ -177,7 +178,7 @@ export default function ColumnTypesGrid() {
         ],
       },
       { field: 'Titulo', type: 'string', flex: 1.6, minWidth: 100 },
-      { field: 'Estado del Libro', type: 'string', flex: 0.8, minWidth: 100 },
+      { field: 'Estado Libro', type: 'string', flex: 0.8, minWidth: 100 },
       { field: 'actions',
         type: 'actions',
         flex: 0.2, minWidth: 30,
@@ -190,10 +191,10 @@ export default function ColumnTypesGrid() {
           />,
         ],
       },
-      { field: 'Denuncia', type: 'string', flex: 1.6, minWidth: 140 },
+      { field: 'Reclamo', type: 'string', flex: 1.6, minWidth: 140 },
       { field: 'Cant. Reclamos Usuario', type: 'number', flex: 1.04, aling: 'center', minWidth: 155 },
       { field: 'Cant. Reclamos Libro', type: 'number', flex: 0.95, aling: 'left', minWidth: 155 },
-      { field: 'Fecha', type: 'string', flex: 0.6, minWidth: 70 },
+      { field: 'Creación', type: 'string', flex: 0.7, minWidth: 70 },
       { field: 'actions3',
         type: 'actions',
         flex: 0.2, minWidth: 30,
