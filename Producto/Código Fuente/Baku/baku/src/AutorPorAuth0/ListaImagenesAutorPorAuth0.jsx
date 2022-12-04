@@ -183,7 +183,7 @@ export default function TitlebarImageList() {
                             </Grid>
                         {flagBotonSuscripcion ? <Grid item xs={1} className={classes.alinearCentro}>
                                 <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
-                            </Grid> :
+                                </Grid> :
                             null
                         }
                         </Grid>

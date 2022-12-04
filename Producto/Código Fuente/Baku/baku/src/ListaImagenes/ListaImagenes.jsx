@@ -341,7 +341,6 @@ export default function TitlebarImageList() {
                             }}
                             autoFocus
                         />
-                        
                     </Container>
                 </Container>
                 <Typography variant="h5" className={classes.title}>

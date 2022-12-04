@@ -1,6 +1,7 @@
 
 import { RequestHandler } from "express"
 import Libro from './Libro'
+import Notificacion from './Notificacion'
 import config from '../config'
 import https from 'https'
 import fs from 'fs-extra'
@@ -122,8 +123,12 @@ export const deleteLibro: RequestHandler = async (req, res) => {
     const { id } = req.body;
     console.log(id)
     const libroFound = await Libro.findByIdAndDelete(id);
+    //eliminar las notificaciones con este libro
+
     if (!libroFound) return res.status(204).json();
     if (libroFound) {
+        /*OPCIONAL await Notificacion.deleteMany({ id_libro: libroFound._id }) */
+        /* await Usuario.deleteMany({"mensajes.id_libro": libroFound._id }) */
         await cloudinary.v2.uploader.destroy(libroFound.public_id_imagen);
         await cloudinary.v2.uploader.destroy(libroFound.public_id_pdf);
     }
