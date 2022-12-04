@@ -183,7 +183,9 @@ const ReporteFechas = () => {
             ]
         }
         
-        
+        const onKeyDown = (e) => {
+            e.preventDefault();
+        };
 
         return (
             <div id="Fechas" style={{ 
@@ -202,7 +204,7 @@ const ReporteFechas = () => {
                         onChange={(newValue) => {
                             setValue(newValue);
                         }}
-                        renderInput={(params) => <TextField {...params} helperText={null} />}
+                        renderInput={(params) => <TextField {...params} onKeyDown={onKeyDown} helperText={null} />}
                     />
                 </LocalizationProvider>
                 {isVisible && (
