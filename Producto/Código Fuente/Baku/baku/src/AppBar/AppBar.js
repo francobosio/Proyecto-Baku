@@ -106,7 +106,7 @@ export default function PrimarySearchAppBar() {
   const [valor, setValor] = React.useState("");
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  let flagNotificacion;
+  const [esAdministrador, setesAdministrador] = useState(localStorage.getItem('tipoUsuario'));
   let history = useHistory();
   
   const buscarNotificaciones = async () => {
@@ -208,7 +208,7 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.grow} />
           <div>
-            <Button className={classes.btnSuscripcion} component={Link} to="/premium" variant="contained">
+            <Button className={classes.btnSuscripcion} component={Link} to="/premium" disabled={esAdministrador} variant="contained">
                 Premium
             </Button>
           </div>

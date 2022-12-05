@@ -176,7 +176,7 @@ export default function TitlebarImageList() {
             {libros.length > 0 ?
                 (
                     <Grid className={classes.fondo} xs={12}>
-                        <Grid item direction='row' xs={12} container  >
+                        <Grid item direction='row' xs={12} container>
                             <Grid item xs={2}>
                                 <Typography className={classes.titulo}>{libros[0].alias}</Typography>
                                 <Typography className={classes.suscriptores} variant="subtitle1" >{suscriptores} suscriptores</Typography>
