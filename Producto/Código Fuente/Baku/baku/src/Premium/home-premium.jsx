@@ -81,20 +81,26 @@ export default function HomePremium() {
     const [textoPremium, setTextoPremium] = React.useState("");
     const [deshabilitado, setDeshabilitado] = React.useState("1");
     const [abrirDialog, setAbrirDialog] = React.useState(false);
+    const [cobro, setCobro] = React.useState("");
 
     React.useEffect(() => {
-        async function fetchData() {
+        async function fetchPlanes() {
             const res = await planPremiumService.getPlanesPremium();
             setPlanesPremium(res.data);
         }
-        fetchData();
+        async function fetchCobro() {
+            const res = await planPremiumService.obtenerCobrosPorUserId(localStorage.getItem("usuario_id"));
+            setCobro(res.data);
+        }
+        fetchPlanes();
 
         const tipo = localStorage.getItem("tipoUsuario");
         setDeshabilitado(tipo == "2");
         if (tipo == "1") {
-            setTextoPremium("Obtener Premium")
+            setTextoPremium("Obtener Premium");
         } else {
-            setTextoPremium("Usted ya cuenta con la suscripción Premium de Baku.")
+            setTextoPremium("Usted ya cuenta con la suscripción Premium de Baku.");
+            fetchCobro();
         }
     }, [])
 
@@ -140,10 +146,18 @@ export default function HomePremium() {
                                                 <Grid item xs={3}>
                                                     <InputLabel className={classes.precio}>${modelo.precio}.00</InputLabel>
                                                 </Grid>
-                                                <Grid container alignItems="center" justifyContent="center">
-                                                    <Button className={classes.boton} onClick={openDialog} variant="contained" disabled={deshabilitado}>
-                                                        {textoPremium}
-                                                    </Button>
+                                                <Grid container spacing={3} alignItems="center" justifyContent="center">
+                                                    <Grid item xs={12}>
+                                                        <Button className={classes.boton} onClick={openDialog} variant="contained" disabled={deshabilitado}>
+                                                            {textoPremium}
+                                                        </Button>
+                                                    </Grid>
+                                                    <Grid item xs={12}>
+                                                        {deshabilitado &&
+                                                            <Button className={classes.boton} href={`https://www.mercadopago.com.ar/subscriptions/v0/${cobro.webhookId}/admin`} target="_blank" variant="contained">
+                                                                Cancelar mi Suscripción
+                                                            </Button>}
+                                                    </Grid>
                                                 </Grid>
                                             </Grid>
                                             <Grid item xs={12} >

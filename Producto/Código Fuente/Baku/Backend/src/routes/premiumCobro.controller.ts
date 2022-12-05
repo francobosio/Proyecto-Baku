@@ -91,3 +91,10 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
     res.sendStatus(200);
 }
 
+export const obtenerCobroByUserId : RequestHandler = async (req, res) => {
+    const cobro = await Cobro.findOne({userId: req.params.id});
+    if (!cobro) return res.status(204).json();
+
+    return res.json(cobro)
+}
+
