@@ -87,20 +87,7 @@ export default function ColumnTypesGrid() {
         { field: 'Estado', type: 'string', flex: 1, minWidth: 100},
         { field: 'Fecha de creación', type: 'string', flex: 1, minWidth: 100 },
         { field: 'Cantidad de publicaciones', type: 'string', flex: 1, minWidth: 100 },
-        { field: 'Suscriptores', type: 'string', flex: 1, minWidth: 100 },
-        {
-          field: 'actions',
-          type: 'actions',
-          flex: 0.4, minWidth: 30,
-          getActions: (params) => [
-            <Link class="content__link" to={`/AutorId/` + params.row.id} >
-              <GridActionsCellItem
-                icon={<SearchIcon fontSize="large" sx={{ color: 'black' }} />}
-                label="Ir a perfil" />
-            </Link>
-            ,
-          ],
-        },
+        { field: 'Suscriptores', type: 'string', flex: 1, minWidth: 100 }
       ],
       [],
       );
