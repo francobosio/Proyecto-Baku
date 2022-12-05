@@ -27,7 +27,7 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
     const cargarUsuario = async () => {
         const usuario_activo = localStorage.getItem("usuario_activo");
         const res = await usuarioService.getUsuario(usuario_activo!);
-        if(res.data.tipoUsuario == 1)
+        if(res.data.tipoUsuario === "1")
         {
         }
         else{
@@ -40,7 +40,7 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
     }, [])
 
     function temaElegido() {
-        if (localStorage.getItem('theme') == 'light')
+        if (localStorage.getItem('theme') === 'light')
         {
             return 'black';
         }

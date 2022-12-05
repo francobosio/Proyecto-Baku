@@ -17,6 +17,7 @@ import { Grid } from '@material-ui/core';
 import imagenFondo from '../Imagenes/book_fantasy_5k.jpg';
 import logoBaku from '../Imagenes/Logo_Baku_Negro_sin_fondo.png';
 import {Box } from '@mui/system';
+import './home.css'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,6 +69,19 @@ const useStyles = makeStyles((theme) => ({
     'line-height': '1.9',
     'letter-spacing': '0.00938em',
     color: '#000',
+    [theme.breakpoints.down('830')]: {
+      'font-size': '1.7rem',
+    },
+    [theme.breakpoints.down('706')]: {
+      'font-size': '1.5rem',
+    },
+    [theme.breakpoints.down('623')]: {
+      'font-size': '1.3rem',
+    },
+    [theme.breakpoints.down('540')]: {
+      'font-size': '1.1rem',
+      'margin-top': '10px'
+    },
   },
   grid: {
     display: "flex",
@@ -133,7 +147,7 @@ export default function ButtonAppBar() {
         {/* /* el grid item debe ocupar todo el espacio  */}
          <Grid  item  xs={10}  justify="center" alignItems="center" direction="column" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
           <Grid item  xs={4}  justify="center" alignItems="center" direction="column" style={{ minHeight: '30%',minWidth:'100%',flexGrow:1, flex:1, }} >
-            <Image src={logoBaku} responsive aspectRatio={2.8} style={{backgroundColor: 'transparent',}}/>
+            <Image className='imgLogo' src={logoBaku} responsive aspectRatio={2.8} style={{backgroundColor: 'transparent',}}/>
           </Grid>
             <Typography className={classes.typographyKsText}>No dejes para mañana lo que puedes leer hoy.</Typography>
             <Typography className={classes.typographyKsText}>Accedé a cientos de libros originales en forma gratuita</Typography>
