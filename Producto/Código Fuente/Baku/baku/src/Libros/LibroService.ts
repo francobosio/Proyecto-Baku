@@ -6,7 +6,7 @@ export const getLibros = async () => {
 }
 
 export const deleteLibro = async (id: string) => {
-    return await axios.post("http://localhost:4000/libros/eliminar", { id });
+    return await axios.post(`${backend}/libros/eliminar`, { id });
 }
 
 const config = {
