@@ -5,7 +5,7 @@ const premiumSchema = new Schema({
         type: String,
         required: true,
     },
-    descripcion: {
+    descripción: {
         type: String,
         required: true,
     },

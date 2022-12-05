@@ -17,6 +17,7 @@ import Avatar from '@material-ui/core/Avatar'
 import { useHistory } from "react-router-dom";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts'
+import StarIcon from '@mui/icons-material/Star';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -95,6 +96,11 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     "background": "#4B9C8E",
   },
+  estrella:{
+    transform: 'scale(1.7)',
+    color: "#EABE3F",
+    paddingLeft: '0.5rem'
+  }
 }
 ));
 
@@ -103,7 +109,9 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [hidden, setHidden] = React.useState(false);
   const [valor, setValor] = React.useState("");
+  const [estrella, setEstrella] = React.useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [esAdministrador, setesAdministrador] = useState(localStorage.getItem('tipoUsuario'));
@@ -111,7 +119,7 @@ export default function PrimarySearchAppBar() {
   
   const buscarNotificaciones = async () => {
     //esperar 1 segundo para que se carguen las notificaciones
-    let usuarioAuth0 = localStorage.getItem('usuario_activo');
+    let usuarioAuth0 = localStorage.getItem('tipoUsuario');
     const notificaciones = await NotificacionServices.buscarNotificacionUsuarioAuth0(usuarioAuth0);
     const respuesta = notificaciones.data.mensajes;
 
@@ -122,9 +130,29 @@ export default function PrimarySearchAppBar() {
     setValor(respuesta)
     return respuesta;
   };
-  
+
+  const ocultarBoton = () => {
+    const tipo = localStorage.getItem("tipoUsuario") == 3;
+    if (tipo){
+      setHidden(true)
+    } else {
+      setHidden(false)
+    }
+  }
+
+  const mostrarEstrella = () => {
+    const tipo = localStorage.getItem("tipoUsuario") == 2;
+    if (tipo){
+      setEstrella(true);
+    } else {
+      setEstrella(false);
+    }
+  }
+
   useEffect(() => {
       buscarNotificaciones();
+      ocultarBoton();
+      mostrarEstrella();
     }, [])
   
   const handleProfileMenuOpen = (event) => {
@@ -208,10 +236,11 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.grow} />
           <div>
-            <Button className={classes.btnSuscripcion} component={Link} to="/premium" disabled={esAdministrador} variant="contained">
+            {!hidden && <Button className={classes.btnSuscripcion} component={Link} to="/premium" variant="contained">
                 Premium
-            </Button>
+            </Button>}
           </div>
+          
           <div className={classes.sectionDesktop}>
             {valor ? <Notifications notificacion={valor}  /> : null }
           </div>
@@ -236,6 +265,9 @@ export default function PrimarySearchAppBar() {
               color="inherit">
               <MoreIcon />
             </IconButton>
+          </div>
+          <div>
+            {estrella && <StarIcon className={classes.estrella}></StarIcon>}
           </div>
         </Toolbar>
       </AppBar>

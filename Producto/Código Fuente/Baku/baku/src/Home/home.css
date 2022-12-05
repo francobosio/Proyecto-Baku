@@ -1,0 +1,5 @@
+@media (max-width: 539px) {
+    .imgLogo {
+        transform: scale(1.2);
+    }
+}
