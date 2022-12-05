@@ -52,6 +52,7 @@ export default function ColumnTypesGrid() {
 
     //cada objeto agregarlo al array
     const rows = res.data.map(row => ({
+      reclamador: row.reclamador,
       id: row._id,
       idLibro: row.libro.map(libro => libro._id),
       idauth0Usuario: row.autor.map(autor => autor.auth0_id),
@@ -68,6 +69,7 @@ export default function ColumnTypesGrid() {
     // modificar el campo createdAt 3 horas atras
 
     const rows2 = rows.map(row => ({
+      Reclamante: row.reclamador,
       id: row.id,
       idLibro: row.idLibro[0],
       idauth0Usuario: row.idauth0Usuario[0],
@@ -79,7 +81,6 @@ export default function ColumnTypesGrid() {
       Reclamo: row.concepto,
       "Cant. Reclamos Usuario": row.reclamosxUsuario,
       "Cant. Reclamos Libro": row.reclamosxLibro,
-      //convertir fecha a formato dd/mm/aaaa
       Creación: row.createdAt,
     }));
     setRows(rows2);
@@ -162,6 +163,7 @@ export default function ColumnTypesGrid() {
 
   const columns = React.useMemo(
     () => [
+      {field: 'Reclamante', type: 'string',flex: 0.7,width: 70},
       { field: 'Nombre', type: 'string', flex: 0.65, minWidth: 85, },
       { field: 'Apellido', type: 'string', flex: 0.65, minWidth: 90 },
       { field: 'Estado Usuario', type: 'string', flex: 0.8, minWidth: 100 },

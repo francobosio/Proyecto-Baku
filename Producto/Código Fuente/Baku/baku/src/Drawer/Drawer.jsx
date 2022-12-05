@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
 export const MiDrawer = (props) => {
     const location = useLocation();
     const [revisar, setrevisar] = React.useState(localStorage.getItem('tipoUsuario') === '3' ? true : false);
-    const [revisar2, setrevisar2] = React.useState(revisar);
+    const [revisar2, setrevisar2] = React.useState(!revisar);
     const classes = useStyles();
     const [open, setOpen] = React.useState(localStorage.getItem('drawer_open') ? localStorage.getItem('drawer_open') : false);
     const [selectedIndex] = React.useState(props.pestaña);

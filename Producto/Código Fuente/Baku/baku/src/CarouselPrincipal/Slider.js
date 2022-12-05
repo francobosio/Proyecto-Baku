@@ -9,7 +9,7 @@ import useSizeElement from './useSizeElement'
 import './Slider.scss'
 import { Collapse } from '@mui/material';
 
-const Slider = ({ children, activeSlide }) => {
+const Slider = ({ children, activeSlide,tipoUsuario }) => {
   const [currentSlide, setCurrentSlide] = useState(activeSlide);
   const { width, elementRef } = useSizeElement();
   const {
@@ -47,9 +47,10 @@ const Slider = ({ children, activeSlide }) => {
         {hasPrev && <SlideButton onClick={handlePrev} type="prev" tamaño={width} />}
         {hasNext && <SlideButton onClick={handleNext} type="next" tamaño={width}/>}
       </SliderWrapper>
-      <Collapse in={currentSlide}>
+     {!tipoUsuario==="3" && <Collapse in={currentSlide}>
       {currentSlide && <Content movie={currentSlide} onClose={handleClose} tamaño={width}/>}
       </Collapse>
+      }
     </SliderContext.Provider>
 
   );
