@@ -143,11 +143,12 @@ export default function TitlebarImageList() {
     let anchoImageList = 0;
     let altura;
     let fontSizeAlias;
-    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; banderaTab = true; anchoImageList = 360; fontSizeAlias = 15 }
-    if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; banderaTab = true; anchoImageList = "120%"; fontSizeAlias = 20 }
-    if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; banderaTab = true; anchoImageList = "85%"; fontSizeAlias = 25 }
-    if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; banderaTab = false; anchoImageList = "95%"; fontSizeAlias = 28 }
-    if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; banderaTab = false; anchoImageList = "100%"; fontSizeAlias = 32 }
+    let transformButton;
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; banderaTab = true; anchoImageList = 360; fontSizeAlias = 15 ; transformButton = 0.6 }
+    if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; banderaTab = true; anchoImageList = "120%"; fontSizeAlias = 20 ; transformButton = 0.7 }
+    if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; banderaTab = true; anchoImageList = "85%"; fontSizeAlias = 25 ; transformButton = 0.8 }
+    if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; banderaTab = false; anchoImageList = "95%"; fontSizeAlias = 28 ; transformButton = 0.9 }
+    if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; banderaTab = false; anchoImageList = "100%"; fontSizeAlias = 32 ; transformButton = 1 }
 
     return (
         <Container className={classes.root} maxWidth="xl">
@@ -162,7 +163,7 @@ export default function TitlebarImageList() {
                                         <Typography className={classes.suscriptores} variant="subtitle1" >{suscriptores} suscriptores</Typography>
                                     </Grid>
                                     <Grid item xs={7} md={2} className={classes.alinearCentro}>
-                                        <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
+                                        <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} style={{transform: `scale(${transformButton})`}} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
                                     </Grid>
                                 </Grid>
                                 <br />
