@@ -3,8 +3,8 @@ import * as premiumCtrl from './premiumCobro.controller'
 
 const router = Router();
 
-router.get('/premiumPlans', premiumCtrl.getPlans);
+router.post('/premiumCobroFront', premiumCtrl.procesarCobroFront);
 
-
+router.post('/premiumCobroWebhook', premiumCtrl.procesarCobroWebhook);
 
 export default router

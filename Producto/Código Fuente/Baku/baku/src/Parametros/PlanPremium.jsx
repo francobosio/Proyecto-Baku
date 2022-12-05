@@ -22,7 +22,7 @@ export default function ColumnTypesGrid() {
     const [seleccionado, setSeleccionado] = React.useState("");
     const [esEdicion, setEsEdicion] = React.useState(false);
 
-    const [updateValues, setUpdateValues] = React.useState({'titulo':'', 'descripcion':'','precio':'','url':''})
+    const [updateValues, setUpdateValues] = React.useState({'titulo':'', 'descripción':'','precio':'','url':''})
 
     const [valido, setValido] = React.useState(false);
     const inputTitulo = React.useRef("");
@@ -44,8 +44,8 @@ export default function ColumnTypesGrid() {
         //cada objeto agregarlo al array
         const rows = res.data.map(row => ({
             id: row._id,
-            Titulo: row.titulo,
-            Descripcion: row.descripcion,
+            Título: row.titulo,
+            Descripción: row.descripción,
             Precio: row.precio,
             UrlCobro: row.urlCobro
         }));
@@ -62,18 +62,15 @@ export default function ColumnTypesGrid() {
         setValido(false);
         const formData = {
             'titulo': inputTitulo.current.value.trim(),
-            'descripcion': inputDescripcion.current.value.trim(),
+            'descripción': inputDescripcion.current.value.trim(),
             'precio': inputPrecio.current.value.trim(),
             'urlCobro': inputUrl.current.value.trim(),
         }
-        console.log(formData);
         if (esEdicion){
             const res = await planPremiumService.editarPlanPremium(seleccionado, formData);
-            console.log(res.data);
             setSeleccionado("")
         } else {
             const res = await planPremiumService.nuevoPlanPremium(formData);
-            console.log(res.data);
         }
         setEsEdicion(false);
         await load();
@@ -84,21 +81,20 @@ export default function ColumnTypesGrid() {
         setValido(false);
         setOpenDelete(false);
         setEsEdicion(false);
-        setUpdateValues({'titulo':'', 'descripcion':'','precio':'','url':''})
+        setUpdateValues({'titulo':'', 'descripción':'','precio':'','url':''})
     };
 
     const handleEscritura = () => {
         let temp = {}
         temp.titulo = inputTitulo.current.value.trim() !== "" ? "" : "titulo"
-        temp.descripcion = inputDescripcion.current.value.trim() !== "" ? "" : "descripcion"
+        temp.descripcion = inputDescripcion.current.value.trim() !== "" ? "" : "descripción"
         temp.precio = inputPrecio.current.value.trim() !== "" ? "" : "precio"
         temp.url = inputUrl.current.value.trim() !== "" ? "" : "url"
         setValido(Object.values(temp).every(x => x === ""))
-        setUpdateValues({'titulo':'', 'descripcion':'','precio':'','url':''})
+        setUpdateValues({'titulo':'', 'descripción':'','precio':'','url':''})
     }
 
     const eliminarPlan = async (id) => {
-        console.log(id)
         const res = await planPremiumService.eliminarPlanPremium(id);
         if (res.status === 200){
             setRows((prevRows) => prevRows.filter((row) => row.id !== id));
@@ -106,24 +102,22 @@ export default function ColumnTypesGrid() {
     }
 
     const handleClickOpenDelete =  (id,titulo) => {
-        console.log(titulo)
-            setSeleccionado(id);
-            setTituloPlan(titulo);
-            setOpenDelete(true);
+        setSeleccionado(id);
+        setTituloPlan(titulo);
+        setOpenDelete(true);
     }
 
     const handleClickOpenUpdate =  (id, titulo, descripcion, precio, url) => {
         setEsEdicion(true);
         setValido(false);
         setSeleccionado(id);
-        setUpdateValues({'titulo': titulo,'descripcion': descripcion,'precio': precio,'url': url});
+        setUpdateValues({'titulo': titulo,'descripción': descripcion,'precio': precio,'url': url});
         setOpenCreate(true);
     }
 
     const deletePlan = React.useCallback(
         (seleccionado) => () => {
             setTimeout(() => {
-                console.log(seleccionado)
                 setOpenDelete(false);
             });
             eliminarPlan(seleccionado);
@@ -133,8 +127,8 @@ export default function ColumnTypesGrid() {
 
     const columns = React.useMemo(
         () => [
-            { field: 'Titulo', type: 'string', flex: 1, minWidth: 100, },
-            { field: 'Descripcion', type: 'string', flex: 1, minWidth: 100 },
+            { field: 'Título', type: 'string', flex: 1, minWidth: 100, },
+            { field: 'Descripción', type: 'string', flex: 1, minWidth: 100 },
             { field: 'Precio', type: 'string', flex: 1, minWidth: 100 },
             { field: 'UrlCobro', type: 'string', flex: 1, minWidth: 100 },
             {
@@ -145,11 +139,11 @@ export default function ColumnTypesGrid() {
                     <><GridActionsCellItem
                         icon={<EditIcon />}
                         label="Update"
-                        onClick={() => handleClickOpenUpdate(params.id, params.row.Titulo, params.row.Descripcion, params.row.Precio, params.row.UrlCobro)}/>
+                        onClick={() => handleClickOpenUpdate(params.id, params.row.Título, params.row.Descripción, params.row.Precio, params.row.UrlCobro)}/>
                     <GridActionsCellItem
                         icon={<DeleteIcon />}
                         label="Delete"
-                        onClick={() => handleClickOpenDelete(params.id, params.row.Titulo)} /></>
+                        onClick={() => handleClickOpenDelete(params.id, params.row.Título)} /></>
                 ],
             },
         ],
@@ -189,7 +183,7 @@ export default function ColumnTypesGrid() {
                             autoFocus
                             margin="dense"
                             id="titulo"
-                            label="Titulo del plan"
+                            label="Título del plan"
                             type="text"
                             fullWidth
                             inputRef={inputTitulo}
@@ -200,13 +194,13 @@ export default function ColumnTypesGrid() {
                         <TextField
                             autoFocus
                             margin="dense"
-                            id="descripcion"
-                            label="Descripcion del plan"
+                            id="descripción"
+                            label="Descripción del plan"
                             multiline
                             rows={3}
                             type="text"
                             inputRef={inputDescripcion}
-                            defaultValue={updateValues.descripcion}
+                            defaultValue={updateValues.descripción}
                             fullWidth
                             variant="standard"
                             onChange={handleEscritura}
@@ -254,7 +248,7 @@ export default function ColumnTypesGrid() {
                     aria-labelledby="responsive-dialog-title"
                 >
                     <DialogTitle id="responsive-dialog-title">
-                        Seguro que quiere eliminar el plan {tituloPlan} ?
+                        ¿Está seguro que desea eliminar el plan "{tituloPlan}"?
                     </DialogTitle>
                     <DialogActions>
                         <Button autoFocus onClick={handleClose}>

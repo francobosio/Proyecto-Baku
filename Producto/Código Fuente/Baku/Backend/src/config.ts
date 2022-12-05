@@ -9,5 +9,6 @@ export default {
     PORT: process.env.PORT || '4000',
     CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
     API_KEY: process.env.CLOUDINARY_API_KEY,
-    API_SECRET: process.env.CLOUDINARY_API_SECRET
+    API_SECRET: process.env.CLOUDINARY_API_SECRET,
+    MP_ACCESS_TOKEN: process.env.MP_ACCESS_TOKEN
 }

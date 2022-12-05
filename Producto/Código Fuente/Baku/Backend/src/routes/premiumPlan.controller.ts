@@ -4,8 +4,8 @@ import PremiumPlan from "./PremiumPlan";
 const ObjectId = mongoose.Types.ObjectId;
 
 export const createPlan: RequestHandler = async (req, res) => {
-    const { titulo, descripcion, precio, urlCobro } = req.body
-    const newPlan = { titulo, descripcion, precio, urlCobro };
+    const { titulo, descripción, precio, urlCobro } = req.body
+    const newPlan = { titulo, descripción, precio, urlCobro };
 
     const plan = new PremiumPlan(newPlan);
     await plan.save();
