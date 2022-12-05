@@ -7,6 +7,9 @@ import { useParams } from 'react-router-dom';
 import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -41,9 +44,7 @@ const useStyles = makeStyles((theme) => ({
         'margin': '0',
         'display': 'flex',
         'color': '#000000',
-        'fontSize': '1rem',
         'background-color': '#E5A65E',
-        'width': '12rem',
         '&:hover': {
             'background': '#FFCA8C',
         },
@@ -53,9 +54,7 @@ const useStyles = makeStyles((theme) => ({
         'margin': '0',
         'display': 'flex',
         'color': '#FFFFFF',
-        'fontSize': '1rem',
         'background-color': 'green',
-        'width': '12rem',
         '&:hover': {
             'background': '#029d02',
             'color': '#FFFFFF',
@@ -67,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     },
     fondo: {
         'minHeight': '100vh',
-        'minWidth': ' 95vh'
+        //'minWidth': ' 95vh'
     }
 }));
 
@@ -139,40 +138,56 @@ export default function TitlebarImageList() {
         console.log(res);
     }
 
+    const theme = useTheme();
+    let banderaTab = false;
+    let anchoImageList = 0;
+    let altura;
+    let fontSizeAlias;
+    let transformButton;
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; banderaTab = true; anchoImageList = 360; fontSizeAlias = 15 ; transformButton = 0.6 }
+    if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; banderaTab = true; anchoImageList = "120%"; fontSizeAlias = 20 ; transformButton = 0.7 }
+    if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; banderaTab = true; anchoImageList = "85%"; fontSizeAlias = 25 ; transformButton = 0.8 }
+    if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; banderaTab = false; anchoImageList = "95%"; fontSizeAlias = 28 ; transformButton = 0.9 }
+    if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; banderaTab = false; anchoImageList = "100%"; fontSizeAlias = 32 ; transformButton = 1 }
+
     return (
         <Container className={classes.root} maxWidth="xl">
             {libros.length > 0 ?
                 (
                     <Grid className={classes.fondo} xs={12}>
-                        <Grid item direction='row' xs={12} container  >
-                            <Grid item xs={2}>
-                                <Typography className={classes.titulo}>{libros[0].autor}</Typography>
-                                <Typography className={classes.suscriptores} variant="subtitle1" >{suscriptores} suscriptores</Typography>
+                        <Container style={{ minHeight: '28.47em' }}>
+                            <Grid container spacing={1}  >
+                                <Grid item direction='row' xs={12} container  >
+                                    <Grid item xs={5} md={2}>
+                                        <Typography className={classes.titulo} style={{fontSize: fontSizeAlias}}>{libros[0].autor}</Typography>
+                                        <Typography className={classes.suscriptores} variant="subtitle1" >{suscriptores} suscriptores</Typography>
+                                    </Grid>
+                                    <Grid item xs={7} md={2} className={classes.alinearCentro}>
+                                        <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} style={{transform: `scale(${transformButton})`}} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
+                                    </Grid>
+                                </Grid>
+                                <br />
+                                <ImageList rowHeight={500} className={classes.imageList} cols={5} style={{ width: anchoImageList, justifyContent: 'initial' }} gap={20}>
+                                    {libros.map((item) => (
+                                        <ImageListItem key={item._id} style={{ width: altura / 6.6, height: altura / 4 }} >
+                                            <img src={item.imagenPath} alt={item.titulo} />
+                                            <ImageListItemBar
+                                                title={item.titulo}
+                                                position='bottom'
+                                                actionIcon={
+                                                    <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
+                                                        <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
+                                                            <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
+                                                        </Link>
+                                                    </IconButton>
+                                                }
+                                            />
+                                        </ImageListItem>
+                                    )
+                                    )}
+                                </ImageList>
                             </Grid>
-                            <Grid item xs={1} className={classes.alinearCentro}>
-                                <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
-                            </Grid>
-                        </Grid>
-                        <br />
-                        <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={20}>
-                            {libros.map((item) => (
-                                <ImageListItem key={item._id} style={{ width: "16.8rem", height: "23.5rem" }} >
-                                    <img src={item.imagenPath} alt={item.titulo} />
-                                    <ImageListItemBar
-                                        title={item.titulo}
-                                        position='bottom'
-                                        actionIcon={
-                                            <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
-                                                <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
-                                                    <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
-                                                </Link>
-                                            </IconButton>
-                                        }
-                                    />
-                                </ImageListItem>
-                            )
-                            )}
-                        </ImageList>
+                        </Container>
                     </Grid>
                 ) : (
                     <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'95vw'} height={'100vh'} />

@@ -32,6 +32,14 @@ const drawerWidth = "10%";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        width: drawerWidth,
+        [theme.breakpoints.down('1200')]: {
+            width: theme.spacing(12) ,
+        },[theme.breakpoints.only('sm')]: {
+            width: theme.spacing(9),
+        },[theme.breakpoints.only('xs')]: {
+            width: '2.8em',
+        },
     },
     drawer: {
         width: drawerWidth,

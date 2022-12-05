@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
         alignContent: 'center',
     },
     content: {
-        display: 'flex',
-        flexDirection: 'column',
+        display: 'block',
         flex: 1,
+        height: '100vh'
     },
     link: {
         color: "white",
