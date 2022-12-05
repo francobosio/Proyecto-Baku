@@ -44,7 +44,7 @@ export default function ColumnTypesGrid() {
         //cada objeto agregarlo al array
         const rows = res.data.map(row => ({
             id: row._id,
-            Titulo: row.titulo,
+            Título: row.titulo,
             Descripción: row.descripción,
             Precio: row.precio,
             UrlCobro: row.urlCobro
@@ -127,7 +127,7 @@ export default function ColumnTypesGrid() {
 
     const columns = React.useMemo(
         () => [
-            { field: 'Titulo', type: 'string', flex: 1, minWidth: 100, },
+            { field: 'Título', type: 'string', flex: 1, minWidth: 100, },
             { field: 'Descripción', type: 'string', flex: 1, minWidth: 100 },
             { field: 'Precio', type: 'string', flex: 1, minWidth: 100 },
             { field: 'UrlCobro', type: 'string', flex: 1, minWidth: 100 },
@@ -139,11 +139,11 @@ export default function ColumnTypesGrid() {
                     <><GridActionsCellItem
                         icon={<EditIcon />}
                         label="Update"
-                        onClick={() => handleClickOpenUpdate(params.id, params.row.Titulo, params.row.Descripción, params.row.Precio, params.row.UrlCobro)}/>
+                        onClick={() => handleClickOpenUpdate(params.id, params.row.Título, params.row.Descripción, params.row.Precio, params.row.UrlCobro)}/>
                     <GridActionsCellItem
                         icon={<DeleteIcon />}
                         label="Delete"
-                        onClick={() => handleClickOpenDelete(params.id, params.row.Titulo)} /></>
+                        onClick={() => handleClickOpenDelete(params.id, params.row.Título)} /></>
                 ],
             },
         ],
@@ -183,7 +183,7 @@ export default function ColumnTypesGrid() {
                             autoFocus
                             margin="dense"
                             id="titulo"
-                            label="Titulo del plan"
+                            label="Título del plan"
                             type="text"
                             fullWidth
                             inputRef={inputTitulo}
@@ -248,7 +248,7 @@ export default function ColumnTypesGrid() {
                     aria-labelledby="responsive-dialog-title"
                 >
                     <DialogTitle id="responsive-dialog-title">
-                        Seguro que quiere eliminar el plan {tituloPlan} ?
+                        ¿Está seguro que desea eliminar el plan "{tituloPlan}"?
                     </DialogTitle>
                     <DialogActions>
                         <Button autoFocus onClick={handleClose}>

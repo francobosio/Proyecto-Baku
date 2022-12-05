@@ -9,6 +9,7 @@ import notificacionRoutes from './routes/notificacion.routes'
 import marcadorRoutes from './routes/marcador.routes'
 import denunciaRoutes from './routes/denuncias.routes'
 import premiumPlanRoutes from './routes/premiumPlan.routes'
+import premiumCobroRoutes from './routes/premiumCobro.routes'
 import path from 'path'
 import responseTime from 'response-time'
 import cron from 'node-cron'
@@ -51,5 +52,6 @@ app.use(notificacionRoutes)
 app.use(marcadorRoutes)
 app.use(denunciaRoutes)
 app.use(premiumPlanRoutes)
+app.use(premiumCobroRoutes)
 
 export default app;
