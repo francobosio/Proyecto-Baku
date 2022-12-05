@@ -88,6 +88,7 @@ export default function Inicio() {
     const [flagActualizar, setFlagActualizar] = useState(true);
     const [numeroRandom, setNumeroRandom] = useState(Math.random());
     const [tieneFecha, setTieneFecha] = useState(true);
+    const [tipoUsuario, settipoUsuario] = useState("")
     const [flagEsMenorEdad, setFlagEsMenorEdad] = useState(false);
 
     let usuario = null;
@@ -147,12 +148,12 @@ export default function Inicio() {
         const favoritos = await usuarioService.obtenerFavoritos(usuario.auth0_id);
         localStorage.setItem("favoritos", JSON.stringify(favoritos))
         //----------------------------------------------------------------------------------------------
+        settipoUsuario(usuario.tipoUsuario);
         if (usuario.estado === 'Bloqueado') {
             //no mostrar el componente de inicio 
             window.alert("Su cuenta se encuentra inactiva, consulte con el administrador")
             window.location.href = "/";
         }
-
     }
 
     useEffect(() => {
@@ -195,7 +196,6 @@ export default function Inicio() {
                     <Grid item >
                         <AppBar />
                     </Grid>
-
                     <Grid item direction="row" >
                     {tieneFecha ?
                             null :
@@ -220,7 +220,7 @@ export default function Inicio() {
                             {/* <MyComponent /> */}
                             <Typography variant='h4' className={classes.titulo} >Subidos recientemente</Typography>
                             {(libros.length > 0 && fechanacimiento !== 0) ? (
-                                <Slider >
+                                <Slider tipoUsuario={tipoUsuario} >
                                     {libros.map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).reverse()}
@@ -230,7 +230,7 @@ export default function Inicio() {
                             <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
                             {libros.length > 0 ? (
                                 //ordenar por cantidad de visitas 
-                                <Slider className={classes.slider}>
+                                <Slider tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {libros.sort((a, b) => b.visitas - a.visitas).map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     ))}
@@ -239,7 +239,7 @@ export default function Inicio() {
                             }
                             <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
                             {libros.length > 0 && flagActualizar === true ? (
-                                <Slider className={classes.slider}>
+                                <Slider tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {libros.sort((a, b) => b.visitas24Horas - a.visitas24Horas).map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => numeroRandom - 0.5)}
@@ -250,7 +250,7 @@ export default function Inicio() {
                             {flagEsMenorEdad ? null : <Typography variant='h4' className={classes.titulo} >Ranking</Typography>}
 
                             {librosRankeados.length > 0 ? (
-                                <SliderRanked className={classes.slider}>
+                                <SliderRanked  tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {librosRankeados.map(movie => (
                                         <SliderRanked.Item movie={movie} tamaño={width} key={movie._id}></SliderRanked.Item>
                                     )).reverse()}
@@ -260,7 +260,7 @@ export default function Inicio() {
                             }
                             <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                             {libros.length > 0 ? (
-                                <Slider className={classes.slider}>
+                                <Slider tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {libros.map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => numeroRandom - 0.5)}
@@ -269,7 +269,7 @@ export default function Inicio() {
                             }
                             <Typography variant='h4' className={classes.titulo}>Para una noche de terror</Typography>
                             {librosGenero.length > 0 ? (
-                                <Slider className={classes.slider}>
+                                <Slider tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {librosGenero.map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => Math.random() - 0.5)}
@@ -278,7 +278,7 @@ export default function Inicio() {
                             }
                             <Typography variant='h4' className={classes.titulo}>Más favoritos por la comunidad</Typography>
                             {librosFavoritos.length > 0 ? (
-                                <Slider className={classes.slider}>
+                                <Slider tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {librosFavoritos.map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => Math.random() - 0.5)}

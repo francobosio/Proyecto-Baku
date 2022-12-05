@@ -27,8 +27,8 @@ export const enviarMail: RequestHandler = async (req, res) => {
 }
 
 export const guardarDenuncia: RequestHandler = async (req, res) => {
-    const { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro } = req.body;
-    const denuncia = new Denuncia({ from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro })
+    const { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro,reclamador } = req.body;
+    const denuncia = new Denuncia({ from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro,reclamador })
     const savedDenuncia = await denuncia.save()
     //todas las denucias del mismo autorAuth0 y libroId actualizarlas con el nuevo reclamosxUsuario y reclamosxLibro 
     const denuncias = await Denuncia.find({ autorAuth0: autorAuth0, libroId: libroId })
