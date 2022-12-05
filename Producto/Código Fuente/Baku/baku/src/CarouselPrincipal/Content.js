@@ -92,7 +92,7 @@ export default function Content({ movie, onClose, tamaño }) {
               <AutoStoriesOutlinedIcon style={{ fontSize: tamañoLectu }} className="content__read-button" />
             </Link>
           </button>
-          <button className="content__denuncia" onClick={() => setOpen(!open)} title={"Denunciar este libro"}>
+          <button className="content__denuncia" onClick={() => setOpen(!open)} title={"Reclamar este libro"}>
             <ReportGmailerrorredOutlinedIcon style={{ fontSize: tamañoDenuncia, cursor: "pointer" }} className="content__denuncia-button" />
             <Denuncia
               id="ringtone-menu"

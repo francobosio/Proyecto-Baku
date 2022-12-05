@@ -239,7 +239,7 @@ export default function TitlebarImageList() {
     const valor = theme.breakpoints.values[useWidth()];
     let columnas = 5;
     let distanciReturn = 430;
-    let tamañoReturn,flagReturn=false; ;
+    let tamañoReturn,flagReturn=false;
     let PaddingTitulo;
     if (useMediaQuery(theme.breakpoints.only('xs'))) { columnas = 2; distanciReturn = 89 ;flagReturn=false;tamañoReturn='1.5em';PaddingTitulo='1.9em' }
     if (useMediaQuery(theme.breakpoints.only('sm'))) { columnas = 3; distanciReturn = 150;flagReturn=false;}

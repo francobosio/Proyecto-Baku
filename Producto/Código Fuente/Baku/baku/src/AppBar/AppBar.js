@@ -114,7 +114,7 @@ export default function PrimarySearchAppBar() {
   const [estrella, setEstrella] = React.useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  let flagNotificacion;
+  const [esAdministrador, setesAdministrador] = useState(localStorage.getItem('tipoUsuario'));
   let history = useHistory();
   
   const buscarNotificaciones = async () => {

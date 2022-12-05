@@ -61,18 +61,18 @@ export default function BasicTabs() {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Permisos" {...a11yProps(0)} />
+          {/* <Tab label="Permisos" {...a11yProps(0)} /> */}
           <Tab label="Tipo de Usuario" {...a11yProps(1)} />
-          <Tab label="Planes Premium" {...a11yProps(2)} />
+          <Tab label="Planes Premium" {...a11yProps(0)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
+{/*       <TabPanel value={value} index={0}>
         <Permisos/>
-      </TabPanel>
+      </TabPanel> */}
       <TabPanel sx={{height:'100em'}} value={value} index={1}>
         <TipoUsuario/>
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={0}>
         <PlanPremium/>
       </TabPanel>
     </Box>
