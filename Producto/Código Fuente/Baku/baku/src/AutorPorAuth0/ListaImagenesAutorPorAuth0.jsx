@@ -7,6 +7,10 @@ import { useParams } from 'react-router-dom';
 import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -66,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     },
     fondo: {
         'minHeight': '100vh',
-        'minWidth': ' 95vh'
+        //'minWidth': ' 95vh'
     }
 }));
 
@@ -170,42 +174,57 @@ export default function TitlebarImageList() {
         }
     }
 
+    const theme = useTheme();
+    let banderaTab = false;
+    let anchoImageList = 0;
+    let altura;
+    let fontSizeAlias;
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; banderaTab = true; anchoImageList = 360; fontSizeAlias = 15 }
+    if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; banderaTab = true; anchoImageList = "120%"; fontSizeAlias = 20 }
+    if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; banderaTab = true; anchoImageList = "85%"; fontSizeAlias = 25 }
+    if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; banderaTab = false; anchoImageList = "95%"; fontSizeAlias = 28 }
+    if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; banderaTab = false; anchoImageList = "100%"; fontSizeAlias = 32 }
+
+
     return (
-        <Container style={{ minHeight:'28.47em' }} >
-            <Grid container spacing={1} >
+        <Container className={classes.root} maxWidth="xl">
             {libros.length > 0 ?
                 (
                     <Grid className={classes.fondo} xs={12}>
-                        <Grid item direction='row' xs={12} container  >
-                            <Grid item xs={2}>
-                                <Typography className={classes.titulo}>{libros[0].alias}</Typography>
-                                <Typography className={classes.suscriptores} variant="subtitle1" >{suscriptores} suscriptores</Typography>
-                            </Grid>
-                        {flagBotonSuscripcion ? <Grid item xs={1} className={classes.alinearCentro}>
-                                <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
-                                </Grid> :
-                            null
-                        }
+                        <Container style={{ minHeight:'28.47em' }} >
+                            <Grid container spacing={1} >
+                                <Grid item direction='row' xs={12} container  >
+                                    <Grid item xs={5} md={2}>
+                                        <Typography className={classes.titulo} style={{fontSize: fontSizeAlias}}>{libros[0].alias}</Typography>
+                                        <Typography className={classes.suscriptores} variant="subtitle1" >{suscriptores} suscriptores</Typography>
+                                    </Grid>
+                                {flagBotonSuscripcion ? <Grid iitem xs={7} md={2}className={classes.alinearCentro}>
+                                        <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
+                                        </Grid> :
+                                    null
+                                }
+                                </Grid>
+                                <br />
+                                <ImageList rowHeight={500} className={classes.imageList} cols={5} style={{ width: anchoImageList, justifyContent: 'initial' }} gap={20}>
+                                    {libros.map((item) => (
+                                        <ImageListItem key={item._id} style={{ width: altura / 6.6, height: altura / 4 }} >
+                                            <img src={item.imagenPath} alt={item.titulo} />
+                                            <ImageListItemBar
+                                                title={item.titulo}
+                                                position='bottom'
+                                                actionIcon={
+                                                    <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
+                                                        <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
+                                                            <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
+                                                        </Link>
+                                                    </IconButton>
+                                                }
+                                            />
+                                        </ImageListItem>
+                                    ))}
+                                </ImageList>
                         </Grid>
-                        <br />
-                        <ImageList rowHeight={500} className={classes.imageList} cols={5} gap={20}>
-                            {libros.map((item) => (
-                                <ImageListItem key={item._id} style={{ width: "16.8rem", height: "23.5rem" }} >
-                                    <img src={item.imagenPath} alt={item.titulo} />
-                                    <ImageListItemBar
-                                        title={item.titulo}
-                                        position='bottom'
-                                        actionIcon={
-                                            <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
-                                                <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
-                                                    <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
-                                                </Link>
-                                            </IconButton>
-                                        }
-                                    />
-                                </ImageListItem>
-                            ))}
-                        </ImageList>
+                        </Container>
                     </Grid>
                 ) : (<Grid className={classes.fondo} xs={6}>
                     <Grid item direction='row' xs={12} container  >
@@ -223,7 +242,6 @@ export default function TitlebarImageList() {
                 </Grid>
                 )
             }
-            </Grid>
         </Container>
     );
 }
