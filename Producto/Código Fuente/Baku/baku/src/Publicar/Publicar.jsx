@@ -532,7 +532,7 @@ export default function MiniDrawer() {
                                                 accept=".png,.jpg,.jpeg"
                                             />
                                         </Button>
-                                        <Tooltip title="El archivo puede estar en formato PNG, JPG, RAW o JPEG (Peso máximo 200 Kb)" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
+                                        <Tooltip title="El archivo puede estar en formato PNG, JPG o JPEG (Peso máximo 200 Kb)" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
                                             <InfoIcon />
                                         </Tooltip>
                                     </Grid>
