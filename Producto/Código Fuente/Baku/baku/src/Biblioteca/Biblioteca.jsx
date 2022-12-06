@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
     titulo: {
         "font": "200% sans-serif",
+        "margin-left": "1rem",
         "margin-top": "1rem",
         "marginBottom": "1rem",
         'font-weight': 'bold',

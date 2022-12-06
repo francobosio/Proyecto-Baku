@@ -11,15 +11,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex'
     },
-
-    titulo: {
-        "font": "200% sans-serif",
-        "margin-top": "1rem",
-        "marginBottom": "2rem",
-        'font-weight': 'bold',
-        "padding-left": "0",
-        color: "black",
-    },
     content: {
         display: 'flex',
         flexDirection: 'column',
@@ -41,7 +32,6 @@ export default function MiniDrawer() {
                     <Grid item component={'main'} className={classes.content} >
                         <Container maxWidth='xl' sx={{ minHeight: '70.28vh' }} fixed>
                             <br />
-                            <Typography variant='h4' className={classes.titulo}> Suscripciones </Typography>
                             <Suscripciones />
                         </Container>
                     </Grid>
