@@ -39,6 +39,7 @@ export default function Content({ movie, onClose, tamaño }) {
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   let [open, setOpen] = React.useState(false);
   let reclamadorAuth0 = localStorage.getItem("usuario_activo")
+  const [esAdmin, setEsAdmin] = React.useState(localStorage.getItem("tipoUsuario") == 3);
   const [value, setValue] = React.useState('Dione');
   const tamañoLectu = matches ? "4em" : "3em";
   const tamañoDenuncia = matches ? "3.8em" : "3em";
@@ -59,9 +60,9 @@ export default function Content({ movie, onClose, tamaño }) {
       <div className="content__area" /* onMouseLeave={onClose} */>
         <div className="content__area__container" >
           <div style={{ flexDirection: 'row', display: 'flex', alignContent: 'center', alignItems: 'center', marginLeft: margenTitulo }}>
-            {!matches ? <Favorito libroId={movie._id} /> : null}
+            {(!esAdmin && !matches) ? <Favorito libroId={movie._id} /> : null}
             <div className="content__title" style={{ fontSize: tamaño / 4.5 }}>{movie.titulo}</div>
-            {matches ? <Favorito libroId={movie._id} /> : null}
+            {(!esAdmin && matches) ? <Favorito libroId={movie._id} /> : null}
           </div>
           <div className="content__subtitle2" style={{ fontSize: (tamaño / 6.3) }}>{movie.autor}</div>
           {movie.descripcion !== "" &&
@@ -71,9 +72,10 @@ export default function Content({ movie, onClose, tamaño }) {
         </div>
         <Stack direction='row' sx={{ marginBottom: '0.7em' }}>
           <PersonIcon sx={{ paddingLeft: '1.35em', paddingRight: '0.4em', color: '#333333', fontSize: (Math.sqrt(tamaño) * 2.5) }} />
-          <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id}>
+          {!esAdmin ? <Link class="content__link" onClick={() => { AutorSeleccionado(movie.id) }} to={`/Autor/` + movie._id} disabled>
             <div className="content__subtitle" style={{ fontSize: (tamaño / 8) }}>{movie.alias} </div>
-          </Link>
+          </Link> :
+          <div className="content__subtitle" style={{ fontSize: (tamaño / 8) }}>{movie.alias} </div>}
         </Stack>
         <Stack direction='row'>
           <Typography variant='subtitle2' sx={{ paddingLeft: '3.1429em', paddingRight: '0.5em', marginBottom: '0.7em', color: '#333333' }}>
@@ -87,12 +89,12 @@ export default function Content({ movie, onClose, tamaño }) {
           <button className="content__close" onClick={onClose} title={"Cerrar"}>
             <IconCross /* className="content__close__icon" */ />
           </button>
-          <button className="content__read" onClick={onClose} title={"Leer este libro"}>
+          {!esAdmin ? <><button className="content__read" onClick={onClose} title={"Leer este libro"} disabled={esAdmin}>
             <Link onClick={() => { LibroLeido(movie._id) }} to={"/Lectura/" + movie._id} >
               <AutoStoriesOutlinedIcon style={{ fontSize: tamañoLectu }} className="content__read-button" />
             </Link>
           </button>
-          <button className="content__denuncia" onClick={() => setOpen(!open)} title={"Reclamar este libro"}>
+          <button className="content__denuncia" onClick={() => setOpen(!open)} title={"Reclamar este libro"} disabled={esAdmin}>
             <ReportGmailerrorredOutlinedIcon style={{ fontSize: tamañoDenuncia, cursor: "pointer" }} className="content__denuncia-button" />
             <Denuncia
               id="ringtone-menu"
@@ -104,7 +106,7 @@ export default function Content({ movie, onClose, tamaño }) {
               pAutor={movie.usuario}
               pLibro={movie._id}
             />
-          </button>
+          </button></> : null}
         </Stack>
       </div>
     </Container >
