@@ -25,7 +25,7 @@ const options = [
 ];
 
 export default function ConfirmationDialogRaw(props) {
-  const { onClose, value: valueProp, open, pAutor, pLibro, ...other } = props;
+  const { onClose, value: valueProp, open, pAutor, pLibro,reclamador, ...other } = props;
   React.useEffect(() => {
     if (open === true) {
       setOpen2(open)
@@ -67,6 +67,7 @@ export default function ConfirmationDialogRaw(props) {
   const handleAceptar = async () => {
     setCerrar(false);
     inputDenuncia.current.value = "";
+    let reclamador = await usuarioService.getUsuario(pAutor);
     let contadorDenunciasTotalAutor = await denunciaService.putContadorDenuncias(pAutor);
     let contadorDenucniasxLibroAutor = await denunciaService.putContadorDenunciasxLibro(pLibro);
     const autorAuth0 = await usuarioService.getUsuario(pAutor);
@@ -79,10 +80,11 @@ export default function ConfirmationDialogRaw(props) {
       concepto = cuadroTexto;
     }
     setCerrar(false);
+    const reclamadorAuth0 = reclamador.data.usuario;
     const contadorAutor = parseInt(contadorDenunciasTotalAutor.data) + 1;
     const contadorLibro = parseInt(contadorDenucniasxLibroAutor.data) + 1;
     setNuevoModal(true);
-    await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro);
+    await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro,reclamadorAuth0);
     if (contadorAutor >= 2 || contadorLibro >= 2) {
       console.log("bloquear" + contadorAutor + " " + contadorLibro)
       await denunciaService.putBloquearAutoryLibro(pAutor, pLibro);

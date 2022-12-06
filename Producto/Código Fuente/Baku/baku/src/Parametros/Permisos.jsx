@@ -1,4 +1,4 @@
-import * as React from 'react';
+/* import * as React from 'react';
 import { DataGrid, GridActionsCellItem,esES } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SecurityIcon from '@mui/icons-material/Security';
@@ -206,3 +206,4 @@ export default function ColumnTypesGrid() {
 
   );
 }
+ */

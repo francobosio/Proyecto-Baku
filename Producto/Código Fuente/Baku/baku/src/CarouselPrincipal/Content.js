@@ -38,6 +38,7 @@ export default function Content({ movie, onClose, tamaño }) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   let [open, setOpen] = React.useState(false);
+  let reclamadorAuth0 = localStorage.getItem("usuario_activo")
   const [value, setValue] = React.useState('Dione');
   const tamañoLectu = matches ? "4em" : "3em";
   const tamañoDenuncia = matches ? "3.8em" : "3em";
@@ -50,7 +51,7 @@ export default function Content({ movie, onClose, tamaño }) {
   };
   //si movie.alias es null, mostrar un nombre por defecto (ej: "Anónimo")
   if (movie.alias == null) {
-    movie.alias = "USUARIO PROVISORIO"
+    movie.alias = "Anónimo"
   }
 
   return (
@@ -91,7 +92,7 @@ export default function Content({ movie, onClose, tamaño }) {
               <AutoStoriesOutlinedIcon style={{ fontSize: tamañoLectu }} className="content__read-button" />
             </Link>
           </button>
-          <button className="content__denuncia" onClick={() => setOpen(!open)} title={"Denunciar este libro"}>
+          <button className="content__denuncia" onClick={() => setOpen(!open)} title={"Reclamar este libro"}>
             <ReportGmailerrorredOutlinedIcon style={{ fontSize: tamañoDenuncia, cursor: "pointer" }} className="content__denuncia-button" />
             <Denuncia
               id="ringtone-menu"
@@ -99,6 +100,7 @@ export default function Content({ movie, onClose, tamaño }) {
               open={open}
               onClose={handleClose}
               value={value}
+              reclamador={reclamadorAuth0}
               pAutor={movie.usuario}
               pLibro={movie._id}
             />
