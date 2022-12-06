@@ -25,6 +25,7 @@ import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import ReportGmailerrorredOutlinedIcon from '@mui/icons-material/ReportGmailerrorredOutlined';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
@@ -162,17 +163,15 @@ export const MiDrawer = (props) => {
                 </Box>
                 <Divider />
                 <List>
-                    {revisar &&
-                        <Link onClick={handleLink} to="/Inicio" className={classes.link} >
-                            {/* Crear tooltip por debajo del cursor */}
-                            <Tooltip title="Inicio" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                                <ListItem button selected={selectedIndex === 1} >
-                                    <ListItemIcon style={{ minWidth: porcentajeMinAncho }} className={classes.ListItemIconProps} ><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                    <ListItemText primary='Inicio' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
-                                </ListItem>
-                            </Tooltip>
-                        </Link>
-                    }
+                    <Link onClick={handleLink} to="/Inicio" className={classes.link} >
+                        {/* Crear tooltip por debajo del cursor */}
+                        <Tooltip title="Inicio" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                            <ListItem button selected={selectedIndex === 1} >
+                                <ListItemIcon style={{ minWidth: porcentajeMinAncho }} className={classes.ListItemIconProps} ><HomeOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary='Inicio' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
+                            </ListItem>
+                        </Tooltip>
+                    </Link>
                     {revisar2 &&
                         <Link onClick={handleLink} to="/Buscar" className={classes.link}>
                             <Tooltip title="Buscar" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
@@ -183,16 +182,14 @@ export const MiDrawer = (props) => {
                             </Tooltip>
                         </Link>
                     }
-                    {revisar &&
-                        <Link to="/Comunidad" className={classes.link} >
-                            <Tooltip title="Comunidad" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                                <ListItem button selected={selectedIndex === 3}>
-                                    <ListItemIcon style={{ minWidth: porcentajeMinAncho }} className={classes.ListItemIconProps}><AccountCircleIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                    <ListItemText primary='Comunidad' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
-                                </ListItem>
-                            </Tooltip>
-                        </Link>
-                    }
+                    <Link to="/Comunidad" className={classes.link} >
+                        <Tooltip title="Comunidad" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                            <ListItem button selected={selectedIndex === 3}>
+                                <ListItemIcon style={{ minWidth: porcentajeMinAncho }} className={classes.ListItemIconProps}><GroupsIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                <ListItemText primary='Comunidad' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
+                            </ListItem>
+                        </Tooltip>
+                    </Link>
                     {revisar2 &&
                         <Link to="/Biblioteca" className={classes.link} >
                             <Tooltip title="Biblioteca" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
@@ -203,7 +200,6 @@ export const MiDrawer = (props) => {
                             </Tooltip>
                         </Link>
                     }
-
                     {revisar2 &&
                         <Link to="/Suscripciones" className={classes.link} >
                             <Tooltip title="Suscripciones" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>

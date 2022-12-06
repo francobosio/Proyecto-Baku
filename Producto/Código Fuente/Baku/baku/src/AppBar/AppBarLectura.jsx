@@ -18,6 +18,7 @@ import Avatar from '@material-ui/core/Avatar'
 import NotificationsPopover from './Notificacion.js';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts'
 import StarIcon from '@mui/icons-material/Star';
+import EngineeringIcon from '@mui/icons-material/Engineering';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -118,6 +119,11 @@ const useStyles = makeStyles((theme) => ({
     transform: 'scale(1.7)',
     color: "#EABE3F",
     paddingLeft: "0.5rem"
+  },
+  admin:{
+    transform: 'scale(1.7)',
+    color: '#076F55',
+    paddingLeft: "0.5rem"
   }
 }
 ));
@@ -126,10 +132,10 @@ export default function PrimarySearchAppBar() {
   const { logout, user } = useAuth0();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [hidden, setHidden] = React.useState(false);
+  const [hidden, setHidden] = React.useState(localStorage.getItem("tipoUsuario") == 3);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [valor, setValor] = React.useState('');
-  const [estrella, setEstrella] = React.useState(false);
+  const [estrella, setEstrella] = React.useState(localStorage.getItem("tipoUsuario") == 2);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -142,30 +148,9 @@ export default function PrimarySearchAppBar() {
     setValor(respuesta)
     return respuesta;
   };
-  
-  const ocultarBoton = () => {
-    const tipo = localStorage.getItem("tipoUsuario") == 3;
-    if (tipo){
-      setHidden(true)
-    } else {
-      setHidden(false)
-    }
-
-  }
-
-  const mostrarEstrella = () => {
-    const tipo = localStorage.getItem("tipoUsuario") == 2;
-    if (tipo){
-      setEstrella(true);
-    } else {
-      setEstrella(false);
-    }
-  }
 
   useEffect(() => {
       buscarNotificaciones();
-      ocultarBoton();
-      mostrarEstrella();
     }, [])
   
   const handleProfileMenuOpen = (event) => {
@@ -277,6 +262,7 @@ export default function PrimarySearchAppBar() {
           </div>
           <div>
             {estrella && <StarIcon className={classes.estrella}></StarIcon>}
+            {hidden && <EngineeringIcon className={classes.admin}></EngineeringIcon>}
           </div>
         </Toolbar>
       </AppBar>

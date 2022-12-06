@@ -151,7 +151,7 @@ export default function ButtonAppBar() {
           </Grid>
             <Typography className={classes.typographyKsText}>No dejes para mañana lo que puedes leer hoy.</Typography>
             <Typography className={classes.typographyKsText}>Accedé a cientos de libros originales en forma gratuita</Typography>
-            <LoginButton text="Ingresa a Baku" sx={{marginBottom: '2rem'}}>
+            <LoginButton text="Ingresá a Baku" sx={{marginBottom: '2rem'}}>
             </LoginButton>
           </Grid> 
         </Grid>

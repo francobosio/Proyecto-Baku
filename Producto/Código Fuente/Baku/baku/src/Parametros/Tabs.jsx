@@ -69,10 +69,10 @@ export default function BasicTabs() {
 {/*       <TabPanel value={value} index={0}>
         <Permisos/>
       </TabPanel> */}
-      <TabPanel sx={{height:'100em'}} value={value} index={1}>
+      <TabPanel sx={{height:'100em'}} value={value} index={0}>
         <TipoUsuario/>
       </TabPanel>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={1}>
         <PlanPremium/>
       </TabPanel>
     </Box>
