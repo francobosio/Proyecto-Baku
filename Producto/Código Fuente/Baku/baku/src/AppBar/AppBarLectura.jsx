@@ -141,7 +141,7 @@ export default function PrimarySearchAppBar() {
 
   const buscarNotificaciones = async () => {
     //esperar 1 segundo para que se carguen las notificaciones
-     let usuarioAuth0 = localStorage.getItem('tipoUsuario');
+     let usuarioAuth0 = localStorage.getItem('usuario_activo');
    
     const notificaciones = await NotificacionServices.buscarNotificacionUsuarioAuth0(usuarioAuth0);
     const respuesta = notificaciones.data.mensajes;
@@ -150,8 +150,15 @@ export default function PrimarySearchAppBar() {
   };
 
   useEffect(() => {
-      buscarNotificaciones();
-    }, [])
+    buscarNotificaciones();
+    buscarTipoUsuario();
+  }, [])
+
+const buscarTipoUsuario = () => {
+  setEstrella(localStorage.getItem("tipoUsuario") == 2)
+  setHidden(localStorage.getItem("tipoUsuario") == 3)
+}
+
   
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

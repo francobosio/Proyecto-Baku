@@ -120,12 +120,11 @@ export default function PrimarySearchAppBar() {
   const [estrella, setEstrella] = React.useState(localStorage.getItem("tipoUsuario") == 2);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const [esAdministrador, setesAdministrador] = useState(localStorage.getItem('tipoUsuario'));
   let history = useHistory();
   
   const buscarNotificaciones = async () => {
     //esperar 1 segundo para que se carguen las notificaciones
-    let usuarioAuth0 = localStorage.getItem('tipoUsuario');
+    let usuarioAuth0 = localStorage.getItem('usuario_activo');
     const notificaciones = await NotificacionServices.buscarNotificacionUsuarioAuth0(usuarioAuth0);
     const respuesta = notificaciones.data.mensajes;
 
@@ -139,8 +138,14 @@ export default function PrimarySearchAppBar() {
 
   useEffect(() => {
       buscarNotificaciones();
+      buscarTipoUsuario();
     }, [])
   
+  const buscarTipoUsuario = () => {
+    setEstrella(localStorage.getItem("tipoUsuario") == 2)
+    setHidden(localStorage.getItem("tipoUsuario") == 3)
+  }
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
