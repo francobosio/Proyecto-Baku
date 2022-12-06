@@ -100,15 +100,17 @@ export const obtenerCobroByUserId : RequestHandler = async (req, res) => {
 
 export const actualizarEstadosUsuarios = async () => {
     let fechaHoy = new Date(Date.now());
-    let cobros = await Cobro.find({estado: 'Cancelado', fechaVencimiento: {$gt: fechaHoy}});
+    let cobros = await Cobro.find({estado: 'Cancelado'});
 
     cobros.forEach(async (cobro) => {
-        if (cobro.userId){
-            let usuario = await Usuario.findById(cobro.userId)
-            if (usuario) {
-                usuario.tipoUsuario = '1';
-                usuario.save();
+        if (cobro.fechaVencimiento < fechaHoy){
+            if (cobro.userId){
+                let usuario = await Usuario.findById(cobro.userId)
+                if (usuario) {
+                    usuario.tipoUsuario = '1';
+                    usuario.save();
+                }
             }
-        }
+        } 
     });
 }
