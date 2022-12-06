@@ -70,6 +70,7 @@ import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { useAlert } from 'react-alert';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -274,9 +275,17 @@ const Lectura = () => {
             setInitialPage(parseInt(resPagina.data, 10));
             
             const resLibro = await libroService.getLibro(id);
-            setLibro(resLibro.data);
+            if (resLibro. data != ""){
+                setLibro(resLibro.data);
+            } else {
+                alert.error("El libro que intentó abrir ya no se encuentra en Baku");
+                history.push('/Inicio')
+            }
+
         }
     }
+
+    const alert = useAlert();
 
     //PERMISOS DE USUARIO
     const cargarUsuario = async () => {
