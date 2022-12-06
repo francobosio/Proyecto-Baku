@@ -16,6 +16,7 @@ import esLocale from 'date-fns/locale/es';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Dialog, DialogActions, DialogContent, DialogContentText, FormControlLabel } from "@mui/material";
 import 'date-fns';
+import { useAlert } from 'react-alert';
 
 import * as usuarioService from './Usuarios/UsuarioService';
 
@@ -132,6 +133,8 @@ export default function Perfil() {
     loadUsuario()
   }, [])
 
+  const alert = useAlert();
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -155,7 +158,7 @@ export default function Perfil() {
     setFlagPermanenciaLibros(e.target.checked);
   }
 
-  const saveChanges = () => {
+  const saveChanges = async () => {
     localStorage.setItem("fechaNacimiento", new Date(selectedDate));
     setFlagNombreEnabled(false);
     setFlagApellidoEnabled(false);
@@ -174,24 +177,34 @@ export default function Perfil() {
       'fecha_nacimiento': selectedDateFormat.toDateString() != todayDate.toDateString() ? selectedDateFormat : userDB.fecha_nacimiento,
     };
 
-    const res = usuarioService.modificarUsuario(usuarioData);
-
+    const res = await usuarioService.modificarUsuario(usuarioData);
+    console.log(res)
+    handleClose();
+    if (res.data.message == "Usuario modificado con éxito !!!"){
+      alert.show("Los cambios se guardaron correctamente!", { type: 'success', position: 'top center' });
+    }
   }
 
-  const [open, setOpen] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
+  const [openSave, setOpenSave] = React.useState(false);
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDelete(false);
+    setOpenSave(false);
   };
 
   const openDeleteDialog = () => {
-    setOpen(true);
+    setOpenDelete(true);
   }
 
-  const deleteUser = () => {
-    const res = usuarioService.eliminarUsuario(userDB._id, flagPermanenciaLibros, logout);
-    localStorage.removeItem("usuario_id")
-    localStorage.removeItem("tipoUsuario")
+  const openSaveDialog = () => {
+    setOpenSave(true);
+  }
+
+  const deleteUser = async () => {
+    const res = await usuarioService.eliminarUsuario(userDB._id, flagPermanenciaLibros, logout);
+    alert.show("Su cuenta fué eliminada", { type: 'success', position: 'top center' });
+    localStorage.clear()
   }
 
   return (
@@ -298,11 +311,11 @@ export default function Perfil() {
               </Grid>
               <div>
                 <Dialog
-                  open={open}
+                  open={openDelete}
                   onClose={handleClose}>
                   <DialogContent>
                     <DialogContentText>
-                      ¿Está seguro de que quiere eliminar su cuenta?, esta decisión no puede revertirse!
+                      ¿Está seguro que quiere eliminar la cuenta?, esta decisión no puede revertirse!
                     </DialogContentText>
 
                     <FormControlLabel
@@ -311,16 +324,32 @@ export default function Perfil() {
                       label="Acepto que mis obras permanezcan en la aplicación luego de borrada mi cuenta" />
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={handleClose}>Cancelar</Button>
                     <Button type="Button" onClick={deleteUser} autoFocus>
-                      Eliminar
+                      Aceptar
                     </Button>
+                    <Button onClick={handleClose}>Cancelar</Button>
+                  </DialogActions>
+                </Dialog>
+
+                <Dialog
+                  open={openSave}
+                  onClose={handleClose}>
+                  <DialogContent>
+                    <DialogContentText>
+                      ¿Está seguro que quiere guardar los cambios?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button type="Button" onClick={saveChanges} autoFocus>
+                      Aceptar
+                    </Button>
+                    <Button onClick={handleClose}>Cancelar</Button>
                   </DialogActions>
                 </Dialog>
               </div>
               <Grid container spacing={0} style={{marginBottom:"1em"}} >
                 <Grid item xs={6} style={{justifyContent:"center",display:"flex"}}>
-                  <Button className={classes.botonGuardar} onClick={saveChanges}>Guardar Cambios</Button>
+                  <Button className={classes.botonGuardar} onClick={openSaveDialog}>Guardar Cambios</Button>
                 </Grid>
                 <Grid item xs={6}>
                   <Button className={classes.botonEliminar} onClick={openDeleteDialog}>Eliminar mi Cuenta</Button>
