@@ -70,7 +70,7 @@ export default function Ayuda() {
                                         Familiar: Sumados a los beneficios del plan mensual, se ofrecerá un precio especial por el acceso premium a la aplicación con 6 perfiles distintos para cada integrante de la familia, con un manejo de Bibliotecas con sus libros favoritos de manera separada e independiente.
                                         <br />
                                         Como objetivo de lanzamiento de la aplicación, a futuro se busca que haya cientos de cargas de libros en Baku y que cada día se agreguen más. Tenemos varias medidas para limitar la infracción de derechos de autor en Baku, como el manejo de Reclamos, en donde frente a una posible violación de derechos de autor o de contenido inapropiado, se seguirán los siguientes pasos:  <br />
-                                        El usuario inicia un reclamo por tal motivo especificando qué tipo de reclamo es, el libro a denunciar y un fundamento
+                                        El usuario inicia un reclamo por tal motivo especificando qué tipo de reclamo es, el libro a reclamar y un fundamento
                                         Luego, el equipo de Baku procederá a analizarlo pasándose a revisión
                                         Finalmente, se decidirá si se aprueba el reclamo porque infringe derechos de autor derivando a dar de baja el contenido notificándole tal situación a su autor, o si se rechaza por no hacerlo o no encontrar razones suficientes para dar de baja el mismo.
                                         <br />
