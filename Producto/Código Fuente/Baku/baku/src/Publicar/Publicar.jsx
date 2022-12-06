@@ -186,6 +186,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.only('xs')]: {
             maxWidth: '23em',
             minWidth: '23em',
+            marginLeft: "0.4em",
         },
     },
     textoMultiple: {

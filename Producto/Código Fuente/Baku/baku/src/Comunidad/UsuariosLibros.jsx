@@ -7,7 +7,23 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+    titulo: {
+        "font": "200% sans-serif",
+        "margin-top": "1rem",
+        "marginBottom": "2rem",
+        'font-weight': 'bold',
+        "padding-left": "0",
+        color: "black",
+    },
+}));
+
 export default function ColumnTypesGrid() {
+  const classes = useStyles();
+
   const [rowss, setRows] = React.useState("");
   const [tipoUsuario, setTipoUsuario] = React.useState(localStorage.getItem("tipoUsuario"));
   const [pageSize, setPageSize] = React.useState(5);
@@ -99,6 +115,7 @@ export default function ColumnTypesGrid() {
 
   return (
     <Container fixed >
+      <Typography variant='h4' className={classes.titulo}> Comunidad </Typography>
       <DataGrid
         columns={cualColumns}
         rows={rowss}

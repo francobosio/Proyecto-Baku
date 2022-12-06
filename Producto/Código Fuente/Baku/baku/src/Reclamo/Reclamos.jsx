@@ -214,7 +214,7 @@ export default function ColumnTypesGrid() {
   );
 
   return (
-    <div style={{ height: '32rem', width: '100%' }}>
+    <div style={{ height: '32rem', width: '100%', marginLeft: '1rem' }}>
       <DataGrid
         columns={columns}
         rows={rows}

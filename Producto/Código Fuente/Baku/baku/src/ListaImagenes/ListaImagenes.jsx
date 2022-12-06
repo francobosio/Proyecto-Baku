@@ -241,11 +241,12 @@ export default function TitlebarImageList() {
     let distanciReturn = 430;
     let tamañoReturn,flagReturn=false;
     let PaddingTitulo;
-    if (useMediaQuery(theme.breakpoints.only('xs'))) { columnas = 2; distanciReturn = 89 ;flagReturn=false;tamañoReturn='1.5em';PaddingTitulo='1.9em' }
-    if (useMediaQuery(theme.breakpoints.only('sm'))) { columnas = 3; distanciReturn = 150;flagReturn=false;}
-    if (useMediaQuery(theme.breakpoints.only('md'))) { columnas = 4; distanciReturn = 220;flagReturn=true;}
-    if (useMediaQuery(theme.breakpoints.only('lg'))) { columnas = 5; distanciReturn = 380;flagReturn=true;}
-    if (useMediaQuery(theme.breakpoints.only('xl'))) { columnas = 5; distanciReturn = 430;flagReturn=true;}
+    let altura
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; columnas = 2; distanciReturn = 89 ;flagReturn=false;tamañoReturn='1.5em';PaddingTitulo='1.9em' }
+    if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; columnas = 3; distanciReturn = 150;flagReturn=false;}
+    if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; columnas = 4; distanciReturn = 220;flagReturn=true;}
+    if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; columnas = 5; distanciReturn = 380;flagReturn=true;}
+    if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; columnas = 5; distanciReturn = 430;flagReturn=true;}
     const width = calculo(valor);
     const handleSubmit = async (e) => {
         setEstado(true);
@@ -348,12 +349,12 @@ export default function TitlebarImageList() {
                 </Typography>
                 {(estado && libroBuscado.length > 0) ?
                     <Container fixed className={classes.contenedor3} sx={{ marginLeft: '2.5em' }}>
-                        <ImageList rowHeight={width / 4.1} style={{ width: (width * 1.5) }} cols={columnas} gap={20}>
+                        <ImageList rowHeight={width / 4.1} style={{ width: (width * 1.5), marginLeft: '2.5em' }} cols={columnas} gap={20}>
                             <ImageListItem key="Subheader" cols={columnas} style={{ height: 'auto' }}>
                                 <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft:PaddingTitulo }}>Resultado</ListSubheader>
                             </ImageListItem>
                             {libroBuscado.map((item) => (
-                                <ImageListItem key={item.id} >
+                                <ImageListItem key={item.id} style={{ width: altura / 6.6, height: altura / 4 }}>
                                     <img src={item.imagenPath} alt={item.titulo} style={{ objectFit: 'cover' }} />
                                     <ImageListItemBar
                                         title={item.titulo}

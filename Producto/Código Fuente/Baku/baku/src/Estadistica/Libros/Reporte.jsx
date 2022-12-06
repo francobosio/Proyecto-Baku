@@ -113,7 +113,7 @@ const Reporte = (props) => {
         return (
             <div id="Reporte">
                 {isVisible && (
-                    <div style={{ 
+                    <div className='divReporte' style={{ 
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
