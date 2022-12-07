@@ -130,7 +130,6 @@ export default function NotificationsPopover(propNotificacion) {
   const [notifications, setNotifications] = useState(propNotificacion.notificacion);
 
   const [abrir, setAbrir] = useState(propNotificacion.abrirMobile);
-  console.log("esta es abrir "+abrir)
   // activar useEffect cada vez que se abre el popover de notificaciones 
 
   const totalUnRead = notifications.filter((item) => item.esNoleido === true).length;

@@ -94,9 +94,8 @@ export default function TitlebarImageList() {
         //usar el setAutor sincrono para que no se pierda el valor
         setAutor(autor)
         const buscarNombreSuscripcion = await usuarioService.buscarNombreSuscripcion(usuario_id, autor._id)
-        console.log(usuario_id , autor._id)
-        if  (aliasUsuarioActual!= null && autor._id != null && usuario_id === autor._id)
-        {
+        console.log(usuario_id, autor._id)
+        if (aliasUsuarioActual != null && autor._id != null && usuario_id === autor._id) {
             setflagBotonSuscripcion(false)
         }
         if (buscarNombreSuscripcion.data.estaSuscripto) {
@@ -161,14 +160,14 @@ export default function TitlebarImageList() {
         if (flagEsperaMensaje) {
             return (
                 <div>
-                    <Typography variant="h5" className={classes.titulo} style={{fontSize: fontSizeAlias}}>El usuario no posee libros publicados</Typography>
+                    <Typography variant="h5" className={classes.titulo} style={{ fontSize: fontSizeAlias }}>El usuario no posee libros publicados</Typography>
                 </div>
             )
         }
         else {
             return (
                 <div>
-                    <Typography variant="h5" className={classes.titulo} style={{fontSize: fontSizeAlias}}>Cargando...</Typography>
+                    <Typography variant="h5" className={classes.titulo} style={{ fontSize: fontSizeAlias }}>Cargando...</Typography>
                 </div>
             )
         }
@@ -180,11 +179,11 @@ export default function TitlebarImageList() {
     let altura;
     let fontSizeAlias;
     let transformButton;
-    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; banderaTab = true; anchoImageList = 360; fontSizeAlias = 15 ; transformButton = 0.6 }
-    if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; banderaTab = true; anchoImageList = "120%"; fontSizeAlias = 20 ; transformButton = 0.7 }
-    if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; banderaTab = true; anchoImageList = "85%"; fontSizeAlias = 25 ; transformButton = 0.8 }
-    if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; banderaTab = false; anchoImageList = "95%"; fontSizeAlias = 28 ; transformButton = 0.9 }
-    if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; banderaTab = false; anchoImageList = "100%"; fontSizeAlias = 32 ; transformButton = 1 }
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; banderaTab = true; anchoImageList = 360; fontSizeAlias = 15; transformButton = 0.6 }
+    if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; banderaTab = true; anchoImageList = "120%"; fontSizeAlias = 20; transformButton = 0.7 }
+    if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; banderaTab = true; anchoImageList = "85%"; fontSizeAlias = 25; transformButton = 0.8 }
+    if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; banderaTab = false; anchoImageList = "95%"; fontSizeAlias = 28; transformButton = 0.9 }
+    if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; banderaTab = false; anchoImageList = "100%"; fontSizeAlias = 32; transformButton = 1 }
 
 
     return (
@@ -192,18 +191,18 @@ export default function TitlebarImageList() {
             {libros.length > 0 ?
                 (
                     <Grid className={classes.fondo} xs={12}>
-                        <Container style={{ minHeight:'28.47em' }} >
+                        <Container style={{ minHeight: '28.47em' }} >
                             <Grid container spacing={1} >
                                 <Grid item direction='row' xs={12} container  >
                                     <Grid item xs={5} md={2}>
-                                        <Typography className={classes.titulo} style={{fontSize: fontSizeAlias}}>{libros[0].alias}</Typography>
+                                        <Typography className={classes.titulo} style={{ fontSize: fontSizeAlias }}>{libros[0].alias}</Typography>
                                         <Typography className={classes.suscriptores} variant="subtitle1" >{suscriptores} suscriptores</Typography>
                                     </Grid>
-                                {flagBotonSuscripcion ? <Grid iitem xs={7} md={2} className={classes.alinearCentro}>
-                                        <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} style={{transform: `scale(${transformButton})`}} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
-                                        </Grid> :
-                                    null
-                                }
+                                    {flagBotonSuscripcion ? <Grid iitem xs={7} md={2} className={classes.alinearCentro}>
+                                        <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} style={{ transform: `scale(${transformButton})` }} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
+                                    </Grid> :
+                                        null
+                                    }
                                 </Grid>
                                 <br />
                                 <ImageList rowHeight={500} className={classes.imageList} cols={5} style={{ width: anchoImageList, justifyContent: 'initial' }} gap={20}>
@@ -224,21 +223,21 @@ export default function TitlebarImageList() {
                                         </ImageListItem>
                                     ))}
                                 </ImageList>
-                        </Grid>
+                            </Grid>
                         </Container>
                     </Grid>
                 ) : (<Grid className={classes.fondo} xs={6}>
                     <Grid item direction='row' xs={12} container  >
-                            <Grid item xs={5} md={5}>
-                                <Typography className={classes.titulo} style={{fontSize: fontSizeAlias}}> {autor.alias}</Typography>
-                                <Typography className={classes.suscriptores} variant="subtitle1" style={{fontSize: fontSizeAlias}}>{suscriptores} suscriptores</Typography>
-                            </Grid>
+                        <Grid item xs={5} md={5}>
+                            <Typography className={classes.titulo} style={{ fontSize: fontSizeAlias }}> {autor.alias}</Typography>
+                            <Typography className={classes.suscriptores} variant="subtitle1" style={{ fontSize: fontSizeAlias }}>{suscriptores} suscriptores</Typography>
+                        </Grid>
                         {flagBotonSuscripcion ? <Grid iitem xs={7} md={4} className={classes.alinearCentro}>
-                                <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} style={{transform: `scale(${transformButton})`}} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
-                            </Grid> :
+                            <Button variant="contained" className={flagBoton ? classes.btnSuscribir : classes.btnDesuscribir} style={{ transform: `scale(${transformButton})` }} onClick={() => { setFlagBoton(prevCheck => !prevCheck); suscripcion() }} > {nombre} </Button>
+                        </Grid> :
                             null
                         }
-                        </Grid>
+                    </Grid>
                     <Esperar />
                 </Grid>
                 )

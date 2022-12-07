@@ -111,18 +111,18 @@ export default function Inicio() {
     }, [flagEsMenorEdad])
 
     const loadUsuario = async () => {
-        console.log(user.sub)
+        
         const res = await usuarioService.getUsuario(user.sub)
         usuario = res.data;
-        console.log(usuario)
         if (usuario === null || usuario === undefined) {
+            let nick =("Invitado" + Math.floor(Math.random() * 10000))
             const usuarioData = {
                 'auth0_id': user.sub,
                 'apellido': user.family_name ? user.family_name : user.nickname,
                 'nombre': user.given_name ? user.given_name : user.nickname,
                 'tipo': '1',
                 'avatar': user.picture,
-                'usuario': user.nickname ? user.nickname : 'Invitado' + Math.floor(Math.random() * 10000),
+                'usuario':  nick,
                 'correo_electronico': user.email
             }
             const res = await usuarioService.createUsuario(usuarioData)
