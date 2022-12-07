@@ -116,9 +116,7 @@ export default function Perfil() {
     const usuario_auth0 = localStorage.getItem("usuario_activo");
     const res = await usuarioService.getUsuario(usuario_auth0);
     usuario = res.data;
-    if (usuario == null) {
-      console.log("No se pudo cargar el usuario");
-    } else {
+    if (usuario != null) {
       setUserDB(usuario);
       inputNombre.current.value = usuario.nombre;
       inputApellido.current.value = usuario.apellido;
@@ -178,7 +176,6 @@ export default function Perfil() {
     };
 
     const res = await usuarioService.modificarUsuario(usuarioData);
-    console.log(res)
     handleClose();
     if (res.data.message == "Usuario modificado con éxito !!!"){
       alert.show("Los cambios se guardaron correctamente!", { type: 'success', position: 'top center' });

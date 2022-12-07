@@ -35,16 +35,11 @@ export default function ConfirmationDialogRaw(props) {
     if (cerrar === false) {
       setOpen2(cerrar)
     }
-    /* console.log("open: "+open)
-    console.log("open2:" + open2) */
   }, [open])
 
   const [cerrar, setCerrar] = React.useState(true)
   const [open2, setOpen2] = React.useState(open)
   const [nuevoModal, setNuevoModal] = React.useState(false)
-  /* console.log("open: "+open)
-  console.log("open2:" + open2)
-  console.log("cerrar: "+cerrar) */
   const inputDenuncia = React.useRef("")
   const [value, setValue] = React.useState(valueProp);
   const [cuadroTexto, setCuadroTexto] = React.useState("");
@@ -88,9 +83,7 @@ export default function ConfirmationDialogRaw(props) {
     setNuevoModal(true);
     await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro, reclamadorAuth0);
     if (contadorAutor >= 2 || contadorLibro >= 2) {
-      console.log("bloquear" + contadorAutor + " " + contadorLibro)
       await denunciaService.putBloquearAutoryLibro(pAutor, pLibro);
-      console.log("datos" + pAutor + " " + pLibro)
       await denunciaService.putEnviarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro);
     }
   }
@@ -101,7 +94,6 @@ export default function ConfirmationDialogRaw(props) {
 
   const handleChange = (event) => {
     setValue(event.target.value);
-    // console.log(open)
   };
 
   const handleCerrar = () => {

@@ -6,7 +6,6 @@ import TipoUsuario from "./TipoUsuario";
 
 export const createTipoUsuario: RequestHandler = async (req, res) => {
     const {nombre} = req.body;
-    console.log(nombre);
     //traer el ultimo id de la tabla tipoUsuario
     const tipoUsuarioUltimo = await TipoUsuario.findOne({}, {}, { sort: { 'id': -1 } })
     if (tipoUsuarioUltimo) {
@@ -14,8 +13,6 @@ export const createTipoUsuario: RequestHandler = async (req, res) => {
             id: `${Number(tipoUsuarioUltimo.id) + 1}`,
             nombre: nombre,
         }
-
-        console.log(tipoUsuarioUltimo?.id)
         const tipoUsuarioNuevo = new TipoUsuario(tipoUsuario)
         await tipoUsuarioNuevo.save()
         return res.json({

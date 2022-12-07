@@ -99,29 +99,11 @@ export const getLibro: RequestHandler = async (req, res) => {
     const libroFound = await Libro.findById(req.params.id);
     if (!libroFound) return res.status(204).json();
 
-    // //DESCARGA DEL LIBRO
-    // const url2 = libroFound.archivoTexto;
-    // console.log("🚀 ~ file: libros.controller.ts ~ line 97 ~ constgetLibro:RequestHandler= ~ url2", url2)
-    // https.get(url2, function (res) {
-    //     //nombre del archivo
-    //     const fileStream = fs.createWriteStream(`./revision/${libroFound.titulo}.pdf`);
-    //     res.pipe(fileStream);
-    //     fileStream.on('finish', function () {
-    //         fileStream.close();
-    //         console.log("El Archivo fue descargado con éxito !!");
-    //     }
-    //     )
-    // })
-    // //Esperar a que el archivo se descargue
-    // console.log("ESPERAMOS - GETLIBRO()")
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-
     return res.json(libroFound)
 }
 
 export const deleteLibro: RequestHandler = async (req, res) => {
     const { id } = req.body;
-    console.log(id)
     const libroFound = await Libro.findByIdAndDelete(id);
     //eliminar las notificaciones con este libro
 
@@ -177,7 +159,6 @@ export const getLibroRevision: RequestHandler = async (req, res) => {
         res.pipe(fileStream);
         fileStream.on('finish', function () {
             fileStream.close();
-            console.log("El Archivo fue descargado con éxito !!");
         }
         )
     })
@@ -216,7 +197,6 @@ export const getLibroRevision: RequestHandler = async (req, res) => {
         //delete file from folder
         fs.unlink(`./revision/${libroFound.titulo}.pdf`, (err) => {
             if (err) throw err;
-            console.log('El archivo fue eliminado con exito !!');
         });
         //si el array esta vacio no hay palabras repetidas
         if (arrayDataMatchCountArray.length === 0) {
@@ -281,7 +261,6 @@ export const obtenerLibros: RequestHandler = async (req, res) => {
 //Obtener Libros con Fecha Determinada- Michael
 export const obtenerLibrosFecha: RequestHandler = async (req, res) => {
     const fechaDesdeArray = req.params.fechaDesde.split('/');
-    //console.log("🚀 ~ file: libros.controller.ts ~ line 269 ~ constobtenerLibrosFecha:RequestHandler= ~ fechaDesdeArray", fechaDesdeArray)
     //FECHA DESDE
     let from_date = new Date()
     if (req.params.fechaHasta !== "sinHasta") {
@@ -291,7 +270,6 @@ export const obtenerLibrosFecha: RequestHandler = async (req, res) => {
         from_date = new Date(`${fechaDesdeArray[0]}/01/${fechaDesdeArray[2]}`) //MM/DD/AAAA
     }
     from_date.setUTCHours(0, 0, 0, 0) //Establecemos desde las 00 hs
-    //console.log("🚀 ~ file: libros.controller.ts ~ line 272 ~ constobtenerLibrosFecha:RequestHandler= ~ from_date", from_date)
 
 
     //FECHA HASTA
@@ -307,8 +285,6 @@ export const obtenerLibrosFecha: RequestHandler = async (req, res) => {
         to_date = new Date(`${parseInt(fechaDesdeArray[0]) == 12 ? "01" : parseInt(fechaDesdeArray[0]) + 1}/01/${parseInt(fechaDesdeArray[0]) == 12 ? parseInt(fechaDesdeArray[2]) + 1 : fechaDesdeArray[2]}`)
         to_date.setUTCHours(0, 0, 0, 0)
     }
-
-    //console.log("🚀 ~ file: libros.controller.ts ~ line 280 ~ constobtenerLibrosFecha:RequestHandler= ~ to_date", to_date)
 
     try {
         //toISOString() transforma al formato Date de MongoBD
@@ -355,24 +331,18 @@ export const establecerRanking = async (numero: number) => {
 }
 
 export const getLibroNarrador: RequestHandler = async (req, res) => {
-
-    console.log("Empieza narrador!!")
-
     //DESCARGA DEL LIBRO
     const url2 = req.params.archivoTexto;
-    console.log("🚀 ~ file: libros.controller.ts ~ line 330 ~ constgetLibroNarrador:RequestHandler= ~ url2", url2)
     https.get(url2, function (res) {
         //nombre del archivo
         const fileStream = fs.createWriteStream(`./revision/${req.params.titulo}.pdf`);
         res.pipe(fileStream);
         fileStream.on('finish', function () {
             fileStream.close();
-            console.log("El Archivo fue descargado con éxito !!");
         }
         )
     })
     //Esperar a que el archivo se descargue
-    console.log("ESPERAMOS - GETLIBRO()")
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     const array: any[] = []
@@ -384,8 +354,6 @@ export const getLibroNarrador: RequestHandler = async (req, res) => {
             //do not attempt to combine same line TextItem's. The default value is `false`.
             disableCombineTextItems: false,
         }
-
-        //console.log(pageData.pageNumber)
 
         return pageData.getTextContent(render_options)
             .then(function (textContent: any) {

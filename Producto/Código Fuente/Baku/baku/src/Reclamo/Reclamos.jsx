@@ -91,7 +91,6 @@ export default function ColumnTypesGrid() {
     setIdLibro(idLibro);
   };
   const handleClickOpenEstadoUsuario = (idUsuario) => {
-    console.log(idUsuario)
     setOpenEstadoUsuario(true);
     setidUsuarioRow(idUsuario);
   };
@@ -142,13 +141,11 @@ export default function ColumnTypesGrid() {
 
   const handleSeleccionado = (event) => {
     setDenuncia(event.target.value);
-    console.log(event.target.value);
     setSeleccionado(false);
   }
 
   const handleSeleccionadoEstadoUsuario = (event) => {
     setestadoUsuario(event.target.value);
-    console.log(event.target.value);
     setSeleccionado(false);
   }
 

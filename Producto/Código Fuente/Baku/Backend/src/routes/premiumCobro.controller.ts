@@ -66,7 +66,6 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
                 }
             }).then(response => response.json())
             .then(async data =>{
-                console.log(data);
                 if (cobro){
                     if (data.status === "authorized"){
                         cobro.fechaVencimiento = data.next_payment_date;
