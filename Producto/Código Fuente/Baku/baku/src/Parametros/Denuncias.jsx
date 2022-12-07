@@ -69,7 +69,7 @@ export default function ColumnTypesGrid() {
       "Estado del Usuario": row.estado[0],
       Titulo: row.libroTitulo[0],
       "Estado del Libro": row.libroEstado[0],
-      Denuncia:row.concepto,
+      Reclamo:row.concepto,
       //convertir fecha a formato dd/mm/aaaa
       Fecha: row.createdAt.split("T")[0].split("-").reverse().join("/"),
     }));
@@ -136,7 +136,7 @@ export default function ColumnTypesGrid() {
       { field: 'Estado del Usuario', type: 'string',flex:0.8 , minWidth: 100 },
       { field: 'Titulo', type: 'string',flex:1.6 , minWidth: 100 },
       { field: 'Estado del Libro', type: 'string',flex:0.8, minWidth: 100 },
-      { field: 'Denuncia', type: 'string',flex:1.6 , minWidth: 140 },
+      { field: 'Reclamo', type: 'string',flex:1.6 , minWidth: 140 },
       { field: 'Fecha', type: 'string',flex:0.8 , minWidth: 60 },
       { field: 'actions',
         type: 'actions',

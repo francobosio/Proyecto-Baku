@@ -117,7 +117,7 @@ export default function ConfirmationDialogRaw(props) {
       {...other}
     >
 
-      <DialogTitle>Denunciar este libro</DialogTitle>
+      <DialogTitle>Reclamar este libro</DialogTitle>
       <DialogContent dividers>
         <RadioGroup
           ref={radioGroupRef}
@@ -138,7 +138,7 @@ export default function ConfirmationDialogRaw(props) {
           disabled={value !== "Otros:"}
           id="outlined-basic"
           inputRef={inputDenuncia}
-          label="Escribe aquí tu denuncia"
+          label="Escribe aquí tu reclamo"
           variant="outlined"
           multiline
           onChange={handleInputChange}
