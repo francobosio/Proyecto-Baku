@@ -213,12 +213,19 @@ const Lectura = () => {
         setTexto(pageText)
     };
 
-    const boton = document.querySelector("#miBoton");
-    // Agregar listener
+
+    const [boton, setBoton] = useState<HTMLElement | null>()
+
     boton?.addEventListener("click", function(evento){
         // Aquí todo el código que se ejecuta cuando se da click al botón
         handlePlay();
     });
+
+    if (boton != null) {
+        boton.addEventListener("touchstart", () => {
+            handlePlay();
+        });
+    }
 
     useEffect(() => {
         handlePlay()
@@ -538,6 +545,7 @@ const Lectura = () => {
                                         important2={important2}
                                         estadoNarrador={estadoNarrador}
                                         setEstadoNarrador={setEstadoNarrador}
+                                        setBoton={setBoton}
                                     />
                             )
                         }
@@ -572,7 +580,8 @@ const Lectura = () => {
                     </Grid>
                 </Grid>
             
-                <Box sx={{ width: '100%' }}>
+                {habilitado && 
+                    <Box sx={{ width: '100%' }}>
                     <AppBar position="static">
                         <style>
                             {   
@@ -677,6 +686,7 @@ const Lectura = () => {
                                             important2={important2}
                                             estadoNarrador={estadoNarrador}
                                             setEstadoNarrador={setEstadoNarrador}
+                                            setBoton={setBoton}
                                         />
                                     </div>
                                 )
@@ -684,7 +694,8 @@ const Lectura = () => {
                             
                         </Grid>
                     </TabPanel>
-                </Box>
+                    </Box>
+                }
             </Box>
             }
             {mostrarAlerta === true &&
