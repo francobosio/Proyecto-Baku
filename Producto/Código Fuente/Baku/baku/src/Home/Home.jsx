@@ -133,9 +133,6 @@ export default function ButtonAppBar() {
             </IconButton>
             <Typography variant="h1" xs={12}  className={classes.title}>
             </Typography>
-            <Button className={classes.boton + ' ' + classes.botonVerde}>
-              <Link className={classes.link} to="/">Premium</Link>
-            </Button>
             <Divider orientation="vertical" variant="middle" flexItem light />
             <LoginButton text="Iniciar Sesión"></LoginButton>
           </Toolbar>
