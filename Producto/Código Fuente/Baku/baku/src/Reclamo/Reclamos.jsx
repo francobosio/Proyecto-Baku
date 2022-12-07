@@ -38,7 +38,7 @@ export default function ColumnTypesGrid() {
 
   const [pageSize, setPageSize] = React.useState(5);
   //crear vector de estados con los campos nombre y id
-  const vectorEstado = [EnumLibros.Publicado, EnumLibros.Cancelado, EnumLibros.Rechazado];
+  const vectorEstado = [EnumLibros.Publicado, EnumLibros.Rechazado];
   const vectorEstadoUsuario = ["Activo", "Bloqueado"];
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));

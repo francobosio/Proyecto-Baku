@@ -239,14 +239,14 @@ export default function TitlebarImageList() {
     const valor = theme.breakpoints.values[useWidth()];
     let columnas = 5;
     let distanciReturn = 430;
-    let tamañoReturn,flagReturn=false;
+    let tamañoReturn, flagReturn = false;
     let PaddingTitulo;
     let altura
-    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; columnas = 2; distanciReturn = 89 ;flagReturn=false;tamañoReturn='1.5em';PaddingTitulo='1.9em' }
-    if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; columnas = 3; distanciReturn = 150;flagReturn=false;}
-    if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; columnas = 4; distanciReturn = 220;flagReturn=true;}
-    if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; columnas = 5; distanciReturn = 380;flagReturn=true;}
-    if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; columnas = 5; distanciReturn = 430;flagReturn=true;}
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; columnas = 2; distanciReturn = 89; flagReturn = false; tamañoReturn = '1.5em'; PaddingTitulo = '1.9em' }
+    if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; columnas = 3; distanciReturn = 150; flagReturn = false; }
+    if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; columnas = 4; distanciReturn = 220; flagReturn = true; }
+    if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; columnas = 5; distanciReturn = 380; flagReturn = true; }
+    if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; columnas = 5; distanciReturn = 430; flagReturn = true; }
     const width = calculo(valor);
     const handleSubmit = async (e) => {
         setEstado(true);
@@ -278,7 +278,7 @@ export default function TitlebarImageList() {
         setEstado(true);
         const res = await libroService.buscarLibroGenero(nombre);
         setLibroBuscado(res.data, setError(''));
-        console.log(res);
+        console.log(res.data);
     }
     const cargaIncial = async () => {
         setLibroBuscado(0);
@@ -317,17 +317,17 @@ export default function TitlebarImageList() {
 
             <Grid className={classes.grid}>
                 <Container className={classes.contenedor2}>
-                    {libroBuscado.length > 0 && !flagReturn&&<Container style={{display:'flex',marginBottom:'-40px'}}>
-                            <IconButton  disableRipple={false} disableFocusRipple={true} onClick={BotonReset} style={{left:'22em'}}>
-                                <ReplyIcon sx={{ fontSize: "2em", height:"1.1em", color: "#111111" }} />
-                            </IconButton>
+                    {libroBuscado.length > 0 && !flagReturn && <Container style={{ display: 'flex', marginBottom: '-40px' }}>
+                        <IconButton disableRipple={false} disableFocusRipple={true} onClick={BotonReset} style={{ left: '22em' }}>
+                            <ReplyIcon sx={{ fontSize: "2em", height: "1.1em", color: "#111111" }} />
+                        </IconButton>
                     </Container>}
                     <Container fixed className={classes.search} style={{ marginRight: 'auto' }}>
                         {libroBuscado.length > 0 && (flagReturn) && <IconButton size={'large'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}
                             style={{ left: (-distanciReturn), marginRight: -84.3 }}>
                             <ReplyIcon sx={{ fontSize: "2.5em", height: "auto", color: "#076f55" }} />
                         </IconButton>
-                        } 
+                        }
                         <SearchIcon className={classes.searchIcon} />
                         <InputBase
                             placeholder="Autor, Título, Editorial"
@@ -351,7 +351,7 @@ export default function TitlebarImageList() {
                     <Container fixed className={classes.contenedor3} sx={{ marginLeft: '2.5em' }}>
                         <ImageList rowHeight={width / 4.1} style={{ width: (width * 1.5), marginLeft: '2.5em' }} cols={columnas} gap={20}>
                             <ImageListItem key="Subheader" cols={columnas} style={{ height: 'auto' }}>
-                                <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft:PaddingTitulo }}>Resultado</ListSubheader>
+                                <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft: PaddingTitulo }}>Resultado</ListSubheader>
                             </ImageListItem>
                             {libroBuscado.map((item) => (
                                 <ImageListItem key={item.id} style={{ width: altura / 6.6, height: altura / 4 }}>
@@ -372,29 +372,43 @@ export default function TitlebarImageList() {
                         </ImageList>
                     </Container>
                     :
-                    <Container className={classes.contenedor} fixed >
-                        <Container >
-                            <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft:PaddingTitulo }}>Explorar todo</ListSubheader>
-                            <br />
+                    (libroBuscado.length === 0 ?
+                        <Container className={classes.contenedor} fixed >
+                            {(flagReturn) && <IconButton size={'large'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}>
+                                <ReplyIcon sx={{ fontSize: "2.5em", height: "auto", color: "#076f55" }} />
+                            </IconButton>}
+                            <Container className={classes.contenedor} fixed>
+
+                                <Typography variant="h5" className={classes.title}>
+                                    No se encontraron resultados para este genero literario.
+                                </Typography>
+                            </Container>
                         </Container>
-                        <Container className={classes.contenedor} fixed>
-                            {categorias.map((item) =>
-                            (
-                                <Box sx={{ minWidth: "7em", width: "23.3%", margin: "0.5em", }}>
-                                    <Card style={{ background: "#99cfbf", "margin-top": "10px" }}>
-                                        <CardActionArea onClick={() => handleClick(item.id)} >
-                                            <CardMedia
-                                                component="img"
-                                                height="70%"
-                                                image={item.img}
-                                                style={{ "margin-top": "-2px" }}
-                                            />
-                                        </CardActionArea>
-                                    </Card>
-                                </Box>
-                            ))}
+
+                        : <Container className={classes.contenedor} fixed >
+                            <Container >
+                                <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft: PaddingTitulo }}>Explorar todo</ListSubheader>
+                                <br />
+                            </Container>
+                            <Container className={classes.contenedor} fixed>
+                                {categorias.map((item) =>
+                                (
+                                    <Box sx={{ minWidth: "7em", width: "23.3%", margin: "0.5em", }}>
+                                        <Card style={{ background: "#99cfbf", "margin-top": "10px" }}>
+                                            <CardActionArea onClick={() => handleClick(item.id)} >
+                                                <CardMedia
+                                                    component="img"
+                                                    height="70%"
+                                                    image={item.img}
+                                                    style={{ "margin-top": "-2px" }}
+                                                />
+                                            </CardActionArea>
+                                        </Card>
+                                    </Box>
+                                ))}
+                            </Container>
                         </Container>
-                    </Container>
+                    )
                 }
             </Grid>
         </div >

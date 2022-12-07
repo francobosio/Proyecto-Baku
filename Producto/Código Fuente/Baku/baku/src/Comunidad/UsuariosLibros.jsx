@@ -65,7 +65,6 @@ export default function ColumnTypesGrid() {
     }));
     //filtrar los usuarios que son tipo 3 (Administrador)
     (tipoUsuario === "1" || tipoUsuario === "2") ? setRows(rows2.filter(row => row.Tipo !== "Administrador")) : setRows(rows2);
-    console.log(rowss)
   }
 
   //al selececionar le boton asignar se guarda el id del usuario seleccionado en la variable usuario 
