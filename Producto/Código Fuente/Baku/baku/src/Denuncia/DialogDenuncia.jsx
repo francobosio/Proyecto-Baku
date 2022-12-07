@@ -25,7 +25,7 @@ const options = [
 ];
 
 export default function ConfirmationDialogRaw(props) {
-  const { onClose, value: valueProp, open, pAutor, pLibro,reclamador, ...other } = props;
+  const { onClose, value: valueProp, open, pAutor, pLibro, reclamador, ...other } = props;
   React.useEffect(() => {
     if (open === true) {
       setOpen2(open)
@@ -74,17 +74,19 @@ export default function ConfirmationDialogRaw(props) {
     var from = 'Baku <bakulibros@gmail.com>';
     var to = autorAuth0.data.correo_electronico;
     var subject = 'Cuenta y Libro bloqueado';
-    var mensajeCuerpo = `Hola ${autorAuth0.data.nombre} ${autorAuth0.data.apellido}, le queriamos notificar que su libro fue reclamado en varias ocaciones por lo tanto a sido bloqueado contacte a un administrador si esto es un error gracias`;
     var concepto = value;
     if (value === 'Otros:') {
       concepto = cuadroTexto;
     }
+    var mensajeCuerpo = `Hola ${autorAuth0.data.nombre} ${autorAuth0.data.apellido}. Le enviamos este email desde Baku para informarle que su libro fue denunciado en varias ocasiones y de acuerdo a los Términos y Condiciones acordados, ha sido bloqueado y ya no podrá ser accedido desde nuestra plataforma. El motivo lo puede encontrar detallado debajo.
+    Si usted considera que esto se trata de un error o equivocación, puede contactarnos a través de nuestras redes sociales y analizaremos su caso si así lo amerita.
+    Desde ya, muchas gracias.`;
     setCerrar(false);
     const reclamadorAuth0 = reclamador.data.usuario;
     const contadorAutor = parseInt(contadorDenunciasTotalAutor.data) + 1;
     const contadorLibro = parseInt(contadorDenucniasxLibroAutor.data) + 1;
     setNuevoModal(true);
-    await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro,reclamadorAuth0);
+    await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro, reclamadorAuth0);
     if (contadorAutor >= 2 || contadorLibro >= 2) {
       console.log("bloquear" + contadorAutor + " " + contadorLibro)
       await denunciaService.putBloquearAutoryLibro(pAutor, pLibro);
@@ -104,7 +106,7 @@ export default function ConfirmationDialogRaw(props) {
 
   const handleCerrar = () => {
     setNuevoModal(false);
-    }
+  }
 
   return (
     <div><Dialog
@@ -154,14 +156,14 @@ export default function ConfirmationDialogRaw(props) {
     <Button onClick={() => this.setState({ open: !open })}>Ok</Button> */}
       </DialogActions>
     </Dialog>
-    
-    <Dialog
-      sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 700, backgroundColor:'edf7ed'} }}
-      maxWidth="lg"
-      TransitionProps={{ onEntering: handleEntering }}
-      open={nuevoModal}
-      {...other}
-    >
+
+      <Dialog
+        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 700, backgroundColor: 'edf7ed' } }}
+        maxWidth="lg"
+        TransitionProps={{ onEntering: handleEntering }}
+        open={nuevoModal}
+        {...other}
+      >
         <DialogTitle>Gracias. Su reclamo fue procesado y se lo analizará a la brevedad.</DialogTitle>
         <DialogActions>
           <Button onClick={handleCerrar}>Confirmar</Button>

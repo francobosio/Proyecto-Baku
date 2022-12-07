@@ -13,7 +13,7 @@ html: "<b> Hola buenos dias su libro fue denunciado </b>", // html body */
 
 export const enviarMail: RequestHandler = async (req, res) => {
     const { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId } = req.body;
-    /* console.log(from, to, subject, mensajeCuerpo, concepto, autorAuth0,libroId)
+    console.log(from, to, subject, mensajeCuerpo, concepto, autorAuth0,libroId)
       await transporter.sendMail({
           from: from, // sender address
           to: to, // list of receivers
@@ -22,7 +22,7 @@ export const enviarMail: RequestHandler = async (req, res) => {
           html: `<b>${mensajeCuerpo} <br> <br> 
                 Concepto: ${concepto} <br> <br> 
                 Autor: ${autorAuth0} <br> <br> </b> `
-        }) */
+        })
     res.json({ message: 'Mail enviado' })
 }
 
@@ -44,6 +44,7 @@ export const guardarDenuncia: RequestHandler = async (req, res) => {
     });
     res.json(savedDenuncia)
 }
+
 
 export const bloquearAutorLibro: RequestHandler = async (req, res) => {
     const { autorAuth0, libroId } = req.body;
