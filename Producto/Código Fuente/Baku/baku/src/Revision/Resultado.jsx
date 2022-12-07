@@ -175,7 +175,7 @@ export default function BasicTable() {
       'auth0id': autorAth0,
       'idLibro': id
     };
-    console.log(autorAth0)
+
     const nuevaNotificacion = {
       'auth0usuario': autorAth0,
       'titulo': "El usuario " + libro.libroFound.alias + " ha subido:",

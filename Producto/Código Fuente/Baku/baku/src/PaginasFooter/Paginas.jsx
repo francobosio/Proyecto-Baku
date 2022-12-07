@@ -62,7 +62,6 @@ export default function MiniDrawer() {
     const { tipo } = useParams();
 
     const functionWithSwitch = (tipo) => {
-        console.log(tipo);
         switch (tipo) {
             case '1':
                 return <ParaEscritores />

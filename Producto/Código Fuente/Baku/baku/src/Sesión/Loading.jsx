@@ -32,8 +32,6 @@ export const Loading = () => {
         alert('Usuario inactivo, por favor contacte al administrador')
         window.location.href = '/'
       }
-      } else {
-        console.log('Usuario Activo')
     }
   }
 

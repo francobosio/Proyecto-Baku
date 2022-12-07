@@ -94,7 +94,7 @@ export default function TitlebarImageList() {
         //usar el setAutor sincrono para que no se pierda el valor
         setAutor(autor)
         const buscarNombreSuscripcion = await usuarioService.buscarNombreSuscripcion(usuario_id, autor._id)
-        console.log(usuario_id, autor._id)
+
         if (aliasUsuarioActual != null && autor._id != null && usuario_id === autor._id) {
             setflagBotonSuscripcion(false)
         }
@@ -110,7 +110,6 @@ export default function TitlebarImageList() {
         const suscriptores = await usuarioService.obtenerSuscripciones(autor.auth0_id)
         setSuscriptores(suscriptores.data.suscriptores)
         //guardar el libro en el estado sincrono
-        console.log(libros.data)
         setlibros(libros.data)
     }
     useEffect(() => {
@@ -123,15 +122,12 @@ export default function TitlebarImageList() {
     //al hacer click en el boton cambiar el nombre Suscribirse por Desuscribirse y viceversa 
     const suscripcion = async () => {
         const autor2 = autor._id
-        console.log(usuario_id)
-        console.log(autor2)
         if (nombre === 'Suscribirse') {
             setNombre('Suscripto')
             setSuscriptores(suscriptores + 1)
             await usuarioService.suscribirUsuario(usuario_id, autor2)
 
         } else {
-            console.log("estoy en desuscribirse")
             setNombre('Suscribirse')
             setSuscriptores(suscriptores - 1)
             await usuarioService.desuscribirUsuario(usuario_id, autor2)
@@ -147,7 +143,6 @@ export default function TitlebarImageList() {
             'finLectura': false,
         }
         const res = await usuarioService.usuarioLibroLeido(libroData);
-        console.log(res);
     }
     //funcion que espera 3 segundos y si no hay libros muestra un mensaje de que no hay libros 
     const esperar = () => {

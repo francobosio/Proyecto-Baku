@@ -53,7 +53,6 @@ export default function ColumnTypesGrid() {
     const handleClickNuevo = async () => {
         setOpen(false);
         const res = await tipoUsuarioService.nuevoTipoUsuario(escritura);
-        console.log(res.data);
         //agregar a la grilla el nuevo usuario
         await load();
     }
@@ -66,7 +65,6 @@ export default function ColumnTypesGrid() {
     const handleEscritura = (event) => {
         let nombre = event.target.value;
         let nombreFormateado = nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
-        console.log(nombreFormateado);
         setEscritura(nombreFormateado);
         if (nombreFormateado !== "") {
             return setVacio(false);
@@ -76,13 +74,11 @@ export default function ColumnTypesGrid() {
     }
 
     const eliminarTipoUsuari = async (id) => {
-        console.log(id)
         await tipoUsuarioService.eliminarTipoUsuario(id);
         //setRows(rows.filter(row => row.id !== id));
     }
 
     const handleClickOpen2 =  (id,nombre) => {
-        console.log(nombre)
             setSeleccionado(id);
             setnombreTipo(nombre);
             setOpen2(true);
@@ -92,7 +88,6 @@ export default function ColumnTypesGrid() {
     const deleteUser = React.useCallback(
         (seleccionado) => () => {
             setTimeout(() => {
-                console.log(seleccionado)
                 setOpen2(false);
 
                 setRows((prevRows) => prevRows.filter((row) => row.id !== seleccionado));
