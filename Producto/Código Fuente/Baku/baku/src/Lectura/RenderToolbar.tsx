@@ -166,6 +166,10 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
                                                 </div>
                                             </Stack>
                                         </Grid>
+                                        {!habilitado &&
+                                            <Grid item xs={3.5} xl={4}>
+                                            </Grid>
+                                        }
                                         <Grid item xs={1.5} xl={3}>
                                             <div style={{ padding: '0px 2px', display: 'flex', alignItems: "center" , justifyContent: "center"}}>
                                                 <EnterFullScreen />
@@ -176,7 +180,7 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
                                                 <SwitchTheme />
                                             </div>
                                         </Grid>
-                                        <Grid item xs={3.5} xl={4}>
+                                        <Grid item xs={habilitado ? 3.5: 0} xl={habilitado ? 4: 0}>
                                             <Stack direction="row" alignItems="center" justifyContent="center">
                                                 {habilitado &&
                                                 <div style={{ padding: '0px 2px' }}>
