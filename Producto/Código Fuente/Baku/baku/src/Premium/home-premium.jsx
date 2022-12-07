@@ -114,6 +114,7 @@ export default function HomePremium() {
     const [deshabilitado, setDeshabilitado] = React.useState("1");
     const [abrirDialog, setAbrirDialog] = React.useState(false);
     const [cobro, setCobro] = React.useState("");
+    const [urlCobro, setUrlCobro] = React.useState("");
 
     React.useEffect(() => {
         async function fetchPlanes() {
@@ -140,8 +141,9 @@ export default function HomePremium() {
         setAbrirDialog(false);
     };
 
-    const openDialog = () => {
+    const openDialog = (url) => {
         setAbrirDialog(true);
+        setUrlCobro(url);
     }
 
     return (
@@ -169,7 +171,7 @@ export default function HomePremium() {
                                                 <InputLabel className={classes.precio}>Precio: ${modelo.precio}.00</InputLabel>
                                             </Grid>
                                             <Grid item xs={12}>
-                                                <Button className={classes.boton} onClick={openDialog} variant="contained" disabled={deshabilitado}>
+                                                <Button className={classes.boton} onClick={() => {openDialog(modelo.urlCobro)}} variant="contained" disabled={deshabilitado}>
                                                     {textoPremium}
                                                 </Button>
                                             </Grid>
@@ -192,7 +194,7 @@ export default function HomePremium() {
                                                 <Button autoFocus onClick={handleCloseDialog} color="primary">
                                                     Cancelar
                                                 </Button>
-                                                <Button href={modelo.urlCobro} color="primary" autoFocus>
+                                                <Button href={urlCobro} color="primary" autoFocus>
                                                     Aceptar
                                                 </Button>
                                             </DialogActions>
