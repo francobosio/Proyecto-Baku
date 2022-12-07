@@ -62,7 +62,7 @@ export default function ConfirmationDialogRaw(props) {
   const handleAceptar = async () => {
     setCerrar(false);
     inputDenuncia.current.value = "";
-    let reclamador = await usuarioService.getUsuario(pAutor);
+    let reclamador = await usuarioService.getUsuario(props.reclamador);
     let contadorDenunciasTotalAutor = await denunciaService.putContadorDenuncias(pAutor);
     let contadorDenucniasxLibroAutor = await denunciaService.putContadorDenunciasxLibro(pLibro);
     const autorAuth0 = await usuarioService.getUsuario(pAutor);
@@ -82,7 +82,7 @@ export default function ConfirmationDialogRaw(props) {
     const contadorLibro = parseInt(contadorDenucniasxLibroAutor.data) + 1;
     setNuevoModal(true);
     await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro, reclamadorAuth0);
-    if (contadorAutor >= 2 || contadorLibro >= 2) {
+    if (contadorAutor >= 10 || contadorLibro >= 10) {
       await denunciaService.putBloquearAutoryLibro(pAutor, pLibro);
       await denunciaService.putEnviarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro);
     }
