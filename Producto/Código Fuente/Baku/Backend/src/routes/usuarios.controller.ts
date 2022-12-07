@@ -4,21 +4,21 @@ import Libro from "./Libro";
 
 /* Método para la creación de un nuevo usuario. Recibe un Json en el campo req y devuelve el usaurio creado en el campo res */
 export const createUsuario: RequestHandler = async (req, res) => {
-    const { auth0_id, apellido, nombre, correo_electronico, avatar } = req.body;
+    const { auth0_id, apellido, nombre, correo_electronico, avatar, usuario } = req.body;
 
     const newUsuario = {
         auth0_id,
         apellido,
         nombre,
-        usuario: "Guest",
+        usuario,
         correo_electronico,
         tipoUsuario: "1",
         estado: "Activo",
         avatar,
     };
 
-    const usuario = new Usuario(newUsuario);
-    await usuario.save();
+    const usuario2 = new Usuario(newUsuario);
+    await usuario2.save();
     return res.json({
         usuario
     });
