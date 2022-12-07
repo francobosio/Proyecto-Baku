@@ -152,7 +152,10 @@ export default function PrimarySearchAppBar() {
   useEffect(() => {
     buscarNotificaciones();
     buscarTipoUsuario();
-  }, [])
+    setEstrella(localStorage.getItem("tipoUsuario") == 2)
+    setHidden(localStorage.getItem("tipoUsuario") == 3)
+  }, [localStorage.getItem("tipoUsuario")])
+
 
 const buscarTipoUsuario = () => {
   setEstrella(localStorage.getItem("tipoUsuario") == 2)
