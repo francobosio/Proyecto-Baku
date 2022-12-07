@@ -14,11 +14,13 @@ import DialogActions from '@mui/material/DialogActions';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        display: 'flex',
         'background': '#99cfbf',
     },
     boton: {
         'font-weight': 'bold',
         'display': 'flex',
+        textAlign: 'center',
         'color': 'white',
         'fontSize': '1rem',
         'background-color': '#3a7a6f',
@@ -36,22 +38,36 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
     },
     suscriptionBox: {
+        margin: '2rem',
         padding: '2rem',
-        height: '70vh',
-        width: '18vw',
+        width: '55%',
         background: '#7ec2ae',
+        [theme.breakpoints.down('md')]: {
+            width: '70%',
+        },
+        [theme.breakpoints.down('450')]: {
+            padding: '0.6rem'
+        },
     },
     contenedor: {
-        padding: '2rem 10rem 2rem 10rem',
-        height: '90vh',
-        justifyContent: 'center'
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     titulo: {
         fontWeight: 'bold',
         fontSize: '2rem',
-        padding: '2rem 1rem 2rem 1rem',
+        padding: '1rem 1rem 0.2rem 1rem',
         textAlign: 'center',
+        verticalAlign: "middle",
         color: '#1B1B1B',
+        [theme.breakpoints.down('1200')]: {
+            fontSize: '1.8rem',
+        },
+        [theme.breakpoints.down('900')]: {
+            fontSize: '1.6rem',
+        },
     },
     descripcion: {
         fontSize: '1rem',
@@ -62,17 +78,33 @@ const useStyles = makeStyles((theme) => ({
     precio: {
         fontSize: '1rem',
         padding: '2rem 1rem 2rem 1rem',
-        textAlign: 'justify',
+        textAlign: 'center',
         fontWeight: 'bold',
     },
     descripcionDetallada: {
         fontSize: '1rem',
         color: '#1B1B1B',
         padding: '1rem',
+        [theme.breakpoints.down('1200')]: {
+            fontSize: '0.9rem',
+        },
     },
     dialogTitle: {
         color: 'red'
-    }
+    },
+    content: {
+        display: 'block',
+        flex: 1,
+        height: '100vh'
+    },
+    root1: {
+        display: 'flex',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
+        'background': '#99cfbf',
+        minHeight: '100vh',
+        alignItems: 'center',
+    },
 }));
 
 export default function HomePremium() {
@@ -113,24 +145,18 @@ export default function HomePremium() {
     }
 
     return (
-        <Grid container direction="row" className={classes.root}>
-            <Grid item container direction="column" xs={1}>
-                <MiDrawer />
-            </Grid>
-
-            <Grid item direction="column" xs={11}>
-                <Container disableGutters maxWidth='1800px' >
+        <div className={classes.root}>
+            <MiDrawer />
+            <main className={classes.content}>
                     <AppBar />
-                    <Grid className={classes.contenedor} container spacing={2}>
-                        {planesPremium.map((modelo) => {
-                            return (
-                                <React.Fragment key={modelo._id}>
-                                    <Grid className={classes.celda} container alignItems="center" justifyContent="center" xs={6}>
-                                        <div className={classes.suscriptionBox}>
-                                            <Grid container alignItems="center" justifyContent="center">
-                                                <Grid item xs={6}>
-                                                    <Image src={logo} aspectRatio={1.6} color={'#7ec2ae'} />
-                                                </Grid>
+                    <Container disableGutters className={classes.root1} maxWidth="xl">
+                        <Grid container justifyContent="center">
+                            {planesPremium.map((modelo) => {
+                                return (
+                                    <React.Fragment key={modelo._id}>
+                                        <Grid className={classes.suscriptionBox} item container spacing={1} xs={11} sm={8} md={5} lg={4} xl={3} alignItems="center" justifyContent="center">
+                                            <Grid item xs={6}>
+                                                <Image src={logo} aspectRatio={1.6} color={'#7ec2ae'} />
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <InputLabel className={classes.titulo}>{modelo.titulo}</InputLabel>
@@ -139,54 +165,44 @@ export default function HomePremium() {
                                                 <InputLabel className={classes.descripcion}>Con este plan obtendrás las siguientes características adicionales:</InputLabel>
                                                 <InputLabel className={classes.descripcionDetallada}>{modelo.descripción}</InputLabel>
                                             </Grid>
-                                            <Grid container>
-                                                <Grid item xs={3}>
-                                                    <InputLabel className={classes.descripcion}>Precio:</InputLabel>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <InputLabel className={classes.precio}>${modelo.precio}.00</InputLabel>
-                                                </Grid>
-                                                <Grid container spacing={3} alignItems="center" justifyContent="center">
-                                                    <Grid item xs={12}>
-                                                        <Button className={classes.boton} onClick={openDialog} variant="contained" disabled={deshabilitado}>
-                                                            {textoPremium}
-                                                        </Button>
-                                                    </Grid>
-                                                    <Grid item xs={12}>
-                                                        {deshabilitado &&
-                                                            <Button className={classes.boton} href={`https://www.mercadopago.com.ar/subscriptions/v0/${cobro.webhookId}/admin`} target="_blank" variant="contained">
-                                                                Cancelar mi Suscripción
-                                                            </Button>}
-                                                    </Grid>
-                                                </Grid>
+                                            <Grid item xs={12}>
+                                                <InputLabel className={classes.precio}>Precio: ${modelo.precio}.00</InputLabel>
                                             </Grid>
-                                            <Grid item xs={12} >
-                                                {abrirDialog && <Dialog open={abrirDialog} onClose={handleCloseDialog} aria-labelledby="responsive-dialog-title">
-                                                    <DialogTitle className={classes.dialogTitle}>¡Atención!</DialogTitle>
-                                                    <DialogContent>No cierre esta pestaña hasta haber finalizado el pago y haber vuelto a Baku, caso contrario no podremos
-                                                        verificar el cobro y no podremos habilitarle las funcionalidades premium aunque usted haya realizado el pago.
-                                                    </DialogContent>
-                                                    <DialogContent>
-                                                        Si entiende este mensaje y desea continuar haga click en aceptar y lo redirigiremos a la página de Mercado Pago.
-                                                    </DialogContent>
-                                                    <DialogActions>
-                                                        <Button autoFocus onClick={handleCloseDialog} color="primary">
-                                                            Cancelar
-                                                        </Button>
-                                                        <Button href={modelo.urlCobro} color="primary" autoFocus>
-                                                            Aceptar
-                                                        </Button>
-                                                    </DialogActions>
-                                                </Dialog>}
+                                            <Grid item xs={12}>
+                                                <Button className={classes.boton} onClick={openDialog} variant="contained" disabled={deshabilitado}>
+                                                    {textoPremium}
+                                                </Button>
                                             </Grid>
-                                        </div>
-                                    </Grid>
-                                </React.Fragment>)
-                        })}
-                    </Grid>
+                                            <Grid item xs={12}>
+                                                {deshabilitado &&
+                                                    <Button className={classes.boton} href={`https://www.mercadopago.com.ar/subscriptions/v0/${cobro.webhookId}/admin`} target="_blank" variant="contained">
+                                                        Cancelar mi Suscripción
+                                                    </Button>}
+                                            </Grid>
+                                        </Grid>
+                                        {abrirDialog && <Dialog open={abrirDialog} onClose={handleCloseDialog} aria-labelledby="responsive-dialog-title">
+                                            <DialogTitle className={classes.dialogTitle}>¡Atención!</DialogTitle>
+                                            <DialogContent>No cierre esta pestaña hasta haber finalizado el pago y haber vuelto a Baku, caso contrario no podremos
+                                                verificar el cobro y no podremos habilitarle las funcionalidades premium aunque usted haya realizado el pago.
+                                            </DialogContent>
+                                            <DialogContent>
+                                                Si entiende este mensaje y desea continuar haga click en aceptar y lo redirigiremos a la página de Mercado Pago.
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button autoFocus onClick={handleCloseDialog} color="primary">
+                                                    Cancelar
+                                                </Button>
+                                                <Button href={modelo.urlCobro} color="primary" autoFocus>
+                                                    Aceptar
+                                                </Button>
+                                            </DialogActions>
+                                        </Dialog>}
+                                    </React.Fragment>)
+                            })}
+                        </Grid>
+                    </Container>
                     <Footy />
-                </Container>
-            </Grid>
-        </Grid>
+            </main>
+        </div>
     )
 }
