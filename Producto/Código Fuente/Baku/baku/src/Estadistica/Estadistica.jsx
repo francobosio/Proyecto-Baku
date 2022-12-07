@@ -138,6 +138,7 @@ export default function Estadistica() {
     const onKeyDown = (e) => {
         e.preventDefault();
     };
+    
 
     return (
         <div className={classes.root}>
