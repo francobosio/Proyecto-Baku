@@ -24,6 +24,7 @@ import Paginas from "../PaginasFooter/Paginas.jsx";
 import ResultadoCobro from "../Premium/resultado-cobro.jsx";
 import { Grid } from '@material-ui/core';
 import Reclamos from "../Reclamo/ReclamosMain.jsx";
+import PlanesPremium from "../Premium/PlanesPremium/PlanesPremium.jsx"
 
 export default function Layout() {
     /* Router es el elemento encargado de redireccionar el usuario a las distintas páginas al hacer click en los distintos botones o links
@@ -64,6 +65,7 @@ export default function Layout() {
 
                             <Route exact path="/Premium" component={isLoading ? Loading : isAuthenticated ? HomePremium : Home} />
                             <Route path="/ResultadoCobro" component={isLoading ? Loading : isAuthenticated ? ResultadoCobro : Home} />
+                            <Route exact path="/PlanesPremium" component={isLoading ? Loading : isAuthenticated ? PlanesPremium : Home} />
 
                             <Route exact path="/Estadistica" component={isLoading ? Loading : isAuthenticated ? Estadistica : Home} />
                             

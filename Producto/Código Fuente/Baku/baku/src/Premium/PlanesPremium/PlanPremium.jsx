@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DataGrid, GridActionsCellItem, esES } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import * as planPremiumService from '../Premium/premiumService.ts';
+import * as planPremiumService from '../premiumService.ts';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
