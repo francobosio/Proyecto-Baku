@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from "react";
 import ReactApexChart from "react-apexcharts";
 import * as usuarioService from '../../Sesión/Usuarios/UsuarioService'
+import { Box } from "@mui/system";
 
 const DonutChart = (props) => {
         
@@ -10,7 +11,6 @@ const DonutChart = (props) => {
         const [usuarios, setUsuarios] = useState([])
         const loadUsuarios = async () => {
             const res = await usuarioService.obtenerTodosUsuarios();
-            console.log("🚀 ~ file: DonutChart.jsx ~ line 13 ~ loadUsuarios ~ res.data", res.data)
             setUsuarios(res.data);
             setEjecuto(true)
         }
@@ -20,15 +20,23 @@ const DonutChart = (props) => {
             loadUsuarios()
             window.scrollTo(0, 0)
         }, [])
+        
+        let usuariosfecha = usuarios.filter(usuario => new Date(usuario.createdAt) >= props.fechaDesde && new Date(usuario.createdAt) <= props.fechaHasta && usuario.tipoUsuario[0].id !== '3');
 
         //Con esto renderizamos el gráfico después de que se hayan seteado los libros del Backend en la variable de estado
         var isVisible = false
+        let avisoVisible = false
         if(ejecuto){
-            isVisible = true
+            if(usuariosfecha.length !== 0){
+                isVisible = true
+                avisoVisible = false
+            }
+            else {
+                isVisible = false
+                avisoVisible = true
+            }
         }
 
-        let usuariosfecha = usuarios.filter(usuario => new Date(usuario.createdAt) >= props.fechaDesde && new Date(usuario.createdAt) <= props.fechaHasta );
-        console.log("🚀 ~ file: DonutChart.jsx:31 ~ DonutChart ~ usuariosfecha", usuariosfecha)
 
         let count_free_premium = [0, 0]
         usuariosfecha.forEach(usuario => {
@@ -41,7 +49,6 @@ const DonutChart = (props) => {
                 }
             }
         })
-        //console.log("🚀 ~ file: DonutChart.jsx ~ line 30 ~ DonutChart ~ count_free_premium", count_free_premium)
         
         //OPCIONES DEL GRÁFICO
 
@@ -61,10 +68,10 @@ const DonutChart = (props) => {
                 fontSize: '16px',
             },
             responsive: [{
-                breakpoint: 480,
+                breakpoint: 730,
                 options: {
                     chart: {
-                        width: 200
+                        width: 300
                     },
                     legend: {
                         position: 'bottom'
@@ -74,14 +81,35 @@ const DonutChart = (props) => {
         }
 
         return (
-            <div id="Bar" style={{ 
+            <div id="Donut" style={{
+                height: "465px",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center"
+                alignItems: "center",
+                justifyContent: "center"
             }}>
                 {isVisible && (
                     <ReactApexChart options={options} series={series} type="pie" height={450} width={550}/>
                 )}
+                {avisoVisible && (
+                    <Box sx={{ 
+                            width: "75%",
+                            m: 2,
+                            p: 1,  
+                            border: 2, 
+                            borderRadius: 1, 
+                            borderColor: 'red',
+                            typography: 'body1', 
+                            textAlign: 'center',
+                            color: 'red',
+                            fontStyle: 'italic',
+                            fontWeight: 'bold',
+                            marginBottom: "3.75rem"
+                        }}>
+                        NO EXISTEN DATOS PARA EL RANGO DE FECHA SELECCIONADO
+                    </Box>
+                )}
+
             </div>
         );
 }

@@ -27,14 +27,11 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
     const cargarUsuario = async () => {
         const usuario_activo = localStorage.getItem("usuario_activo");
         const res = await usuarioService.getUsuario(usuario_activo!);
-        //console.log(res.data)
-        if(res.data.tipoUsuario == 1)
+        if(res.data.tipoUsuario === "1")
         {
-            //console.log("El USUARIO es FREE")
         }
         else{
             setHabilitado(true)
-            //console.log("El USUARIO es PREMIUM o ADMINISTRADOR")
         }
     }
 
@@ -43,7 +40,7 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
     }, [])
 
     function temaElegido() {
-        if (localStorage.getItem('theme') == 'light')
+        if (localStorage.getItem('theme') === 'light')
         {
             return 'black';
         }
@@ -169,6 +166,10 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
                                                 </div>
                                             </Stack>
                                         </Grid>
+                                        {!habilitado &&
+                                            <Grid item xs={3.5} xl={4}>
+                                            </Grid>
+                                        }
                                         <Grid item xs={1.5} xl={3}>
                                             <div style={{ padding: '0px 2px', display: 'flex', alignItems: "center" , justifyContent: "center"}}>
                                                 <EnterFullScreen />
@@ -179,7 +180,7 @@ const RenderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => {
                                                 <SwitchTheme />
                                             </div>
                                         </Grid>
-                                        <Grid item xs={3.5} xl={4}>
+                                        <Grid item xs={habilitado ? 3.5: 0} xl={habilitado ? 4: 0}>
                                             <Stack direction="row" alignItems="center" justifyContent="center">
                                                 {habilitado &&
                                                 <div style={{ padding: '0px 2px' }}>

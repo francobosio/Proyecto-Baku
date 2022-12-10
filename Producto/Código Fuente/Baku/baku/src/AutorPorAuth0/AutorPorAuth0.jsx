@@ -2,8 +2,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '../AppBar/AppBar.js';
 import Footy from '../Footy/Footy.jsx';
 import ListaImagenesAutor from './ListaImagenesAutorPorAuth0.jsx';
-import {MiDrawer} from "../Drawer/Drawer.jsx"
-
+import { MiDrawer } from "../Drawer/Drawer.jsx"
+import { Grid, Container } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
         alignContent: 'center',
     },
     content: {
-        display: 'flex',
-        flexDirection: 'column',
+        display: 'block',
         flex: 1,
+        height: '100vh'
     },
     link: {
         color: "white",

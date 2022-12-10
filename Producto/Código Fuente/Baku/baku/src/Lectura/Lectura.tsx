@@ -70,6 +70,7 @@ import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { useAlert } from 'react-alert';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -197,7 +198,6 @@ const Lectura = () => {
 
     const handlePageChange = (e: PageChangeEvent) => {
         localStorage.setItem('current-page', `${e.currentPage}`);
-        //console.log('Pagina Actual: ' + e.currentPage)
         setCurrentPage(e.currentPage)
         setPaginaActual(e.currentPage);
     };
@@ -213,12 +213,19 @@ const Lectura = () => {
         setTexto(pageText)
     };
 
-    const boton = document.querySelector("#miBoton");
-    // Agregar listener
+
+    const [boton, setBoton] = useState<HTMLElement | null>()
+
     boton?.addEventListener("click", function(evento){
         // Aquí todo el código que se ejecuta cuando se da click al botón
         handlePlay();
     });
+
+    if (boton != null) {
+        boton.addEventListener("touchstart", () => {
+            handlePlay();
+        });
+    }
 
     useEffect(() => {
         handlePlay()
@@ -226,7 +233,6 @@ const Lectura = () => {
 
     //************************************************************************************
     const contadorCerrar = () => {
-        //console.log("Entro al contador 2")
         
     }
 
@@ -252,7 +258,6 @@ const Lectura = () => {
                 
         const usuario_activo = localStorage.getItem("usuario_activo");
         const paginaActual = localStorage.getItem('current-page');
-        //console.log("🚀 ~ file: Lectura.tsx ~ line 154 ~ terminaLectura ~ paginaActual", paginaActual)
         
         const libroData = {
             'auth0id': usuario_activo,
@@ -274,27 +279,30 @@ const Lectura = () => {
         const usuario_activo = localStorage.getItem("usuario_activo")
         if (usuario_activo != null) {
             const resPagina = await usuarioService.usuarioUltimaPagina(usuario_activo, id);
-            //console.log(resPagina.data)
             setInitialPage(parseInt(resPagina.data, 10));
             
             const resLibro = await libroService.getLibro(id);
-            setLibro(resLibro.data);
+            if (resLibro. data != ""){
+                setLibro(resLibro.data);
+            } else {
+                alert.error("El libro que intentó abrir ya no se encuentra en Baku");
+                history.push('/Inicio')
+            }
+
         }
     }
+
+    const alert = useAlert();
 
     //PERMISOS DE USUARIO
     const cargarUsuario = async () => {
         const usuario_activo = localStorage.getItem("usuario_activo");
         const res = await usuarioService.getUsuario(usuario_activo!);
-        //console.log(res.data)
         if(res.data.tipoUsuario == 1)
         {
-            
-            //console.log("El USUARIO es FREE")
         }
         else{
             setHabilitado(true)
-            //console.log("El USUARIO es PREMIUM o ADMINISTRADOR")
         }
     }
 
@@ -317,7 +325,6 @@ const Lectura = () => {
     // const obtenerTextoLibro = async () => {
     //     const url = encodeURIComponent(libro.archivoTexto)
     //     const res = await libroService.getLibroNarrador(url, 1, libro.titulo);
-    //     //console.log(res.data)
     //     setTextolibro(res.data.arrayLimpio)
     // }
 
@@ -538,6 +545,7 @@ const Lectura = () => {
                                         important2={important2}
                                         estadoNarrador={estadoNarrador}
                                         setEstadoNarrador={setEstadoNarrador}
+                                        setBoton={setBoton}
                                     />
                             )
                         }
@@ -572,7 +580,8 @@ const Lectura = () => {
                     </Grid>
                 </Grid>
             
-                <Box sx={{ width: '100%' }}>
+                {habilitado && 
+                    <Box sx={{ width: '100%' }}>
                     <AppBar position="static">
                         <style>
                             {   
@@ -677,6 +686,7 @@ const Lectura = () => {
                                             important2={important2}
                                             estadoNarrador={estadoNarrador}
                                             setEstadoNarrador={setEstadoNarrador}
+                                            setBoton={setBoton}
                                         />
                                     </div>
                                 )
@@ -684,7 +694,8 @@ const Lectura = () => {
                             
                         </Grid>
                     </TabPanel>
-                </Box>
+                    </Box>
+                }
             </Box>
             }
             {mostrarAlerta === true &&

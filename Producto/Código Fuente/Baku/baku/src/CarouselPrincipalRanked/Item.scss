@@ -11,12 +11,38 @@
   }
   .numero{
   position: absolute;
-  left: 19%;
-  font-size: 290px;
+ 
+  z-index: 1;
+  top: 0px;
+  margin-bottom: 0px;
+  bottom: 0px;//COn este recorto
+  @media (min-width: 500px) {
+    margin-top: 28%;
+    left: 25%;
+    font-size: 13.8vw;
+    }
+  @media (min-width: 750px) {
+    margin-top: 13%;
+    left: 10%;
+    font-size: 13.8vw;
+    }
+    @media (min-width: 900px) {
+      margin-top: 10%;
+      left: 13%;
+      font-size: 14.8vw;
+      }
+  @media (min-width: 1200px) {
+    margin-top: 10%;
+    left: 19%;
+    font-size: 14.8vw;
+    }
+    margin-top: 20%;
+    left: 22%;
+    font-size: 25.8vw;
+   
   opacity: 1;
   font-style: normal;
-  bottom: -260.217px;
-  background-image: linear-gradient(to right, #00000000, #08b688);
+  background-image: linear-gradient(to right, #ffffff00, #08b688);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

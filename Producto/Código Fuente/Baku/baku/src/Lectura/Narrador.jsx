@@ -37,6 +37,10 @@ const Narrador = (props) => {
             
         }, [props.textoLibro])
 
+        useEffect(() => {
+            props.setBoton(document.querySelector("#miBoton"))
+        }, [])
+
         if (speaking){
             estuvoLeyendo = true
         }

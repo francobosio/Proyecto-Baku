@@ -50,7 +50,14 @@ const useStyles = makeStyles((theme) => ({
         'margin-right': '40px'
 
     },
-
+    titulo: {
+        "font": "200% sans-serif",
+        "margin-top": "1rem",
+        "marginBottom": "2rem",
+        'font-weight': 'bold',
+        "padding-left": "0",
+        color: "black",
+    },
 }));
 
 export default function TitlebarImageList() {
@@ -62,24 +69,26 @@ export default function TitlebarImageList() {
     let banderaTab = false;
     let anchoImageList = 0;
     let altura;
-    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; banderaTab = true; anchoImageList = 360 }
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 780; banderaTab = true; anchoImageList = 360 }
     if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; banderaTab = true; anchoImageList = "120%" }
     if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; banderaTab = true; anchoImageList = "85%" }
     if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; banderaTab = false; anchoImageList = "95%" }
     if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; banderaTab = false; anchoImageList = "100%" }
+    
     const loadLibros = async () => {
         const res = await libroService.getLibroRegistrado();
         setlibros(res.data);
     }
+
     useEffect(() => {
         window.scrollTo(0, 0)
         loadLibros()
     }, [])
 
-
     return (
         <Box sx={{ p: 3 }}>
             <Container style={{ minHeight: '28.47em' }}>
+                <Typography variant='h4'  className={classes.titulo}> Revisión de libros</Typography>
                 <Grid container spacing={1}  >
                     {(libroSeleccionado && libros.length) > 0 ?
                         (

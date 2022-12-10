@@ -10,6 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import '../Estadistica.css'
+
 function createData(title, dataNumber) {
     return { title, dataNumber};
 }
@@ -66,8 +68,6 @@ const Reporte = (props) => {
         usuarios.forEach(usuario => {
             librosLeidosCount = librosLeidosCount.concat(usuario.libros_leidos.length) 
         })
-        //console.log("librosLeidosCount: ")
-        //console.log(librosLeidosCount)
 
         // Calcula el promedio de todos los números
         const calcularPromedio = (values) => {
@@ -82,8 +82,6 @@ const Reporte = (props) => {
                 const dif = value - promedio;
                 return dif * dif;
             });
-            //console.log("cuadradoDif: ")
-            //console.log(cuadradoDif)
             const varianza = calcularPromedio(cuadradoDif);
             return varianza;
         };
@@ -95,17 +93,12 @@ const Reporte = (props) => {
         };
 
         if(librosLeidosCount.length !== 0){
-            //console.log("🚀 ~ file: Reporte.jsx ~ line 113 ~ Reporte ~ librosLeidosCount", librosLeidosCount)
             var promLibrosLeidosXUsuario = Math.round(calcularPromedio(librosLeidosCount)*100)/100 //Redondeo a 2 decimales
-            //console.log("promLibrosLeidosXUsuario: ")
-            //console.log(promLibrosLeidosXUsuario)
 
             // Test
             //const datosTest = [1, 4, 7, 9, 32, 48, 54, 66, 84, 91, 100, 121];
             var varianza = Math.round(calcularVarianza(librosLeidosCount)*100)/100;
             var de = Math.round(calcularDE(calcularVarianza(librosLeidosCount))*100)/100;
-            //console.log(`Varianza: ${varianza}`);
-            //console.log(`Desviación estándar: ${de}`);
 
             
         }
@@ -120,14 +113,14 @@ const Reporte = (props) => {
         return (
             <div id="Reporte">
                 {isVisible && (
-                    <div style={{ 
+                    <div className='divReporte' style={{ 
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
                             marginTop: "5.44rem"
                     }}>
                         <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 550 }} aria-label="simple table">
+                            <Table sx={{ minWidth: 200 }} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell>Título</StyledTableCell>

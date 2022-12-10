@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
         "font": "200% sans-serif",
         "margin-top": "1rem",
         "marginBottom": "1rem",
+        "margin-left": "1.5rem",
         'font-weight': 'bold',
         "padding-left": "0",
         color: "black",

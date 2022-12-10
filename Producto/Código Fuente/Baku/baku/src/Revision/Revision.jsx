@@ -72,7 +72,6 @@ export default function MiniDrawer() {
                     <Grid item component={'main'} className={classes.content} >
                         <Container maxWidth='xl' sx={{ minHeight: '70.28vh' }} fixed>
                             <br />
-                            <Typography variant='h4'  className={classes.titulo}> Revisión de libros</Typography>
                             <ListaLibrosRevisar />
                         </Container>
                     </Grid>

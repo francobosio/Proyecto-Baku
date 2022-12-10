@@ -7,4 +7,6 @@ router.post('/premiumCobroFront', premiumCtrl.procesarCobroFront);
 
 router.post('/premiumCobroWebhook', premiumCtrl.procesarCobroWebhook);
 
+router.get('/premiumCobro/:id', premiumCtrl.obtenerCobroByUserId)
+
 export default router

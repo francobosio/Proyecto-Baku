@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, FormHelperText, Tooltip, Typography } from '@material-ui/core';
 import AppBar from '../AppBar/AppBar.js';
@@ -186,6 +186,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.only('xs')]: {
             maxWidth: '23em',
             minWidth: '23em',
+            marginLeft: "0.4em",
         },
     },
     textoMultiple: {
@@ -301,12 +302,23 @@ export default function MiniDrawer() {
 
     /* metodo para deshabilitar los géneros que tengan conflictos entre si */
 
+    useEffect(() => {
+        let temp = {}
+        temp.img = image.raw !== "" ? "" : "Imagen";
+        temp.titulo = inputTitulo.current.value.trim() !== "" ? "" : "titulo";
+        temp.pdf = pdf !== "" ? "" : "pdf";
+        temp.descripcion = inputDescripcion.current.value.trim() !== "" ? "" : "Descripcion";
+        temp.select = inputCombo.current.value.length !== 0 ? "" : "select";
+        temp.terminos = aceptaTerminos ? "" : "Terminos";
+
+        setBloquearPublicar(!Object.values(temp).every(x => x === ""))
+    }, [pdf, libro, aceptaTerminos, categoriaLibro, image])
+
     const handleSelectChange = (event) => {
         categorias.map((value) => (
             value.disabled = false
         ))
         if (event.target.value.length > 0) {
-            console.log(event.target.value)
             for (let i = 0; i < event.target.value.length; i++) {
                 const nombre = event.target.value[i].nombre;
                 for (let j = 0; j < conflictos[nombre].length; j++) {
@@ -324,31 +336,49 @@ export default function MiniDrawer() {
     };
 
     const handleImageChange = e => {
-        if (e.target.files.length) {
-            setImage({
-                preview: URL.createObjectURL(e.target.files[0]),
-                raw: e.target.files[0]
-            });
+        if (e.target.files[0].type === "image/png" || e.target.files[0].type === "image/jpeg" || e.target.files[0].type === "image/jpg") {
+            if (e.target.files[0].size <= 204800) {
+                if (e.target.files.length) {
+                    setImage({
+                        preview: URL.createObjectURL(e.target.files[0]),
+                        raw: e.target.files[0]
+                    });
+                }
+            } else {
+                setImage({ preview: "", raw: "" });
+                alert.error("Error al subir el archivo, solo se permiten imágenes que pesen menos de 200 Kb");
+            }
+        }
+        else {
+            setImage({ preview: "", raw: "" });
+            alert.error("Error al subir el archivo, solo se permiten archivos JPG, PNG ó jPEG");
         }
     };
 
     const handlePdfChange = e => {
-        console.log(e.target.files[0].type)
         if (e.target.files[0].type === "application/pdf") {
-            if (e.target.files.length) {
-                setPdfTitle(e.target.files[0].name)
-                setPdf(e.target.files[0])
-            }
-            console.log(e.target.files[0])
-            /* si se selecciono un archivo cambiar el boton */
-            if (e.target.files[0]) {
-                setarchivoSubido(true)
+            if (e.target.files[0].size <= 26214400) {
+                if (e.target.files.length) {
+                    setPdfTitle(e.target.files[0].name)
+                    setPdf(e.target.files[0])
+                }
+                /* si se selecciono un archivo cambiar el boton */
+                if (e.target.files[0]) {
+                    setarchivoSubido(true)
+                } else {
+                    setarchivoSubido(false)
+                }
             } else {
+                setPdf("");
+                setPdfTitle("");
                 setarchivoSubido(false)
+                alert.error("Error al subir el archivo, solo se permiten archivos de texto que pesen menos de 25 Mb")
             }
         } else {
+            setPdf("");
+            setPdfTitle("");
             setarchivoSubido(false)
-            alert.error("Eror al subir el archivo, solo se permiten archivos PDF")
+            alert.error("Error al subir el archivo, solo se permiten archivos PDF")
         }
     };
 
@@ -358,7 +388,6 @@ export default function MiniDrawer() {
 
     const handleAceptaTerminoChange = e => {
         setAceptaTerminos(e.target.checked)
-        setBloquearPublicar(!e.target.checked)
     }
 
     const handleParaTodoPublicoChange = e => {
@@ -390,22 +419,8 @@ export default function MiniDrawer() {
             formData.append("usuario", usuario_auth0Id)
             formData.append("alias", alias)
             formData.append("avatar", avatar)
-            const res = await libroServices.createLibro(formData);
-            /*             const idData = {
-                            'auth0id': usuario_auth0Id,
-                            'idLibro': res.data.libro._id
-                        };
-                        const nuevaNotificacion = {
-                            'auth0usuario': localStorage.getItem("usuario_activo"),
-                            'titulo': "El usuario " + localStorage.getItem("usuario") + " ha subido:",
-                            'descripcion': libro.titulo,
-                            'avatar': localStorage.getItem("avatar"),
-                            'tipo': "subidaLibro",
-                            'esNoleido': true,
-                            'id_libro': res.data.libro._id,
-                        }
-                        await usuarioService.usuarioLibroCargado(idData);
-                        await notificacionService.createNotificacion(nuevaNotificacion); */
+            await libroServices.createLibro(formData);
+
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
             resetForm();
         }
@@ -440,6 +455,7 @@ export default function MiniDrawer() {
         temp.img = image.raw !== "" ? "" : "Imagen"
         temp.titulo = inputTitulo.current.value.trim() !== "" ? "" : "titulo"
         temp.pdf = pdf !== "" ? "" : "pdf"
+        temp.descripcion = inputDescripcion.current.value.trim() !== "" ? "" : "Descripcion"
         temp.select = inputCombo.current.value.length !== 0 ? "" : "select"
         temp.terminos = aceptaTerminos ? "" : "Terminos"
 
@@ -452,7 +468,7 @@ export default function MiniDrawer() {
         temp.pdf !== "" && alert.show("Se debe cargar un libro para continuar!", { type: 'error', position: 'top right' })
 
         // verifico si en temp existen cadenas no vacias, en ese caso reorna false y no continua, si todas las cadenas son vacias retorna true y continua
-        return Object.values(temp).every(x => x === "")
+        return (Object.values(temp).every(x => x === "") && aceptaTerminos);
     }
     const handleClickOpen = () => {
         setOpen(true);
@@ -493,9 +509,9 @@ export default function MiniDrawer() {
                                 </Grid>
                                 <Grid item xs={12} style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography className={classes.textoDestacado}>Portada *</Typography>
-                                    <label htmlFor="upload-button" className={classes.centrar}>
+                                    <label htmlFor="upload-button" className={classes.centrar} style={{ justifyContent: "center", alignSelf: "center", display: "flex" }}>
                                         {image.preview ? (
-                                            <img src={image.preview} alt="dummy" width="230" height="300" className={classes.imagen} />
+                                            <img src={image.preview} alt="dummy" width="215" height="300" className={classes.imagen} />
                                         ) : (
                                             <>
                                                 <span className="fa-stack fa-2x mt-3 mb-2">
@@ -505,15 +521,20 @@ export default function MiniDrawer() {
                                             </>
                                         )}
                                     </label>
-                                    <Button component="label" startIcon={<UploadIcon />} style={{ justifyContent: "center", alignSelf: "center" }} className={classes.btnArchivo + " " + classes.centrar}> Subí tu Portada
-                                        <input
-                                            type="file"
-                                            name="imagenPath"
-                                            onChange={handleImageChange}
-                                            hidden
-                                            accept=".png,.jpg,.raw,.jpeg"
-                                        />
-                                    </Button>
+                                    <Grid container xs={12} direction="row" alignItems="center" justify="center" sx={{ marginTop: '2em' }} >
+                                        <Button component="label" startIcon={<UploadIcon />} style={{ justifyContent: "center", alignSelf: "center" }} className={classes.btnArchivo + " " + classes.centrar}> Subí tu Portada
+                                            <input
+                                                type="file"
+                                                name="imagenPath"
+                                                onChange={handleImageChange}
+                                                hidden
+                                                accept=".png,.jpg,.jpeg"
+                                            />
+                                        </Button>
+                                        <Tooltip title="El archivo puede estar en formato PNG, JPG o JPEG (Peso máximo 200 Kb)" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
+                                            <InfoIcon />
+                                        </Tooltip>
+                                    </Grid>
                                 </Grid>
                                 <Grid item xs={12} className={classes.controlTitulo}>
                                     <Typography className={classes.textoDestacado}>Título *</Typography>
@@ -663,7 +684,7 @@ export default function MiniDrawer() {
                                                     accept=".pdf"
                                                 />
                                             </Button>
-                                            <Tooltip title="El archivo debe estar en formato PDF" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
+                                            <Tooltip title="El archivo debe estar en formato PDF (Peso máximo 25 Mb)" placement="right" arrow sx={{ fontSize: '1.5em', size: 'large' }}>
                                                 <InfoIcon />
                                             </Tooltip>
                                         </Stack>
@@ -679,7 +700,9 @@ export default function MiniDrawer() {
                                 </Grid>
 
                                 <Grid item xs={12} style={{ marginTop: "1rem", justifyContent: "center", display: "flex" }}>
-                                    <Button className={classes.btnPublicar + " " + classes.centrar} onClick={() => setabrirDialog(true)} variant="contained" disabled={(bloquearPublicar)}>Publicar</Button>
+                                    <Button className={classes.btnPublicar + " " + classes.centrar} style={{ marginTop: "1rem", justifyContent: "center", display: "flex" }} onClick={() => setabrirDialog(true)} variant="contained" disabled={(bloquearPublicar)}>
+                                        Publicar
+                                    </Button>
                                 </Grid>
                                 <Grid item xs={12} >
                                     {/* CODIGO PARA EL DIALOG */}
@@ -688,7 +711,7 @@ export default function MiniDrawer() {
                                         onClose={handleCloseDialog}
                                         aria-labelledby="responsive-dialog-title"
                                     >
-                                        <DialogTitle id="responsive-dialog-title">¿Esta seguro que desea publicar el libro?</DialogTitle>
+                                        <DialogTitle id="responsive-dialog-title">¿Está seguro que desea publicar el libro?</DialogTitle>
                                         <DialogActions>
                                             <Button autoFocus onClick={handleCloseDialog} color="primary">
                                                 Cancelar

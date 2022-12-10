@@ -77,7 +77,18 @@ const TiempoDuracionUP = (props) => {
                     return val
                     }
                 }
-            }
+            },
+            responsive: [
+                {
+                  breakpoint: 730,
+                  options: {
+                      chart: {
+                          height: 290,
+                          width: 320
+                      },
+                  }
+                }
+            ]
         }
 
         return (

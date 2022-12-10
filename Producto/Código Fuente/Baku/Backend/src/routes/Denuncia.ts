@@ -29,7 +29,11 @@ const denunciaSchema = new Schema({
     reclamosxLibro:{
         type: Number,
         default:"0",
-    }
+    },
+    reclamador:{
+        type: String,
+    },
+
 }, {
     versionKey: false,
     timestamps: true,
@@ -45,5 +49,6 @@ interface IDenuncia extends Document {
     libroId: string;
     reclamosxUsuario: number;
     reclamosxLibro: number;
+    reclamador: string;
 }
 export default model<IDenuncia>('Denuncia', denunciaSchema);

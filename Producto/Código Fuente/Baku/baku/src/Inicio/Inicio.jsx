@@ -33,19 +33,18 @@ const useStyles = makeStyles((theme) => ({
         'font-weight': 'bold',
         'color': '#000',
         [theme.breakpoints.down('sm')]: {
-            fontSize: "1rem",
+            fontSize: "0.8em",
             marginLeft: 10
         }
     },
     alerta: {
         background: '#ffd04e',
         padding: "1.5rem",
-        gridGap: 0,
     },
     botonPerfil: {
         'background-color': '#4B9C8E',
         'borderRadius': '5rem',
-        width: '15rem',
+        width: '11rem',
         '&:hover': {
             'background': '#076F55',
             'color': '#FFFFFF',
@@ -89,6 +88,7 @@ export default function Inicio() {
     const [flagActualizar, setFlagActualizar] = useState(true);
     const [numeroRandom, setNumeroRandom] = useState(Math.random());
     const [tieneFecha, setTieneFecha] = useState(true);
+    const [tipoUsuario, settipoUsuario] = useState("")
     const [flagEsMenorEdad, setFlagEsMenorEdad] = useState(false);
 
     let usuario = null;
@@ -111,24 +111,23 @@ export default function Inicio() {
     }, [flagEsMenorEdad])
 
     const loadUsuario = async () => {
-        console.log(user.sub)
+        
         const res = await usuarioService.getUsuario(user.sub)
         usuario = res.data;
-        console.log(usuario)
         if (usuario === null || usuario === undefined) {
+            let nick =("Invitado" + Math.floor(Math.random() * 10000))
             const usuarioData = {
                 'auth0_id': user.sub,
                 'apellido': user.family_name ? user.family_name : user.nickname,
                 'nombre': user.given_name ? user.given_name : user.nickname,
                 'tipo': '1',
                 'avatar': user.picture,
-                'usuario': user.nickname ? user.nickname : 'Invitado' + Math.floor(Math.random() * 10000),
+                'usuario':  nick,
                 'correo_electronico': user.email
             }
             const res = await usuarioService.createUsuario(usuarioData)
             usuario = res.data.usuario
         }
-        console.log("el nickname es" + user.nickname)
         localStorage.setItem("usuario_estado", usuario.estado)
         localStorage.setItem("usuario_activo", usuario.auth0_id)
         localStorage.setItem("alias", usuario.usuario)
@@ -148,12 +147,12 @@ export default function Inicio() {
         const favoritos = await usuarioService.obtenerFavoritos(usuario.auth0_id);
         localStorage.setItem("favoritos", JSON.stringify(favoritos))
         //----------------------------------------------------------------------------------------------
+        settipoUsuario(usuario.tipoUsuario);
         if (usuario.estado === 'Bloqueado') {
             //no mostrar el componente de inicio 
             window.alert("Su cuenta se encuentra inactiva, consulte con el administrador")
             window.location.href = "/";
         }
-
     }
 
     useEffect(() => {
@@ -195,19 +194,21 @@ export default function Inicio() {
                 <Container disableGutters maxWidth='1800px' >
                     <Grid item >
                         <AppBar />
-
-                        {tieneFecha ?
+                    </Grid>
+                    <Grid item direction="row" >
+                    {tieneFecha ?
                             null :
-                            <Grid container spacing={4} align="center" justify="center" alignItems="center" className={classes.alerta}>
-                                <Grid item xs={5} >
+                            <Grid container spacing={0} align="center" justify="left" alignItems="center" className={classes.alerta}>
+                                <Grid item xs={5} md={6}>
                                     <Typography className={classes.titulo}>Le recomendamos que cargue su Fecha de Nacimiento para poder acceder a nuestro catálogo completo de libros.</Typography>
                                 </Grid>
-                                <Grid item xs={2}>
+                                <Grid item xs={7} md={6} sx={{justifyContent: 'center',display: 'flex'}}>
                                     <Button component={Link} to="/Perfil" className={classes.botonPerfil}>Ir a Mi Perfil</Button>
                                 </Grid>
                             </Grid>
                         }
-                    </Grid>
+                    </Grid >
+
                     <Grid item container alignItems="center" justifyContent="center" className={classes.carousel}  >
                         <Box px={4}>
                             <Carrucel valor={valor} />
@@ -218,7 +219,7 @@ export default function Inicio() {
                             {/* <MyComponent /> */}
                             <Typography variant='h4' className={classes.titulo} >Subidos recientemente</Typography>
                             {(libros.length > 0 && fechanacimiento !== 0) ? (
-                                <Slider >
+                                <Slider tipoUsuario={tipoUsuario} >
                                     {libros.map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).reverse()}
@@ -228,7 +229,7 @@ export default function Inicio() {
                             <Typography variant='h4' className={classes.titulo} >Populares en Baku</Typography>
                             {libros.length > 0 ? (
                                 //ordenar por cantidad de visitas 
-                                <Slider className={classes.slider}>
+                                <Slider tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {libros.sort((a, b) => b.visitas - a.visitas).map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     ))}
@@ -237,7 +238,7 @@ export default function Inicio() {
                             }
                             <Typography variant='h4' className={classes.titulo} >Tendencias</Typography>
                             {libros.length > 0 && flagActualizar === true ? (
-                                <Slider className={classes.slider}>
+                                <Slider tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {libros.sort((a, b) => b.visitas24Horas - a.visitas24Horas).map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => numeroRandom - 0.5)}
@@ -248,7 +249,7 @@ export default function Inicio() {
                             {flagEsMenorEdad ? null : <Typography variant='h4' className={classes.titulo} >Ranking</Typography>}
 
                             {librosRankeados.length > 0 ? (
-                                <SliderRanked className={classes.slider}>
+                                <SliderRanked  tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {librosRankeados.map(movie => (
                                         <SliderRanked.Item movie={movie} tamaño={width} key={movie._id}></SliderRanked.Item>
                                     )).reverse()}
@@ -258,30 +259,30 @@ export default function Inicio() {
                             }
                             <Typography variant='h4' className={classes.titulo}>Elegidos por los editores</Typography>
                             {libros.length > 0 ? (
-                                <Slider className={classes.slider}>
+                                <Slider tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {libros.map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => numeroRandom - 0.5)}
                                 </Slider>) : (
-                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'80.5vw'} height={'30vh'} />)
                             }
                             <Typography variant='h4' className={classes.titulo}>Para una noche de terror</Typography>
                             {librosGenero.length > 0 ? (
-                                <Slider className={classes.slider}>
+                                <Slider tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {librosGenero.map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => Math.random() - 0.5)}
                                 </Slider>) : (
-                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'80.5vw'} height={'30vh'} />)
                             }
                             <Typography variant='h4' className={classes.titulo}>Más favoritos por la comunidad</Typography>
                             {librosFavoritos.length > 0 ? (
-                                <Slider className={classes.slider}>
+                                <Slider tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {librosFavoritos.map(movie => (
                                         <Slider.Item movie={movie} tamaño={width} key={movie._id}></Slider.Item>
                                     )).sort(() => Math.random() - 0.5)}
                                 </Slider>) : (
-                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'86.5vw'} height={'30vh'} />)
+                                <Skeleton variant="rectangular" sx={{ bgcolor: '#76bfa9' }} width={'80.5vw'} height={'30vh'} />)
                             }
                         </Box>
                     </Grid>

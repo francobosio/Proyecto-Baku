@@ -1,9 +1,19 @@
 import ReactApexChart from "react-apexcharts";
+import * as denunciaService from '../../Denuncia/DenunciaService.ts';
+import {useEffect, useState,} from 'react'
 
 const CantDenuncias = (props) => {
+        const [denuncias, setDenuncias] = useState([]);
+    
+        const loadDenuncias = async () => {
+            const res = await denunciaService.getDenunciasxAutorxlibro();
+            setDenuncias(res.data)
+        }
 
-        // the default colorPalette for this dashboard
-        //var colorPalette = ['#01BFD6', '#5564BE', '#F7A600', '#EDCD24', '#F74F58'];
+        useEffect(() => {
+            loadDenuncias();
+        }, []);
+    
         var colorPalette = ['#00D8B6','#008FFB',  '#FEB019', '#FF4560', '#775DD0']
 
         function trigoSeries(cnt, strength) {
@@ -15,14 +25,6 @@ const CantDenuncias = (props) => {
             return data;
         }
 
-        // function sumatoriaArray(array) {
-        //     let sum = 0;
-        //     for (let i = 0; i < array.length; i++) {
-        //         sum += array[i]
-        //     }
-        //     return Math.round(sum*100)/100;
-        // }
-
         function maxArray(array) {
             let max = array[0];
             for (let i = 0; i < array.length; i++) {
@@ -31,11 +33,16 @@ const CantDenuncias = (props) => {
             }
             return max;
         }
-    
+
+        const arrayDenuncias = trigoSeries(30, 10)
+        if (denuncias.length > 0 && arrayDenuncias.length === 30) {
+            arrayDenuncias[arrayDenuncias.length - 1] = denuncias.length
+        }
+     
         var series = [
             {
                 name: "Cantidad de Reclamos",
-                data: trigoSeries(30, 10)
+                data: arrayDenuncias
             },
         ]
 
@@ -107,8 +114,52 @@ const CantDenuncias = (props) => {
                 offsetY: -20,
                 offsetX: -30
             },
-
-        
+            responsive: [
+                {
+                  breakpoint: 730,
+                  options: {
+                      chart: {
+                          height: 290,
+                          width: 320
+                      },
+                      xaxis: {
+                          title: {
+                              text: 'DÍAS',
+                              style: {
+                                  fontSize: '11px',
+                              }
+                          },
+                          labels: {
+                                rotate: -65,
+                                rotateAlways: true,
+                                style: {
+                                    fontSize: '9px',
+                                }
+                          },
+                      },
+                      yaxis: {
+                          title: {
+                              text: 'CANTIDAD DE RECLAMOS',
+                              style: {
+                                  fontSize: '11px',
+                              }
+                          },
+                          tickAmount: 2,
+                          labels: {
+                              show: true
+                          },
+                          axisBorder: {
+                              show: true,
+                          },
+                          axisTicks: {
+                              show: false
+                          },
+                          min: 0,
+                          max: maxArray(series[0].data) + 10
+                      },
+                  }
+                }
+            ]
         }
 
         return (

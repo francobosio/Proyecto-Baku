@@ -1,8 +1,6 @@
 import PdfParse from "pdf-parse";
 
 export const getLibroNarrador = async (req, res) => {
-    
-    console.log("Empieza narrador!!")
 
     //DESCARGA DEL LIBRO
     const url2 = req.params.archivoTexto;
@@ -16,8 +14,6 @@ export const getLibroNarrador = async (req, res) => {
             //do not attempt to combine same line TextItem's. The default value is `false`.
             disableCombineTextItems: false,
         }
-      
-        //console.log(pageData.pageNumber)
       
         return pageData.getTextContent(render_options)
         .then(function(textContent) {

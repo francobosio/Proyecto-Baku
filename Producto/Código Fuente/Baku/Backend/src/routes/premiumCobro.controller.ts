@@ -66,7 +66,6 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
                 }
             }).then(response => response.json())
             .then(async data =>{
-                console.log(data);
                 if (cobro){
                     if (data.status === "authorized"){
                         cobro.fechaVencimiento = data.next_payment_date;
@@ -91,3 +90,26 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
     res.sendStatus(200);
 }
 
+export const obtenerCobroByUserId : RequestHandler = async (req, res) => {
+    const cobro = await Cobro.findOne({userId: req.params.id});
+    if (!cobro) return res.status(204).json();
+
+    return res.json(cobro)
+}
+
+export const actualizarEstadosUsuarios = async () => {
+    let fechaHoy = new Date(Date.now());
+    let cobros = await Cobro.find({estado: 'Cancelado'});
+
+    cobros.forEach(async (cobro) => {
+        if (cobro.fechaVencimiento < fechaHoy){
+            if (cobro.userId){
+                let usuario = await Usuario.findById(cobro.userId)
+                if (usuario) {
+                    usuario.tipoUsuario = '1';
+                    usuario.save();
+                }
+            }
+        } 
+    });
+}

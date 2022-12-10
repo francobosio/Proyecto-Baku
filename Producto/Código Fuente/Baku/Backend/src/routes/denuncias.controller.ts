@@ -3,6 +3,7 @@ import { RequestHandler } from "express";
 import Denuncia from './Denuncia';
 import Usuario from './Usuario';
 import Libro from './Libro';
+import moment from 'moment';
 
 /* from: '"Baku" <bakulibros@gmail.com>', // sender address
 to: "ariel.strasorier@gmail.com", // list of receivers
@@ -12,8 +13,7 @@ html: "<b> Hola buenos dias su libro fue denunciado </b>", // html body */
 
 export const enviarMail: RequestHandler = async (req, res) => {
     const { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId } = req.body;
-    /* console.log(from, to, subject, mensajeCuerpo, concepto, autorAuth0,libroId)
-      await transporter.sendMail({
+    await transporter.sendMail({
           from: from, // sender address
           to: to, // list of receivers
           subject: subject, // Subject line
@@ -21,13 +21,13 @@ export const enviarMail: RequestHandler = async (req, res) => {
           html: `<b>${mensajeCuerpo} <br> <br> 
                 Concepto: ${concepto} <br> <br> 
                 Autor: ${autorAuth0} <br> <br> </b> `
-        }) */
+        })
     res.json({ message: 'Mail enviado' })
 }
 
 export const guardarDenuncia: RequestHandler = async (req, res) => {
-    const { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro } = req.body;
-    const denuncia = new Denuncia({ from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro })
+    const { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro,reclamador } = req.body;
+    const denuncia = new Denuncia({ from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro,reclamador })
     const savedDenuncia = await denuncia.save()
     //todas las denucias del mismo autorAuth0 y libroId actualizarlas con el nuevo reclamosxUsuario y reclamosxLibro 
     const denuncias = await Denuncia.find({ autorAuth0: autorAuth0, libroId: libroId })
@@ -43,6 +43,7 @@ export const guardarDenuncia: RequestHandler = async (req, res) => {
     });
     res.json(savedDenuncia)
 }
+
 
 export const bloquearAutorLibro: RequestHandler = async (req, res) => {
     const { autorAuth0, libroId } = req.body;
@@ -126,7 +127,10 @@ export const getDenunciasxLibroxUsuario: RequestHandler = async (req, res) => {
         }
 
     ])
-    //solo usuarios en estado bloqueado o libros en estado rechazado y reclamosxUsuario mayor a 1 y reclamosxLibro mayor a 1
+    //cambiar fecha y hora con 4 horas atras   
+    lista.forEach((element: any) => {
+        element.createdAt = moment(element.createdAt).subtract(4, 'hours').format('YYYY/MM/DD')
+    })
     res.json(lista)
 }
 

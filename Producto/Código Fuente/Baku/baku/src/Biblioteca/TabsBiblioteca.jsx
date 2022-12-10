@@ -61,7 +61,7 @@ const calculo = (width) => {
       const ancho = width;
       return ancho
   } else if (width <= 1100) {
-      const ancho = 1000;
+      const ancho = 790;
       return ancho
   }
 }

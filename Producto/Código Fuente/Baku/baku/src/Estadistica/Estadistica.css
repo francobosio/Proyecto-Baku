@@ -1,24 +1,103 @@
 .title {
     text-align: center;
+    font-size: 1.6em;
+}
+
+.form {
+  border: solid black 1px;
+}
+.elem {
+  overflow: hidden;
+  display: inline-block;
+  width: 150px;
+  height: 20px;
+}
+.charts {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+.chart {
+  border: solid #589636 1px;
+  margin: 5px;
+  display: inline-block;
+}
+.title3 {
+  padding-top: 30px;
+  margin: 0;
+  font-size: 22px;
+  color: #333;
+  padding-bottom: 0.5em;
+  width: 100%;
+  text-align: center;
+}
+
+.chart2 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  height: 600px !important;
+  width: 600px !important;
+  margin-top: 80px !important;
+}
+
+@media (max-width: 729px){
+  .chart2 {
+    height: 450px !important;
+    margin-top: 50px !important;
   }
-  .form {
-    border: solid black 1px;
+
+  .chart3 {
+    height: 500px !important;
   }
-  .elem {
-    overflow: hidden;
-    display: inline-block;
-    width: 150px;
-    height: 20px;
+
+  .css-11xur9t-MuiPaper-root-MuiTableContainer-root {
+    height: 280px !important;
+    width: 310px !important;
+    margin-left: 15px !important;
   }
-  .charts {
+
+  .css-1jla1md-MuiTableCell-root {
+    font-size: 0.75em !important;
+  }
+
+  .css-ugto8k-MuiTableCell-root {
+      font-size: 0.75em !important;
+  }
+
+  #Bar {
+    height: 280px !important;
+  }
+
+  .divReporte {
+    margin-top: 2rem !important;
+  }
+}
+
+@media (min-width: 1450px){
+  .title {
     text-align: center;
-    margin-bottom: 5rem;
+    font-size: 2em;
   }
-  .chart {
-    border: solid #589636 1px;
-    margin: 5px;
-    display: inline-block;
+
+  .title3 {
+    font-size: 30px;
   }
+
+  .chart2 {
+    margin-top: 0px !important;
+  }
+
+  .css-ktrjjf-MuiGrid-root {
+    -webkit-flex-basis: 50% !important;
+      -ms-flex-preferred-size: 50% !important;
+      flex-basis: 50% !important;
+      -webkit-box-flex: 0 !important;
+      -webkit-flex-grow: 0 !important;
+      -ms-flex-positive: 0 !important;
+      flex-grow: 0 !important; 
+      max-width: 50% !important;
+  }
+}
 
 /* .gridWe {
   display: grid;

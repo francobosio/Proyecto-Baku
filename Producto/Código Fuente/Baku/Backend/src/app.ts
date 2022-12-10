@@ -14,6 +14,7 @@ import path from 'path'
 import responseTime from 'response-time'
 import cron from 'node-cron'
 import {eliminarVisitas24Hr,establecerRanking} from './routes/libros.controller'
+import {actualizarEstadosUsuarios} from './routes/premiumCobro.controller';
 
 
 
@@ -30,10 +31,13 @@ cron.schedule('0 19 * * * *',  () => {
 } )
 
 cron.schedule('0 8 * * * *',  () => {
-
   let tiempo = new Date().getFullYear()+'-'+new Date().getMonth()+'-'+new Date().getDate()+' '+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds();
   console.log('Se ejecuto establecerRanking '+ tiempo)
   establecerRanking(8);
+} )
+
+cron.schedule('0 0 1 * * *',  () => {
+  actualizarEstadosUsuarios();
 } )
 
 //middlewares

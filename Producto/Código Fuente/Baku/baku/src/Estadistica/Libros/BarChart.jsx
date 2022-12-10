@@ -2,6 +2,7 @@ import React, { useEffect, useState} from "react";
 import ReactApexChart from "react-apexcharts";
 import { Box } from "@mui/system";
 import * as libroService from '../../Libros/LibroService'
+import '../Estadistica.css'
 
 const BarChart = (props) => {
         
@@ -11,7 +12,6 @@ const BarChart = (props) => {
             const fechaDesdeBack = encodeURIComponent(`${props.fechaDesde.getMonth() + 1}/${props.fechaDesde.getDate()}/${props.fechaDesde.getFullYear()}`)
             const fechaHastaBack = encodeURIComponent(`${props.fechaHasta.getMonth() + 1}/${props.fechaHasta.getDate()}/${props.fechaHasta.getFullYear()}`)
             const res = await libroService.obtenerLibrosFecha(fechaDesdeBack, fechaHastaBack)
-            //console.log(res.data);
             setlibros(res.data);
             setEjecuto(true)
         }
@@ -43,7 +43,6 @@ const BarChart = (props) => {
         libros.forEach(libro => {
             array1 = array1.concat(libro.genero)
         })
-        //console.log(array1)
     
         //Crea un array de generos unicos
         // const unique = array1
@@ -71,8 +70,6 @@ const BarChart = (props) => {
             // a must be equal to b
             return 0;
           });
-        
-        //console.log(generos);
     
         const sumall = generos.map(item => item.value).reduce((prev, curr) => prev + curr, 0);
         
@@ -107,6 +104,8 @@ const BarChart = (props) => {
                 toolbar: { //Zoom, mover y descargar
                     show: true
                 },
+                height: 450,
+                width: 600
             },
             colors: colors,
             
@@ -153,7 +152,7 @@ const BarChart = (props) => {
                     show: true,
                     formatter: function (val) {
                       return Math.round(val*100)/100 + "%";
-                    }
+                    },
                 },
                 
                 categories: generosCategorias,
@@ -192,12 +191,62 @@ const BarChart = (props) => {
                 opacityTo: 0.85,
                 stops: [50, 0, 100]
                 },
-            }
+            },
+            responsive: [
+              {
+                breakpoint: 730,
+                options: {
+                    chart: {
+                        height: 290,
+                        width: 340
+                    },
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 7,
+                        }
+                    },
+                    dataLabels: {
+                        offsetX: -8,
+                        style: {
+                            fontSize: '9px',
+                            colors: ["#304758"]
+                        }
+                    },
+                    xaxis: {
+                        title: {
+                            offsetY: 9,
+                            style: {
+                                fontSize: '11px',
+                            }
+                        },
+                        labels: {
+                            style: {
+                                fontSize: '11px',
+                            }
+                        },
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'GÉNEROS',
+                            style: {
+                                fontSize: '11px',
+                            }
+                        },
+                        labels: {
+                            style: {
+                                fontSize: '11px',
+                            }
+                        },
+                        
+                    },
+                }
+              }
+            ]
         }
 
         return (
             <div id="Bar" style={{
-                height: "100%",
+                height: "465px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",

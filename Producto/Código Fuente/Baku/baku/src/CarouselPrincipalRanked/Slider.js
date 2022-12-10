@@ -9,7 +9,8 @@ import useSizeElement from './useSizeElement'
 import './Slider.scss'
 import { Collapse } from '@mui/material';
 
-const SliderRanked = ({ children, activeSlide }) => {
+const SliderRanked = ({ children, activeSlide,tipoUsuario}) => {
+
   const [currentSlide, setCurrentSlide] = useState(activeSlide);
   const { width, elementRef } = useSizeElement();
   const {
@@ -47,9 +48,10 @@ const SliderRanked = ({ children, activeSlide }) => {
         {hasPrev && <SlideButton onClick={handlePrev} type="prev" tamaño={width} />}
         {hasNext && <SlideButton onClick={handleNext} type="next" tamaño={width}/>}
       </SliderWrapper>
-      <Collapse in={currentSlide}>
+     {!tipoUsuario==="3" && <Collapse in={currentSlide}>
       {currentSlide && <Content movie={currentSlide} onClose={handleClose} tamaño={width}/>}
       </Collapse>
+      }
     </Slider2Context.Provider>
 
   );

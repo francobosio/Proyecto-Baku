@@ -6,7 +6,7 @@ export const getLibros = async () => {
 }
 
 export const deleteLibro = async (id: string) => {
-    return await axios.post("http://localhost:4000/libros/eliminar", {id} );
+    return await axios.post(`${backend}/libros/eliminar`, { id });
 }
 
 const config = {
@@ -43,7 +43,7 @@ export const getLibrosPublicado = async (id: String) => {
 export const getLibrosMenorEdad = async (id: String) => {
     return await axios.get(`${backend}/librosPublicados/menorEdad`)
 }
-//los parametros id y estado se envian en el body del put 
+//los parametros id y estado se envian en el body del put
 export const putCambiarEstado = async (id: String, estado: string) => {
     return await axios.put(`${backend}/libro/cambiarEstado`, { id, estado })
 }

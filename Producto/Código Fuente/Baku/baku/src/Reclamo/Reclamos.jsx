@@ -38,7 +38,7 @@ export default function ColumnTypesGrid() {
 
   const [pageSize, setPageSize] = React.useState(5);
   //crear vector de estados con los campos nombre y id
-  const vectorEstado = [EnumLibros.Publicado, EnumLibros.Cancelado, EnumLibros.Rechazado];
+  const vectorEstado = [EnumLibros.Publicado, EnumLibros.Rechazado];
   const vectorEstadoUsuario = ["Activo", "Bloqueado"];
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -52,6 +52,7 @@ export default function ColumnTypesGrid() {
 
     //cada objeto agregarlo al array
     const rows = res.data.map(row => ({
+      reclamador: row.reclamador,
       id: row._id,
       idLibro: row.libro.map(libro => libro._id),
       idauth0Usuario: row.autor.map(autor => autor.auth0_id),
@@ -65,21 +66,22 @@ export default function ColumnTypesGrid() {
       reclamosxLibro: row.reclamosxLibro,
       createdAt: row.createdAt,
     }));
-    //eliminar los arrays de rows 
+    // modificar el campo createdAt 3 horas atras
+
     const rows2 = rows.map(row => ({
+      Reclamante: row.reclamador,
       id: row.id,
       idLibro: row.idLibro[0],
       idauth0Usuario: row.idauth0Usuario[0],
       Nombre: row.nombre[0],
       Apellido: row.apellido[0],
       "Estado Usuario": row.estado[0],
-      Titulo: row.libroTitulo[0],
-      "Estado del Libro": row.libroEstado[0],
-      Denuncia: row.concepto,
+      Título: row.libroTitulo[0],
+      "Estado Libro": row.libroEstado[0],
+      Reclamo: row.concepto,
       "Cant. Reclamos Usuario": row.reclamosxUsuario,
       "Cant. Reclamos Libro": row.reclamosxLibro,
-      //convertir fecha a formato dd/mm/aaaa
-      Fecha: row.createdAt.split("T")[0].split("-").reverse().join("/"),
+      Creación: row.createdAt,
     }));
     setRows(rows2);
   }
@@ -89,7 +91,6 @@ export default function ColumnTypesGrid() {
     setIdLibro(idLibro);
   };
   const handleClickOpenEstadoUsuario = (idUsuario) => {
-    console.log(idUsuario)
     setOpenEstadoUsuario(true);
     setidUsuarioRow(idUsuario);
   };
@@ -103,7 +104,7 @@ export default function ColumnTypesGrid() {
   const handleClickAsignar = async () => {
     setRows(rows.map(row => {
       if (row.idLibro === idLibro) {
-        row['Estado del Libro'] = denuncia;
+        row['Estado Libro'] = denuncia;
       }
       return row;
     }))
@@ -140,13 +141,11 @@ export default function ColumnTypesGrid() {
 
   const handleSeleccionado = (event) => {
     setDenuncia(event.target.value);
-    console.log(event.target.value);
     setSeleccionado(false);
   }
 
   const handleSeleccionadoEstadoUsuario = (event) => {
     setestadoUsuario(event.target.value);
-    console.log(event.target.value);
     setSeleccionado(false);
   }
 
@@ -161,8 +160,9 @@ export default function ColumnTypesGrid() {
 
   const columns = React.useMemo(
     () => [
-      { field: 'Nombre', type: 'string', flex: 0.7, minWidth: 85, },
-      { field: 'Apellido', type: 'string', flex: 0.7, minWidth: 100 },
+      {field: 'Reclamante', type: 'string',flex: 0.7,width: 70},
+      { field: 'Nombre', type: 'string', flex: 0.65, minWidth: 85, },
+      { field: 'Apellido', type: 'string', flex: 0.65, minWidth: 90 },
       { field: 'Estado Usuario', type: 'string', flex: 0.8, minWidth: 100 },
       { field: 'actions2',
         type: 'actions',
@@ -176,8 +176,8 @@ export default function ColumnTypesGrid() {
           />,
         ],
       },
-      { field: 'Titulo', type: 'string', flex: 1.6, minWidth: 100 },
-      { field: 'Estado del Libro', type: 'string', flex: 0.8, minWidth: 100 },
+      { field: 'Título', type: 'string', flex: 1.6, minWidth: 100 },
+      { field: 'Estado Libro', type: 'string', flex: 0.8, minWidth: 100 },
       { field: 'actions',
         type: 'actions',
         flex: 0.2, minWidth: 30,
@@ -190,10 +190,10 @@ export default function ColumnTypesGrid() {
           />,
         ],
       },
-      { field: 'Denuncia', type: 'string', flex: 1.6, minWidth: 140 },
+      { field: 'Reclamo', type: 'string', flex: 1.6, minWidth: 140 },
       { field: 'Cant. Reclamos Usuario', type: 'number', flex: 1.04, aling: 'center', minWidth: 155 },
       { field: 'Cant. Reclamos Libro', type: 'number', flex: 0.95, aling: 'left', minWidth: 155 },
-      { field: 'Fecha', type: 'string', flex: 0.6, minWidth: 70 },
+      { field: 'Creación', type: 'string', flex: 0.7, minWidth: 70 },
       { field: 'actions3',
         type: 'actions',
         flex: 0.2, minWidth: 30,
@@ -211,7 +211,7 @@ export default function ColumnTypesGrid() {
   );
 
   return (
-    <div style={{ height: '32rem', width: '100%' }}>
+    <div style={{ height: '32rem', width: '100%', marginLeft: '1rem' }}>
       <DataGrid
         columns={columns}
         rows={rows}
