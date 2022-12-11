@@ -74,7 +74,8 @@ const DonutChart = (props) => {
                         width: 300
                     },
                     legend: {
-                        position: 'bottom'
+                        position: 'bottom',
+                        fontSize: '15px',
                     }
                 }
             }]
