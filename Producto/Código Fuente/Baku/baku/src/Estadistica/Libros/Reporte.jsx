@@ -107,7 +107,7 @@ const Reporte = (props) => {
             createData('Promedio de libros leídos por usuario', promLibrosLeidosXUsuario),
             createData('Varianza', varianza),
             createData('Desviación estándar', de),
-            createData(`LA MAYORÍA DE LOS USUARIOS ESTÁ LEYENDO ENTRE ${promLibrosLeidosXUsuario - de < 0 ? 0 : Math.round((promLibrosLeidosXUsuario - de)*1)/1} Y ${Math.round((promLibrosLeidosXUsuario + de)*1)/1} LIBROS`),
+            createData(`MÁS DEL 50% DE LOS USUARIOS ESTÁ LEYENDO ENTRE ${promLibrosLeidosXUsuario - de < 0 ? 0 : Math.round((promLibrosLeidosXUsuario - de)*1)/1} Y ${Math.round((promLibrosLeidosXUsuario + de)*1)/1} LIBROS`),
         ];
 
         return (

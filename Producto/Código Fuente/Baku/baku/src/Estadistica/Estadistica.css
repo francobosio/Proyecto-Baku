@@ -50,6 +50,10 @@
     height: 500px !important;
   }
 
+  .chart5 {
+    height: 500px !important;
+  }
+
   .css-11xur9t-MuiPaper-root-MuiTableContainer-root {
     height: 280px !important;
     width: 310px !important;
@@ -98,6 +102,13 @@
       max-width: 50% !important;
   }
 }
+
+@media (max-width: 1450px) and (min-width: 730px){
+  .chart5 {
+    margin-top: 100px !important;
+  }
+}
+
 
 /* .gridWe {
   display: grid;
