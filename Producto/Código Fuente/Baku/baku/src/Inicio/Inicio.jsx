@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import Carrucel from '../Carrusel/Carrucel.jsx';
 import SliderRanked from '../CarouselPrincipalRanked'
 import { MiDrawer } from "../Drawer/Drawer.jsx";
+import { useLocation } from "react-router-dom";
 import * as libroService from '../Libros/LibroService'
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 
@@ -99,6 +100,10 @@ export default function Inicio() {
         const res2 = await libroService.obtenerRanking();
         setlibros(res.data);
         setlibrosRankeados(res2.data);
+        const res4 = await libroService.buscarLibroGenero("Terror");
+        const res3 = await libroService.obtenerLibrosFavoritos();
+        setLibrosGenero(res4.data);
+        setLibrosFavoritos(res3.data);
         if (flagEsMenorEdad) {
             setlibros(res.data.filter(libro => libro.aptoTodoPublico === true));
             setlibrosRankeados([]);
@@ -111,18 +116,18 @@ export default function Inicio() {
     }, [flagEsMenorEdad])
 
     const loadUsuario = async () => {
-        
+
         const res = await usuarioService.getUsuario(user.sub)
         usuario = res.data;
         if (usuario === null || usuario === undefined) {
-            let nick =("Invitado" + Math.floor(Math.random() * 10000))
+            let nick = ("Invitado" + Math.floor(Math.random() * 10000))
             const usuarioData = {
                 'auth0_id': user.sub,
                 'apellido': user.family_name ? user.family_name : user.nickname,
                 'nombre': user.given_name ? user.given_name : user.nickname,
                 'tipo': '1',
                 'avatar': user.picture,
-                'usuario':  nick,
+                'usuario': nick,
                 'correo_electronico': user.email
             }
             const res = await usuarioService.createUsuario(usuarioData)
@@ -169,17 +174,8 @@ export default function Inicio() {
         }
         return edad;
     }
-
-    window.onscroll = async function () {
-        var y = window.scrollY;
-        if (y > 900 && flagScroll === true) {
-            setFlagScroll(false);
-            const res2 = await libroService.buscarLibroGenero("Terror");
-            const res3 = await libroService.obtenerLibrosFavoritos();
-            setLibrosGenero(res2.data);
-            setLibrosFavoritos(res3.data);
-        };
-    }
+    let location = useLocation();
+    console.log(location.pathname)
 
     const { user } = useAuth0();
     const classes = useStyles();
@@ -196,13 +192,13 @@ export default function Inicio() {
                         <AppBar />
                     </Grid>
                     <Grid item direction="row" >
-                    {tieneFecha ?
+                        {tieneFecha ?
                             null :
                             <Grid container spacing={0} align="center" justify="left" alignItems="center" className={classes.alerta}>
                                 <Grid item xs={5} md={6}>
                                     <Typography className={classes.titulo}>Le recomendamos que cargue su Fecha de Nacimiento para poder acceder a nuestro catálogo completo de libros.</Typography>
                                 </Grid>
-                                <Grid item xs={7} md={6} sx={{justifyContent: 'center',display: 'flex'}}>
+                                <Grid item xs={7} md={6} sx={{ justifyContent: 'center', display: 'flex' }}>
                                     <Button component={Link} to="/Perfil" className={classes.botonPerfil}>Ir a Mi Perfil</Button>
                                 </Grid>
                             </Grid>
@@ -249,7 +245,7 @@ export default function Inicio() {
                             {flagEsMenorEdad ? null : <Typography variant='h4' className={classes.titulo} >Ranking</Typography>}
 
                             {librosRankeados.length > 0 ? (
-                                <SliderRanked  tipoUsuario={tipoUsuario} className={classes.slider}>
+                                <SliderRanked tipoUsuario={tipoUsuario} className={classes.slider}>
                                     {librosRankeados.map(movie => (
                                         <SliderRanked.Item movie={movie} tamaño={width} key={movie._id}></SliderRanked.Item>
                                     )).reverse()}

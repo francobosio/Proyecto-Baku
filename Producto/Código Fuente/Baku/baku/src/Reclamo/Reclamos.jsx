@@ -56,8 +56,7 @@ export default function ColumnTypesGrid() {
       id: row._id,
       idLibro: row.libro.map(libro => libro._id),
       idauth0Usuario: row.autor.map(autor => autor.auth0_id),
-      nombre: row.autor.map(autor => autor.nombre),
-      apellido: row.autor.map(autor => autor.apellido),
+      usuario: row.autor.map(autor => autor.usuario),
       estado: row.autor.map(autor => autor.estado),
       libroTitulo: row.libro.map(libro => libro.titulo),
       libroEstado: row.libro.map(libro => libro.estado),
@@ -73,15 +72,14 @@ export default function ColumnTypesGrid() {
       id: row.id,
       idLibro: row.idLibro[0],
       idauth0Usuario: row.idauth0Usuario[0],
-      Nombre: row.nombre[0],
-      Apellido: row.apellido[0],
+      Usuario: row.usuario[0],
       "Estado Usuario": row.estado[0],
       Título: row.libroTitulo[0],
       "Estado Libro": row.libroEstado[0],
-      Reclamo: row.concepto,
+      Motivo: row.concepto,
       "Cant. Reclamos Usuario": row.reclamosxUsuario,
       "Cant. Reclamos Libro": row.reclamosxLibro,
-      Creación: row.createdAt,
+      Fecha: row.createdAt,
     }));
     setRows(rows2);
   }
@@ -94,9 +92,11 @@ export default function ColumnTypesGrid() {
     setOpenEstadoUsuario(true);
     setidUsuarioRow(idUsuario);
   };
-  const handleClickOpenBorrarReclamo= (id) => {
+  const handleClickOpenBorrarReclamo = (id, idUsuario, idLibro) => {
     setOpenBorrarReclamo(true);
     setIdDenuncia(id);
+    setidUsuarioRow(idUsuario);
+    setIdLibro(idLibro);
   };
 
 
@@ -109,7 +109,7 @@ export default function ColumnTypesGrid() {
       return row;
     }))
     setOpen(false);
-    await libroService.putCambiarEstado(idLibro,denuncia);
+    await libroService.putCambiarEstado(idLibro, denuncia);
   }
 
   const handleClickAsignarEstadoUsuario = async () => {
@@ -120,15 +120,26 @@ export default function ColumnTypesGrid() {
       return row;
     }))
     setOpenEstadoUsuario(false);
-    await usuarioService.putCambiarEstadoUsuario(idUsuarioRow,estadoUsuario); 
+    await usuarioService.putCambiarEstadoUsuario(idUsuarioRow, estadoUsuario);
   }
 
-  const handleClickBorrarReclamo = async ()=> {
-          setRows((prevRows) => prevRows.filter((row) => row.id !== idDenuncia));
-          setOpenBorrarReclamo(false);
-          await denunciaService.deleteReclamo(idDenuncia); 
+  const handleClickBorrarReclamo = async () => {
+    /* disminuir en 1 los reclamos con el mismo reclamante y titulo */
+    setRows(rows.map(row => {
+      if (row.idauth0Usuario === idUsuarioRow) {
+        row['Cant. Reclamos Usuario'] = row['Cant. Reclamos Usuario'] - 1;
       }
-  
+      if (row.idLibro === idLibro) {
+        row['Cant. Reclamos Libro'] = row['Cant. Reclamos Libro'] - 1;
+      }
+      return row;
+    }))
+    setRows((prevRows) => prevRows.filter((row) => row.id !== idDenuncia));
+    setOpenBorrarReclamo(false);
+    await denunciaService.deleteReclamo(idDenuncia);
+  }
+
+
 
 
   const handleClose = () => {
@@ -160,25 +171,13 @@ export default function ColumnTypesGrid() {
 
   const columns = React.useMemo(
     () => [
-      {field: 'Reclamante', type: 'string',flex: 0.7,width: 70},
-      { field: 'Nombre', type: 'string', flex: 0.65, minWidth: 85, },
-      { field: 'Apellido', type: 'string', flex: 0.65, minWidth: 90 },
-      { field: 'Estado Usuario', type: 'string', flex: 0.8, minWidth: 100 },
-      { field: 'actions2',
-        type: 'actions',
-        flex: 0.2, minWidth: 30,
-        getActions: (params) => [
-          <GridActionsCellItem
-            icon={<ModeEditIcon />}
-            label="Toggle Admin"
-            //abrir el dialog en el boton toggle admin
-            onClick={() => handleClickOpenEstadoUsuario(params.row.idauth0Usuario)}
-          />,
-        ],
-      },
-      { field: 'Título', type: 'string', flex: 1.6, minWidth: 100 },
+      { field: 'Fecha', type: 'string', flex: 0.7, minWidth: 70 },
+      { field: 'Reclamante', type: 'string', flex: 0.7, width: 70 },
+      { field: 'Motivo', type: 'string', flex: 1.5, minWidth: 140 },
+      { field: 'Título', type: 'string', flex: 1.5, minWidth: 100 },
       { field: 'Estado Libro', type: 'string', flex: 0.8, minWidth: 100 },
-      { field: 'actions',
+      {
+        field: 'actions',
         type: 'actions',
         flex: 0.2, minWidth: 30,
         getActions: (params) => [
@@ -190,19 +189,33 @@ export default function ColumnTypesGrid() {
           />,
         ],
       },
-      { field: 'Reclamo', type: 'string', flex: 1.6, minWidth: 140 },
-      { field: 'Cant. Reclamos Usuario', type: 'number', flex: 1.04, aling: 'center', minWidth: 155 },
-      { field: 'Cant. Reclamos Libro', type: 'number', flex: 0.95, aling: 'left', minWidth: 155 },
-      { field: 'Creación', type: 'string', flex: 0.7, minWidth: 70 },
-      { field: 'actions3',
+      { field: 'Usuario', type: 'string', flex: 0.65, minWidth: 85, },
+      { field: 'Estado Usuario', type: 'string', flex: 0.8, minWidth: 100 },
+      {
+        field: 'actions2',
         type: 'actions',
         flex: 0.2, minWidth: 30,
         getActions: (params) => [
           <GridActionsCellItem
-            icon={<DeleteForeverOutlinedIcon fontSize="large"  />}
+            icon={<ModeEditIcon />}
             label="Toggle Admin"
             //abrir el dialog en el boton toggle admin
-            onClick={() => handleClickOpenBorrarReclamo(params.row.id)}
+            onClick={() => handleClickOpenEstadoUsuario(params.row.idauth0Usuario)}
+          />,
+        ],
+      },
+      { field: 'Cant. Reclamos Usuario', type: 'number', flex: 1.07, aling: 'center', minWidth: 155 },
+      { field: 'Cant. Reclamos Libro', type: 'number', flex: 0.95, aling: 'left', minWidth: 155 },
+      {
+        field: 'actions3',
+        type: 'actions',
+        flex: 0.2, minWidth: 30,
+        getActions: (params) => [
+          <GridActionsCellItem
+            icon={<DeleteForeverOutlinedIcon fontSize="large" />}
+            label="Toggle Admin"
+            //abrir el dialog en el boton toggle admin
+            onClick={() => handleClickOpenBorrarReclamo(params.row.id, params.row.idauth0Usuario, params.row.idLibro)}
           />,
         ],
       },
@@ -275,7 +288,7 @@ export default function ColumnTypesGrid() {
             <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
               <FormControl sx={{ m: 1, minWidth: 120 }}>
                 <Select
-                style={{ width: 220 }}
+                  style={{ width: 220 }}
                   native
                   onChange={handleSeleccionadoEstadoUsuario}
                   input={<OutlinedInput name="estadoUsuario" id="outlined-age-native-simple2" />}>
@@ -308,7 +321,7 @@ export default function ColumnTypesGrid() {
           aria-labelledby="responsive-dialog-title"
         >
           <DialogTitle id="responsive-dialog-title">
-           ¿Está seguro que desea borrar el reclamo?
+            ¿Está seguro que desea borrar el reclamo?
           </DialogTitle>
           <DialogActions>
             <Button autoFocus onClick={handleClose}>

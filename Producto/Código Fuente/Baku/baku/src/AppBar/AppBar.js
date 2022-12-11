@@ -132,6 +132,14 @@ export default function PrimarySearchAppBar() {
     respuesta.sort(function (a, b) {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
+    //quitar las notificaciones que tienen mas de 30 dias de creacion
+    const fechaActual = new Date();
+    const fecha30Dias = new Date(fechaActual.getTime() - (30 * 24 * 60 * 60 * 1000));
+    respuesta.forEach((notificacion, index) => {
+      if (new Date(notificacion.createdAt) < fecha30Dias) {
+        respuesta.splice(index, 1);
+      }
+    });
     setValor(respuesta)
     return respuesta;
   };
