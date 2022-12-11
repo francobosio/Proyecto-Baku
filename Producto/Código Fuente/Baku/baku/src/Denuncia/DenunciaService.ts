@@ -28,5 +28,13 @@ export const putBloquearAutoryLibro= async (autorAuth0:String,libroId:String) =>
 export const deleteReclamo = async (id: String) => {
     return await axios.put(`${backend}/denuncia/eliminarReclamo`, { id });
 }
+export const guardarParametros = async (numeroUsuario:Number,numeroLibro:Number) => {
+    return await axios.put(`${backend}/denuncia/guardarParametros`, { numeroUsuario,numeroLibro });
+}
+
+export const obtenerParametros = async () => {
+    return await axios.get(`${backend}/denuncia/obtenerParametros`);
+}
+
 
 
