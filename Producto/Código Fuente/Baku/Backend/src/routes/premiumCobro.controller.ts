@@ -1,11 +1,9 @@
 import { RequestHandler } from "express";
 import fetch from 'node-fetch'
-import mongoose from 'mongoose'; 
 import Cobro from "./PremiumCobro";
 import Usuario from "./Usuario";
 import config from '../config'
-
-const ObjectId = mongoose.Types.ObjectId;
+import Notificacion from "./Notificacion";
 
 export const procesarCobroFront: RequestHandler = async (req, res) => {
     const { front_Id, user_Id } = req.body;
@@ -75,12 +73,25 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
                             let usuario = await Usuario.findById(cobro.userId);
                             if (usuario){
                                 usuario.tipoUsuario = '2';
+                                usuario.planPremium = data.init_point;
                                 usuario.save();
                             }
                         }
                     } else {
                         cobro.estado = "Cancelado";
+                        cobro.notificadoMes = false;
                         cobro.fechaVencimiento = data.next_payment_date;
+                        if (cobro.fechaVencimiento.getMonth() == new Date(Date.now()).getMonth() + 1){
+                            const notification = new Notificacion({
+                                'titulo': 'Vencimiento de suscripción',
+                                'esNoleido': true,
+                                'descripcion': 'El próximo mes vence su suscripción y perderá sus beneficios Premium',
+                                'tipo': 'Premium'
+                            })
+                            cobro.notificadoMes = true;
+                            notification.save()
+                            await Usuario.findOneAndUpdate({ _id: cobro.userId }, { $push: { mensajes: notification } }).exec();
+                        }
                     }
                     await cobro.save();
                 }
@@ -104,12 +115,36 @@ export const actualizarEstadosUsuarios = async () => {
     cobros.forEach(async (cobro) => {
         if (cobro.fechaVencimiento < fechaHoy){
             if (cobro.userId){
+                cobro.estado = 'Finalizado';
                 let usuario = await Usuario.findById(cobro.userId)
                 if (usuario) {
                     usuario.tipoUsuario = '1';
+                    usuario.planPremium = '';
                     usuario.save();
                 }
+                cobro.save();
             }
-        } 
+        } else if (cobro.fechaVencimiento.getDay() === new Date(Date.now()).getDay() + 7){
+            const notification = new Notificacion({
+                'titulo': 'Vencimiento de suscripción',
+                'esNoleido': true,
+                'descripcion': 'En 7 días vence su suscripción y perderá sus beneficios Premium',
+                'tipo': 'Premium'
+            })
+            notification.save()
+            await Usuario.findOneAndUpdate({ _id: cobro.userId }, { $push: { mensajes: notification } }).exec();
+            cobro.save();
+        } else if (cobro.fechaVencimiento.getMonth() === new Date(Date.now()).getMonth() + 1){
+            const notification = new Notificacion({
+                'titulo': 'Vencimiento de suscripción',
+                'esNoleido': true,
+                'descripcion': 'El próximo mes vence su suscripción y perderá sus beneficios Premium',
+                'tipo': 'Premium'
+            })
+            cobro.notificadoMes = true;
+            notification.save()
+            await Usuario.findOneAndUpdate({ _id: cobro.userId }, { $push: { mensajes: notification } }).exec();
+            cobro.save();
+        }
     });
 }

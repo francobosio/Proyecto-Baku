@@ -296,6 +296,7 @@ export default function MiniDrawer() {
     const inputCombo = useRef();
     const inputDescripcion = useRef("")
     const inputEditorial = useRef("")
+    const inputAutor = useRef("")
 
     // Esta variable es para los mensajes de alerta
     const alert = useAlert();
@@ -428,6 +429,13 @@ export default function MiniDrawer() {
 
     /* Método para resetear todos los campos del formulario. Se ejecuta al cargar un nuevo libro */
     const resetForm = () => {
+        inputEditorial.current.value = "";
+        inputTitulo.current.value = "";
+        inputDescripcion.current.value = "";
+        inputCombo.current.value = [];
+        inputAutor.current.value = "";
+        
+
         setarchivoSubido(false);
         setAceptaTerminos(false);
         setAptoTodoPublicos(false);
@@ -438,10 +446,7 @@ export default function MiniDrawer() {
         setCategoriaLibro([]);
         setErrorSelect(null);
         setErrorTitulo(null);
-        inputTitulo.current.value = "";
-        inputCombo.current.value = [];
-        inputDescripcion.current.value = "";
-        inputEditorial.current.value = "";
+
         categorias.map((value) => (
             value.disabled = false
         ))
@@ -573,7 +578,7 @@ export default function MiniDrawer() {
                                     <Typography className={classes.textoDestacado}>Autor</Typography>
                                     <TextField
                                         name="autor"
-                                        inputRef={inputEditorial}
+                                        inputRef={inputAutor}
                                         autoFocus
                                         onChange={handleInputChange}
                                     />

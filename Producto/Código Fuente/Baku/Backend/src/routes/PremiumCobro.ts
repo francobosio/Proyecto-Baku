@@ -15,6 +15,9 @@ const cobroSchema = new Schema({
     },
     estado: {
         type: String
+    },
+    notificadoMes: {
+        type: Boolean
     }
 }, {
     versionKey: false,
@@ -27,6 +30,6 @@ interface ICobro extends Document {
     frontId: string;
     fechaVencimiento: Date;
     estado: string;
-
+    notificadoMes: Boolean;
 }
 export default model<ICobro>('Cobro', cobroSchema);

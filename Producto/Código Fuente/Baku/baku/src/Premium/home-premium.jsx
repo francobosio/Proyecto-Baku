@@ -74,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '2rem 1rem 2rem 1rem',
         color: '#1B1B1B',
         fontWeight: 'bold',
+        height: '1rem'
     },
     precio: {
         fontSize: '1rem',
@@ -88,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('1200')]: {
             fontSize: '0.9rem',
         },
+        height: '9rem'
     },
     dialogTitle: {
         color: 'red'
@@ -115,6 +117,7 @@ export default function HomePremium() {
     const [abrirDialog, setAbrirDialog] = React.useState(false);
     const [cobro, setCobro] = React.useState("");
     const [urlCobro, setUrlCobro] = React.useState("");
+    const [planPago, setPlanPago] = React.useState(null);
 
     React.useEffect(() => {
         async function fetchPlanes() {
@@ -127,7 +130,11 @@ export default function HomePremium() {
         }
         fetchPlanes();
 
+        const planUrl = localStorage.getItem("planPremium")
         const tipo = localStorage.getItem("tipoUsuario");
+        if (planUrl && planUrl != ''){
+            setPlanPago(planUrl)
+        }
         setDeshabilitado(tipo == "2");
         if (tipo == "1") {
             setTextoPremium("Obtener Premium");
@@ -165,7 +172,9 @@ export default function HomePremium() {
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <InputLabel className={classes.descripcion}>Con este plan obtendrás las siguientes características adicionales:</InputLabel>
-                                                <InputLabel className={classes.descripcionDetallada}>{modelo.descripción}</InputLabel>
+                                                <pre style={{ fontFamily: 'inherit','white-space': 'pre-wrap', 'overflow-wrap': 'break-word' }}>
+                                                    <InputLabel className={classes.descripcionDetallada}>{modelo.descripción}</InputLabel>
+                                                </pre>  
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <InputLabel className={classes.precio}>Precio: ${modelo.precio}.00</InputLabel>
@@ -176,7 +185,7 @@ export default function HomePremium() {
                                                 </Button>
                                             </Grid>
                                             <Grid item xs={12}>
-                                                {deshabilitado &&
+                                                {(deshabilitado && planPago == modelo.urlCobro) &&
                                                     <Button className={classes.boton} href={`https://www.mercadopago.com.ar/subscriptions/v0/${cobro.webhookId}/admin`} target="_blank" variant="contained">
                                                         Cancelar mi Suscripción
                                                     </Button>}

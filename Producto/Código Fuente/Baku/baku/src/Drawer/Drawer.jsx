@@ -224,7 +224,7 @@ export const MiDrawer = (props) => {
                             <Tooltip title="Planes Premium" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                                 <ListItem button selected={selectedIndex === 7} >
                                     <ListItemIcon style={{ minWidth: porcentajeMinAncho }} className={classes.ListItemIconProps}><MonetizationOnIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                    <ListItemText primary='Planes Premium' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
+                                    <ListItemText primary='Planes' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
                                 </ListItem>
                             </Tooltip>
                         </Link>
