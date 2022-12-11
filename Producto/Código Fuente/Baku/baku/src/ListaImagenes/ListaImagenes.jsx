@@ -301,7 +301,7 @@ export default function TitlebarImageList() {
             'idLibro': libroId,
             'finLectura': false,
         }
-        const res = await usuarioService.usuarioLibroLeido(libroData);
+        await usuarioService.usuarioLibroLeido(libroData);
     }
 
     const BotonReset = () => {
@@ -368,43 +368,30 @@ export default function TitlebarImageList() {
                         </ImageList>
                     </Container>
                     :
-                    (libroBuscado.length === 0 ?
-                        <Container className={classes.contenedor} fixed >
-                            {(flagReturn) && <IconButton size={'large'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}>
-                                <ReplyIcon sx={{ fontSize: "2.5em", height: "auto", color: "#076f55" }} />
-                            </IconButton>}
-                            <Container className={classes.contenedor} fixed>
-
-                                <Typography variant="h5" className={classes.title}>
-                                    No se encontraron resultados para este genero literario.
-                                </Typography>
-                            </Container>
+                    <Container className={classes.contenedor} fixed >
+                        <Container >
+                            <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft: PaddingTitulo }}>Explorar todo</ListSubheader>
+                            <br />
                         </Container>
-
-                        : <Container className={classes.contenedor} fixed >
-                            <Container >
-                                <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft: PaddingTitulo }}>Explorar todo</ListSubheader>
-                                <br />
-                            </Container>
-                            <Container className={classes.contenedor} fixed>
-                                {categorias.map((item) =>
-                                (
-                                    <Box sx={{ minWidth: "7em", width: "23.3%", margin: "0.5em", }}>
-                                        <Card style={{ background: "#99cfbf", "margin-top": "10px" }}>
-                                            <CardActionArea onClick={() => handleClick(item.id)} >
-                                                <CardMedia
-                                                    component="img"
-                                                    height="70%"
-                                                    image={item.img}
-                                                    style={{ "margin-top": "-2px" }}
-                                                />
-                                            </CardActionArea>
-                                        </Card>
-                                    </Box>
-                                ))}
-                            </Container>
+                        <Container className={classes.contenedor} fixed>
+                            {categorias.map((item) =>
+                            (
+                                <Box sx={{ minWidth: "7em", width: "23.3%", margin: "0.5em", }}>
+                                    <Card style={{ background: "#99cfbf", "margin-top": "10px" }}>
+                                        <CardActionArea onClick={() => handleClick(item.id)} >
+                                            <CardMedia
+                                                component="img"
+                                                height="70%"
+                                                image={item.img}
+                                                style={{ "margin-top": "-2px" }}
+                                            />
+                                        </CardActionArea>
+                                    </Card>
+                                </Box>
+                            ))}
                         </Container>
-                    )
+                    </Container>
+                    
                 }
             </Grid>
         </div >

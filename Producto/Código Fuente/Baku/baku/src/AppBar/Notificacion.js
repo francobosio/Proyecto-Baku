@@ -251,7 +251,7 @@ export default function NotificationsPopover(propNotificacion) {
           >
             {/* ordenar notifications por fecha de creacion */}
           
-            {notifications.filter((item) => item.esNoleido === false).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((notification) => (
+            {notifications.filter((item) => item.esNoleido === false ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((notification) => (
               //anular style de Link
 
               <NotificationItem key={notification._id} notification={notification} id={notification.id_libro} />

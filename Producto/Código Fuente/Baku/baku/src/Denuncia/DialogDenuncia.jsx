@@ -43,8 +43,22 @@ export default function ConfirmationDialogRaw(props) {
   const inputDenuncia = React.useRef("")
   const [value, setValue] = React.useState(valueProp);
   const [cuadroTexto, setCuadroTexto] = React.useState("");
+  const [mensajeDialog, setMensajeDialog] = React.useState("");
   const radioGroupRef = React.useRef(null);
+  const [numeroUsuario, setNumeroUsuario] = React.useState("");
+  const [numeroLibro, setNumeroLibro] = React.useState("");
   //cerrar el dialogo al cerrar el modal de confirmacion 
+
+  const loadReclamos = async () => {
+    const autorRes = await denunciaService.obtenerParametros();
+    console.log(autorRes.data)
+    setNumeroUsuario(autorRes.data[0].numeroUsuario)
+    setNumeroLibro(autorRes.data[0].numeroLibro)
+  }
+
+  React.useEffect(() => {
+    loadReclamos()
+  }, [])
 
   const handleEntering = () => {
     if (radioGroupRef.current != null) {
@@ -61,6 +75,7 @@ export default function ConfirmationDialogRaw(props) {
 
   const handleAceptar = async () => {
     setCerrar(false);
+    setMensajeDialog("Procesando...");
     inputDenuncia.current.value = "";
     let reclamador = await usuarioService.getUsuario(props.reclamador);
     let contadorDenunciasTotalAutor = await denunciaService.putContadorDenuncias(pAutor);
@@ -81,8 +96,14 @@ export default function ConfirmationDialogRaw(props) {
     const contadorAutor = parseInt(contadorDenunciasTotalAutor.data) + 1;
     const contadorLibro = parseInt(contadorDenucniasxLibroAutor.data) + 1;
     setNuevoModal(true);
-    await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro, reclamadorAuth0);
-    if (contadorAutor >= 10 || contadorLibro >= 10) {
+    console.log("pAutor es : " + pAutor + " pLibro es : " + pLibro);
+    const res = await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro, reclamadorAuth0);
+    if (res.data.message === 'guardada') {
+      setMensajeDialog("Gracias. Su reclamo fue procesado y se lo analizará a la brevedad.");
+    } else {
+      setMensajeDialog("Solo se permite un reclamo por libro. Gracias.");
+    }
+    if (contadorAutor >= numeroUsuario || contadorLibro >= numeroLibro) {
       await denunciaService.putBloquearAutoryLibro(pAutor, pLibro);
       await denunciaService.putEnviarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro);
     }
@@ -99,7 +120,7 @@ export default function ConfirmationDialogRaw(props) {
   const handleCerrar = () => {
     setNuevoModal(false);
   }
-
+   console.log("numeroUsuario es : " + numeroUsuario + " numeroLibro es : " + numeroLibro);
   return (
     <div><Dialog
       sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 800 } }}
@@ -156,7 +177,7 @@ export default function ConfirmationDialogRaw(props) {
         open={nuevoModal}
         {...other}
       >
-        <DialogTitle>Gracias. Su reclamo fue procesado y se lo analizará a la brevedad.</DialogTitle>
+        <DialogTitle>{mensajeDialog}</DialogTitle>
         <DialogActions>
           <Button onClick={handleCerrar}>Confirmar</Button>
         </DialogActions>

@@ -67,10 +67,10 @@ export default function Layout() {
 
                             <Route exact path="/Estadistica" component={isLoading ? Loading : isAuthenticated ? Estadistica : Home} />
                             
-                            <Route exact path="/Revision" component={isLoading ? Loading : !isAuthenticated ? Home :((localStorage.getItem('tipoUsuario') === '3') && localStorage.getItem('usuario_estado')==='Activo')? Revision : Home } />
-                            <Route exact path="/Revision/:id" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Resultado :  Home} />
+                            <Route exact path="/Revision" component={isLoading ? Loading : isAuthenticated ? Revision : Home } />
+                            <Route exact path="/Revision/:id" component={isLoading ? Loading : isAuthenticated ? Resultado :  Home} />
 
-                            <Route exact path="/Ajustes" component={isLoading ? Loading : !isAuthenticated ? Home :(localStorage.getItem('tipoUsuario') === '3') ? Ajustes :  Home} />
+                            <Route exact path="/Ajustes" component={isLoading ? Loading : isAuthenticated ?  Ajustes :  Home} />
 
                             <Route exact path="/Ayuda/:tipo" component={Paginas} />
 

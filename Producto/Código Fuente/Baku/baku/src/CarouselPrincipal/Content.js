@@ -57,7 +57,7 @@ export default function Content({ movie, onClose, tamaño }) {
 
   return (
     <Container maxWidth={false} style={{ left: (tamaño / 9), top: -20 }} className="content">
-      <div className="content__area" /* onMouseLeave={onClose} */>
+      <div className="content__area" >
         <div className="content__area__container" >
           <div style={{ flexDirection: 'row', display: 'flex', alignContent: 'center', alignItems: 'center', marginLeft: margenTitulo }}>
             {(!esAdmin && !matches) ? <Favorito libroId={movie._id} /> : null}
@@ -78,11 +78,19 @@ export default function Content({ movie, onClose, tamaño }) {
           <div className="content__subtitle" style={{ fontSize: (tamaño / 8) }}>{movie.alias} </div>}
         </Stack>
         <Stack direction='row'>
-          <Typography variant='subtitle2' sx={{ paddingLeft: '3.1429em', paddingRight: '0.5em', marginBottom: '0.7em', color: '#333333' }}>
+          <Typography variant='subtitle2' style={{ fontSize:(Math.sqrt(tamaño) * 1.2) }} sx={{ paddingLeft: '3.1429em', paddingRight: '0.5em', marginBottom: '0.45em', color: '#333333' }}>
             Género:
           </Typography>
-          <Typography variant='subtitle2' sx={{ color: 'white' }} >
+          <Typography style={{ fontSize:(Math.sqrt(tamaño) * 1.2) }} variant='subtitle2' sx={{ color: 'white' }} >
             {movie.genero.map(x => x).toString().split(', ').join(',').split(',').join(', ')}
+          </Typography>
+        </Stack>
+        <Stack direction='row'>
+          <Typography variant='subtitle2' style={{ fontSize:(Math.sqrt(tamaño) * 1.2) }} sx={{ paddingLeft: '3.1429em', paddingRight: '0.5em', marginBottom: '0.7em', color: '#333333' }}>
+            Publicado en Baku:
+          </Typography>
+          <Typography  style={{ fontSize:(Math.sqrt(tamaño) * 1.2) }} variant='subtitle2' sx={{ color: 'white' }} >
+            {movie.createdAt.split('T')[0].split('-').reverse().join('/')}
           </Typography>
         </Stack>
         <Stack direction='row'>
