@@ -80,7 +80,7 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
                             cobro.estado = "Cancelado";
                             cobro.notificadoMes = false;
                             cobro.fechaVencimiento = data.next_payment_date;
-                            if (cobro.fechaVencimiento.getMonth() == new Date(Date.now()).getMonth() + 1) {
+                            if ((cobro.fechaVencimiento.getMonth() === new Date(Date.now()).getMonth() + 1) || (cobro.fechaVencimiento.getMonth() === 1  && new Date(Date.now()).getMonth() === 12)) {
                                 const notification = new Notificacion({
                                     'titulo': 'Vencimiento de suscripción',
                                     'esNoleido': true,
@@ -149,7 +149,7 @@ export const actualizarEstadosUsuarios = async () => {
             notification.save()
             await Usuario.findOneAndUpdate({ _id: cobro.userId }, { $push: { mensajes: notification } }).exec();
             cobro.save();
-        } else if (cobro.fechaVencimiento.getMonth() === new Date(Date.now()).getMonth() + 1) {
+        } else if ((cobro.fechaVencimiento.getMonth() === new Date(Date.now()).getMonth() + 1) || (cobro.fechaVencimiento.getMonth() === 1  && new Date(Date.now()).getMonth() === 12)) {
             const notification = new Notificacion({
                 'titulo': 'Vencimiento de suscripción',
                 'esNoleido': true,
