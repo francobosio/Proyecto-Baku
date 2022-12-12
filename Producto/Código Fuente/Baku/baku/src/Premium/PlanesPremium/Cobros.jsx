@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DataGrid, GridActionsCellItem, esES } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import * as planPremiumService from '../Premium/premiumService.ts';
+import * as planPremiumService from '../premiumService.ts';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -46,7 +46,7 @@ export default function ColumnTypesGrid() {
             id: row._id,
             Título: row.titulo,
             Descripción: row.descripción,
-            Precio: row.precio,
+            Precio: '$' + row.precio,
             UrlCobro: row.urlCobro
         }));
         setRows(rows);
@@ -108,6 +108,7 @@ export default function ColumnTypesGrid() {
     }
 
     const handleClickOpenUpdate =  (id, titulo, descripcion, precio, url) => {
+        precio = precio.split('$')[1].trim()
         setEsEdicion(true);
         setValido(false);
         setSeleccionado(id);
@@ -209,7 +210,7 @@ export default function ColumnTypesGrid() {
                             autoFocus
                             margin="dense"
                             id="precio"
-                            label="Precio del plan"
+                            label="Precio del plan en pesos"
                             type="number"
                             inputRef={inputPrecio}
                             defaultValue={updateValues.precio}

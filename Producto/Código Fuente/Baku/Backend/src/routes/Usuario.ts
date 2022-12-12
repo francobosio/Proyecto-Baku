@@ -57,6 +57,9 @@ const usuarioSchema = new Schema({
         type: Number,
         default: 0
     },
+    planPremium: {
+        type: String,
+    }
 }, {
     versionKey: false,
     timestamps: true
@@ -79,6 +82,7 @@ interface IUsuario extends Document {
     avatar: string;
     marcadoresxLibro: any[];
     popularidad: number;
+    planPremium: string;
 }
 
 export default model<IUsuario>('Usuario', usuarioSchema);

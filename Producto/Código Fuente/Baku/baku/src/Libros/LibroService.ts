@@ -75,3 +75,8 @@ export const obtenerRanking = async () => {
 export const getLibroNarrador = async (archivoTexto: String, currentPage: Number, titulo: String) => {
     return await axios.get(`${backend}/libro/narrador/${archivoTexto}/${currentPage}/${titulo}`)
 }
+
+export const putEnviarRechazo = async (from: String, to: String, subject: String, mensajeCuerpo: String, arrayPalabras : []) => {
+    return await axios.put(`${backend}/libro/enviarRechazo`, { from, to, subject, mensajeCuerpo, arrayPalabras })
+}
+

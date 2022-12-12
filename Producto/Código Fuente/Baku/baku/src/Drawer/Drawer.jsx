@@ -22,10 +22,10 @@ import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 import RateReviewOutlinedIcon from '@material-ui/icons/RateReviewOutlined';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import ReportGmailerrorredOutlinedIcon from '@mui/icons-material/ReportGmailerrorredOutlined';
 import GroupsIcon from '@mui/icons-material/Groups';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 //Imagenes
 import Logo from '../Imagenes/Logo_baku_blanco.png';
@@ -236,6 +236,16 @@ export const MiDrawer = (props) => {
                         </Link>
                     }
                     {revisar &&
+                        <Link to="/PlanesPremium" className={classes.link} >
+                            <Tooltip title="Planes Premium" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                                <ListItem button selected={selectedIndex === 7} >
+                                    <ListItemIcon style={{ minWidth: porcentajeMinAncho }} className={classes.ListItemIconProps}><MonetizationOnIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                    <ListItemText primary='Planes' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
+                                </ListItem>
+                            </Tooltip>
+                        </Link>
+                    }
+                    {revisar &&
                         <Link to="/Revision" className={classes.link} >
                             <Tooltip title="Revision" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                                 <ListItem button selected={selectedIndex === 7} >
@@ -256,7 +266,6 @@ export const MiDrawer = (props) => {
                         </Link>
                     }
                     {revisar &&
-
                         <Link to="/Estadistica" className={classes.link} >
                             <Tooltip title="Reportes" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                                 <ListItem button selected={selectedIndex === 9}>
