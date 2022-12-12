@@ -138,6 +138,7 @@ export default function PrimarySearchAppBar() {
   const [estrella, setEstrella] = React.useState(localStorage.getItem("tipoUsuario") == 2);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const avatar = localStorage.getItem('avatar');
 
   const buscarNotificaciones = async () => {
     //esperar 1 segundo para que se carguen las notificaciones
@@ -257,7 +258,7 @@ const buscarTipoUsuario = () => {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Avatar alt={user.name} src={user.picture}></Avatar>
+              <Avatar alt={user.name} src={avatar}></Avatar>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
