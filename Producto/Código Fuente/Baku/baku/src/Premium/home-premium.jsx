@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         verticalAlign: "middle",
         color: '#1B1B1B',
+        height: '4rem',
         [theme.breakpoints.down('1200')]: {
             fontSize: '1.8rem',
         },
@@ -81,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '2rem 1rem 2rem 1rem',
         textAlign: 'center',
         fontWeight: 'bold',
+        height: '2rem'
     },
     descripcionDetallada: {
         fontSize: '1rem',
@@ -159,7 +161,7 @@ export default function HomePremium() {
             <main className={classes.content}>
                     <AppBar />
                     <Container disableGutters className={classes.root1} maxWidth="xl">
-                        <Grid container justifyContent="center">
+                        <Grid container justifyContent="center" alignItems="flex-start">
                             {planesPremium.map((modelo) => {
                                 return (
                                     <React.Fragment key={modelo._id}>
