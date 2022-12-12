@@ -30,7 +30,7 @@ import Scrollbar from './Scrollbar';
 import MenuPopover from './MenuPopover';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts';
 // ----------------------------------------------------------------------
-
+import avatarBaku from '../Imagenes/LogoClaro.png'
 
 function renderContent(notification) {
   const titulo = (
@@ -87,61 +87,61 @@ function NotificationItem({ notification, id }) {
 
   return (
     avatar.ref ? (
-      <ListItemButton
-        disableGutters
-        onClick={() => LibroLeido(id)}
-        component={RouterLink}
-        to={`/Lectura/${id}`}
-        sx={{
-          py: 1.5,
-          px: 2.5,
-          mt: '1px',
-          ...(notification.esNoleido && {
-            bgcolor: 'action.selected'
-          })
-        }}
-      >
-        <ListItemAvatar>
-          <Avatar sx={{ bgcolor: 'background.neutral' }}> {avatar}</Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={titulo}
-          secondary={
-            <Typography
-              variant="caption"
-              sx={{
-                mt: 0.5,
-                display: 'flex',
-                alignItems: 'center',
-                color: 'text.disabled'
-              }}
-            >
-              <Iconify icon="eva:clock-fill" sx={{ mr: 0.5, width: 16, height: 16 }} />
-
-              {formatDistanceToNow(new Date(notification.createdAt), { locale: es, addSuffix: true })}
-            </Typography>
-          }
-        />
-      </ListItemButton>)
-      :
-      (<ListItemButton
-        disableGutters
-        sx={{
-          py: 1.5,
-          px: 2.5,
-          mt: '1px',
-          ...(notification.esNoleido && {
-            bgcolor: 'action.selected'
-          })
-        }}
-      >
-        <ListItemAvatar>
-          <Avatar sx={{ bgcolor: 'background.neutral' }}> {'../Imagenes/Logo_MP.png'}</Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={titulo}
-        />
-      </ListItemButton>)
+    <ListItemButton
+      disableGutters
+      onClick={() => LibroLeido(id)}
+      component={RouterLink}
+      to={`/Lectura/${id}`}
+      sx={{
+        py: 1.5,
+        px: 2.5,
+        mt: '1px',
+        ...(notification.esNoleido && {
+          bgcolor: 'action.selected'
+        })
+      }}
+    >
+      <ListItemAvatar>
+        <Avatar sx={{ bgcolor: 'background.neutral' }}> {avatar}</Avatar>
+      </ListItemAvatar>
+      <ListItemText
+        primary={titulo}
+        secondary={
+          <Typography
+            variant="caption"
+            sx={{
+              mt: 0.5,
+              display: 'flex',
+              alignItems: 'center',
+              color: 'text.disabled'
+            }}
+          >
+            <Iconify icon="eva:clock-fill" sx={{ mr: 0.5, width: 16, height: 16 }} />
+           
+            {formatDistanceToNow(new Date(notification.createdAt),  {locale: es, addSuffix: true })}
+          </Typography>
+        }
+      />
+    </ListItemButton>)
+    :
+    (<ListItemButton
+      disableGutters
+      sx={{
+        py: 1.5,
+        px: 2.5,
+        mt: '1px',
+        ...(notification.esNoleido && {
+          bgcolor: 'action.selected'
+        })
+      }}
+    >
+      <ListItemAvatar>
+        <Avatar src={avatarBaku} sx={{ bgcolor: 'background.neutral' }}/>
+      </ListItemAvatar>
+      <ListItemText
+        primary={titulo}
+      />
+    </ListItemButton>)
   );
 }
 let bandera = true;

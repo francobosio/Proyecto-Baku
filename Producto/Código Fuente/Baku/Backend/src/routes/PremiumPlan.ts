@@ -25,5 +25,6 @@ interface IPremiumPlan extends Document {
     titulo: string;
     descripcion: string;
     urlCobro: string;
+    precio: Number;
 }
 export default model<IPremiumPlan>('PremiumPlan', premiumSchema);

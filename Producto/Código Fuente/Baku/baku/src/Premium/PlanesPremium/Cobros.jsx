@@ -13,13 +13,13 @@ export default function ColumnTypesGrid() {
 
     const load = async () => {
         const res = await planPremiumService.obtenerCobros();
-        console.log(res)
         //cada objeto agregarlo al array
         const rows = res.data.map(row => ({
             id: row._id,
             Plan: row.plan,
             Usuario: row.usuario[0].usuario,
             Estado: row.estado,
+            Importe: row.importe,
             'Fecha Desde': new Date(row.createdAt).toLocaleDateString(),
             'Fecha Vencimiento': row.estado == "Aprobado" ? '' : new Date(row.fechaVencimiento).toLocaleDateString()
         }));
@@ -32,6 +32,7 @@ export default function ColumnTypesGrid() {
             { field: 'Plan', type: 'string', flex: 1, minWidth: 100, },
             { field: 'Usuario', type: 'string', flex: 1, minWidth: 100 },
             { field: 'Estado', type: 'string', flex: 1, minWidth: 100 },
+            { field: 'Importe', type: 'string', flex: 1, minWidth: 100 },
             { field: 'Fecha Desde', type: 'string', flex: 1, minWidth: 100 },
             { field: 'Fecha Vencimiento', type: 'string', flex: 1, minWidth: 100}
         ]

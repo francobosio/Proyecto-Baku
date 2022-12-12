@@ -21,6 +21,9 @@ const cobroSchema = new Schema({
     },
     plan: {
         type: String
+    },
+    importe: {
+        type: Number
     }
 }, {
     versionKey: false,
@@ -35,5 +38,6 @@ interface ICobro extends Document {
     estado: string;
     notificadoMes: Boolean;
     plan: String;
+    importe: Number;
 }
 export default model<ICobro>('Cobro', cobroSchema);
