@@ -227,7 +227,7 @@ export default function Estadistica() {
 
                         }}>
                             <Grid container alignItems="flex-start">
-                                <Grid container item xs={12} justifyContent="center" alignItems="center">
+                                <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">
                                     <div className="chart1" 
                                         style={{ 
                                             display: "flex",
@@ -242,7 +242,7 @@ export default function Estadistica() {
                                         />
                                     </div>
                                 </Grid>
-                                <Grid container item xs={12} justifyContent="center" alignItems="center">
+                                <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">
                                     <div className="chart2" >
                                         <h3 className="title3">Ranking - 10 libros más leídos</h3>
                                         <ColumnChart 
@@ -260,7 +260,7 @@ export default function Estadistica() {
                                 marginTop: "4rem"
                         }}>
                             <Grid container alignItems="flex-start">
-                                <Grid container item xs={12} justifyContent="center" alignItems="center">
+                                <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">
                                     <div className="chart3" 
                                         style={{ 
                                             display: "flex",
@@ -277,7 +277,7 @@ export default function Estadistica() {
                                         />
                                     </div>
                                 </Grid>
-                                <Grid container item xs={12} justifyContent="center" alignItems="center">
+                                <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">
                                     <div className="chart4" 
                                         style={{ 
                                             display: "flex",
@@ -340,7 +340,7 @@ export default function Estadistica() {
 
                         }}>
                             <Grid container alignItems="flex-start">
-                                <Grid container item xs={12} justifyContent="center" alignItems="center">
+                                <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">
                                     <div className="chart1" 
                                         style={{ 
                                             display: "flex",
@@ -357,7 +357,7 @@ export default function Estadistica() {
                                         />
                                     </div>
                                 </Grid>
-                                <Grid container item xs={12} justifyContent="center" alignItems="center">
+                                <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">
                                     <div className="chart2">
                                         <h3 className="title3">Cantidad de
                                         Usuarios Premium y Free <br/> suscriptos por mes</h3>
@@ -374,7 +374,7 @@ export default function Estadistica() {
 
                         }}>
                             <Grid container alignItems="flex-start">
-                                <Grid container item xs={12} justifyContent="center" alignItems="center">                        
+                                <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">                        
                                     <div className="chart3" 
                                         style={{ 
                                             display: "flex",
@@ -388,7 +388,7 @@ export default function Estadistica() {
                                         <TiempoDuracionUP/>
                                     </div>
                                 </Grid>
-                                <Grid container item xs={12} justifyContent="center" alignItems="center">                                    
+                                <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">                                    
                                     <div className="chart4" 
                                         style={{ 
                                             display: "flex",
@@ -411,7 +411,7 @@ export default function Estadistica() {
 
                         }}>
                             <Grid container alignItems="flex-start" justifyContent="center">
-                                <Grid container item xs={12} justifyContent="center" alignItems="center">                        
+                                <Grid container item xs={12} xl={12} justifyContent="center" alignItems="center">                        
                                     <div className="chart5" 
                                         style={{ 
                                             display: "flex",
