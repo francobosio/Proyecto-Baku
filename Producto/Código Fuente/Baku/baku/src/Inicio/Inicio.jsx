@@ -141,6 +141,7 @@ export default function Inicio() {
         localStorage.setItem("usuario", usuario.usuario)
         localStorage.setItem("avatar", usuario.avatar)
         localStorage.setItem("fechaNacimiento", new Date(usuario.fecha_nacimiento))
+        localStorage.setItem("planPremium", usuario.planPremium)
         if (calcularEdad(usuario.fecha_nacimiento) < 18) {
             setFlagEsMenorEdad(true)
         }

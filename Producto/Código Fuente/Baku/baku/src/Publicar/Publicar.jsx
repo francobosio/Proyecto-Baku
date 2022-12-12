@@ -278,6 +278,8 @@ export default function MiniDrawer() {
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [abrirDialog, setabrirDialog] = React.useState(false);
     const [pdfTitle, setPdfTitle] = useState("");
+    const [modalAlerta, setModalAlerta] = useState(false);
+
     let tamaño;
     let ocultar = false;
     if (useMediaQuery(theme.breakpoints.only('xs'))) { tamaño = 100; ocultar = true }
@@ -296,6 +298,7 @@ export default function MiniDrawer() {
     const inputCombo = useRef();
     const inputDescripcion = useRef("")
     const inputEditorial = useRef("")
+    const inputAutor = useRef("")
 
     // Esta variable es para los mensajes de alerta
     const alert = useAlert();
@@ -422,12 +425,20 @@ export default function MiniDrawer() {
             await libroServices.createLibro(formData);
 
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
+            setModalAlerta(true);
             resetForm();
         }
     }
 
     /* Método para resetear todos los campos del formulario. Se ejecuta al cargar un nuevo libro */
     const resetForm = () => {
+        inputEditorial.current.value = "";
+        inputTitulo.current.value = "";
+        inputDescripcion.current.value = "";
+        inputCombo.current.value = [];
+        inputAutor.current.value = "";
+
+
         setarchivoSubido(false);
         setAceptaTerminos(false);
         setAptoTodoPublicos(false);
@@ -438,10 +449,7 @@ export default function MiniDrawer() {
         setCategoriaLibro([]);
         setErrorSelect(null);
         setErrorTitulo(null);
-        inputTitulo.current.value = "";
-        inputCombo.current.value = [];
-        inputDescripcion.current.value = "";
-        inputEditorial.current.value = "";
+
         categorias.map((value) => (
             value.disabled = false
         ))
@@ -485,6 +493,10 @@ export default function MiniDrawer() {
         if (element.offsetHeight + element.scrollTop >= element.scrollHeight) {
             setScroll(false)
         }
+    }
+
+    const handleCerrarAlerta = () => {
+        setModalAlerta(false);
     }
 
     const classes = useStyles();
@@ -573,7 +585,7 @@ export default function MiniDrawer() {
                                     <Typography className={classes.textoDestacado}>Autor</Typography>
                                     <TextField
                                         name="autor"
-                                        inputRef={inputEditorial}
+                                        inputRef={inputAutor}
                                         autoFocus
                                         onChange={handleInputChange}
                                     />
@@ -722,7 +734,19 @@ export default function MiniDrawer() {
                                         </DialogActions>
                                     </Dialog>
                                     }
+                                    {modalAlerta && <Dialog
+                                        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 700, backgroundColor: '#4B9C8E' } }}
+                                        maxWidth="lg"
+                                        open={modalAlerta}
+                                    >
+                                        <DialogTitle>¡Gracias por subir tu libro! Pronto estaremos informándote por email el resultado de la revisión.</DialogTitle>
+                                        <DialogActions>
+                                            <Button onClick={handleCerrarAlerta}>Confirmar</Button>
+                                        </DialogActions>
+                                    </Dialog>
+                                    }
                                     <br />
+
                                 </Grid>
                             </Grid>
                         </FormControl>
