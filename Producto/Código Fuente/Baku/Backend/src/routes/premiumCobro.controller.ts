@@ -24,7 +24,7 @@ export const procesarCobroFront: RequestHandler = async (req, res) => {
 
             const plan = await PremiumPlan.findOne({titulo: cobro.plan})
             if (plan){
-                await Usuario.findOneAndUpdate({ _id: cobro.userId }, { tipoUsuario: "2", planPremium: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=" + plan.urlCobro }, { new: true }).exec();
+                await Usuario.findOneAndUpdate({ _id: cobro.userId }, { tipoUsuario: "2", planPremium: plan.urlCobro }, { new: true }).exec();
             }      
         }
     }
