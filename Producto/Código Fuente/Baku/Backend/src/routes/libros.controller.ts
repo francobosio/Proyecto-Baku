@@ -8,6 +8,7 @@ import fs from 'fs-extra'
 import PdfParse from "pdf-parse";
 import Usuario from "./Usuario"
 import moment from 'moment';
+import { transporter } from '../libs/mailer'
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -420,4 +421,32 @@ export const getLibroNarrador: RequestHandler = async (req, res) => {
 
         });
     }
+}
+
+export const enviarRechazo:RequestHandler = async (req, res) => {
+    const { from, to, subject, mensajeCuerpo,arrayPalabras } = req.body;
+
+    await transporter.sendMail({
+        from: from, // sender address
+        to: to, // list of receivers
+        subject: subject, // Subject line
+        html:
+        `<b>${mensajeCuerpo} </b>
+        <br>
+        <br>
+        <table>
+        <tr>
+            <th>Palabra</th>
+            <th>Repetición</th>
+        </tr>
+        ${arrayPalabras.map((palabra: any[]) => {
+            return `<tr>
+            <td>${palabra[0]} </td>
+            <td>${palabra[1]} </td>
+                    </tr>`
+        })}
+        </table>`
+    })
+    res.json({ message: 'Mail enviado' })
+
 }

@@ -5,7 +5,7 @@ import * as libroCtrlJs from './libros.narrador.controller'
 
 const router = Router();
 
-const camposArchivo = multer.fields([{ name:'imagenPath', maxCount: 1 }, { name:'archivoTexto', maxCount: 1 }]);
+const camposArchivo = multer.fields([{ name: 'imagenPath', maxCount: 1 }, { name: 'archivoTexto', maxCount: 1 }]);
 
 router.get('/libros', libroCtrl.getLibros);
 
@@ -42,8 +42,10 @@ router.get('/librosFecha/:fechaDesde/:fechaHasta', libroCtrl.obtenerLibrosFecha)
 
 router.get('/librosFavoritos', libroCtrl.obtenerLibrosMasFavoritos)
 
- router.get('/libros/ranking', libroCtrl.obtenerRanking)
+router.get('/libros/ranking', libroCtrl.obtenerRanking)
 
 router.get('/libro/narrador/:archivoTexto/:currentPage/:titulo', libroCtrlJs.getLibroNarrador)
- 
+
+router.put('/libro/enviarRechazo', libroCtrl.enviarRechazo)
+
 export default router

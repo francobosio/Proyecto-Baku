@@ -128,7 +128,6 @@ export default function BasicTable() {
 
   const loadLibros = async () => {
     const res = await libroService.getLibroRevisar(id);
-    //guardar el libro en el estado sincrono
     setarrayPalbras(res.data.arrayDataMatchCountArray);
     setlibroRevisar(res.data.libroFound);
     setSinMalasPalabras(res.data.sinMalasPalabras)
@@ -191,10 +190,22 @@ export default function BasicTable() {
     history.push('/Revision');
 
   };
-  const handleCloseDialogAceptarRechazar = () => {
-    libroService.putCambiarEstado(id, "Rechazado");
-    history.push('/Revision');
+  const handleCloseDialogAceptarRechazar = async () => {
+    const usuario = await usuarioService.getUsuario(autorAth0);
+    await libroService.putCambiarEstado(id, "Rechazado");
     setabrirDialog(false);
+    history.push('/Revision');
+    var from = 'Baku <bakulibros@gmail.com>';
+    var to = usuario.data.correo_electronico;
+    console.log(usuario.data.correo_electronico);
+    var subject = 'Libro rechazado';
+    var mensajeCuerpo = `Hola ${libro.libroFound.alias}. Le enviamos este email desde Baku para informarle que su libro fue rechazado por tener palabras prohibidas en Baku.
+    Recuerde que puede volver a subir su libro una vez que haya corregido las palabras prohibidas.
+    <br>
+    Si usted considera que esto se trata de un error o equivocación, puede contactarnos a través de nuestras redes sociales y analizaremos su caso si así lo amerita.
+    <br>
+    Desde ya, muchas gracias.`;
+    await libroService.putEnviarRechazo(from, to, subject, mensajeCuerpo, arrayPalabras);
   };
 
   return (
@@ -208,15 +219,15 @@ export default function BasicTable() {
 
         <br></br>
         {sinMalasPalabras ?
-          <Container sx={{ backgroundColor: '#499b8d'}}>
-            <Typography variant="h5" component="h2" className={classes.sinMalasPalabrasCss} sx={{ backgroundColor: '#499b8d',marginTop: '3em', marginBottom: '3em', fontWeight: 'bold' }}>
+          <Container sx={{ backgroundColor: '#499b8d' }}>
+            <Typography variant="h5" component="h2" className={classes.sinMalasPalabrasCss} sx={{ backgroundColor: '#499b8d', marginTop: '3em', marginBottom: '3em', fontWeight: 'bold' }}>
               No se encontraron malas palabras
             </Typography>
           </Container>
           :
           <TableContainer component={Paper} className={classes.root}>
 
-            <Table  aria-label="simple table" className={classes.root}>
+            <Table aria-label="simple table" className={classes.root}>
               <TableHead>
                 <TableRow>
                   <StyledTableCell align="center" width={200} >ID</StyledTableCell>
@@ -251,8 +262,8 @@ export default function BasicTable() {
 
         }
         <Stack direction="row" spacing={6} justifyContent="center" sx={{ marginBottom: "4em", marginTop: "2.5em" }} className={classes.stack}>
-        <Button className={classes.boton} onClick={() => {
-           history.push('/Revision');
+          <Button className={classes.boton} onClick={() => {
+            history.push('/Revision');
           }}>
             Cancelar</Button>
           <Button className={classes.boton} onClick={() => {
