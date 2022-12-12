@@ -157,13 +157,13 @@ export default function Estadistica() {
                                     .MuiTabs-indicator {
                                         background-color: #519A88;
                                     }
-                                    .css-119x4c3-MuiButtonBase-root-MuiTab-root.Mui-selected {
+                                    .Mui-selected {
                                         opacity: 1;
                                         background-color: #83B7AA;
                                         color: #076F55;
                                         font-weight: bold;
                                     }
-                                    .css-119x4c3-MuiButtonBase-root-MuiTab-root {
+                                    .MuiTabs-flexContainer button {
                                         font-size: 1rem !important
                                     }
                                 `
