@@ -71,16 +71,11 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
                         cobro.estado = "Aprobado"
 
                         if (cobro.userId){
-                            let usuario = await Usuario.findById(cobro.userId);
-                            let plan = await PremiumPlan.findOne({urlCobro: data.init_point})
+                            let plan = await PremiumPlan.findOne({urlCobro: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=" + data.preapproval_plan_id})
                             if (plan){
                                 cobro.plan = plan.titulo;
                             }
-                            if (usuario){
-                                usuario.tipoUsuario = '2';
-                                usuario.planPremium = data.init_point;
-                                usuario.save();
-                            }
+                            await Usuario.findOneAndUpdate({_id: cobro.userId}, { tipoUsuario: "2", planPremium: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=" + data.init_point}, { new: true }).exec();
                         }
                     } else {
                         cobro.estado = "Cancelado";
