@@ -229,6 +229,7 @@ const calculo = (width) => {
     }
 }
 export default function TitlebarImageList() {
+    const [ejecuto, setEjecuto] = useState(false)
     const [buscador, setBuscador] = useState()
     const [error, setError] = useState('')
     const [estado, setEstado] = useState(false)
@@ -277,7 +278,19 @@ export default function TitlebarImageList() {
         setEstado(true);
         const res = await libroService.buscarLibroGenero(nombre);
         setLibroBuscado(res.data, setError(''));
+        setEjecuto(true)
     }
+
+    let avisoVisible = false
+    if(ejecuto){
+        if(libroBuscado.length !== 0){
+            avisoVisible = false
+        }
+        else {
+            avisoVisible = true
+        }
+    }
+
     const cargaIncial = async () => {
         setLibroBuscado(0);
         if (busqueda) {
@@ -314,13 +327,13 @@ export default function TitlebarImageList() {
 
             <Grid className={classes.grid}>
                 <Container className={classes.contenedor2}>
-                    {libroBuscado.length > 0 && !flagReturn && <Container style={{ display: 'flex', marginBottom: '-40px' }}>
+                    {estado && !flagReturn && <Container style={{ display: 'flex', marginBottom: '-40px' }}>
                         <IconButton disableRipple={false} disableFocusRipple={true} onClick={BotonReset} style={{ left: '22em' }}>
                             <ReplyIcon sx={{ fontSize: "2em", height: "1.1em", color: "#111111" }} />
                         </IconButton>
                     </Container>}
                     <Container fixed className={classes.search} style={{ marginRight: 'auto' }}>
-                        {libroBuscado.length > 0 && (flagReturn) && <IconButton size={'large'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}
+                        {estado && (flagReturn) && <IconButton size={'large'} disableRipple={false} disableFocusRipple={true} onClick={BotonReset}
                             style={{ left: (-distanciReturn), marginRight: -84.3 }}>
                             <ReplyIcon sx={{ fontSize: "2.5em", height: "auto", color: "#076f55" }} />
                         </IconButton>
@@ -343,30 +356,39 @@ export default function TitlebarImageList() {
                 <Typography variant="h5" className={classes.title}>
                     {error ? error : ''}
                 </Typography>
-                {(estado && libroBuscado.length > 0) ?
-                    <Container fixed className={classes.contenedor3} sx={{ marginLeft: '2.5em' }}>
-                        <ImageList rowHeight={width / 4.1} style={{ width: (width * 1.5), marginLeft: '2.5em' }} cols={columnas} gap={20}>
-                            <ImageListItem key="Subheader" cols={columnas} style={{ height: 'auto' }}>
-                                <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft: PaddingTitulo }}>Resultado</ListSubheader>
-                            </ImageListItem>
-                            {libroBuscado.map((item) => (
-                                <ImageListItem key={item.id} style={{ width: altura / 6.6, height: altura / 4 }}>
-                                    <img src={item.imagenPath} alt={item.titulo} style={{ objectFit: 'cover' }} />
-                                    <ImageListItemBar
-                                        title={item.titulo}
-                                        position='bottom'
-                                        actionIcon={
-                                            <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
-                                                <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
-                                                    <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
-                                                </Link>
-                                            </IconButton>
-                                        }
-                                    />
+                {(estado) ? ( libroBuscado.length > 0 ? 
+                        <Container fixed className={classes.contenedor3} sx={{ marginLeft: '2.5em' }}>
+                            <ImageList rowHeight={width / 4.1} style={{ width: (width * 1.5), marginLeft: '2.5em' }} cols={columnas} gap={20}>
+                                <ImageListItem key="Subheader" cols={columnas} style={{ height: 'auto' }}>
+                                    <ListSubheader component="div" className={classes.titulo} style={{ paddingLeft: PaddingTitulo }}>Resultado</ListSubheader>
                                 </ImageListItem>
-                            ))}
-                        </ImageList>
-                    </Container>
+                                {libroBuscado.map((item) => (
+                                    <ImageListItem key={item.id} style={{ width: altura / 6.6, height: altura / 4 }}>
+                                        <img src={item.imagenPath} alt={item.titulo} style={{ objectFit: 'cover' }} />
+                                        <ImageListItemBar
+                                            title={item.titulo}
+                                            position='bottom'
+                                            actionIcon={
+                                                <IconButton aria-label={`info about ${item.titulo}`} title={"Leer este libro"}>
+                                                    <Link onClick={() => { LibroLeido(item._id) }} to={"/Lectura/" + item._id} >
+                                                        <AutoStoriesOutlinedIcon fontSize="large" className={classes.icono} />
+                                                    </Link>
+                                                </IconButton>
+                                            }
+                                        />
+                                    </ImageListItem>
+                                ))}
+                            </ImageList>
+                        </Container> 
+                        :
+                        <div>
+                            {avisoVisible && (
+                                <Typography variant={flagReturn ? "h4" : "h6"} className={classes.title}>
+                                    "No hay libros para este género"
+                                </Typography>
+                            )}
+                        </div>
+                    )
                     :
                     <Container className={classes.contenedor} fixed >
                         <Container >
