@@ -278,6 +278,8 @@ export default function MiniDrawer() {
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [abrirDialog, setabrirDialog] = React.useState(false);
     const [pdfTitle, setPdfTitle] = useState("");
+    const [modalAlerta, setModalAlerta] = useState(false);
+
     let tamaño;
     let ocultar = false;
     if (useMediaQuery(theme.breakpoints.only('xs'))) { tamaño = 100; ocultar = true }
@@ -423,6 +425,7 @@ export default function MiniDrawer() {
             await libroServices.createLibro(formData);
 
             alert.show("El libro se cargó correctamente!", { type: 'success', position: 'top center' });
+            setModalAlerta(true);
             resetForm();
         }
     }
@@ -434,7 +437,7 @@ export default function MiniDrawer() {
         inputDescripcion.current.value = "";
         inputCombo.current.value = [];
         inputAutor.current.value = "";
-        
+
 
         setarchivoSubido(false);
         setAceptaTerminos(false);
@@ -490,6 +493,10 @@ export default function MiniDrawer() {
         if (element.offsetHeight + element.scrollTop >= element.scrollHeight) {
             setScroll(false)
         }
+    }
+
+    const handleCerrarAlerta = () => {
+        setModalAlerta(false);
     }
 
     const classes = useStyles();
@@ -727,7 +734,19 @@ export default function MiniDrawer() {
                                         </DialogActions>
                                     </Dialog>
                                     }
+                                    {modalAlerta && <Dialog
+                                        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 700, backgroundColor: '#4B9C8E' } }}
+                                        maxWidth="lg"
+                                        open={modalAlerta}
+                                    >
+                                        <DialogTitle>¡Gracias por subir tu libro! Pronto estaremos informándote por email el resultado de la revisión.</DialogTitle>
+                                        <DialogActions>
+                                            <Button onClick={handleCerrarAlerta}>Confirmar</Button>
+                                        </DialogActions>
+                                    </Dialog>
+                                    }
                                     <br />
+
                                 </Grid>
                             </Grid>
                         </FormControl>
