@@ -71,6 +71,7 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
                             let plan = await PremiumPlan.findOne({ urlCobro: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=" + data.preapproval_plan_id })
                             if (plan) {
                                 cobro.plan = plan.titulo;
+                                cobro.importe = plan.precio;
                             }
 
                             if (cobro.userId) {

@@ -30,7 +30,7 @@ import Scrollbar from './Scrollbar';
 import MenuPopover from './MenuPopover';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts';
 // ----------------------------------------------------------------------
-
+import avatarBaku from '../Imagenes/LogoClaro.png'
 
 function renderContent(notification) {
   const titulo = (
@@ -134,7 +134,7 @@ function NotificationItem({ notification, id }) {
       }}
     >
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }}> {'../Imagenes/Logo_MP.png'}</Avatar>
+        <Avatar src={avatarBaku} sx={{ bgcolor: 'background.neutral' }}/>
       </ListItemAvatar>
       <ListItemText
         primary={titulo}
