@@ -19,7 +19,7 @@ export default function ColumnTypesGrid() {
             Plan: row.plan,
             Usuario: row.usuario[0].usuario,
             Estado: row.estado,
-            Importe: row.importe,
+            Importe: "$"+row.importe+".00",
             'Fecha Desde': new Date(row.createdAt).toLocaleDateString(),
             'Fecha Vencimiento': row.estado == "Aprobado" ? '' : new Date(row.fechaVencimiento).toLocaleDateString()
         }));
