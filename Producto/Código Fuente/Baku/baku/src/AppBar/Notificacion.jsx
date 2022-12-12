@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
-import {  useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link as RouterLink } from "react-router-dom";
 import { formatDistanceToNow } from 'date-fns';
-import {es} from 'date-fns/esm/locale';
+import { es } from 'date-fns/esm/locale';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService';
@@ -34,16 +34,18 @@ import * as NotificacionServices from '../Notificacion/NotificacionService.ts';
 
 function renderContent(notification) {
   const titulo = (
-    <Typography variant="subtitle2">
-      {notification.titulo}
-      <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-        &nbsp; {noCase(notification.descripcion)}
+    <>
+      <Typography variant="subtitle2">
+        {notification.titulo}
       </Typography>
-    </Typography>
+      <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
+        {notification.descripcion}
+      </Typography>
+    </>
   );
   if (notification.tipo === "subidaLibro") {
     return {
-      avatar: <img referrerPolicy="no-referrer" alt={notification.titulo} src={notification.avatar}  width='40px' />,
+      avatar: <img referrerPolicy="no-referrer" alt={notification.titulo} src={notification.avatar} width='40px' />,
       titulo
     };
   }
@@ -55,10 +57,10 @@ function renderContent(notification) {
   }
 
   return {
-    avatar: <img referrerPolicy="no-referrer" alt={notification.titulo} src={notification.avatar}  width='40px' />,
+    avatar: <img referrerPolicy="no-referrer" alt={notification.titulo} src={notification.avatar} width='40px' />,
     titulo
   };
-  
+
 }
 
 NotificationItem.propTypes = {
@@ -85,61 +87,61 @@ function NotificationItem({ notification, id }) {
 
   return (
     avatar.ref ? (
-    <ListItemButton
-      disableGutters
-      onClick={() => LibroLeido(id)}
-      component={RouterLink}
-      to={`/Lectura/${id}`}
-      sx={{
-        py: 1.5,
-        px: 2.5,
-        mt: '1px',
-        ...(notification.esNoleido && {
-          bgcolor: 'action.selected'
-        })
-      }}
-    >
-      <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }}> {avatar}</Avatar>
-      </ListItemAvatar>
-      <ListItemText
-        primary={titulo}
-        secondary={
-          <Typography
-            variant="caption"
-            sx={{
-              mt: 0.5,
-              display: 'flex',
-              alignItems: 'center',
-              color: 'text.disabled'
-            }}
-          >
-            <Iconify icon="eva:clock-fill" sx={{ mr: 0.5, width: 16, height: 16 }} />
-           
-            {formatDistanceToNow(new Date(notification.createdAt),  {locale: es, addSuffix: true })}
-          </Typography>
-        }
-      />
-    </ListItemButton>)
-    :
-    (<ListItemButton
-      disableGutters
-      sx={{
-        py: 1.5,
-        px: 2.5,
-        mt: '1px',
-        ...(notification.esNoleido && {
-          bgcolor: 'action.selected'
-        })
-      }}
-    >
-      <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }}> {'../Imagenes/Logo_MP.png'}</Avatar>
-      </ListItemAvatar>
-      <ListItemText
-        primary={titulo}
-      />
-    </ListItemButton>)
+      <ListItemButton
+        disableGutters
+        onClick={() => LibroLeido(id)}
+        component={RouterLink}
+        to={`/Lectura/${id}`}
+        sx={{
+          py: 1.5,
+          px: 2.5,
+          mt: '1px',
+          ...(notification.esNoleido && {
+            bgcolor: 'action.selected'
+          })
+        }}
+      >
+        <ListItemAvatar>
+          <Avatar sx={{ bgcolor: 'background.neutral' }}> {avatar}</Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={titulo}
+          secondary={
+            <Typography
+              variant="caption"
+              sx={{
+                mt: 0.5,
+                display: 'flex',
+                alignItems: 'center',
+                color: 'text.disabled'
+              }}
+            >
+              <Iconify icon="eva:clock-fill" sx={{ mr: 0.5, width: 16, height: 16 }} />
+
+              {formatDistanceToNow(new Date(notification.createdAt), { locale: es, addSuffix: true })}
+            </Typography>
+          }
+        />
+      </ListItemButton>)
+      :
+      (<ListItemButton
+        disableGutters
+        sx={{
+          py: 1.5,
+          px: 2.5,
+          mt: '1px',
+          ...(notification.esNoleido && {
+            bgcolor: 'action.selected'
+          })
+        }}
+      >
+        <ListItemAvatar>
+          <Avatar sx={{ bgcolor: 'background.neutral' }}> {'../Imagenes/Logo_MP.png'}</Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={titulo}
+        />
+      </ListItemButton>)
   );
 }
 let bandera = true;
@@ -181,9 +183,9 @@ export default function NotificationsPopover(propNotificacion) {
 
   return (
     <>
-      {!abrir?<IconButton
+      {!abrir ? <IconButton
         ref={anchorRef}
-       
+
         onClick={handleOpen}
         sx={{
           ...(open && {
@@ -195,30 +197,30 @@ export default function NotificationsPopover(propNotificacion) {
           {/* Quitar animacion  */}
           <NotificationsIcon sx={{ width: '1.4em', height: '1.4em' }} />
         </Badge>
-      </IconButton>:
-      <Button
-        ref={anchorRef}
-        disableRipple={true}
-        disableTouchRipple={true}
-        disableFocusRipple={true}
-        onClick={handleOpen}
-        sx={{
-          ...(open && {
-            bgcolor: (theme) => alpha(theme.palette.grey[900], 0.01)
-          }),
-          backgroundColor: 'transparent',
-          color: '#2c2c2c',
-          '&:hover': {
+      </IconButton> :
+        <Button
+          ref={anchorRef}
+          disableRipple={true}
+          disableTouchRipple={true}
+          disableFocusRipple={true}
+          onClick={handleOpen}
+          sx={{
+            ...(open && {
+              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.01)
+            }),
             backgroundColor: 'transparent',
-          },
-          right: '6px',
-        }}
-      >
-        <Badge badgeContent={totalUnRead} color="error">
-          {/* Quitar animacion  */}
-          Notificaciones
-        </Badge>
-      </Button>}
+            color: '#2c2c2c',
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
+            right: '6px',
+          }}
+        >
+          <Badge badgeContent={totalUnRead} color="error">
+            {/* Quitar animacion  */}
+            Notificaciones
+          </Badge>
+        </Button>}
 
       <MenuPopover
         open={open}
@@ -236,8 +238,8 @@ export default function NotificationsPopover(propNotificacion) {
 
           {totalUnRead > 0 && (
             <Tooltip title=" Marcas todas como leidas">
-              <IconButton color='success'  onClick={handleMarkAllAsRead} backgroundcolor='success'>
-                <Iconify icon="eva:done-all-fill" focusVisible  width={'1.3em'} height={'1.3em'} />
+              <IconButton color='success' onClick={handleMarkAllAsRead} backgroundcolor='success'>
+                <Iconify icon="eva:done-all-fill" focusVisible width={'1.3em'} height={'1.3em'} />
               </IconButton>
             </Tooltip>
           )}
@@ -250,7 +252,7 @@ export default function NotificationsPopover(propNotificacion) {
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-               <Typography variant="subtitle2">NUEVAS</Typography> 
+                <Typography variant="subtitle2">NUEVAS</Typography>
               </ListSubheader>
             }
           >
@@ -264,30 +266,20 @@ export default function NotificationsPopover(propNotificacion) {
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                 <Typography variant="subtitle2">ANTERIORES</Typography> 
+                <Typography variant="subtitle2">ANTERIORES</Typography>
               </ListSubheader>
             }
           >
             {/* ordenar notifications por fecha de creacion */}
-          
-            {notifications.filter((item) => item.esNoleido === false ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((notification) => (
+
+            {notifications.filter((item) => item.esNoleido === false).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((notification) => (
               //anular style de Link
 
               <NotificationItem key={notification._id} notification={notification} id={notification.id_libro} />
 
             ))}
           </List>
-
-
         </Scrollbar>
-        {/* Se deja para futuras implementaciones */}
-        {/*  <Divider />
-
-        <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple>
-            Ver Todas
-          </Button>
-        </Box> */}
       </MenuPopover>
     </>
   );
