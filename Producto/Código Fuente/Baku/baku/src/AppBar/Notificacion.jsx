@@ -29,7 +29,6 @@ import Iconify from './Iconify';
 import Scrollbar from './Scrollbar';
 import MenuPopover from './MenuPopover';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts';
-
 // ----------------------------------------------------------------------
 
 
@@ -85,6 +84,7 @@ function NotificationItem({ notification, id }) {
   }
 
   return (
+    avatar.ref ? (
     <ListItemButton
       disableGutters
       onClick={() => LibroLeido(id)}
@@ -120,7 +120,26 @@ function NotificationItem({ notification, id }) {
           </Typography>
         }
       />
-    </ListItemButton>
+    </ListItemButton>)
+    :
+    (<ListItemButton
+      disableGutters
+      sx={{
+        py: 1.5,
+        px: 2.5,
+        mt: '1px',
+        ...(notification.esNoleido && {
+          bgcolor: 'action.selected'
+        })
+      }}
+    >
+      <ListItemAvatar>
+        <Avatar sx={{ bgcolor: 'background.neutral' }}> {'../Imagenes/Logo_MP.png'}</Avatar>
+      </ListItemAvatar>
+      <ListItemText
+        primary={titulo}
+      />
+    </ListItemButton>)
   );
 }
 let bandera = true;

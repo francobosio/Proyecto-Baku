@@ -7,16 +7,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import PlanPremium from './PlanPremium.jsx';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        maxWidth: '500vh',
-    },
-}));
+import Cobros from './Cobros.jsx'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  const classes = useStyles();
   return (
     <div
       role="tabpanel"
@@ -60,10 +54,14 @@ export default function BasicTabs() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Planes Premium" {...a11yProps(0)} />
+          <Tab label="Cobros" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
         <PlanPremium/>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <Cobros/>
       </TabPanel>
     </Box>
   );

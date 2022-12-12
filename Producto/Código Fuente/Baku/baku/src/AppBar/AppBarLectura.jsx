@@ -15,7 +15,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import logo from '../Imagenes/Logo Blanco Sin Letras.png';
 import Avatar from '@material-ui/core/Avatar'
-import NotificationsPopover from './Notificacion.js';
+import NotificationsPopover from './Notificacion.jsx';
 import * as NotificacionServices from '../Notificacion/NotificacionService.ts'
 import StarIcon from '@mui/icons-material/Star';
 import EngineeringIcon from '@mui/icons-material/Engineering';
