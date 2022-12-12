@@ -80,7 +80,9 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
                             cobro.estado = "Cancelado";
                             cobro.notificadoMes = false;
                             cobro.fechaVencimiento = data.next_payment_date;
-                            if ((cobro.fechaVencimiento.getMonth() === new Date(Date.now()).getMonth() + 1) || (cobro.fechaVencimiento.getMonth() === 1  && new Date(Date.now()).getMonth() === 12)) {
+                            const mesVencimiento = new Date(data.next_payment_date).getMonth() + 1;
+                            const mesHoy = new Date(Date.now()).getMonth() + 1;
+                            if ((mesVencimiento === mesHoy + 1) || (mesVencimiento === 1  && mesHoy === 12)) {
                                 const notification = new Notificacion({
                                     'titulo': 'Vencimiento de suscripción',
                                     'esNoleido': true,
@@ -128,6 +130,8 @@ export const actualizarEstadosUsuarios = async () => {
     let cobros = await Cobro.find({ estado: 'Cancelado' });
 
     cobros.forEach(async (cobro) => {
+        const mesVencimiento = new Date(cobro.fechaVencimiento).getMonth() + 1;
+        const mesHoy = new Date(Date.now()).getMonth() + 1;
         if (cobro.fechaVencimiento < fechaHoy) {
             if (cobro.userId) {
                 cobro.estado = 'Finalizado';
@@ -139,7 +143,7 @@ export const actualizarEstadosUsuarios = async () => {
                 }
                 cobro.save();
             }
-        } else if (cobro.fechaVencimiento.getDay() === new Date(Date.now()).getDay() + 7) {
+        } else if ((Math.ceil((cobro.fechaVencimiento.getTime()-fechaHoy.getTime()) / (1000 * 3600 * 24))) === 7) {
             const notification = new Notificacion({
                 'titulo': 'Vencimiento de suscripción',
                 'esNoleido': true,
@@ -149,7 +153,7 @@ export const actualizarEstadosUsuarios = async () => {
             notification.save()
             await Usuario.findOneAndUpdate({ _id: cobro.userId }, { $push: { mensajes: notification } }).exec();
             cobro.save();
-        } else if ((cobro.fechaVencimiento.getMonth() === new Date(Date.now()).getMonth() + 1) || (cobro.fechaVencimiento.getMonth() === 1  && new Date(Date.now()).getMonth() === 12)) {
+        } else if ((mesVencimiento === mesHoy + 1) || (mesVencimiento === 1  && mesHoy === 12))  {
             const notification = new Notificacion({
                 'titulo': 'Vencimiento de suscripción',
                 'esNoleido': true,
