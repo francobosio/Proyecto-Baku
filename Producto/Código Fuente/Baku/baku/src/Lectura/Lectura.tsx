@@ -589,14 +589,11 @@ const Lectura = () => {
                                     .MuiTabs-indicator {
                                         background-color: #076F55;
                                     }
-                                    .css-1f7dap9-MuiButtonBase-root-MuiTab-root.Mui-selected {
+                                    .Mui-selected {
                                         opacity: 1;
                                         background-color: #83B7AA;
                                         color: #076F55;
                                         font-weight: bold;
-                                    }
-                                    .css-1f7dap9-MuiButtonBase-root-MuiTab-root {
-                                        font-size: 1rem !important
                                     }
                                 `
                             }
