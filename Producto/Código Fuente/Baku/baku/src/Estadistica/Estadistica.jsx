@@ -14,6 +14,7 @@ import DonutChart from './Usuarios/DonutChart'
 import UPFColumnChart from './Usuarios/UPFColumnChart';
 import TiempoDuracionUP from './Usuarios/TiempoDuracionUP';
 import CantDenuncias from './Usuarios/CantDenuncias';
+import PlanesMes from './Usuarios/PlanesMes';
 
 //FECHAS
 import TextField from '@mui/material/TextField';
@@ -138,6 +139,7 @@ export default function Estadistica() {
     const onKeyDown = (e) => {
         e.preventDefault();
     };
+    
 
     return (
         <div className={classes.root}>
@@ -398,6 +400,29 @@ export default function Estadistica() {
                                     }}>
                                         <h3 className="title3">Cantidad de reclamos de los <br/> últimos 30 días</h3>
                                         <CantDenuncias/>
+                                    </div>
+                                </Grid>
+                            </Grid>                            
+                        </div>
+                        <div className="chartsE" 
+                            style={{ 
+                                display: "flex",
+                                justifyContent: "space-around",
+
+                        }}>
+                            <Grid container alignItems="flex-start" justifyContent="center">
+                                <Grid container item xs={12} justifyContent="center" alignItems="center">                        
+                                    <div className="chart5" 
+                                        style={{ 
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            justifyContent: "flex-start",
+                                            height: 600,
+                                            width: 600
+                                    }}>
+                                        <h3 className="title3">Ganancias Mensuales por Plan de Suscripción</h3>
+                                        <PlanesMes/>
                                     </div>
                                 </Grid>
                             </Grid>                            

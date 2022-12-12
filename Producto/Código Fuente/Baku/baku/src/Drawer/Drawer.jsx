@@ -143,6 +143,22 @@ export const MiDrawer = (props) => {
     //si el tipo de usuario es 1, se muestra el boton Revisar
     return (
         <Box component="div" className={classes.root}>
+            <style>
+                {
+                    `
+                    @media (max-width: 1590px){
+                        .MuiTypography-body1 {
+                            font-size: 0.9rem !important;
+                        }
+                    }
+                    @media (max-width: 1425px){
+                        .MuiTypography-body1 {
+                            font-size: 0.8rem !important;
+                        }
+                    }
+                    `
+                }
+            </style>
             <Drawer
                 anchor="left"
                 variant="permanent"

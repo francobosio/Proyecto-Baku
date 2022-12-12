@@ -4,6 +4,7 @@ import Denuncia from './Denuncia';
 import Usuario from './Usuario';
 import Libro from './Libro';
 import moment from 'moment';
+import Parametros from './Parametros';
 
 /* from: '"Baku" <bakulibros@gmail.com>', // sender address
 to: "ariel.strasorier@gmail.com", // list of receivers
@@ -14,34 +15,44 @@ html: "<b> Hola buenos dias su libro fue denunciado </b>", // html body */
 export const enviarMail: RequestHandler = async (req, res) => {
     const { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId } = req.body;
     await transporter.sendMail({
-          from: from, // sender address
-          to: to, // list of receivers
-          subject: subject, // Subject line
-          //salto de linea en el cuerpo del mensaje
-          html: `<b>${mensajeCuerpo} <br> <br> 
+        from: from, // sender address
+        to: to, // list of receivers
+        subject: subject, // Subject line
+        //salto de linea en el cuerpo del mensaje
+        html: `<b>${mensajeCuerpo} <br> <br> 
                 Concepto: ${concepto} <br> <br> 
                 Autor: ${autorAuth0} <br> <br> </b> `
-        })
+    })
     res.json({ message: 'Mail enviado' })
 }
 
 export const guardarDenuncia: RequestHandler = async (req, res) => {
-    const { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro,reclamador } = req.body;
-    const denuncia = new Denuncia({ from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro,reclamador })
-    const savedDenuncia = await denuncia.save()
+    const { from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro, reclamador } = req.body;
+    const denuncia = new Denuncia({ from, to, subject, mensajeCuerpo, concepto, autorAuth0, libroId, reclamosxUsuario, reclamosxLibro, reclamador })
+    let message;
+    //verificar si ya existe una denuncia para ese autorAuth0 y libroId del mismo reclamador 
+    const denunciaExistente = await Denuncia.findOne({ autorAuth0: autorAuth0, libroId: libroId, reclamador: reclamador })
+    if (!denunciaExistente) {
+        await denuncia.save()
+        message = 'guardada'
+        const denuncias = await Denuncia.find({ autorAuth0: autorAuth0, libroId: libroId })
+        console.log(reclamosxUsuario, reclamosxLibro)
+        denuncias.forEach(async denuncia => {
+            denuncia.reclamosxUsuario = reclamosxUsuario
+            denuncia.reclamosxLibro = reclamosxLibro
+            await denuncia.save()
+        });
+        const denuncia2 = await Denuncia.find({ autorAuth0: autorAuth0 })
+        denuncia2.forEach(async denuncia => {
+            denuncia.reclamosxUsuario = reclamosxUsuario
+            await denuncia.save()
+        });
+    } else {
+        message = 'no guardada'
+    }
     //todas las denucias del mismo autorAuth0 y libroId actualizarlas con el nuevo reclamosxUsuario y reclamosxLibro 
-    const denuncias = await Denuncia.find({ autorAuth0: autorAuth0, libroId: libroId })
-    denuncias.forEach(async denuncia => {
-        denuncia.reclamosxUsuario = reclamosxUsuario
-        denuncia.reclamosxLibro = reclamosxLibro
-        await denuncia.save()
-    });
-    const denuncia2 = await Denuncia.find({ autorAuth0: autorAuth0 })
-    denuncia2.forEach(async denuncia => {
-        denuncia.reclamosxUsuario = reclamosxUsuario
-        await denuncia.save()
-    });
-    res.json(savedDenuncia)
+
+    res.json({ message: message })
 }
 
 
@@ -50,14 +61,20 @@ export const bloquearAutorLibro: RequestHandler = async (req, res) => {
     //buscar por el campo auth0_id y actualizar el campo bloqueado
     await Usuario.findOneAndUpdate({ auth0_id: autorAuth0 }, { estado: "Bloqueado" }, { new: true }).exec();
     const ContadorDenunciasxLibro = await Denuncia.find({ autorAuth0: autorAuth0, libroId: libroId }).countDocuments();
-    if (ContadorDenunciasxLibro > 2) {
-         await Libro.findOneAndUpdate({ _id: libroId }, { estado: "Rechazado" }, { new: true }).exec();
+    const numeroLibro = await Parametros.findOne({}).exec();
+    let numeroLibro2 = 1;
+    if (numeroLibro) {
+        numeroLibro2 = numeroLibro.numeroLibro;
     }
+    if (ContadorDenunciasxLibro >= numeroLibro2) {
+        await Libro.findOneAndUpdate({ _id: libroId }, { estado: "Rechazado" }, { new: true }).exec();
+    }
+
     await Usuario.updateMany({}, { $pull: { libros_leidos: { id_libro: libroId } } }).exec();
     await Usuario.updateMany({}, { $pull: { libros_favoritos: { id_libro: libroId } } }).exec();
     const usuarioBloqueado = await Usuario.findOne({ auth0_id: autorAuth0 }).exec();
     if (usuarioBloqueado) {
-    await Usuario.updateMany({}, { $pull: { suscriptores: { usuario_id: usuarioBloqueado.id } } }).exec();
+        await Usuario.updateMany({}, { $pull: { suscriptores: { usuario_id: usuarioBloqueado.id } } }).exec();
     }
     res.json({ message: 'Autor bloqueado ' })
 }
@@ -139,3 +156,17 @@ export const eliminarReclamo: RequestHandler = async (req, res) => {
     await Denuncia.findByIdAndDelete(id)
     res.json({ message: 'Denuncia eliminada' })
 }
+
+export const guardarParametros: RequestHandler = async (req, res) => {
+    const { numeroUsuario, numeroLibro } = req.body;
+    console.log(numeroUsuario, numeroLibro)
+    //actualizar los parametros 
+    await Parametros.findOneAndUpdate({}, { numeroUsuario: numeroUsuario, numeroLibro: numeroLibro }, { new: true }).exec();
+    res.json({ message: 'Parametros actualizados' })
+}
+
+export const obtenerParametros: RequestHandler = async (req, res) => {
+    const parametros = await Parametros.find()
+    res.json(parametros)
+}
+

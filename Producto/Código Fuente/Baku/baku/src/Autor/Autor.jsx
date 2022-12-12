@@ -55,19 +55,13 @@ export default function MiniDrawer() {
     const classes = useStyles();
 
     return (
-        <Grid container direction="row" className={classes.root}>
-        <Grid item container direction="column" xs={1}  >
-            <MiDrawer />
-        </Grid>
-        <Grid item direction="column" xs={11}>
-            <Container disableGutters maxWidth='1800px' >
+        <div className={classes.root}>
+            <MiDrawer/>
+            <main className={classes.content}>
                 <AppBar />
-                <Grid item component={'main'} className={classes.content} >
                 <ListaImagenesAutor />
-                </Grid>
-                    <Footy />
-                </Container>
-            </Grid>
-        </Grid>
+                <Footy />
+            </main>
+        </div>
     );
 }

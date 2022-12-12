@@ -7,6 +7,7 @@ import https from 'https'
 import fs from 'fs-extra'
 import PdfParse from "pdf-parse";
 import Usuario from "./Usuario"
+import moment from 'moment';
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -78,6 +79,9 @@ export const getLibrosRegistrados: RequestHandler = async (req, res) => {
 export const getLibrosPublicados: RequestHandler = async (req, res) => {
     try {
         const libros = await Libro.find({ estado: 'Publicado' })
+        libros.forEach((element: any) => {
+            element.createdAt = moment(element.createdAt).subtract(4, 'hours').format('YYYY/MM/DD')
+        })
         res.json(libros);
     }
     catch (error) {

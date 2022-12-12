@@ -18,4 +18,8 @@ router.put('/denuncia/bloquearAutorLibro', denunciaCtrl.bloquearAutorLibro);
 
 router.put('/denuncia/eliminarReclamo', denunciaCtrl.eliminarReclamo);
 
+router.put('/denuncia/guardarParametros', denunciaCtrl.guardarParametros);
+
+router.get('/denuncia/obtenerParametros', denunciaCtrl.obtenerParametros);
+
 export default router
