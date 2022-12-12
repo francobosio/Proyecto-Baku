@@ -4,6 +4,7 @@ import Cobro from "./PremiumCobro";
 import Usuario from "./Usuario";
 import config from '../config'
 import Notificacion from "./Notificacion";
+import PremiumPlan from "./PremiumPlan";
 
 export const procesarCobroFront: RequestHandler = async (req, res) => {
     const { front_Id, user_Id } = req.body;
@@ -71,6 +72,10 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
 
                         if (cobro.userId){
                             let usuario = await Usuario.findById(cobro.userId);
+                            let plan = await PremiumPlan.findOne({urlCobro: data.init_point})
+                            if (plan){
+                                cobro.plan = plan.titulo;
+                            }
                             if (usuario){
                                 usuario.tipoUsuario = '2';
                                 usuario.planPremium = data.init_point;
@@ -106,6 +111,22 @@ export const obtenerCobroByUserId : RequestHandler = async (req, res) => {
     if (!cobro) return res.status(204).json();
 
     return res.json(cobro)
+}
+
+export const obtenerCobros : RequestHandler = async (req, res) => {
+    const cobros = await Cobro.aggregate([
+        { $addFields: { "userId": { $toObjectId: "$userId" } } },
+        {
+            $lookup:{
+                from: "usuarios",
+                localField: "userId",
+                foreignField: "_id",
+                as: "usuario"
+            }
+        }
+    ]);
+
+    return res.json(cobros)
 }
 
 export const actualizarEstadosUsuarios = async () => {
