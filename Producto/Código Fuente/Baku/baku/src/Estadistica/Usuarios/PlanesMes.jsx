@@ -24,11 +24,11 @@ const PlanesMes = (props) => {
     
         var series = [
             {
-                name: 'Ganancias Plan Anual',
+                name: 'Ingresos Plan Anual',
                 data: [41000, 36000, 26000, 45000, 48000, 52000, 53000, 41000, 47000, 32000, 22000]
             },
             {
-                name: 'Ganancias Plan Mensual',
+                name: 'Ingresos Plan Mensual',
                 data: [85000, 101000, 98000, 87000, 105000, 91000, 114000, 94000, 105000, 86000, 14000]
             }
         ]
@@ -77,7 +77,7 @@ const PlanesMes = (props) => {
             },
             yaxis: {
                 title: {
-                    text: 'GANANCIAS'
+                    text: 'INGRESOS'
                 },
                 labels: {
                     formatter: function (val) {
@@ -112,7 +112,7 @@ const PlanesMes = (props) => {
         }
 
         return (
-            <div id="Bar" style={{ 
+            <div id="Plan" style={{ 
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center"
