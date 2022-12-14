@@ -147,7 +147,7 @@ export default function Estadistica() {
             <main className={classes.content}>
                 <AppBarNos />
                 <Box className={classes.container}>
-                      REPORTE DE ESTADÍSTICAS
+                      REPORTES
                 </Box>
                 <Box sx={{ width: '100%' }}>
                     <AppBar position="static">
@@ -183,7 +183,7 @@ export default function Estadistica() {
                         </Tabs>
                     </AppBar>
                     <TabPanel value={valueTab} index={0}>
-                        <h1 className="title">REPORTE DE ESTADÍSTICAS DE LIBROS</h1>
+                        <h1 className="title">REPORTE DE LIBROS</h1>
                         <div className="filtros" 
                             style={{ 
                                 display: "flex",
@@ -287,7 +287,7 @@ export default function Estadistica() {
                                             height: 600,
                                             width: 600
                                     }}>
-                                        <h3 className="title3">Cantidad de Libros Publicados por Día</h3>
+                                        <h3 className="title3">Cantidad de libros publicados por día</h3>
                                 
                                         <ReporteFechas />
                                     </div>
@@ -296,7 +296,7 @@ export default function Estadistica() {
                         </div>
                     </TabPanel>
                     <TabPanel value={valueTab} index={1}>
-                        <h1 className="title">REPORTE DE ESTADÍSTICAS DE USUARIOS</h1>
+                        <h1 className="title">REPORTE DE USUARIOS</h1>
                         <div className="filtros" 
                             style={{ 
                                 display: "flex",
@@ -350,7 +350,7 @@ export default function Estadistica() {
                                             height: 450,
                                             width: 600
                                     }}>
-                                        <h3 className="title3">Porcentaje de Usuarios Premium <br/> y Usuarios Free</h3>
+                                        <h3 className="title3">Porcentaje de usuarios premium <br/> y usuarios free</h3>
                                         <DonutChart 
                                             fechaDesde={fechaDesde}
                                             fechaHasta={fechaHasta}
@@ -360,7 +360,7 @@ export default function Estadistica() {
                                 <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">
                                     <div className="chart2">
                                         <h3 className="title3">Cantidad de
-                                        Usuarios Premium y Free <br/> suscriptos por mes</h3>
+                                        usuarios premium y free <br/> suscriptos por mes</h3>
                                         <UPFColumnChart/>
                                         
                                     </div>
@@ -398,8 +398,11 @@ export default function Estadistica() {
                                             height: 450,
                                             width: 600
                                     }}>
-                                        <h3 className="title3">Cantidad de reclamos de los <br/> últimos 30 días</h3>
-                                        <CantDenuncias/>
+                                        <h3 className="title3">Ranking - 10 libros con más reclamos</h3>
+                                        <CantDenuncias 
+                                            fechaDesde={fechaDesde}
+                                            fechaHasta={fechaHasta}
+                                        />
                                     </div>
                                 </Grid>
                             </Grid>                            
@@ -421,7 +424,7 @@ export default function Estadistica() {
                                             height: 600,
                                             width: 600
                                     }}>
-                                        <h3 className="title3">Ganancias Mensuales por Plan de Suscripción</h3>
+                                        <h3 className="title3">Ingresos mensuales por plan de suscripción</h3>
                                         <PlanesMes/>
                                     </div>
                                 </Grid>

@@ -96,7 +96,6 @@ const TiempoDuracionUP = (props) => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                marginTop: "1.70rem"
             }}>
                 {isVisible && (
                     <ReactApexChart options={options} series={series} type="bar" height={350} width={550}/>
