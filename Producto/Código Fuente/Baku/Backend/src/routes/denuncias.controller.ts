@@ -153,8 +153,22 @@ export const getDenunciasxLibroxUsuario: RequestHandler = async (req, res) => {
 
 export const eliminarReclamo: RequestHandler = async (req, res) => {
     const { id } = req.body;
+    //obtener el libroId y el autorAuth0 de la denuncia
+    const denuncia = await Denuncia.findById(id).exec();
     await Denuncia.findByIdAndDelete(id)
-    res.json({ message: 'Denuncia eliminada' })
+    if (denuncia) {
+        const libroId = denuncia.libroId;
+        const autorAuth0 = denuncia.autorAuth0;
+        //contar cuantas denuncias tiene el libro
+        const ContadorDenunciasxLibro = await Denuncia.find({ libroId: libroId }).countDocuments();
+        //actualizar los reclamosxLibro en todas las denuncias con el libroId
+        await Denuncia.updateMany({ libroId: libroId }, { reclamosxLibro: ContadorDenunciasxLibro }).exec();
+        //contar cuantas denuncias tiene el usuario
+        const ContadorDenunciasxUsuario = await Denuncia.find({ autorAuth0: autorAuth0 }).countDocuments();
+        //actualizar los reclamosxUsuario en todas las denuncias con el autorAuth0
+        await Denuncia.updateMany({ autorAuth0: autorAuth0 }, { reclamosxUsuario: ContadorDenunciasxUsuario }).exec();
+        res.json({ message: 'Denuncia eliminada' })
+    }
 }
 
 export const guardarParametros: RequestHandler = async (req, res) => {
@@ -162,6 +176,25 @@ export const guardarParametros: RequestHandler = async (req, res) => {
     console.log(numeroUsuario, numeroLibro)
     //actualizar los parametros 
     await Parametros.findOneAndUpdate({}, { numeroUsuario: numeroUsuario, numeroLibro: numeroLibro }, { new: true }).exec();
+    //si una denuncia tiene mas de numeroUsuario reclamosxUsuario bloquear el usuario autorAuth0
+    const denuncias = await Denuncia.find({}).exec();
+    denuncias.forEach(async (element: any) => {
+        const ContadorDenunciasxUsuario = await Denuncia.find({ autorAuth0: element.autorAuth0 }).countDocuments();
+        if (ContadorDenunciasxUsuario > numeroUsuario) {
+            await Usuario.findOneAndUpdate({ auth0_id: element.autorAuth0 }, { estado: "Bloqueado" }, { new: true }).exec();
+        }
+        else { await Usuario.findOneAndUpdate({ auth0_id: element.autorAuth0 }, { estado: "Activo" }, { new: true }).exec(); }
+
+    })
+    //si una denuncia tiene mas de numeroLibro reclamosxLibro bloquear el libro libroId
+    denuncias.forEach(async (element: any) => {
+        const ContadorDenunciasxLibro = await Denuncia.find({ libroId: element.libroId }).countDocuments();
+        if (ContadorDenunciasxLibro > numeroLibro) {
+            await Libro.findOneAndUpdate({ _id: element.libroId }, { estado: "Rechazado" }, { new: true }).exec();
+        }
+        else { await Libro.findOneAndUpdate({ _id: element.libroId }, { estado: "Publicado" }, { new: true }).exec(); }
+
+    })
     res.json({ message: 'Parametros actualizados' })
 }
 
@@ -169,4 +202,3 @@ export const obtenerParametros: RequestHandler = async (req, res) => {
     const parametros = await Parametros.find()
     res.json(parametros)
 }
-

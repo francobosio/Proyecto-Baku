@@ -176,7 +176,6 @@ export default function Inicio() {
         return edad;
     }
     let location = useLocation();
-    console.log(location.pathname)
 
     const { user } = useAuth0();
     const classes = useStyles();

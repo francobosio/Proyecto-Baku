@@ -17,7 +17,6 @@ export default function ColumnTypesGrid() {
 
     const loadReclamos = async () => {
         const autorRes = await denunciaService.obtenerParametros();
-        console.log(autorRes.data)
         setNumeroUsuario(autorRes.data[0].numeroUsuario)
         setNumeroLibro(autorRes.data[0].numeroLibro)
     }
@@ -38,7 +37,6 @@ export default function ColumnTypesGrid() {
     };
 
     const handleClickUsuario = (event) => {
-        console.log(event.target.value);
         if (event.target.value > 0) {
             setErrorUsuario(false);
             setNumeroUsuario(event.target.value);
@@ -48,7 +46,6 @@ export default function ColumnTypesGrid() {
     };
 
     const handleClickLibro = (event) => {
-        console.log(event.target.value);
         if (event.target.value > 0) {
             setErrorLibro(false);
             setNumeroLibro(event.target.value);
