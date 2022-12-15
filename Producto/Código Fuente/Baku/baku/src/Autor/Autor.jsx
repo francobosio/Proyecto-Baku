@@ -37,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
     content: {
         display: 'block',
         flex: 1,
-        height: '100vh'
+        minHeight: '100vh',
+        position: 'relative',
+        paddingBottom: '12em',
     },
     link: {
         color: "white",
@@ -60,7 +62,9 @@ export default function MiniDrawer() {
             <main className={classes.content}>
                 <AppBar />
                 <ListaImagenesAutor />
-                <Footy />
+                <footer style={{position: "absolute", bottom: 0, width: "100%"}}>
+                    <Footy />
+                </footer>
             </main>
         </div>
     );

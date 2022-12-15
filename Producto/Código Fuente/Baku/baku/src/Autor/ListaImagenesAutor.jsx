@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         overflow: 'hidden',
-        'background': '#99cfbf',
     },
     imageList: {
         width: "100%",
@@ -169,14 +168,14 @@ export default function TitlebarImageList() {
     let altura;
     let fontSizeAlias;
     let transformButton;
-    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 1000; banderaTab = true; anchoImageList = 360; fontSizeAlias = 15; transformButton = 0.6 }
+    if (useMediaQuery(theme.breakpoints.only('xs'))) { altura = 920; banderaTab = true; anchoImageList = 279; fontSizeAlias = 15; transformButton = 0.6 }
     if (useMediaQuery(theme.breakpoints.only('sm'))) { altura = 1000; banderaTab = true; anchoImageList = "120%"; fontSizeAlias = 20; transformButton = 0.7 }
     if (useMediaQuery(theme.breakpoints.only('md'))) { altura = 1000; banderaTab = true; anchoImageList = "85%"; fontSizeAlias = 25; transformButton = 0.8 }
     if (useMediaQuery(theme.breakpoints.only('lg'))) { altura = 1200; banderaTab = false; anchoImageList = "95%"; fontSizeAlias = 28; transformButton = 0.9 }
     if (useMediaQuery(theme.breakpoints.only('xl'))) { altura = 1536; banderaTab = false; anchoImageList = "100%"; fontSizeAlias = 32; transformButton = 1 }
 
     return (
-        <Container className={classes.root} maxWidth="xl">
+        <Container className={classes.root}>
             {libros.length > 0 ?
                 (
                     <Grid className={classes.fondo} xs={12}>

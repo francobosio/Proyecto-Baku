@@ -37,7 +37,7 @@
   align-items: center !important;
   height: 600px !important;
   width: 600px !important;
-  margin-top: 80px !important;
+  margin-top: 150px !important;
 }
 
 @media (max-width: 729px){
@@ -47,7 +47,7 @@
   }
 
   .chart3 {
-    height: 500px !important;
+    height: 450px !important;
   }
 
   .chart5 {
@@ -71,6 +71,10 @@
   .divReporte {
     margin-top: 2rem !important;
   }
+
+  .chart5 {
+    margin-top: 35px !important;
+  }
 }
 
 @media (min-width: 1536px){
@@ -86,10 +90,23 @@
   .chart2 {
     margin-top: 0px !important;
   }
+
+  .chart5 {
+    margin-top: 70px !important;
+  }
+
+  #Reclamo {
+    margin-top: 45px !important;
+  }
 }
 
 @media (max-width: 1536px) and (min-width: 730px){
+
+  .chart3 {
+    height: 470px !important;
+  }
+
   .chart5 {
-    margin-top: 100px !important;
+    margin-top: 160px !important;
   }
 }
