@@ -68,11 +68,11 @@ export default function ColumnTypesGrid() {
     // modificar el campo createdAt 3 horas atras
 
     const rows2 = rows.map(row => ({
-      Reclamante: row.reclamador,
+      "Usuario reclamante": row.reclamador,
       id: row.id,
       idLibro: row.idLibro[0],
       idauth0Usuario: row.idauth0Usuario[0],
-      Usuario: row.usuario[0],
+      Publicador: row.usuario[0],
       "Estado Usuario": row.estado[0],
       Título: row.libroTitulo[0],
       "Estado Libro": row.libroEstado[0],
@@ -171,11 +171,11 @@ export default function ColumnTypesGrid() {
 
   const columns = React.useMemo(
     () => [
-      { field: 'Fecha', type: 'string', flex: 0.7, minWidth: 70 },
-      { field: 'Reclamante', type: 'string', flex: 0.7, width: 70 },
-      { field: 'Motivo', type: 'string', flex: 1.5, minWidth: 140 },
-      { field: 'Título', type: 'string', flex: 1.5, minWidth: 100 },
-      { field: 'Estado Libro', type: 'string', flex: 0.8, minWidth: 100 },
+      { field: 'Fecha', type: 'string', flex: 0.45, minWidth: 100 },
+      { field: 'Usuario reclamante', type: 'string', flex: 0.7, width: 70 },
+      { field: 'Motivo', type: 'string', flex: 1.1, minWidth: 140 },
+      { field: 'Título', type: 'string', flex: 1.1, minWidth: 100 },
+      { field: 'Estado Libro', type: 'string', flex: 0.6, minWidth: 100 },
       {
         field: 'actions',
         type: 'actions',
@@ -189,8 +189,8 @@ export default function ColumnTypesGrid() {
           />,
         ],
       },
-      { field: 'Usuario', type: 'string', flex: 0.65, minWidth: 85, },
-      { field: 'Estado Usuario', type: 'string', flex: 0.8, minWidth: 100 },
+      { field: 'Publicador', type: 'string', flex: 0.60, minWidth: 85, },
+      { field: 'Estado Usuario', type: 'string', flex: 0.65, minWidth: 100 },
       {
         field: 'actions2',
         type: 'actions',
@@ -204,8 +204,8 @@ export default function ColumnTypesGrid() {
           />,
         ],
       },
-      { field: 'Cant. Reclamos Usuario', type: 'number', flex: 1.07, aling: 'center', minWidth: 155 },
-      { field: 'Cant. Reclamos Libro', type: 'number', flex: 0.95, aling: 'left', minWidth: 155 },
+      { field: 'Cant. Reclamos Libro', type: 'number', flex: 0.8, aling: 'left', minWidth: 155 },
+      { field: 'Cant. Reclamos Usuario', type: 'number', flex: 0.9, aling: 'center', minWidth: 155 },
       {
         field: 'actions3',
         type: 'actions',

@@ -74,7 +74,6 @@ export default function ColumnTypesGrid() {
           <GridActionsCellItem
             icon={<SearchIcon fontSize="large"  sx={{ color:'black' }} />}
             label="Ir a perfil"
-            onClick={()=>console.log(params)} 
             //abrir el dialog en el boton toggle admin
             />
            </Link>  

@@ -35,12 +35,12 @@ import avatarBaku from '../Imagenes/LogoClaro.png'
 function renderContent(notification) {
   const titulo = (
     <>
-      <Typography variant="subtitle2">
+    <Typography variant="subtitle2">
         {notification.titulo}
       </Typography>
       <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-        {notification.descripcion}
-      </Typography>
+      {notification.descripcion}
+    </Typography>
     </>
   );
   if (notification.tipo === "subidaLibro") {
@@ -86,7 +86,7 @@ function NotificationItem({ notification, id }) {
   }
 
   return (
-    avatar.ref ? (
+    notification.tipo === 'subidaLibro' ? (
     <ListItemButton
       disableGutters
       onClick={() => LibroLeido(id)}
@@ -273,8 +273,6 @@ export default function NotificationsPopover(propNotificacion) {
             {/* ordenar notifications por fecha de creacion */}
 
             {notifications.filter((item) => item.esNoleido === false).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((notification) => (
-              //anular style de Link
-
               <NotificationItem key={notification._id} notification={notification} id={notification.id_libro} />
 
             ))}

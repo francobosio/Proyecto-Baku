@@ -51,7 +51,6 @@ export default function ConfirmationDialogRaw(props) {
 
   const loadReclamos = async () => {
     const autorRes = await denunciaService.obtenerParametros();
-    console.log(autorRes.data)
     setNumeroUsuario(autorRes.data[0].numeroUsuario)
     setNumeroLibro(autorRes.data[0].numeroLibro)
   }
@@ -96,7 +95,6 @@ export default function ConfirmationDialogRaw(props) {
     const contadorAutor = parseInt(contadorDenunciasTotalAutor.data) + 1;
     const contadorLibro = parseInt(contadorDenucniasxLibroAutor.data) + 1;
     setNuevoModal(true);
-    console.log("pAutor es : " + pAutor + " pLibro es : " + pLibro);
     const res = await denunciaService.postGuardarDenuncia(from, to, subject, mensajeCuerpo, concepto, pAutor, pLibro, contadorAutor, contadorLibro, reclamadorAuth0);
     if (res.data.message === 'guardada') {
       setMensajeDialog("Gracias. Su reclamo fue procesado y se lo analizará a la brevedad.");
@@ -120,7 +118,6 @@ export default function ConfirmationDialogRaw(props) {
   const handleCerrar = () => {
     setNuevoModal(false);
   }
-   console.log("numeroUsuario es : " + numeroUsuario + " numeroLibro es : " + numeroLibro);
   return (
     <div><Dialog
       sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 800 } }}

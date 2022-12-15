@@ -126,7 +126,6 @@ export default function TitlebarImageList() {
             setNombre('Suscripto')
             setSuscriptores(suscriptores + 1)
             await usuarioService.suscribirUsuario(usuario_id, autor2)
-
         } else {
             setNombre('Suscribirse')
             setSuscriptores(suscriptores - 1)
@@ -224,7 +223,7 @@ export default function TitlebarImageList() {
                 ) : (<Grid className={classes.fondo} xs={6}>
                     <Grid item direction='row' xs={12} container  >
                         <Grid item xs={5} md={5}>
-                            <Typography className={classes.titulo} style={{ fontSize: fontSizeAlias }}> {autor.alias}</Typography>
+                            <Typography className={classes.titulo} style={{ fontSize: fontSizeAlias }}> {autor.usuario}</Typography>
                             <Typography className={classes.suscriptores} variant="subtitle1" style={{ fontSize: fontSizeAlias }}>{suscriptores} suscriptores</Typography>
                         </Grid>
                         {flagBotonSuscripcion ? <Grid iitem xs={7} md={4} className={classes.alinearCentro}>

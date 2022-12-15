@@ -20,11 +20,9 @@ import Avatar from '@mui/material/Avatar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import * as usuarioService from '../Sesión/Usuarios/UsuarioService'
 import * as notificacionService from '../Notificacion/NotificacionService'
-import Footy from '../Footy/Footy.jsx';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -169,12 +167,11 @@ export default function BasicTable() {
     setabrirDialog(false);
   };
   const handleCloseDialogAceptarPublicar = async () => {
-    const aliasAutor = libroService.putCambiarEstado(id, "Publicado");
+     libroService.putCambiarEstado(id, "Publicado");
     const idData = {
       'auth0id': autorAth0,
       'idLibro': id
     };
-
     const nuevaNotificacion = {
       'auth0usuario': autorAth0,
       'titulo': "El usuario " + libro.libroFound.alias + " ha subido:",
@@ -186,8 +183,16 @@ export default function BasicTable() {
     }
     setabrirDialog(false);
     await usuarioService.usuarioLibroCargado(idData);
+    const usuario = await usuarioService.getUsuario(autorAth0);
     await notificacionService.createNotificacion(nuevaNotificacion);
     history.push('/Revision');
+    var from = 'Baku <bakulibros@gmail.com>';
+    var to = usuario.data.correo_electronico;
+    var subject = 'Libro aprobado';
+    var mensajeCuerpo = `Felicidades ${libro.libroFound.alias}. Le enviamos este email desde Baku para informarle que su libro fue aprobado y publicado en nuestra plataforma.
+    <br>
+    muchas gracias por confiar en nosotros. Baku.`;
+    await libroService.putEnviarRechazo(from, to, subject, mensajeCuerpo);
 
   };
   const handleCloseDialogAceptarRechazar = async () => {
@@ -197,7 +202,6 @@ export default function BasicTable() {
     history.push('/Revision');
     var from = 'Baku <bakulibros@gmail.com>';
     var to = usuario.data.correo_electronico;
-    console.log(usuario.data.correo_electronico);
     var subject = 'Libro rechazado';
     var mensajeCuerpo = `Hola ${libro.libroFound.alias}. Le enviamos este email desde Baku para informarle que su libro fue rechazado por tener palabras prohibidas en Baku.
     Recuerde que puede volver a subir su libro una vez que haya corregido las palabras prohibidas.
