@@ -39,6 +39,18 @@ export const procesarCobroFront: RequestHandler = async (req, res) => {
     res.json(cobro)
 }
 
+function padTo2Digits(num: Number) {
+    return num.toString().padStart(2, '0');
+  }
+  
+  function formatDate(date: Date) {
+    return [
+      padTo2Digits(date.getDate()),
+      padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join('/');
+  }
+
 export const procesarCobroWebhook: RequestHandler = async (req, res) => {
     const { data, entity, action } = req.body;
     if (entity === "preapproval") {
@@ -84,10 +96,11 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
                             const mesVencimiento = new Date(data.next_payment_date).getMonth() + 1;
                             const mesHoy = new Date(Date.now()).getMonth() + 1;
                             if ((mesVencimiento === mesHoy + 1) || (mesVencimiento === 1  && mesHoy === 12)) {
+                                const fechaParse = formatDate(cobro.fechaVencimiento);
                                 const notification = new Notificacion({
-                                    'titulo': 'Vencimiento de suscripción',
+                                    'titulo': 'Vencimiento de suscripción - ' + fechaParse,
                                     'esNoleido': true,
-                                    'descripcion': 'El próximo mes vence su suscripción y perderá sus beneficios Premium',
+                                    'descripcion': 'El próximo mes vence su suscripción y perderá sus beneficios Premium.',
                                     'tipo': 'Premium'
                                 })
                                 cobro.notificadoMes = true;
@@ -145,20 +158,22 @@ export const actualizarEstadosUsuarios = async () => {
                 cobro.save();
             }
         } else if ((Math.ceil((cobro.fechaVencimiento.getTime()-fechaHoy.getTime()) / (1000 * 3600 * 24))) === 7) {
+            const fechaParse = formatDate(cobro.fechaVencimiento);
             const notification = new Notificacion({
-                'titulo': 'Vencimiento de suscripción',
+                'titulo': 'Vencimiento de suscripción - ' + fechaParse,
                 'esNoleido': true,
-                'descripcion': 'En 7 días vence su suscripción y perderá sus beneficios Premium',
+                'descripcion': 'En 7 días vence su suscripción y perderá sus beneficios Premium.',
                 'tipo': 'Premium'
             })
             notification.save()
             await Usuario.findOneAndUpdate({ _id: cobro.userId }, { $push: { mensajes: notification } }).exec();
             cobro.save();
         } else if ((mesVencimiento === mesHoy + 1) || (mesVencimiento === 1  && mesHoy === 12))  {
+            const fechaParse = formatDate(cobro.fechaVencimiento);
             const notification = new Notificacion({
-                'titulo': 'Vencimiento de suscripción',
+                'titulo': 'Vencimiento de suscripción - ' + fechaParse,
                 'esNoleido': true,
-                'descripcion': 'El próximo mes vence su suscripción y perderá sus beneficios Premium',
+                'descripcion': 'El próximo mes vence su suscripción y perderá sus beneficios Premium.',
                 'tipo': 'Premium'
             })
             cobro.notificadoMes = true;

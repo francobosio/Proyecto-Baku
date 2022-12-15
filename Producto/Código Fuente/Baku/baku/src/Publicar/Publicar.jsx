@@ -635,7 +635,7 @@ export default function MiniDrawer() {
                                 <Grid item xs={12}>
                                     <FormControlLabel
                                         className={classes.controlLabel}
-                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="aptoTodoPublico" onChange={handleParaTodoPublicoChange} />}
+                                        control={<Checkbox className={classes.customCheckbox} color="secondary" name="aptoTodoPublico" checked={aptoTodoPublico} onChange={handleParaTodoPublicoChange} />}
                                         label="Apto para todo público "
                                     />
                                 </Grid >
