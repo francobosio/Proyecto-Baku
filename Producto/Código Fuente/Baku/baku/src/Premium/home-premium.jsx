@@ -120,6 +120,7 @@ export default function HomePremium() {
     const [cobro, setCobro] = React.useState("");
     const [urlCobro, setUrlCobro] = React.useState("");
     const [planPago, setPlanPago] = React.useState(null);
+    const [cancelarOculto, setCancelarOculto] = React.useState(true);
 
     React.useEffect(() => {
         async function fetchPlanes() {
@@ -127,24 +128,34 @@ export default function HomePremium() {
             setPlanesPremium(res.data);
         }
         async function fetchCobro() {
-            const res = await planPremiumService.obtenerCobrosPorUserId(localStorage.getItem("usuario_id"));
+            const res = await planPremiumService.obtenerCobrosId(localStorage.getItem("ultimoCobro"));
             setCobro(res.data);
         }
         fetchPlanes();
-
+        
         const planUrl = localStorage.getItem("planPremium")
         const tipo = localStorage.getItem("tipoUsuario");
         if (planUrl && planUrl != ''){
             setPlanPago(planUrl)
         }
-        setDeshabilitado(tipo == "2");
-        if (tipo == "1") {
+        fetchCobro();
+    }, [])
+
+    React.useEffect(() => {
+        if (!cobro || cobro.estado == "Finalizado") {
             setTextoPremium("Obtener Premium");
+            setDeshabilitado(false);
+            setCancelarOculto(true);
+        } else if (cobro && cobro.estado == "Cancelado") {
+            setTextoPremium("Ya se canceló su suscripción premium de baku, cuando termine el período premium pagado podrá volver a suscribirse.")
+            setCancelarOculto(true)
+            setDeshabilitado(true);
         } else {
             setTextoPremium("Usted ya cuenta con la suscripción Premium de Baku.");
-            fetchCobro();
+            setCancelarOculto(false);
+            setDeshabilitado(true);
         }
-    }, [])
+    }, [cobro])
 
     const handleCloseDialog = () => {
         setAbrirDialog(false);
@@ -187,7 +198,7 @@ export default function HomePremium() {
                                                 </Button>
                                             </Grid>
                                             <Grid item xs={12}>
-                                                {(deshabilitado && planPago == modelo.urlCobro) &&
+                                                {(deshabilitado && planPago == modelo.urlCobro && !cancelarOculto) &&
                                                     <Button className={classes.boton} href={`https://www.mercadopago.com.ar/subscriptions/v0/${cobro.webhookId}/admin`} target="_blank" variant="contained">
                                                         Cancelar mi Suscripción
                                                     </Button>}
