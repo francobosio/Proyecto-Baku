@@ -536,6 +536,7 @@ export default function MiniDrawer() {
                                     <Grid container xs={12} direction="row" alignItems="center" justify="center" sx={{ marginTop: '2em' }} >
                                         <Button component="label" startIcon={<UploadIcon />} style={{ justifyContent: "center", alignSelf: "center" }} className={classes.btnArchivo + " " + classes.centrar}> Subí tu Portada
                                             <input
+                                                key={Date.now()}
                                                 type="file"
                                                 name="imagenPath"
                                                 onChange={handleImageChange}
