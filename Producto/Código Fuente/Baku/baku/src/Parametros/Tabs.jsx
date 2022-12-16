@@ -62,7 +62,7 @@ export default function BasicTabs() {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           {/* <Tab label="Permisos" {...a11yProps(0)} /> */}
           <Tab label="Tipo de Usuario" {...a11yProps(0)} />
-          <Tab label="Reclamos" {...a11yProps(1)} />
+          <Tab label="Límite de Reclamos" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel sx={{height:'100em'}} value={value} index={0}>

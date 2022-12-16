@@ -189,9 +189,9 @@ export default function BasicTable() {
     var from = 'Baku <bakulibros@gmail.com>';
     var to = usuario.data.correo_electronico;
     var subject = 'Libro aprobado';
-    var mensajeCuerpo = `Felicidades ${libro.libroFound.alias}. Le enviamos este email desde Baku para informarle que su libro fue aprobado y publicado en nuestra plataforma.
+    var mensajeCuerpo = `Felicidades ${libro.libroFound.alias}. Le enviamos este email desde Baku para informarle que su libro "${libro.libroFound.titulo}" fue aprobado y publicado en nuestra plataforma.
     <br>
-    muchas gracias por confiar en nosotros. Baku.`;
+    Muchas gracias por confiar en nosotros. Baku.`;
     await libroService.putEnviarRechazo(from, to, subject, mensajeCuerpo);
 
   };
@@ -203,12 +203,12 @@ export default function BasicTable() {
     var from = 'Baku <bakulibros@gmail.com>';
     var to = usuario.data.correo_electronico;
     var subject = 'Libro rechazado';
-    var mensajeCuerpo = `Hola ${libro.libroFound.alias}. Le enviamos este email desde Baku para informarle que su libro fue rechazado por tener palabras prohibidas en Baku.
+    var mensajeCuerpo = `Hola ${libro.libroFound.alias}. Le enviamos este email desde Baku para informarle que su libro "${libro.libroFound.titulo}" fue rechazado por tener palabras prohibidas en Baku.
     Recuerde que puede volver a subir su libro una vez que haya corregido las palabras prohibidas.
     <br>
     Si usted considera que esto se trata de un error o equivocación, puede contactarnos a través de nuestras redes sociales y analizaremos su caso si así lo amerita.
     <br>
-    Desde ya, muchas gracias.`;
+    Desde ya, muchas gracias. Baku.`;
     await libroService.putEnviarRechazo(from, to, subject, mensajeCuerpo, arrayPalabras);
   };
 

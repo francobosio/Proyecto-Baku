@@ -180,7 +180,7 @@ export const guardarParametros: RequestHandler = async (req, res) => {
     const denuncias = await Denuncia.find({}).exec();
     denuncias.forEach(async (element: any) => {
         const ContadorDenunciasxUsuario = await Denuncia.find({ autorAuth0: element.autorAuth0 }).countDocuments();
-        if (ContadorDenunciasxUsuario > numeroUsuario) {
+        if (ContadorDenunciasxUsuario >= numeroUsuario) {
             await Usuario.findOneAndUpdate({ auth0_id: element.autorAuth0 }, { estado: "Bloqueado" }, { new: true }).exec();
         }
         else { await Usuario.findOneAndUpdate({ auth0_id: element.autorAuth0 }, { estado: "Activo" }, { new: true }).exec(); }
@@ -189,7 +189,7 @@ export const guardarParametros: RequestHandler = async (req, res) => {
     //si una denuncia tiene mas de numeroLibro reclamosxLibro bloquear el libro libroId
     denuncias.forEach(async (element: any) => {
         const ContadorDenunciasxLibro = await Denuncia.find({ libroId: element.libroId }).countDocuments();
-        if (ContadorDenunciasxLibro > numeroLibro) {
+        if (ContadorDenunciasxLibro >= numeroLibro) {
             await Libro.findOneAndUpdate({ _id: element.libroId }, { estado: "Rechazado" }, { new: true }).exec();
         }
         else { await Libro.findOneAndUpdate({ _id: element.libroId }, { estado: "Publicado" }, { new: true }).exec(); }
