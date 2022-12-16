@@ -150,9 +150,13 @@ export default function HomePremium() {
             setTextoPremium("Ya se canceló su suscripción premium de baku, cuando termine el período premium pagado podrá volver a suscribirse.")
             setCancelarOculto(true)
             setDeshabilitado(true);
-        } else {
+        } else if (cobro && cobro.estado == "Aprobado")  {
             setTextoPremium("Usted ya cuenta con la suscripción Premium de Baku.");
             setCancelarOculto(false);
+            setDeshabilitado(true);
+        } else if (cobro && cobro.estado == "Creado") {
+            setTextoPremium("Estamos procesando su pago.");
+            setCancelarOculto(true);
             setDeshabilitado(true);
         }
     }, [cobro])
