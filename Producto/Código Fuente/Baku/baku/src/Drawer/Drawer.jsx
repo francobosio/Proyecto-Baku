@@ -236,16 +236,6 @@ export const MiDrawer = (props) => {
                         </Link>
                     }
                     {revisar &&
-                        <Link to="/PlanesPremium" className={classes.link} >
-                            <Tooltip title="Planes Premium" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
-                                <ListItem button selected={selectedIndex === 7} >
-                                    <ListItemIcon style={{ minWidth: porcentajeMinAncho }} className={classes.ListItemIconProps}><MonetizationOnIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
-                                    <ListItemText primary='Planes' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
-                                </ListItem>
-                            </Tooltip>
-                        </Link>
-                    }
-                    {revisar &&
                         <Link to="/Revision" className={classes.link} >
                             <Tooltip title="Revision" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
                                 <ListItem button selected={selectedIndex === 7} >
@@ -261,6 +251,16 @@ export const MiDrawer = (props) => {
                                 <ListItem button selected={selectedIndex === 8} >
                                     <ListItemIcon style={{ minWidth: porcentajeMinAncho }} className={classes.ListItemIconProps}><ReportGmailerrorredOutlinedIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
                                     <ListItemText primary='Reclamos' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
+                                </ListItem>
+                            </Tooltip>
+                        </Link>
+                    }
+                    {revisar &&
+                        <Link to="/PlanesPremium" className={classes.link} >
+                            <Tooltip title="Planes Premium" enterDelay={1000} leaveDelay={200} enterNextDelay={1000} arrow>
+                                <ListItem button selected={selectedIndex === 11} >
+                                    <ListItemIcon style={{ minWidth: porcentajeMinAncho }} className={classes.ListItemIconProps}><MonetizationOnIcon style={{ color: "#FFFFFF" }} /></ListItemIcon>
+                                    <ListItemText primary='Planes' className={classes.ListItemTextrops} style={{ color: "#FFFFFF" }} />
                                 </ListItem>
                             </Tooltip>
                         </Link>

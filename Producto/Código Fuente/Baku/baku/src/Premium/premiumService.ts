@@ -24,7 +24,7 @@ export const procesarCobroFront = async (pagoData: {}) => {
     return await axios.post(`${backend}/premiumCobroFront`, pagoData);
 }
 
-export const obtenerCobrosPorUserId = async (id: string) => {
+export const obtenerCobrosId = async (id: string) => {
     return await axios.get(`${backend}/premiumCobro/${id}`);
 }
 

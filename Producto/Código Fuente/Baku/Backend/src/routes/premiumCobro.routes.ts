@@ -7,7 +7,7 @@ router.post('/premiumCobroFront', premiumCtrl.procesarCobroFront);
 
 router.post('/premiumCobroWebhook', premiumCtrl.procesarCobroWebhook);
 
-router.get('/premiumCobro/:id', premiumCtrl.obtenerCobroByUserId)
+router.get('/premiumCobro/:id', premiumCtrl.obtenerCobroById)
 
 router.get('/premiumCobro', premiumCtrl.obtenerCobros)
 

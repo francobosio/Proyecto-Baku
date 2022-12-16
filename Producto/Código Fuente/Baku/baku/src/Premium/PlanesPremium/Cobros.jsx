@@ -13,15 +13,20 @@ export default function ColumnTypesGrid() {
 
     const load = async () => {
         const res = await planPremiumService.obtenerCobros();
+        const fechaHoy = new Date(Date.now())
         //cada objeto agregarlo al array
-        const rows = res.data.map(row => ({
+        const rows = res.data.map(row => (
+            {
             id: row._id,
             Plan: row.plan,
             Usuario: row.usuario[0].usuario,
             Estado: row.estado,
             Importe: "$"+row.importe+".00",
             'Fecha Desde': new Date(row.createdAt).toLocaleDateString(),
-            'Fecha Vencimiento': row.estado == "Aprobado" ? '' : new Date(row.fechaVencimiento).toLocaleDateString()
+            'Fecha Vencimiento': row.estado == "Aprobado" ? '' : new Date(row.fechaVencimiento).toLocaleDateString(),
+            'Total Acumulado': fechaHoy.getTime() <= new Date(row.fechaVencimiento).getTime() ? 
+                            Math.ceil(((fechaHoy.getTime()-new Date(row.createdAt).getTime()) / (1000 * 3600 * 24))/31) * row.importe : 
+                            Math.ceil(((new Date(row.fechaVencimiento).getTime()-new Date(row.createdAt).getTime()) / (1000 * 3600 * 24))/31) * row.importe
         }));
         setRows(rows);
         
@@ -34,7 +39,8 @@ export default function ColumnTypesGrid() {
             { field: 'Estado', type: 'string', flex: 1, minWidth: 100 },
             { field: 'Importe', type: 'string', flex: 1, minWidth: 100 },
             { field: 'Fecha Desde', type: 'string', flex: 1, minWidth: 100 },
-            { field: 'Fecha Vencimiento', type: 'string', flex: 1, minWidth: 100}
+            { field: 'Fecha Vencimiento', type: 'string', flex: 1, minWidth: 100},
+            { field: 'Total Acumulado', type: 'string', flex: 1, minWidth: 100}
         ]
     );
 

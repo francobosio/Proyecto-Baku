@@ -24,7 +24,7 @@ export const procesarCobroFront: RequestHandler = async (req, res) => {
 
             const plan = await PremiumPlan.findOne({titulo: cobro.plan})
             if (plan){
-                await Usuario.findOneAndUpdate({ _id: cobro.userId }, { tipoUsuario: "2", planPremium: plan.urlCobro }, { new: true }).exec();
+                await Usuario.findOneAndUpdate({ _id: cobro.userId }, { tipoUsuario: "2", planPremium: plan.urlCobro, ultimoCobro: cobro._id }, { new: true }).exec();
             }      
         }
     }
@@ -38,6 +38,18 @@ export const procesarCobroFront: RequestHandler = async (req, res) => {
     await cobro.save()
     res.json(cobro)
 }
+
+function padTo2Digits(num: Number) {
+    return num.toString().padStart(2, '0');
+  }
+  
+  function formatDate(date: Date) {
+    return [
+      padTo2Digits(date.getDate()),
+      padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join('/');
+  }
 
 export const procesarCobroWebhook: RequestHandler = async (req, res) => {
     const { data, entity, action } = req.body;
@@ -75,7 +87,7 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
                             }
 
                             if (cobro.userId) {
-                                await Usuario.findOneAndUpdate({ _id: cobro.userId }, { tipoUsuario: "2", planPremium: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=" + data.init_point }, { new: true }).exec();
+                                await Usuario.findOneAndUpdate({ _id: cobro.userId }, { tipoUsuario: "2", planPremium: "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=" + data.init_point, ultimoCobro: cobro._id }, { new: true }).exec();
                             }
                         } else {
                             cobro.estado = "Cancelado";
@@ -84,10 +96,11 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
                             const mesVencimiento = new Date(data.next_payment_date).getMonth() + 1;
                             const mesHoy = new Date(Date.now()).getMonth() + 1;
                             if ((mesVencimiento === mesHoy + 1) || (mesVencimiento === 1  && mesHoy === 12)) {
+                                const fechaParse = formatDate(cobro.fechaVencimiento);
                                 const notification = new Notificacion({
-                                    'titulo': 'Vencimiento de suscripción',
+                                    'titulo': 'Vencimiento de suscripción - ' + fechaParse,
                                     'esNoleido': true,
-                                    'descripcion': 'El próximo mes vence su suscripción y perderá sus beneficios Premium',
+                                    'descripcion': 'El próximo mes vence su suscripción y perderá sus beneficios Premium.',
                                     'tipo': 'Premium'
                                 })
                                 cobro.notificadoMes = true;
@@ -103,8 +116,8 @@ export const procesarCobroWebhook: RequestHandler = async (req, res) => {
     res.sendStatus(200);
 }
 
-export const obtenerCobroByUserId: RequestHandler = async (req, res) => {
-    const cobro = await Cobro.findOne({ userId: req.params.id });
+export const obtenerCobroById: RequestHandler = async (req, res) => {
+    const cobro = await Cobro.findById(req.params.id);
     if (!cobro) return res.status(204).json();
 
     return res.json(cobro)
@@ -144,21 +157,32 @@ export const actualizarEstadosUsuarios = async () => {
                 }
                 cobro.save();
             }
-        } else if ((Math.ceil((cobro.fechaVencimiento.getTime()-fechaHoy.getTime()) / (1000 * 3600 * 24))) === 7) {
+            const fechaParse = formatDate(cobro.fechaVencimiento);
             const notification = new Notificacion({
-                'titulo': 'Vencimiento de suscripción',
+                'titulo': 'Vencimiento de suscripción - ' + fechaParse,
                 'esNoleido': true,
-                'descripcion': 'En 7 días vence su suscripción y perderá sus beneficios Premium',
+                'descripcion': 'Su suscripción premium a Baku ha finalizado.',
+                'tipo': 'Premium'
+            })
+            notification.save()
+            await Usuario.findOneAndUpdate({ _id: cobro.userId }, { $push: { mensajes: notification } }).exec();
+        } else if (((Math.ceil((cobro.fechaVencimiento.getTime()-fechaHoy.getTime()) / (1000 * 3600 * 24))) === 7) && !cobro.notificadoMes) {
+            const fechaParse = formatDate(cobro.fechaVencimiento);
+            const notification = new Notificacion({
+                'titulo': 'Vencimiento de suscripción - ' + fechaParse,
+                'esNoleido': true,
+                'descripcion': 'En 7 días vence su suscripción y perderá sus beneficios Premium.',
                 'tipo': 'Premium'
             })
             notification.save()
             await Usuario.findOneAndUpdate({ _id: cobro.userId }, { $push: { mensajes: notification } }).exec();
             cobro.save();
-        } else if ((mesVencimiento === mesHoy + 1) || (mesVencimiento === 1  && mesHoy === 12))  {
+        } else if (((mesVencimiento === mesHoy + 1) || (mesVencimiento === 1  && mesHoy === 12)) && !cobro.notificadoMes)  {
+            const fechaParse = formatDate(cobro.fechaVencimiento);
             const notification = new Notificacion({
-                'titulo': 'Vencimiento de suscripción',
+                'titulo': 'Vencimiento de suscripción - ' + fechaParse,
                 'esNoleido': true,
-                'descripcion': 'El próximo mes vence su suscripción y perderá sus beneficios Premium',
+                'descripcion': 'El próximo mes vence su suscripción y perderá sus beneficios Premium.',
                 'tipo': 'Premium'
             })
             cobro.notificadoMes = true;
