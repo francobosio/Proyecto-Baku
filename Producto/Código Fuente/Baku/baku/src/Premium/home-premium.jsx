@@ -129,7 +129,7 @@ export default function HomePremium() {
         }
         async function fetchCobro() {
             const ultimoCobro = localStorage.getItem("ultimoCobro");
-            if (ultimoCobro && ultimoCobro != ''){
+            if (ultimoCobro && ultimoCobro != '' && ultimoCobro.toLowerCase() != 'undefined'){
                 const res = await planPremiumService.obtenerCobrosId(ultimoCobro);
                 setCobro(res.data);
             } else {
