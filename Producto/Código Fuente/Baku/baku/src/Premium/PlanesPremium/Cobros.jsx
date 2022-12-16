@@ -24,9 +24,9 @@ export default function ColumnTypesGrid() {
             Importe: "$"+row.importe+".00",
             'Fecha Desde': new Date(row.createdAt).toLocaleDateString(),
             'Fecha Vencimiento': row.estado == "Aprobado" ? '' : new Date(row.fechaVencimiento).toLocaleDateString(),
-            'Total Acumulado': fechaHoy.getTime() <= new Date(row.fechaVencimiento).getTime() ? 
+            'Total Acumulado': "$" + (fechaHoy.getTime() <= new Date(row.fechaVencimiento).getTime() ? 
                             Math.ceil(((fechaHoy.getTime()-new Date(row.createdAt).getTime()) / (1000 * 3600 * 24))/31) * row.importe : 
-                            Math.ceil(((new Date(row.fechaVencimiento).getTime()-new Date(row.createdAt).getTime()) / (1000 * 3600 * 24))/31) * row.importe
+                            Math.ceil(((new Date(row.fechaVencimiento).getTime()-new Date(row.createdAt).getTime()) / (1000 * 3600 * 24))/31) * row.importe) + ".00"
         }));
         setRows(rows);
         
