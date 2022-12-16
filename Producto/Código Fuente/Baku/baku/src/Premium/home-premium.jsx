@@ -128,8 +128,13 @@ export default function HomePremium() {
             setPlanesPremium(res.data);
         }
         async function fetchCobro() {
-            const res = await planPremiumService.obtenerCobrosId(localStorage.getItem("ultimoCobro"));
-            setCobro(res.data);
+            const ultimoCobro = localStorage.getItem("ultimoCobro");
+            if (ultimoCobro && ultimoCobro != ''){
+                const res = await planPremiumService.obtenerCobrosId(ultimoCobro);
+                setCobro(res.data);
+            } else {
+                setCobro(null)
+            }
         }
         fetchPlanes();
         
