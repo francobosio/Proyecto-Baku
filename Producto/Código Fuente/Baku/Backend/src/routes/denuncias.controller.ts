@@ -190,9 +190,11 @@ export const guardarParametros: RequestHandler = async (req, res) => {
     denuncias.forEach(async (element: any) => {
         const ContadorDenunciasxLibro = await Denuncia.find({ libroId: element.libroId }).countDocuments();
         if (ContadorDenunciasxLibro >= numeroLibro) {
-            await Libro.findOneAndUpdate({ _id: element.libroId }, { estado: "Rechazado" }, { new: true }).exec();
+            await Libro.findByIdAndUpdate({ _id: element.libroId }, { estado: "Rechazado" }, { new: true }).exec();
         }
-        else { await Libro.findOneAndUpdate({ _id: element.libroId }, { estado: "Publicado" }, { new: true }).exec(); }
+        else {
+            await Libro.findByIdAndUpdate({ _id: element.libroId }, { estado: "Publicado" }, { new: true }).exec();
+        }
 
     })
     res.json({ message: 'Parametros actualizados' })
