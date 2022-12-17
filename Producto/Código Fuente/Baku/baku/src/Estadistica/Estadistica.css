@@ -37,7 +37,7 @@
   align-items: center !important;
   height: 600px !important;
   width: 600px !important;
-  margin-top: 150px !important;
+  /* margin-top: 150px !important; */
 }
 
 @media (max-width: 729px){
@@ -50,8 +50,27 @@
     height: 450px !important;
   }
 
+  .chart4 {
+    height: 450px !important;
+  }
+
   .chart5 {
     height: 500px !important;
+    margin-top: 70px !important;
+  }
+
+  .chart7 {
+    margin-top: 2rem !important;
+  }
+
+  .chart8 {
+    height: 440px !important;
+    margin-top: 3rem !important;
+  }
+
+  .chart9 {
+    margin-top: 1rem !important;
+    height: 420px !important;
   }
 
   .divReporte .MuiPaper-root {
@@ -71,9 +90,39 @@
   .divReporte {
     margin-top: 2rem !important;
   }
+}
+
+@media (max-width: 1536px) and (min-width: 730px){
+
+  .chart2 {
+    margin-top: 3rem !important;
+  }
+
+  .chart3 {
+    height: 470px !important;
+    margin-top: 3rem !important;
+  }
 
   .chart5 {
-    margin-top: 35px !important;
+    margin-top: 0px !important;
+  }
+
+  .chart7 {
+    margin-top: 7.5rem !important;
+  }
+
+  .chart8 {
+    height: 440px !important;
+    margin-top: 1rem !important;
+  }
+
+  .chart9 {
+    margin-top: 1rem !important;
+    height: 530px !important;
+  }
+
+  .divReporte {
+    margin-top: 3rem !important;
   }
 }
 
@@ -92,21 +141,14 @@
   }
 
   .chart5 {
-    margin-top: 70px !important;
+    margin-top: 0px !important;
   }
 
   #Reclamo {
     margin-top: 45px !important;
   }
-}
 
-@media (max-width: 1536px) and (min-width: 730px){
-
-  .chart3 {
-    height: 470px !important;
-  }
-
-  .chart5 {
-    margin-top: 160px !important;
+  #Plan {
+    margin-top: 45px !important;
   }
 }
