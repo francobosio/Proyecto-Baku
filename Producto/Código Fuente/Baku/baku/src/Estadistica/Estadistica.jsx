@@ -10,10 +10,10 @@ import BarChart from './Libros/BarChart.jsx';
 import ColumnChart from './Libros/ColumnChart.jsx';
 import Reporte from './Libros/Reporte';
 import ReporteFechas from './Libros/ReporteFechas';
+import CantDenuncias from './Libros/CantDenuncias';
 import DonutChart from './Usuarios/DonutChart'
 import UPFColumnChart from './Usuarios/UPFColumnChart';
 import TiempoDuracionUP from './Usuarios/TiempoDuracionUP';
-import CantDenuncias from './Usuarios/CantDenuncias';
 import PlanesMes from './Usuarios/PlanesMes';
 
 //FECHAS
@@ -288,11 +288,36 @@ export default function Estadistica() {
                                             width: 600
                                     }}>
                                         <h3 className="title3">Cantidad de libros publicados por día</h3>
-                                
                                         <ReporteFechas />
                                     </div>
                                 </Grid>
                             </Grid>
+                        </div>
+                        <div className="chartsE" 
+                            style={{ 
+                                display: "flex",
+                                justifyContent: "space-around",
+
+                        }}>
+                            <Grid container alignItems="flex-start" justifyContent="center">
+                                <Grid container item xs={12} xl={12} justifyContent="center" alignItems="center">                        
+                                    <div className="chart5" 
+                                        style={{ 
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            justifyContent: "flex-start",
+                                            height: 650,
+                                            width: 600
+                                    }}>
+                                        <h3 className="title3">Ranking - 10 libros con más reclamos</h3>
+                                        <CantDenuncias 
+                                            fechaDesde={fechaDesde}
+                                            fechaHasta={fechaHasta}
+                                        />
+                                    </div>
+                                </Grid>
+                            </Grid>                            
                         </div>
                     </TabPanel>
                     <TabPanel value={valueTab} index={1}>
@@ -341,7 +366,7 @@ export default function Estadistica() {
                         }}>
                             <Grid container alignItems="flex-start">
                                 <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">
-                                    <div className="chart1" 
+                                    <div className="chart6" 
                                         style={{ 
                                             display: "flex",
                                             flexDirection: "column",
@@ -358,7 +383,7 @@ export default function Estadistica() {
                                     </div>
                                 </Grid>
                                 <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">
-                                    <div className="chart2">
+                                    <div className="chart7">
                                         <h3 className="title3">Cantidad de
                                         usuarios premium y free <br/> suscriptos por mes</h3>
                                         <UPFColumnChart/>
@@ -375,7 +400,7 @@ export default function Estadistica() {
                         }}>
                             <Grid container alignItems="flex-start">
                                 <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">                        
-                                    <div className="chart3" 
+                                    <div className="chart8" 
                                         style={{ 
                                             display: "flex",
                                             flexDirection: "column",
@@ -389,33 +414,7 @@ export default function Estadistica() {
                                     </div>
                                 </Grid>
                                 <Grid container item xs={12} xl={6} justifyContent="center" alignItems="center">                                    
-                                    <div className="chart4" 
-                                        style={{ 
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            alignItems: "center",
-                                            justifyContent: "flex-start",
-                                            height: 450,
-                                            width: 600
-                                    }}>
-                                        <h3 className="title3">Ranking - 10 libros con más reclamos</h3>
-                                        <CantDenuncias 
-                                            fechaDesde={fechaDesde}
-                                            fechaHasta={fechaHasta}
-                                        />
-                                    </div>
-                                </Grid>
-                            </Grid>                            
-                        </div>
-                        <div className="chartsE" 
-                            style={{ 
-                                display: "flex",
-                                justifyContent: "space-around",
-
-                        }}>
-                            <Grid container alignItems="flex-start" justifyContent="center">
-                                <Grid container item xs={12} xl={12} justifyContent="center" alignItems="center">                        
-                                    <div className="chart5" 
+                                    <div className="chart9" 
                                         style={{ 
                                             display: "flex",
                                             flexDirection: "column",
