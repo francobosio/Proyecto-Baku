@@ -13,8 +13,16 @@ const CantDenuncias = (props) => {
             setEjecuto(true)
         }
 
+        const [numeroLibro, setNumeroLibro] = useState(1);
+    
+        const loadReclamos = async () => {
+            const autorRes = await denunciaService.obtenerParametros();
+            setNumeroLibro(autorRes.data[0].numeroLibro)
+        }
+
         useEffect(() => {
             loadDenuncias();
+            loadReclamos();
         }, []);
 
         let denunciasfecha = denuncias.filter(denuncia => new Date(denuncia.createdAt) >= props.fechaDesde && new Date(denuncia.createdAt) <= props.fechaHasta);
@@ -48,7 +56,7 @@ const CantDenuncias = (props) => {
             }
         })
 
-        let arrayDenunciasSin10 = arrayDenuncias.filter(element => element.value < 10)
+        let arrayDenunciasSin10 = arrayDenuncias.filter(element => element.value < numeroLibro)
 
         arrayDenunciasSin10.sort(function (a, b) {
             if (a.value < b.value) {
