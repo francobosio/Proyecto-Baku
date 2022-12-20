@@ -197,7 +197,7 @@ export default function Inicio() {
                             null :
                             <Grid container spacing={0} align="center" justify="left" alignItems="center" className={classes.alerta}>
                                 <Grid item xs={5} md={6}>
-                                    <Typography className={classes.titulo}>Le recomendamos que cargue su Fecha de Nacimiento para poder acceder a nuestro catálogo completo de libros.</Typography>
+                                    <Typography className={classes.titulo}>Le recomendamos que registre su Fecha de Nacimiento para poder acceder a nuestro catálogo completo de libros.</Typography>
                                 </Grid>
                                 <Grid item xs={7} md={6} sx={{ justifyContent: 'center', display: 'flex' }}>
                                     <Button component={Link} to="/Perfil" className={classes.botonPerfil}>Ir a Mi Perfil</Button>
